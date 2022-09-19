@@ -1,4 +1,4 @@
-# IE100.N11-Ban-Ve-Chuyen-Bay
+# IE100.N11-QuanLy-Ban-Ve-May-Bay
 __Tên đề tài:__ Phần mềm quản lý bán vé máy bay
 
 __Giáo viên hướng dẫn:__ Huỳnh Hồ Thị Mộng Trinh

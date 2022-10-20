@@ -18,6 +18,9 @@ module.exports = {
             ThuTu: {
                 type: Sequelize.INTEGER,
             },
+            NgayGioDen: {
+                type: Sequelize.DATE,
+            },
             ThoiGianDung: {
                 type: Sequelize.INTEGER,
             },

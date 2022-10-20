@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
-
+//
+//npx sequelize-cli db:migrate
 // Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize('quanlymaybay', 'root', null, {
     host: 'localhost',

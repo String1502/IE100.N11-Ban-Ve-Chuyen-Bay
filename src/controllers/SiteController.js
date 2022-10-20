@@ -16,10 +16,10 @@ class SiteController {
             //     },
             // );
 
-            // return res.render('home', {
-            //     data: JSON.stringify(data),
-            // });
-            return res.send(JSON.stringify(data));
+            return res.render('home', {
+                data: JSON.stringify(data),
+            });
+            // return res.send(JSON.stringify(data));
         } catch (error) {
             console.log(error);
         }
@@ -28,6 +28,7 @@ class SiteController {
     //Create
     async createHanhKhach(req, res) {
         try {
+            // let user = req.body
             await db.HanhKhach.create({
                 MaLoaiKhach: '1',
                 HoTen: 'Trí',

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             HoaDon.hasMany(models.Ve, { foreignKey: 'MaHoaDon' });
             HoaDon.belongsTo(models.HtThanhToan, { foreignKey: 'MaHTTT' });
+            HoaDon.belongsTo(models.User, { foreignKey: 'MaUser' });
         }
     }
     HoaDon.init(
@@ -21,13 +22,14 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
+            MaUser: DataTypes.STRING,
             HoTen: DataTypes.STRING,
             Email: DataTypes.STRING,
-            SDT: DataTypes.STRING,
+            SDT: DataTypes.STRING(11),
             NgayGioDat: DataTypes.DATE,
             NgayGioThanhToan: DataTypes.DATE,
-            MaHTTT: DataTypes.INTEGER,
-            TongTien: DataTypes.INTEGER,
+            MaHTTT: DataTypes.STRING(10),
+            TongTien: DataTypes.BIGINT,
             TrangThai: DataTypes.STRING,
         },
         {

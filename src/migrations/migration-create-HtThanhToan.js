@@ -5,9 +5,8 @@ module.exports = {
         await queryInterface.createTable('htthanhtoan', {
             MaHTTT: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING(10),
             },
             Ten: {
                 type: Sequelize.STRING,

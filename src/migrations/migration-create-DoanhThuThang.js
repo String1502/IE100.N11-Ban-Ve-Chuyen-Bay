@@ -17,7 +17,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             DoanhThu: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
             },
             createdAt: {
                 allowNull: false,

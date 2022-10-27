@@ -42,6 +42,16 @@ module.exports = {
             },
         });
 
+        //hoa don - user
+        await queryInterface.addConstraint('hoadon', {
+            fields: ['MaUser'],
+            type: 'foreign key',
+            references: {
+                table: 'user',
+                field: 'MaUser',
+            },
+        });
+
         // HoaDon - HtThanhToan
         await queryInterface.addConstraint('hoadon', {
             fields: ['MaHTTT'],
@@ -141,8 +151,8 @@ module.exports = {
             },
         });
 
-        //NhanVien - ChucVu
-        await queryInterface.addConstraint('nhanvien', {
+        //user - ChucVu
+        await queryInterface.addConstraint('user', {
             fields: ['MaChucVu'],
             type: 'foreign key',
             references: {
@@ -158,6 +168,16 @@ module.exports = {
             references: {
                 table: 'quyen',
                 field: 'MaQuyen',
+            },
+        });
+
+        //san bay - tinhthanh
+        await queryInterface.addConstraint('sanbay', {
+            fields: ['MaTinhThanh'],
+            type: 'foreign key',
+            references: {
+                table: 'tinhthanh',
+                field: 'MaTinhThanh',
             },
         });
     },
@@ -302,8 +322,8 @@ module.exports = {
             },
         });
 
-        //NhanVien - ChucVu
-        await queryInterface.removeConstraint('nhanvien', {
+        //user - ChucVu
+        await queryInterface.removeConstraint('user', {
             fields: ['MaChucVu'],
             type: 'foreign key',
             references: {
@@ -319,6 +339,24 @@ module.exports = {
             references: {
                 table: 'quyen',
                 field: 'MaQuyen',
+            },
+        });
+
+        await queryInterface.removeConstraint('sanbay', {
+            fields: ['MaTinhThanh'],
+            type: 'foreign key',
+            references: {
+                table: 'tinhthanh',
+                field: 'MaTinhThanh',
+            },
+        });
+
+        await queryInterface.removeConstraint('hoadon', {
+            fields: ['MaUser'],
+            type: 'foreign key',
+            references: {
+                table: 'user',
+                field: 'MaUser',
             },
         });
     },

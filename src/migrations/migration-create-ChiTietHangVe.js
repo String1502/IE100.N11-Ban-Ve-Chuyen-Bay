@@ -13,7 +13,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             MaHangGhe: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             TongVe: {
                 type: Sequelize.INTEGER,

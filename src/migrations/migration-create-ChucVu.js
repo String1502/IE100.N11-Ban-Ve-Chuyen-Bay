@@ -5,9 +5,8 @@ module.exports = {
         await queryInterface.createTable('chucvu', {
             MaChucVu: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING(5),
             },
             TenChucVu: {
                 type: Sequelize.STRING,

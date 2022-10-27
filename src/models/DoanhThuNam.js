@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             SoChuyenBay: DataTypes.INTEGER,
-            DoanhThu: DataTypes.INTEGER,
+            DoanhThu: DataTypes.BIGINT,
         },
         {
             sequelize,

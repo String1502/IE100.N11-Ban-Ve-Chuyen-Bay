@@ -13,7 +13,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             GiaTien: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
             },
             createdAt: {
                 allowNull: false,

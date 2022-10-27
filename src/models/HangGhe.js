@@ -16,12 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         {
             MaHangGhe: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             TenHangGhe: DataTypes.STRING,
-            HeSo: DataTypes.INTEGER,
+            HeSo: DataTypes.DECIMAL(4, 2),
             TrangThai: DataTypes.STRING,
         },
         {

@@ -5,15 +5,17 @@ module.exports = {
         await queryInterface.createTable('sanbay', {
             MaSanBay: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             TenSanBay: {
                 type: Sequelize.STRING,
             },
             TrangThai: {
                 type: Sequelize.STRING,
+            },
+            MaTinhThanh: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

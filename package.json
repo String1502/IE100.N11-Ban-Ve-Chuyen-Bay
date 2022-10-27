@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "node-sass --watch src/resources/scss --output src/public/css",
         "start": "nodemon --exec babel-node src/index.js"
     },
     "author": "",
@@ -22,6 +23,7 @@
         "@babel/core": "^7.19.3",
         "@babel/node": "^7.19.1",
         "@babel/preset-env": "^7.19.4",
+        "node-sass": "^7.0.3",
         "nodemon": "^2.0.20",
         "sequelize-cli": "^6.5.1"
     }

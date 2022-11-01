@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             SoKgToiDa: DataTypes.INTEGER,
-            GiaTien: DataTypes.INTEGER,
+            GiaTien: DataTypes.BIGINT,
         },
         {
             sequelize,

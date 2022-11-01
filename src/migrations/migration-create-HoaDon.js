@@ -9,6 +9,9 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            MaUser: {
+                type: Sequelize.STRING,
+            },
             HoTen: {
                 type: Sequelize.STRING,
             },
@@ -16,7 +19,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             SDT: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(11),
             },
             NgayGioDat: {
                 type: Sequelize.DATE,
@@ -25,10 +28,10 @@ module.exports = {
                 type: Sequelize.DATE,
             },
             MaHTTT: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING(10),
             },
             TongTien: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
             },
             TrangThai: {
                 type: Sequelize.STRING,

@@ -1,0 +1,99 @@
+@import 'variables';
+
+/* Color */
+// --primary
+.text-primary {
+    color: $primary !important ;
+}
+
+.bg-primary {
+    background-color: $primary !important;
+}
+
+.border-primary {
+    border-color: $primary !important;
+}
+
+.custom-boxshadow-focus-primary:focus,
+.custom-boxshadow-hover-primary:hover {
+    box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0.25) !important;
+}
+
+// --secondary
+.text-secondary {
+    color: $secondary !important ;
+}
+
+.bg-secondary {
+    background-color: $secondary !important;
+}
+
+.border-secondary {
+    border-color: $secondary !important;
+}
+
+.custom-boxshadow-focus-secondary:focus,
+.custom-boxshadow-hover-secondary:hover {
+    box-shadow: 0 0 0 0.25rem rgba(242, 92, 5, 0.25) !important;
+}
+
+// --tertiary
+.text-tertiary {
+    color: $tertiary !important ;
+}
+
+.bg-tertiary {
+    background-color: $tertiary !important;
+}
+
+.border-tertiary {
+    border-color: $tertiary !important;
+}
+
+.custom-boxshadow-focus-tertiary:focus,
+.custom-boxshadow-hover-tertiary:hover {
+    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25) !important;
+}
+
+.text-tertiary-light {
+    color: $tertiary-light !important ;
+}
+
+.bg-tertiary-light {
+    background-color: $tertiary-light !important;
+}
+
+.border-tertiary-light {
+    border-color: $tertiary-light !important;
+}
+
+.custom-boxshadow-focus-tertiary-light:focus,
+.custom-boxshadow-hover-tertiary-light:hover {
+    box-shadow: 0 0 0 0.25rem rgba(233, 236, 239, 0.25) !important;
+}
+
+// --light
+.text-light {
+    color: $light !important ;
+}
+
+.bg-light {
+    background-color: $light !important;
+}
+
+.border-light {
+    border-color: $light !important;
+}
+
+// --dark
+.text-dark {
+    color: $dark !important ;
+}
+
+.bg-dark {
+    background-color: $dark !important;
+}
+
+.border-dark {
+    border-color: $dark !important;
+}

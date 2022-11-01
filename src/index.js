@@ -18,7 +18,7 @@ configViewEngine(app);
 initWebRoutes(app);
 
 //static file
-app.use(express.static('./src/pulic'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(methodOverride('_method'));
 

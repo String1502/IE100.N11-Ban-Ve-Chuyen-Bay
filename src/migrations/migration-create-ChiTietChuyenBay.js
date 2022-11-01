@@ -13,7 +13,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             MaSBTG: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             ThuTu: {
                 type: Sequelize.INTEGER,

@@ -19,7 +19,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             HeSo: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.DECIMAL(3, 2),
             },
             createdAt: {
                 allowNull: false,

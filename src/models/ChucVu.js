@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            ChucVu.hasMany(models.NhanVien, { foreignKey: 'MaChucVu' });
+            ChucVu.hasMany(models.User, { foreignKey: 'MaChucVu' });
         }
     }
     ChucVu.init(
@@ -17,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             MaChucVu: {
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING(5),
             },
             TenChucVu: DataTypes.STRING,
         },

@@ -6,7 +6,7 @@ module.exports = {
             MaChucVu: {
                 allowNull: false,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             MaQuyen: {
                 allowNull: false,

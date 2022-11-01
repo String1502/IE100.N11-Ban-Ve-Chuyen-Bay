@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             MaChucVu: {
                 allowNull: false,
                 primaryKey: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             MaQuyen: {
                 allowNull: false,

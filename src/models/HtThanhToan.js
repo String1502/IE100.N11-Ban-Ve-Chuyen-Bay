@@ -16,9 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             MaHTTT: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING(10),
             },
             Ten: DataTypes.STRING,
             ThoiGianCho: DataTypes.INTEGER,

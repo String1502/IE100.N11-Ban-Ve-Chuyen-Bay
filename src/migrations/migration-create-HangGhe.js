@@ -5,15 +5,14 @@ module.exports = {
         await queryInterface.createTable('hangghe', {
             MaHangGhe: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             TenHangGhe: {
                 type: Sequelize.STRING,
             },
             HeSo: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.DECIMAL(4, 2),
             },
             TrangThai: {
                 type: Sequelize.STRING,

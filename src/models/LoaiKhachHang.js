@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             TenLoai: DataTypes.STRING,
             SoTuoiToiThieu: DataTypes.INTEGER,
             SoTuoiToiDa: DataTypes.INTEGER,
-            HeSo: DataTypes.INTEGER,
+            HeSo: DataTypes.DECIMAL(3, 2),
         },
         {
             sequelize,

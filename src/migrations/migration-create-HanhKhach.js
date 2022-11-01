@@ -16,13 +16,13 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             CCCD: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(13),
             },
-            SDT: {
-                type: Sequelize.STRING,
+            NgaySinh: {
+                type: Sequelize.DATE,
             },
             GioiTinh: {
-                type: Sequelize.BOOLEAN,
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

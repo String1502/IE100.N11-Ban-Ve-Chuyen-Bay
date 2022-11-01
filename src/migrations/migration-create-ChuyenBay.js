@@ -10,10 +10,10 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             MaSanBayDi: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             MaSanBayDen: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
             },
             NgayGio: {
                 type: Sequelize.DATE,
@@ -22,13 +22,10 @@ module.exports = {
                 type: Sequelize.DATE,
             },
             GiaVeCoBan: {
-                type: Sequelize.INTEGER,
-            },
-            GhiChu: {
-                type: Sequelize.STRING,
+                type: Sequelize.BIGINT,
             },
             DoanhThu: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT,
             },
             TrangThai: {
                 type: Sequelize.STRING,

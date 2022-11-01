@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             MaChuyenBay: DataTypes.INTEGER,
-            MaHangGhe: DataTypes.INTEGER,
+            MaHangGhe: DataTypes.STRING,
             TongVe: DataTypes.INTEGER,
             VeDaBan: DataTypes.INTEGER,
         },

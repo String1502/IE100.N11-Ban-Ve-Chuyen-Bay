@@ -1,0 +1,173 @@
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <meta name='viewport' content='width={device-width}, initial-scale=1.0' />
+        <title>Document</title>
+        {{!-- Bootstrap5 --}}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        {{!-- Font-aweosome-icon --}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css" integrity="sha512-HHsOC+h3najWR7OKiGZtfhFIEzg5VRIPde0kB0bG2QRidTQqf+sbfcxCTB16AcFB93xMjnBIKE29/MjdzXE+qw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {{!-- Our css --}}
+        <link rel='stylesheet' href='/css/app.css' />
+        <link rel='stylesheet' href='/css/color.css' />
+        <link rel='stylesheet' href='/css/font.css' />
+
+    </head>
+    <body>
+        <div>
+            {{> header_not_login}}
+
+            <div>
+                {{{body}}}
+            </div>
+            
+            {{> footer}}
+        </div>
+
+        {{!-- Bootstrap 5 --}}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script>
+            // Chọn item sân bay
+            function sanbay_items_onclick(parentNode,sanbay,TenSanBay) {
+                const mangchild = parentNode.children;
+                for(let i=0; i<mangchild.length; i++)
+                {
+                    if (mangchild[i].className.includes(sanbay)) mangchild[i].setAttribute('value',TenSanBay);
+                }
+            }
+
+            // Nút swap sân bay
+            function swap_sanbay_onclick(parentNode,SanBayDi,SanBayDen) {
+                let sanbaydi_node = parentNode.children[0].children[1].children[1];
+                let sanbayden_node = parentNode.children[2].children[1].children[1];
+                
+                let sanbaydi = sanbaydi_node.getAttribute('value');
+                let sanbayden = sanbayden_node.getAttribute('value');
+
+                sanbaydi_node.setAttribute('value', !sanbayden ? '' : sanbayden);
+                sanbayden_node.setAttribute('value', !sanbaydi ? '' : sanbaydi);
+            }
+
+            // Hành khách
+            const hanhkhach_inputnumber_items = document.querySelectorAll('.hanhkhach_inputnumber_item');
+            const HanhKhach = document.getElementById('HanhKhach');
+            let mang = [];
+            for (let i = 0; i < hanhkhach_inputnumber_items.length; i++) {
+                mang.push({ value: hanhkhach_inputnumber_items[i].value, title: hanhkhach_inputnumber_items[i].title });
+
+                hanhkhach_inputnumber_items[i].addEventListener('change', (e) => {
+                    mang.map((i) => {
+                        if (i.title == e.target.title) {
+                            i.value = e.target.value;
+                        }
+                    });
+                    HanhKhach.innerText = mang
+                        .map((i) => {
+                            return (i.value + ' ' + i.title).toString();
+                        })
+                        .join(', ');
+                });
+            }
+            HanhKhach.innerText = mang
+                .map((i) => {
+                    return (i.value + ' ' + i.title).toString();
+                })
+                .join(', ');
+
+            // Khứ hồi
+            const KhuHoi = document.getElementById('KhuHoi');
+            const NgayVe = document.getElementById('NgayVe');
+            function khuhoi_onclick(){
+                (KhuHoi.checked) ? NgayVe.classList.remove("d-none") : NgayVe.classList.add("d-none");
+            }
+
+            // Hạng ghế
+            const HangGhe = document.getElementById('HangGhe');
+            function hangghe_items_onclick(TenHangGhe) {
+                HangGhe.setAttribute('value', TenHangGhe);
+            }
+
+            // Nhiều thành phố
+            const NhieuThanhPho = document.getElementById('NhieuThanhPho');
+            const MotChieu_KhuHoi = document.getElementById('MotChieu_KhuHoi');
+            const ThemChuyenBay_div = document.getElementById('ThemChuyenBay_div');
+            const Body = document.getElementById('Body');
+
+            const Hang2_div = document.getElementById('Hang2_div');
+            const Hang3_div = document.getElementById('Hang3_div');
+            const NgayDi_div = document.getElementById('NgayDi_div');
+            const NgayVe_div = document.getElementById('NgayVe_div');
+            const Trong_div = document.getElementById('Trong_div');
+            const HanhKhach_div = document.getElementById('HanhKhach_div');
+
+            let mangChuyenBay=[]
+            mangChuyenBay.push({ index: 0, id_element: "Hang2_div", sanbaydi: "", sanbayden: "", ngaydi: "", ngayve: "" });
+
+            function nhieuthanhpho_onclick(){
+
+                if(!NhieuThanhPho.checked)
+                    return;
+                Hang2_div.removeChild(HanhKhach_div);
+                HanhKhach_div.classList.remove("col-md-5");
+                HanhKhach_div.classList.add("col-md-7");
+
+                Hang3_div.removeChild(NgayDi_div);
+                Hang3_div.removeChild(Trong_div);
+                Hang3_div.removeChild(NgayVe_div);
+                NgayDi_div.classList.remove("col-md-3");
+                NgayDi_div.classList.add("col-md-5");
+                
+                Hang3_div.insertBefore(HanhKhach_div, Hang3_div.children[0]);
+                Hang2_div.insertBefore(NgayDi_div, null);
+                
+                mangChuyenBay.push({ index: 1, id_element: "Hang2_div1", sanbaydi: "", sanbayden: "", ngaydi: "", ngayve: "" });
+                
+                const node = Hang2_div.cloneNode(true);
+                node.id = mangChuyenBay[mangChuyenBay.length-1].id_element;
+                Body.insertBefore(node, ThemChuyenBay_div);
+
+                ThemChuyenBay_div.classList.remove("d-none");
+            }
+
+            function motchieukhuhoi_onclick(){
+
+                if(!MotChieu_KhuHoi.checked)
+                    return;
+                Hang3_div.removeChild(HanhKhach_div);
+                HanhKhach_div.classList.remove("col-md-7");
+                HanhKhach_div.classList.add("col-md-5");
+
+                NgayDi_div.classList.remove("col-md-5");
+                NgayDi_div.classList.add("col-md-3");
+
+                Hang2_div.insertBefore(HanhKhach_div, null);
+                Hang3_div.insertBefore(NgayVe_div,Hang3_div.children[0]);
+                Hang3_div.insertBefore(Trong_div,Hang3_div.children[0]);
+                Hang3_div.insertBefore(NgayDi_div,Hang3_div.children[0]);
+
+                let sochuyenbay = mangChuyenBay.length;
+                for( let i=sochuyenbay; i>1; i--)
+                {
+                    let node = document.getElementById(mangChuyenBay[i-1].id_element);
+                    Body.removeChild(node);
+                    mangChuyenBay.pop();
+                }
+                ThemChuyenBay_div.classList.add("d-none");
+            }
+
+            function themchuyenbay_onclick(){
+
+                let chbay_cuoimang = mangChuyenBay[mangChuyenBay.length-1];
+                let _index = chbay_cuoimang.index + 1;
+                let _id_element = mangChuyenBay[0].id_element + _index.toString();
+                mangChuyenBay.push({ index: _index, id_element: _id_element, sanbaydi: "", sanbayden: "", ngaydi: "", ngayve: "" });
+
+                const node = Hang2_div.cloneNode(true);
+                node.id = _id_element;
+                Body.insertBefore(node, ThemChuyenBay_div);
+            }
+
+        </script>
+    </body>
+</html>

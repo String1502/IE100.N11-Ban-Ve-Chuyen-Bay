@@ -1,0 +1,72 @@
+/* Font */
+/* Color */
+/* Color */
+.text-primary {
+  color: #04bfae !important; }
+
+.bg-primary {
+  background-color: #04bfae !important; }
+
+.border-primary {
+  border-color: #04bfae !important; }
+
+.custom-boxshadow-focus-primary:focus,
+.custom-boxshadow-hover-primary:hover {
+  box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0.25) !important; }
+
+.text-secondary {
+  color: #f25c05 !important; }
+
+.bg-secondary {
+  background-color: #f25c05 !important; }
+
+.border-secondary {
+  border-color: #f25c05 !important; }
+
+.custom-boxshadow-focus-secondary:focus,
+.custom-boxshadow-hover-secondary:hover {
+  box-shadow: 0 0 0 0.25rem rgba(242, 92, 5, 0.25) !important; }
+
+.text-tertiary {
+  color: #6c757d !important; }
+
+.bg-tertiary {
+  background-color: #6c757d !important; }
+
+.border-tertiary {
+  border-color: #6c757d !important; }
+
+.custom-boxshadow-focus-tertiary:focus,
+.custom-boxshadow-hover-tertiary:hover {
+  box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25) !important; }
+
+.text-tertiary-light {
+  color: #e9ecef !important; }
+
+.bg-tertiary-light {
+  background-color: #e9ecef !important; }
+
+.border-tertiary-light {
+  border-color: #e9ecef !important; }
+
+.custom-boxshadow-focus-tertiary-light:focus,
+.custom-boxshadow-hover-tertiary-light:hover {
+  box-shadow: 0 0 0 0.25rem rgba(233, 236, 239, 0.25) !important; }
+
+.text-light {
+  color: white !important; }
+
+.bg-light {
+  background-color: white !important; }
+
+.border-light {
+  border-color: white !important; }
+
+.text-dark {
+  color: black !important; }
+
+.bg-dark {
+  background-color: black !important; }
+
+.border-dark {
+  border-color: black !important; }

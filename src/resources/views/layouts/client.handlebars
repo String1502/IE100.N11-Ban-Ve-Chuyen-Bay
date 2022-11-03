@@ -1,0 +1,383 @@
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <meta name='viewport' content='width={device-width}, initial-scale=1.0' />
+        <title>Document</title>
+        {{!-- Bootstrap5 --}}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        {{!-- Font-aweosome-icon --}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {{!-- Font: Roboto --}}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;900&display=swap" rel="stylesheet">
+        {{!-- Our css --}}
+        <link rel='stylesheet' href='/css/app.css' />
+        <link rel='stylesheet' href='/css/color.css' />
+        <link rel='stylesheet' href='/css/font.css' />
+
+    </head>
+    <body>
+        <div>
+            {{> client_header}}
+
+            <div>
+                {{{body}}}
+            </div>
+            
+            {{> footer}}
+        </div>
+
+        <div style=" z-index: 100;" class="position-fixed bottom-0 end-0 p-3 toast-container" id="toastContainer" >
+            {{!-- <div class="toast hide rounded-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div> --}}
+        </div>
+
+        {{!-- Bootstrap 5 --}}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script>
+
+            // Toast
+            function showToast({header = '', body = '', type = '', duration = 3000})
+            {
+                const toastContainer = document.getElementById('toastContainer');
+                if(!toastContainer)
+                    return;
+                let types ={
+                    success: {bg: 'bg-success',text: 'text-light'},
+                    info: {bg: 'bg-info',text: 'text-light'},
+                    warning: {bg: 'bg-warning',text: 'text-light'},
+                    danger: {bg: 'bg-danger',text: 'text-light'},
+                    '': {bg: '',text: ''},
+                }
+
+                const toast = document.createElement('div');
+                toast.classList.add('toast','hide','rounded','border-0','shadow-lg');
+                toast.setAttribute('role','alert');
+                toast.setAttribute('aria-live','assertive');
+                toast.setAttribute('aria-atomic','true');
+
+                toast.innerHTML=`
+                    <div class="toast-header">
+                        <strong class="me-auto custom-font p20-B">${header}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body rounded-bottom border-0 custom-font p16-S ${types[type].bg} ${types[type].text}">${body}</div>
+                `;
+                toastContainer.appendChild(toast);
+                
+                new bootstrap.Toast(toastContainer.lastElementChild,{delay: duration}).show();
+            }
+            // Vd: showToast({header:"Dui",body:"haha",duration: 5000,type:'success/info/warning/danger/Trống'});
+
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+            let yyyy = today.getFullYear();
+
+            let mangChuyenBay=[]; // Object: { id: , id_element: "" };
+            let mangSanBayDi=[]; // Object: { id: , id_element: "", masanbay: "", tensanbay: "", matinhthanh: "", tentinhthanh: "" };
+            let mangSanBayDen=[]; // Object: { id: , id_element: "", masanbay: "", tensanbay: "", matinhthanh: "", tentinhthanh: "" };
+            let mangHanhKhach=[]; // Object: { value: , title: ""}; Vd: { value: 5 , title: "Người lớn"}
+            let mangNgayDi=[]; // Object: { id: , id_element: "", ngaydi: ""}; Vd: ngaydi = "2022-11-3"
+            let bienHangGhe = ({mahangghe: "",tenhangghe: ""});
+            mangSanBayDi.push({
+                id: 0,
+                id_element: "SanBayDi_div_0",
+                masanbay: "",
+                tensanbay:"",
+                matinhthanh: "",
+                tentinhthanh: "",
+            });
+            mangSanBayDen.push({
+                id: 0,
+                id_element: "SanBayDen_div_0",
+                masanbay: "",
+                tensanbay:"",
+                matinhthanh: "",
+                tentinhthanh: "",
+            });
+            mangChuyenBay.push({ 
+                id: 0, 
+                id_element: "Hang2_div_0",
+            });
+            mangNgayDi.push({
+                id:0,
+                id_element: "NgayDi_div_0",
+                ngaydi: "",
+            });
+            document.getElementById("NgayDi_div_0").children[0].children[0].children[1].setAttribute('min',yyyy+'-'+mm+'-'+dd);
+
+            // Chọn item sân bay
+            function sanbay_items_onclick(thisNode,di_den,sanbay) {
+                
+                const sanbay_div = thisNode.parentNode.parentNode.parentNode;
+
+                let _id = -1;
+                if (di_den == 'di')
+                    _id = mangSanBayDi.find( (i)=>i.id_element==sanbay_div.id ).id;
+                else 
+                    _id = mangSanBayDen.find( (i)=>i.id_element==sanbay_div.id ).id;
+
+                if (mangSanBayDi[_id].masanbay == mangSanBayDen[_id].masanbay)
+                {
+                    let word1 = (di_den == 'di') ? 'đi' : 'đến';
+                    let word2 = (di_den == 'di') ? 'đến.' : 'đi.';
+                    showToast({header:"Sân bay "+word1+" không hợp lệ!",body:"Sân bay "+word1+" phải khác sân bay "+word2,duration: 5000,type:'warning'});
+                    return;
+                }
+
+                const item = (di_den == 'di') ? mangSanBayDi[_id] : mangSanBayDen[_id];
+                item.masanbay = sanbay.masanbay;
+                item.tensanbay = sanbay.tensanbay;
+                item.matinhthanh = sanbay.matinhthanh;
+                item.tentinhthanh = sanbay.tentinhthanh;
+                
+                sanbay_div.children[1].children[1].setAttribute('value',item.tentinhthanh);
+            }
+
+            // Nút swap sân bay
+            function swap_sanbay_onclick(thisNode) {
+
+                const chuyenbay = mangChuyenBay.find((i)=>i.id_element==thisNode.parentNode.parentNode.id);
+                if(!chuyenbay)
+                    return;
+
+                let _id = chuyenbay.id;
+                let sanbayden = mangSanBayDen[_id];
+                mangSanBayDen[_id].masanbay = mangSanBayDi[_id].masanbay;
+                mangSanBayDen[_id].tensanbay = mangSanBayDi[_id].tensanbay;
+                mangSanBayDen[_id].matinhthanh = mangSanBayDi[_id].matinhthanh;
+                mangSanBayDen[_id].tentinhthanh = mangSanBayDi[_id].tentinhthanh;
+
+                mangSanBayDi[_id].masanbay = sanbayden.masanbay;
+                mangSanBayDi[_id].tensanbay = sanbayden.tensanbay;
+                mangSanBayDi[_id].matinhthanh = sanbayden.matinhthanh;
+                mangSanBayDi[_id].tentinhthanh = sanbayden.tentinhthanh;
+                document.getElementById("SanBayDi_div_"+_id).children[1].children[1].setAttribute('value',mangSanBayDi[_id].tentinhthanh);
+                document.getElementById("SanBayDen_div_"+_id).children[1].children[1].setAttribute('value',mangSanBayDen[_id].tentinhthanh);
+
+            }
+            
+            // Chọn ngày đi
+            function ngaydi_onchange(e){
+                const NgayDi_div = e.parentNode.parentNode.parentNode;
+                let _id = mangNgayDi.find(i=>i.id_element==NgayDi_div.id).id;
+                mangNgayDi[_id].ngaydi=e.value.toString();
+            }
+
+            // Hành khách
+            const hanhkhach_inputnumber_items = document.querySelectorAll('.hanhkhach_inputnumber_item');
+            const HanhKhach = document.getElementById('HanhKhach');
+            for (let i = 0; i < hanhkhach_inputnumber_items.length; i++) {
+                mangHanhKhach.push({ value: hanhkhach_inputnumber_items[i].value, title: hanhkhach_inputnumber_items[i].title });
+
+                hanhkhach_inputnumber_items[i].addEventListener('change', (e) => {
+                    let sum = 0;
+                    let limit = parseInt(document.getElementById('HanhKhach_div').title.toString());
+                    let mangtemp=mangHanhKhach;
+
+                    mangHanhKhach.map((item) => {
+                        if (item.title == e.target.title) {
+                            item.value = e.target.value;
+                        }
+                    });
+                    mangHanhKhach.forEach((item)=>sum+=parseInt(item.value));
+
+                    if (limit < sum)
+                    {
+                        e.target.value--;
+                        showToast({header:"Hành khách",body:"Tổng số hành khách không vượt quá "+limit+".",duration: 5000,type:'warning'});
+                        mangHanhKhach=mangtemp;
+                    }
+                    else
+                    {
+                        HanhKhach.innerText = mangHanhKhach
+                            .map((item) => {
+                                return (item.value + ' ' + item.title).toString();
+                            })
+                            .join(', ');
+                    }
+
+
+                });
+            }
+            HanhKhach.innerText = mangHanhKhach
+                .map((i) => {
+                    return (i.value + ' ' + i.title).toString();
+                })
+                .join(', ');
+
+            // Khứ hồi
+            const KhuHoi = document.getElementById('KhuHoi');
+            const NgayVe = document.getElementById('NgayVe');
+            function khuhoi_onclick(){
+                (KhuHoi.checked) ? NgayVe.classList.remove("d-none") : NgayVe.classList.add("d-none");
+            }
+
+            // Hạng ghế
+            const HangGhe = document.getElementById('HangGhe');
+            function hangghe_items_onclick(hangghe) {
+                bienHangGhe.mahangghe=hangghe.mahangghe;
+                bienHangGhe.tenhangghe=hangghe.tenhangghe;
+                HangGhe.setAttribute('value', bienHangGhe.tenhangghe);
+            }
+
+            // Nhiều thành phố
+            const NhieuThanhPho = document.getElementById('NhieuThanhPho');
+            const MotChieu_KhuHoi = document.getElementById('MotChieu_KhuHoi');
+            const ThemChuyenBay_div = document.getElementById('ThemChuyenBay_div');
+            const Body = document.getElementById('Body');
+
+            const Hang2_div_0 = document.getElementById('Hang2_div_0');
+            const Hang3_div = document.getElementById('Hang3_div');
+            const NgayDi_div_0 = document.getElementById('NgayDi_div_0');
+            const NgayVe_div = document.getElementById('NgayVe_div');
+            const Blank_div = document.getElementById('Trong_div');
+            const HanhKhach_div = document.getElementById('HanhKhach_div');
+
+            function nhieuthanhpho_onclick(){
+                if(!NhieuThanhPho.checked)
+                    return;
+                Hang2_div_0.removeChild(HanhKhach_div);
+                HanhKhach_div.classList.remove("col-md-5");
+                HanhKhach_div.classList.add("col-md-7");
+
+                Hang3_div.removeChild(NgayDi_div_0);
+                Hang3_div.removeChild(Blank_div);
+                Hang3_div.removeChild(NgayVe_div);
+                NgayDi_div_0.classList.remove("col-md-3");
+                NgayDi_div_0.classList.add("col-md-5");
+                
+                Hang3_div.insertBefore(HanhKhach_div, Hang3_div.children[0]);
+                Hang2_div_0.appendChild(NgayDi_div_0);
+  
+                if (mangChuyenBay.length < 2)
+                {
+                    let _id = (mangChuyenBay[mangChuyenBay.length-1].id + 1);
+                    
+                    mangChuyenBay.push({ id: _id, id_element: "Hang2_div_" + _id.toString(), ngaydi: ""});
+                    mangSanBayDi.push({ id: _id, id_element: "SanBayDi_div_"+_id.toString(), masanbay: "", tensanbay:"", matinhthanh: "", tentinhthanh: "",})
+                    mangSanBayDen.push({ id: _id, id_element: "SanBayDen_div_"+_id.toString(), masanbay: "", tensanbay:"", matinhthanh: "", tentinhthanh: "",})
+                    mangNgayDi.push({id: _id, id_element: "NgayDi_div_"+_id.toString(), ngaydi: "",});
+
+                    const node = Hang2_div_0.cloneNode(true);
+                    node.id =  "Hang2_div_" + _id.toString();
+                    node.children[0].id="SanBayDi_div_"+_id.toString();
+                    node.children[2].id="SanBayDen_div_"+_id.toString();
+                    node.children[3].id="NgayDi_div_"+_id.toString();
+                    node.children[3].children[0].children[0].children[1].setAttribute('min',yyyy+'-'+mm+'-'+dd);
+
+                    node.children[0].children[1].children[1].value = '';
+                    node.children[2].children[1].children[1].value = '';
+                    node.children[3].children[0].children[0].children[1].value = '';
+             
+                    Body.insertBefore(node, ThemChuyenBay_div);
+                }
+                else
+                {
+                    for(let i=1; i< mangChuyenBay.length;i++)
+                    {
+                        const node = Hang2_div_0.cloneNode(true);
+                        node.id =  "Hang2_div_" + i.toString();
+                        node.children[0].id="SanBayDi_div_" + i.toString();
+                        node.children[2].id="SanBayDen_div_" + i.toString();
+                        node.children[3].id="NgayDi_div_" + i.toString();
+                        node.children[3].children[0].children[0].children[1].setAttribute('min',yyyy+'-'+mm+'-'+dd);
+
+                        node.children[0].children[1].children[1].value = mangSanBayDi[i].tentinhthanh;
+                        node.children[2].children[1].children[1].value = mangSanBayDen[i].tentinhthanh;
+                        node.children[3].children[0].children[0].children[1].value = mangNgayDi[i].ngaydi;
+                    
+                        Body.insertBefore(node, ThemChuyenBay_div);
+                    }
+                    if(mangChuyenBay.length>2)
+                        document.getElementById("Hang2_div_"+(mangChuyenBay.length-1).toString()).children[3].children[0].children[1].classList.remove('d-none');
+                }
+
+                ThemChuyenBay_div.classList.remove("d-none");
+            }
+
+            function motchieukhuhoi_onclick(){
+
+                if(!MotChieu_KhuHoi.checked)
+                    return;
+                Hang3_div.removeChild(HanhKhach_div);
+                HanhKhach_div.classList.remove("col-md-7");
+                HanhKhach_div.classList.add("col-md-5");
+
+                NgayDi_div_0.classList.remove("col-md-5");
+                NgayDi_div_0.classList.add("col-md-3");
+
+                Hang2_div_0.insertBefore(HanhKhach_div, null);
+                Hang3_div.insertBefore(NgayVe_div,Hang3_div.children[0]);
+                Hang3_div.insertBefore(Blank_div,Hang3_div.children[0]);
+                Hang3_div.insertBefore(NgayDi_div_0,Hang3_div.children[0]);
+
+                let sochuyenbay = mangChuyenBay.length;
+                for( let i=sochuyenbay; i>1; i--)
+                {
+                    let node = document.getElementById(mangChuyenBay[i-1].id_element);
+                    Body.removeChild(node);
+                }
+                ThemChuyenBay_div.classList.add("d-none");
+            }
+
+            function themchuyenbay_onclick(){
+                    
+                let _id = (mangChuyenBay[mangChuyenBay.length-1].id + 1);
+                
+                mangChuyenBay.push({ id: _id, id_element: "Hang2_div_" + _id.toString(), ngaydi: ""});
+                mangSanBayDi.push({ id: _id, id_element: "SanBayDi_div_"+_id.toString(), masanbay: "", tensanbay:"", matinhthanh: "", tentinhthanh: "",})
+                mangSanBayDen.push({ id: _id, id_element: "SanBayDen_div_"+_id.toString(), masanbay: "", tensanbay:"", matinhthanh: "", tentinhthanh: "",})
+                mangNgayDi.push({id: _id, id_element: "NgayDi_div_"+_id.toString(), ngaydi: "",});
+
+                const node = Hang2_div_0.cloneNode(true);
+                node.id =  "Hang2_div_" + _id.toString();
+                node.children[0].id="SanBayDi_div_"+_id.toString();
+                node.children[2].id="SanBayDen_div_"+_id.toString();
+                node.children[3].id="NgayDi_div_"+_id.toString();
+                node.children[3].children[0].children[0].children[1].setAttribute('min',yyyy+'-'+mm+'-'+dd);
+
+                Body.insertBefore(node, ThemChuyenBay_div);
+                
+                node.children[0].children[1].children[1].value = '';
+                node.children[2].children[1].children[1].value = '';
+                node.children[3].children[0].children[0].children[1].value = '';
+
+                if (mangChuyenBay.length>2)
+                {   
+                    document.getElementById("Hang2_div_"+(_id-1).toString()).children[3].children[0].children[1].classList.add('d-none');
+                    document.getElementById("Hang2_div_"+_id.toString()).children[3].children[0].children[1].classList.remove('d-none');
+                }
+
+            }
+
+            function xoachuyenbay_onclick(e){
+                const NgayDi_div = e.parentNode.parentNode.parentNode;
+                let _id = mangNgayDi.find(i=>i.id_element==NgayDi_div.id).id;
+
+                mangChuyenBay.splice(_id,1);
+                mangSanBayDi.splice(_id,1);
+                mangSanBayDen.splice(_id,1);
+                mangNgayDi.splice(_id,1);
+
+                Body.removeChild(document.getElementById("Hang2_div_"+_id.toString()));
+                if(mangChuyenBay.length>2)
+                {
+                    document.getElementById("Hang2_div_"+(_id-1).toString()).children[3].children[0].children[1].classList.remove('d-none');
+                }
+            }
+
+        </script>
+    </body>
+</html>

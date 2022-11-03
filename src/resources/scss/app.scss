@@ -17,6 +17,11 @@
     }
 }
 
+.form-control[readonly] {
+    background-color: white !important;
+    opacity: 1;
+}
+
 /* Radio, check button */
 .custom-color-checked:checked {
     background-color: $primary !important;

@@ -1,12 +1,12 @@
 import db from '../models/index';
 const { QueryTypes } = require('sequelize');
 
-class LoggedinStaffController {
+class StaffController {
     // "/staff/"
     async index(req, res) {
         try {
             return res.render('staff/TraCuuChuyenBay', {
-                layout: 'logged_in_staff.handlebars',
+                layout: 'staff.handlebars',
             });
         } catch (error) {
             console.log(error);
@@ -14,4 +14,4 @@ class LoggedinStaffController {
     }
 }
 
-module.exports = new LoggedinStaffController();
+module.exports = new StaffController();

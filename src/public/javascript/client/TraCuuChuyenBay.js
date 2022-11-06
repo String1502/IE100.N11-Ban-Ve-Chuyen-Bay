@@ -3,7 +3,7 @@ let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
 
-let mangChuyenBay = [
+export let mangChuyenBay = [
     {
         id: 0,
         id_element: 'Hang2_div_0',
@@ -44,9 +44,9 @@ if (document.getElementById('NgayDi_div_0'))
         .getElementById('NgayDi_div_0')
         .children[0].children[0].children[1].setAttribute('min', yyyy + '-' + mm + '-' + dd);
 
-let mangHanhKhach = []; // Object: { value: , title: ""}; Vd: { value: 5 , title: "Người lớn"}
+export let mangHanhKhach = []; // Object: { value: , title: ""}; Vd: { value: 5 , title: "Người lớn"}
 
-let bienHangGhe = { mahangghe: '', tenhangghe: '' };
+export let bienHangGhe = { mahangghe: '', tenhangghe: '' };
 
 // Toast
 function showToast({ header = '', body = '', type = '', duration = 3000 }) {
@@ -344,3 +344,99 @@ window.xoachuyenbay_onclick = function xoachuyenbay_onclick(e) {
             .children[3].children[0].children[1].classList.remove('d-none');
     }
 };
+
+function KiemTra_TraCuu() {
+    if (
+        mangChuyenBay.length < 1 ||
+        mangNgayDi.length < 1 ||
+        mangSanBayDi.length < 1 ||
+        mangSanBayDen.length < 1 ||
+        mangHanhKhach.length < 1
+    )
+        return false;
+    let num_ChuyenBay = MotChieu_KhuHoi.checked ? 1 : mangChuyenBay.length;
+    let header_toast = '';
+    let body_toast = '';
+    for (let i = 0; i < num_ChuyenBay; i++) {
+        header_toast = num_ChuyenBay == 1 ? 'Chuyến bay' : 'Chuyến bay ' + (i + 1).toString();
+        if (mangSanBayDi[i].masanbay === '') {
+            body_toast = 'Sân bay đi đang trống!';
+            showToast({ header: header_toast, body: body_toast, type: 'warning', duration: 3000 });
+            return false;
+        }
+        if (mangSanBayDen[i].masanbay === '') {
+            body_toast = 'Sân bay đến đang trống!';
+            showToast({ header: header_toast, body: body_toast, type: 'warning', duration: 3000 });
+            return false;
+        }
+        if (mangNgayDi[i].ngaydi === '') {
+            body_toast = 'Ngày đi đang trống!';
+            showToast({ header: header_toast, body: body_toast, type: 'warning', duration: 3000 });
+            return false;
+        }
+    }
+    if (num_ChuyenBay == 1 && KhuHoi.checked && NgayVe.value === '') {
+        header_toast = 'Khứ hồi';
+        body_toast = 'Ngày về đang trống!';
+        showToast({ header: header_toast, body: body_toast, type: 'warning', duration: 3000 });
+        return false;
+    }
+    if (bienHangGhe.mahangghe === '') {
+        header_toast = 'Hạng ghế';
+        body_toast = 'Hạng ghế đang trống!';
+        showToast({ header: header_toast, body: body_toast, type: 'warning', duration: 3000 });
+        return false;
+    }
+
+    return true;
+}
+
+function SendForm(idchuyenbay, masanbaydi, masanbayden, hangghe, hanhkhach, ngaydi, khuhoi) {
+    document.getElementById('idchuyenbay_formid').value = idchuyenbay;
+    document.getElementById('masanbaydi_formid').value = masanbaydi;
+    document.getElementById('masanbayden_formid').value = masanbayden;
+    document.getElementById('hangghe_formid').value = hangghe;
+    document.getElementById('hanhkhach_formid').value = hanhkhach;
+    document.getElementById('ngaydi_formid').value = ngaydi;
+    document.getElementById('khuhoi_formid').value = khuhoi;
+    var search_flight_form = document.forms['search-flight-form'];
+    search_flight_form.action = '/flight/fullsearch' + '?_method=POST';
+    search_flight_form.submit();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    window.searchFlightBtn_onclick = function searchFlightBtn() {
+        if (!KiemTra_TraCuu()) return;
+        if (MotChieu_KhuHoi.checked) mangChuyenBay.splice(1);
+
+        mangChuyenBay.map((item) => {
+            let _id = item.id;
+            item['SanBay_Di'] = {
+                MaSanBay: mangSanBayDi[_id].masanbay,
+                TenSanBay: mangSanBayDi[_id].tensanbay,
+                MaTinhThanh: mangSanBayDi[_id].matinhthanh,
+                TenTinhThanh: mangSanBayDi[_id].tentinhthanh,
+            };
+            item['SanBay_Den'] = {
+                MaSanBay: mangSanBayDen[_id].masanbay,
+                TenSanBay: mangSanBayDen[_id].tensanbay,
+                MaTinhThanh: mangSanBayDen[_id].matinhthanh,
+                TenTinhThanh: mangSanBayDen[_id].tentinhthanh,
+            };
+            item['NgayDi'] = mangNgayDi[_id].ngaydi;
+            item['NgayVe'] = '';
+        });
+
+        if (mangChuyenBay.length == 1) mangChuyenBay[0]['NgayVe'] = NgayVe.value;
+
+        SendForm(
+            mangChuyenBay[0].id,
+            mangChuyenBay[0].SanBay_Di.MaSanBay,
+            mangChuyenBay[0].SanBay_Den.MaSanBay,
+            JSON.stringify(bienHangGhe),
+            JSON.stringify(mangHanhKhach),
+            mangChuyenBay[0].NgayDi,
+            mangChuyenBay[0].NgayVe,
+        );
+    };
+});

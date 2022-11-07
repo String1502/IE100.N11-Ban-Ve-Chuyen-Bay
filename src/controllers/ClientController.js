@@ -25,16 +25,52 @@ class ClientController {
     }
     // "/choose_flight"
     async choose_flight(req, res) {
-        let MangChuyenBay = JSON.parse(req.body.MangChuyenBay);
+        // Req.body
+        let MangChuyenBayTimKiem = JSON.parse(req.body.MangChuyenBay);
         let HangGhe = JSON.parse(req.body.HangGhe);
         let HanhKhach = JSON.parse(req.body.HanhKhach);
-        console.log(MangChuyenBay);
-        console.log(HangGhe);
-        console.log(HanhKhach);
+        for (let i = 0; i < MangChuyenBayTimKiem.length; i++) MangChuyenBayTimKiem[i]['ThuTu'] = i + 1;
+        console.log(MangChuyenBayTimKiem);
+        //console.log(HangGhe);
+        //console.log(HanhKhach);
+
+        // From database
+        let ChuyenBays = [
+            {
+                MaChuyenBay: '1',
+                ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+                SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+                ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+                SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+                ThoiGianBay: { Gio: 25, Phut: 1 },
+                SoDiemDung: 1,
+                GiaVe: 500000,
+                ChanBay: [
+                    {
+                        ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+                        SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+                        ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+                        SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+                        ThoiGianBay: { Gio: 5, Phut: 5 },
+                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
+                    },
+                    {
+                        ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 2, Thang: 1, Nam: 2023 } },
+                        SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+                        ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+                        SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+                        ThoiGianBay: { Gio: 1, Phut: 1 },
+                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
+                    },
+                ],
+            },
+        ];
+
         try {
             return res.render('client/ChonChuyenBay', {
                 layout: 'client.handlebars',
-                mangchuyenbay: MangChuyenBay,
+                MangChuyenBayTimKiem: MangChuyenBayTimKiem,
+                ChuyenBays: ChuyenBays,
             });
         } catch (error) {
             console.log(error);

@@ -38,7 +38,7 @@
                         id='TomTat_Container'
                         class='overflow-auto h-100'
                     >
-                        {{#each mangchuyenbay}}
+                        {{#each MangChuyenBayTimKiem}}
                             {{! Chuyến bay }}
                             <div style='margin-left: 4px; margin-right: 5px;' class='py-3 px-2 shadow-sm TomTat_Item'>
 
@@ -50,7 +50,7 @@
                                             style='width: 40px; height: 40px; border-radius:20px'
                                             class='TomTat_Item_Title_ThuTu bg-primary text-light custom-font h24-B text-center lh-base align-middle'
                                         >
-                                            {{this.id}}
+                                            {{this.ThuTu}}
                                         </span>
 
                                         {{! ThGian, Sân bay }}
@@ -69,13 +69,13 @@
                                             <div class='text-dark custom-font p16-S text-start align-middle lh-sm'>
                                                 {{! Sân bay đi }}
                                                 <span class='TomTat_Item_Title_ThanhPhoDi'>
-                                                    {{this.SanBay_Di.TenTinhThanh}}
+                                                    {{this.SanBayDi.TinhThanh}}
                                                 </span>
                                                 {{! Mũi tên }}
                                                 <i class='fa-solid fa-arrow-right'></i>
                                                 {{! Sân bay đến }}
                                                 <span class='TomTat_Item_Title_ThanhPhoDen'>
-                                                    {{this.SanBay_Den.TenTinhThanh}}
+                                                    {{this.SanBayDen.TinhThanh}}
                                                 </span>
                                             </div>
                                         </div>
@@ -918,293 +918,286 @@
                     {{! Danh sách chuyến bay }}
                     <div id='ChuyenBay_Container' class='h-auto d-flex flex-column'>
 
-                        {{! Chuyến bay item }}
-                        <div id='ChuyenBay_Item_x' class='d-flex flex-column pt-3 mb-4 bg-light shadow rounded-2'>
-                            {{! Hàng 1 }}
-                            <div class='px-3 mb-3 d-flex flex-row justify-content-between'>
-                                <div>
-                                    <span class='custom-font p16-R text-dark'>Số hiệu chuyến bay: </span>
-                                    <span
-                                        id='ChuyenBay_Item_x_MaChuyenBay'
-                                        class='custom-font p16-B text-dark'
-                                    >ABCDEF</span>
-                                </div>
-                                <div>
-                                    <a
-                                        id='ChuyenBay_Item_x_ChiTiet'
-                                        style='padding: 0px !important;'
-                                        type='button'
-                                        class='btn btn-primary bg-light border-0 px-4 text-primary custom-font p16-B custom-boxshadow-focus-none'
-                                        href=''
-                                    >
-                                        Chi tiết chuyến bay
-                                    </a>
-                                </div>
-                            </div>
-
-                            {{! Hàng 2 }}
-                            <div class='px-5 mb-3 d-flex flex-row justify-content-between'>
-                                {{! Thời gian bay đi }}
-                                <div class='d-flex flex-column'>
-                                    <div class='px-2 mb-1'>
+                        {{#each ChuyenBays}}
+                            {{! Chuyến bay item }}
+                            <div class='ChuyenBay_Item d-flex flex-column pt-3 mb-4 bg-light shadow rounded-2'>
+                                {{! Hàng 1 }}
+                                <div class='px-3 mb-3 d-flex flex-row justify-content-between'>
+                                    <div>
+                                        <span class='custom-font p16-R text-dark'>Số hiệu chuyến bay: </span>
                                         <span
-                                            id='ChuyenBay_Item_x_GioDi'
-                                            class='custom-font p20-B text-dark'
-                                        >07:15</span>
+                                            class='ChuyenBay_Item_MaChuyenBay custom-font p16-B text-dark'
+                                        >{{this.MaChuyenBay}}</span>
                                     </div>
-                                    <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
-                                        <span
-                                            id='ChuyenBay_Item_x_MaSanBayDi'
-                                            class='custom-font p20-B text-tertiary'
-                                        >SGN</span>
+                                    <div>
+                                        <a
+                                            id='ChuyenBay_Item_ChiTiet'
+                                            style='padding: 0px !important;'
+                                            type='button'
+                                            class='btn btn-primary bg-light border-0 px-4 text-primary custom-font p16-B custom-boxshadow-focus-none'
+                                            href=''
+                                        >
+                                            Chi tiết chuyến bay
+                                        </a>
                                     </div>
-
                                 </div>
 
-                                {{! Thời gian bay + điểm dừng }}
-                                <div class='d-flex flex-column'>
-                                    {{! Thời gian bay }}
-                                    <div class='mx-auto'>
-                                        <span
-                                            id='ChuyenBay_Item_x_ThoiGianBay'
-                                            class='custom-font p16-B text-tertiary'
-                                        >2h 30m</span>
-                                    </div>
-                                    {{! decor }}
-                                    <div class='d-flex flex-row align-items-center'>
-
-                                        <div class='w-auto h-auto'>
-                                            <i
-                                                style='height:20px; width:20px;'
-                                                class='fa-regular fa-circle text-tertiary'
-                                            ></i>
+                                {{! Hàng 2 }}
+                                <div class='px-5 mb-3 d-flex flex-row justify-content-between'>
+                                    {{! Thời gian bay đi }}
+                                    <div class='d-flex flex-column'>
+                                        <div class='px-2 mb-1'>
+                                            <span
+                                                class='ChuyenBay_Item_GioDi custom-font p20-B text-dark'
+                                            >{{this.ThoiGianDi.GioDi.Gio}}:{{this.ThoiGianDi.GioDi.Phut}}</span>
+                                        </div>
+                                        <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
+                                            <span
+                                                class='ChuyenBay_Item_MaSanBayDi custom-font p20-B text-tertiary'
+                                            >{{this.SanBayDi.MaSanBay}}</span>
                                         </div>
 
-                                        <div
-                                            style='border-bottom: 1px solid black; padding: 0 60px;'
-                                            class='w-100 my-1'
-                                        ></div>
+                                    </div>
 
-                                        <div class='w-auto h-auto'>
-                                            <i
-                                                style='height:20px; width:20px;'
-                                                class='fa-solid fa-circle text-tertiary'
-                                            ></i>
+                                    {{! Thời gian bay + điểm dừng }}
+                                    <div class='d-flex flex-column'>
+                                        {{! Thời gian bay }}
+                                        <div class='mx-auto'>
+                                            <span
+                                                class='ChuyenBay_Item_ThoiGianBay custom-font p16-B text-tertiary'
+                                            >{{this.ThoiGianBay.Gio}}h {{this.ThoiGianBay.Phut}}m</span>
+                                        </div>
+                                        {{! decor }}
+                                        <div class='d-flex flex-row align-items-center'>
+
+                                            <div class='w-auto h-auto'>
+                                                <i
+                                                    style='height:20px; width:20px;'
+                                                    class='fa-regular fa-circle text-tertiary'
+                                                ></i>
+                                            </div>
+
+                                            <div
+                                                style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                class='w-100 my-1'
+                                            ></div>
+
+                                            <div class='w-auto h-auto'>
+                                                <i
+                                                    style='height:20px; width:20px;'
+                                                    class='fa-solid fa-circle text-tertiary'
+                                                ></i>
+                                            </div>
+                                        </div>
+                                        {{! Điểm dừng }}
+                                        <div class='mx-auto'>
+                                            <span
+                                                class='ChuyenBay_Item_SoDiemDung custom-font p16-B text-tertiary'
+                                            >{{this.SoDiemDung}}
+                                                điểm dừng</span>
                                         </div>
                                     </div>
-                                    {{! Điểm dừng }}
-                                    <div class='mx-auto'>
-                                        <span id='ChuyenBay_Item_x_SoDiemDung' class='custom-font p16-B text-tertiary'>1
-                                            điểm dừng</span>
+
+                                    {{! Thời gian bay đến }}
+                                    <div class='d-flex flex-column'>
+                                        <div class='px-2 mb-1'>
+                                            <span
+                                                class='ChuyenBay_Ite_GioDen custom-font p20-B text-dark'
+                                            >{{this.ThoiGianDen.GioDen.Gio}}:{{this.ThoiGianDen.GioDen.Phut}}</span>
+                                        </div>
+                                        <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
+                                            <span
+                                                class='ChuyenBay_Item_MaSanBayDen custom-font p20-B text-tertiary'
+                                            >{{this.SanBayDen.MaSanBay}}</span>
+                                        </div>
                                     </div>
+
                                 </div>
 
-                                {{! Thời gian bay đến }}
-                                <div class='d-flex flex-column'>
-                                    <div class='px-2 mb-1'>
+                                {{! Hàng 3 }}
+                                <div class='px-3 mb-3 d-flex flex-row justify-content-between align-items-center'>
+                                    <div>
                                         <span
-                                            id='ChuyenBay_Item_x_GioDen'
-                                            class='custom-font p20-B text-dark'
-                                        >07:15</span>
+                                            class='ChuyenBay_Item_GiaVe custom-font p20-B text-secondary'
+                                        >{{this.GiaVe}}</span>
+                                        <span class='custom-font p20-B text-secondary'> VND</span>
+                                        <span class='custom-font p20-B text-tertiary'>/khách</span>
                                     </div>
-                                    <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
-                                        <span
-                                            id='ChuyenBay_Item_x_MaSanBayDen'
-                                            class='custom-font p20-B text-tertiary'
-                                        >ABCD</span>
+                                    <div>
+                                        <button
+                                            type='button'
+                                            class='ChuyenBay_Item__Chon btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                            href=''
+                                        >
+                                            Chọn
+                                        </button>
                                     </div>
                                 </div>
 
-                            </div>
-
-                            {{! Hàng 3 }}
-                            <div class='px-3 mb-3 d-flex flex-row justify-content-between align-items-center'>
-                                <div>
-                                    <span id='ChuyenBay_Item_x_GiaVe' class='custom-font p20-B text-secondary'>576.720
-                                        VND</span>
-                                    <span class='custom-font p20-B text-tertiary'>/khách</span>
-                                </div>
-                                <div>
-                                    <button
-                                        id='ChuyenBay_Item_x__Chon'
-                                        type='button'
-                                        class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                                        href=''
-                                    >
-                                        Chọn
-                                    </button>
-                                </div>
-                            </div>
-
-                            {{! Chi tiết }}
-                            <div
-                                id='ChuyenBay_Item_x_Detail'
-                                style='border-top: 1px solid gray;'
-                                class='px-3 mb-3 d-flex flex-column'
-                            >
-
-                                {{! Thông tin chung }}
+                                {{! Chi tiết }}
                                 <div
-                                    style='border-bottom: 1px solid gray;'
-                                    class='py-3 d-flex flex-row justify-content-between'
+                                    style='border-top: 1px solid gray;'
+                                    class='ChuyenBay_Item_Detail px-3 mb-3 d-flex flex-column'
                                 >
 
-                                    {{! Bên trái }}
-                                    <div class='d-flex flex-column'>
-                                        <div class='d-flex flex-row mb-3'>
-                                            <i
-                                                style='height: 16px; width: 16px;'
-                                                class='me-3 p16-B fa-solid fa-plane'
-                                            ></i>
-                                            <span
-                                                id='ChuyenBay_Item_x_Detail_MaChuyenBay'
-                                                class='custom-font p16-R text-dark me-2'
-                                            >Số hiệu chuyến bay: </span>
-                                            <span class='custom-font p16-B text-dark'>ABCDEF</span>
+                                    {{! Thông tin chung }}
+                                    <div
+                                        style='border-bottom: 1px solid gray;'
+                                        class='py-3 d-flex flex-row justify-content-between'
+                                    >
+
+                                        {{! Bên trái }}
+                                        <div class='d-flex flex-column'>
+                                            <div class='d-flex flex-row mb-3'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-plane'
+                                                ></i>
+                                                <span
+                                                    class='ChuyenBay_Item_Detail_MaChuyenBay custom-font p16-R text-dark me-2'
+                                                >Số hiệu chuyến bay: </span>
+                                                <span class='custom-font p16-B text-dark'>{{this.MaChuyenBay}}</span>
+                                            </div>
+                                            <div class='d-flex flex-row'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-ticket-simple'
+                                                ></i>
+                                                <span class='custom-font p16-R text-dark me-2'>Giá vé: </span>
+                                                <span
+                                                    class='ChuyenBay_Item_Detail_GiaVe custom-font p16-B text-dark'
+                                                >{{this.GiaVe}}</span>
+                                                <span class='ps-1 custom-font p16-B text-dark'> VND /khách</span>
+                                            </div>
                                         </div>
-                                        <div class='d-flex flex-row'>
-                                            <i
-                                                style='height: 16px; width: 16px;'
-                                                class='me-3 p16-B fa-solid fa-ticket-simple'
-                                            ></i>
-                                            <span class='custom-font p16-R text-dark me-2'>Giá vé: </span>
-                                            <span
-                                                id='ChuyenBay_Item_x_Detail_GiaVe'
-                                                class='custom-font p16-B text-dark'
-                                            >576.720</span>
-                                            <span class='ps-1 custom-font p16-B text-dark'> VND /khách</span>
+
+                                        {{! Bên phải }}
+                                        <div class='d-flex flex-column me-4'>
+                                            <div class='d-flex flex-row mb-2'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-suitcase'
+                                                ></i>
+                                                <span class='custom-font p16-R text-dark me-2'>Hành lý: </span>
+                                                <span class='custom-font p16-B text-dark'>7kg xách tay</span>
+                                            </div>
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_Item_Detail_HanhLyMuaThem custom-font p14-S text-primary'
+                                                >+ xem giá hành lý mua thêm</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {{! Bên phải }}
-                                    <div class='d-flex flex-column me-4'>
-                                        <div class='d-flex flex-row mb-2'>
-                                            <i
-                                                style='height: 16px; width: 16px;'
-                                                class='me-3 p16-B fa-solid fa-suitcase'
-                                            ></i>
-                                            <span class='custom-font p16-R text-dark me-2'>Hành lý: </span>
-                                            <span class='custom-font p16-B text-dark'>7kg xách tay</span>
-                                        </div>
-                                        <div class='d-flex flex-row'>
-                                            <span
-                                                id='ChuyenBay_Item_x_Detail_HanhLyMuaThem'
-                                                class='custom-font p14-S text-primary'
-                                            >+ xem giá hành lý mua thêm</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    {{! Trung gian container }}
+                                    <div id='ChuyenBay_Item_Detail_TrungGian_Container' class='py-4 d-flex flex-column'>
+                                        {{#each this.ChanBay}}
+                                            <div class='ChuyenBay_Item_Detail_TrungGian_Item'>
 
-                                {{! Trung gian container }}
-                                <div id='ChuyenBay_Item_x_Detail_TrungGian_Container' class='py-4 d-flex flex-column'>
+                                                {{! Khởi hành - đến item }}
+                                                <div class='px-4 mb-4 d-flex flex-column'>
 
-                                    <div id='ChuyenBay_Item_x_Detail_TrungGian_Item_y'>
+                                                    {{! Thời gian bay đi - đến }}
+                                                    <div class='d-flex flex-row justify-content-between'>
+                                                        {{! Đi }}
+                                                        <div class='d-flex flex-row align-items-end'>
+                                                            <span
+                                                                class='ChuyenBay_Item_Detail_TrungGian_Item_GioDi custom-font p20-B text-dark'
+                                                            >{{this.ThoiGianDi.GioDi.Gio}}:{{this.ThoiGianDi.GioDi.Phut}}</span>
+                                                            <span
+                                                                style='margin-bottom: 4px;'
+                                                                class='ChuyenBay_Item_Detail_TrungGian_Item_NgayDi ms-1 custom-font p12-S text-tertiary'
+                                                            >{{this.ThoiGianDi.NgayDi.Ngay}}-{{this.ThoiGianDi.NgayDi.Thang}}-{{this.ThoiGianDi.NgayDi.Nam}}</span>
+                                                        </div>
+                                                        {{! Thời gian bay }}
+                                                        <div class='mx-auto align-self-end'>
+                                                            <span
+                                                                class='ChuyenBay_Item_Detail_TrungGian_Item_ThoiGianBay custom-font p16-B text-tertiary'
+                                                            >{{this.ThoiGianBay.Gio}}h {{this.ThoiGianBay.Phut}}m</span>
+                                                        </div>
+                                                        {{! Đến }}
+                                                        <div class='d-flex flex-row align-items-end'>
+                                                            <span
+                                                                style=' margin-bottom: 4px;'
+                                                                class='ChuyenBay_Item_Detail_TrungGian_Item_NgayDen me-1 custom-font p12-S text-tertiary'
+                                                            >{{this.ThoiGianDen.NgayDen.Ngay}}-{{this.ThoiGianDen.NgayDen.Thang}}-{{this.ThoiGianDen.NgayDen.Nam}}</span>
+                                                            <span
+                                                                class='ChuyenBay_Item_Detail_TrungGian_Item_GioDen custom-font p20-B text-dark'
+                                                            >{{this.ThoiGianDen.GioDen.Gio}}:{{this.ThoiGianDen.GioDen.Phut}}</span>
+                                                        </div>
+                                                    </div>
 
-                                        {{! Khởi hành - đến item }}
-                                        <div class='px-4 mb-4 d-flex flex-column'>
+                                                    {{! decor }}
+                                                    <div class='d-flex flex-column py-1'>
+                                                        <div class='d-flex flex-row align-items-center'>
 
-                                            {{! Thời gian bay đi - đến }}
-                                            <div class='d-flex flex-row justify-content-between'>
-                                                {{! Đi }}
-                                                <div class='d-flex flex-row align-items-end'>
-                                                    <span
-                                                        id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_GioDi'
-                                                        class='custom-font p20-B text-dark'
-                                                    >07:15</span>
-                                                    <span
-                                                        id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_NgayDi'
-                                                        style='margin-bottom: 4px;'
-                                                        class='ms-1 custom-font p12-S text-tertiary'
-                                                    >17-11-2022</span>
+                                                            <div class='w-auto h-auto'>
+                                                                <i
+                                                                    style='height:15px; width:15px; font-size:15px; '
+                                                                    class='fa-regular fa-circle text-tertiary'
+                                                                ></i>
+                                                            </div>
+
+                                                            <div
+                                                                style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                                class='w-100'
+                                                            ></div>
+
+                                                            <div class='w-auto h-auto'>
+                                                                <i
+                                                                    style='height:15px; width:15px; font-size:15px;'
+                                                                    class='fa-solid fa-circle text-tertiary'
+                                                                ></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {{! Sân bay đi - đến }}
+                                                    <div class='d-flex flex-row justify-content-between'>
+                                                        {{! Đi }}
+                                                        <div class='d-flex flex-column'>
+                                                            <div style='padding: 4px 0px;' class='mx-auto'>
+                                                                <span
+                                                                    class='ChuyenBay_Item_Detail_TrungGian_Item_SanBayDi custom-font p12-S text-dark'
+                                                                >{{this.SanBayDi.MaSanBay}}
+                                                                    -
+                                                                    {{this.SanBayDi.TinhThanh}}</span>
+                                                            </div>
+                                                        </div>
+                                                        {{! Đến }}
+                                                        <div class='d-flex flex-column'>
+                                                            <div style='padding: 4px 0px;' class='mx-auto'>
+                                                                <span
+                                                                    class='ChuyenBay_Item_Detail_TrungGian_Item_SanBayDen custom-font p12-S text-dark'
+                                                                >{{this.SanBayDen.MaSanBay}}
+                                                                    -
+                                                                    {{this.SanBayDen.TinhThanh}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
-                                                {{! Thời gian bay }}
-                                                <div class='mx-auto align-self-end'>
+
+                                                {{! Divider }}
+                                                <div
+                                                    class='ChuyenBay_Item_Detail_TrungGian_Item_Divider mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
+                                                >
+                                                    <i class='fa-solid fa-circle-info me-2 text-light'></i>
                                                     <span
-                                                        id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_ThoiGianBay'
-                                                        class='custom-font p16-B text-tertiary'
-                                                    >2h 30m</span>
-                                                </div>
-                                                {{! Đến }}
-                                                <div class='d-flex flex-row align-items-end'>
-                                                    <span
-                                                        id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_NgayDen'
-                                                        style='margin-bottom: 4px;'
-                                                        class='me-1 custom-font p12-S text-tertiary'
-                                                    >17-11-2022</span>
-                                                    <span
-                                                        id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_GioDen'
-                                                        class='custom-font p20-B text-dark'
-                                                    >07:15</span>
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_Divider_SanBay custom-font p16-S text-light'
+                                                    >Dừng ở sân bay
+                                                        {{this.SanBayDen.TenSanBay}}
+                                                        ({{this.ThoiGianDung_SanBayDen.Gio}}h
+                                                        {{this.ThoiGianDung_SanBayDen.Phut}}m)</span>
                                                 </div>
                                             </div>
-
-                                            {{! decor }}
-                                            <div class='d-flex flex-column py-1'>
-                                                <div class='d-flex flex-row align-items-center'>
-
-                                                    <div class='w-auto h-auto'>
-                                                        <i
-                                                            style='height:15px; width:15px; font-size:15px; '
-                                                            class='fa-regular fa-circle text-tertiary'
-                                                        ></i>
-                                                    </div>
-
-                                                    <div
-                                                        style='border-bottom: 1px solid black; padding: 0 60px;'
-                                                        class='w-100'
-                                                    ></div>
-
-                                                    <div class='w-auto h-auto'>
-                                                        <i
-                                                            style='height:15px; width:15px; font-size:15px;'
-                                                            class='fa-solid fa-circle text-tertiary'
-                                                        ></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{! Sân bay đi - đến }}
-                                            <div class='d-flex flex-row justify-content-between'>
-                                                {{! Đi }}
-                                                <div class='d-flex flex-column'>
-                                                    <div style='padding: 4px 0px;' class='mx-auto'>
-                                                        <span
-                                                            id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_SanBayDi'
-                                                            class='custom-font p12-S text-dark'
-                                                        >TSN - TP Hồ Chí Minh</span>
-                                                    </div>
-                                                </div>
-                                                {{! Đến }}
-                                                <div class='d-flex flex-column'>
-                                                    <div style='padding: 4px 0px;' class='mx-auto'>
-                                                        <span
-                                                            id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_SanBayDen'
-                                                            class='custom-font p12-S text-dark'
-                                                        >TSN - TP Hồ Chí Minh</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        {{! Divider }}
-                                        <div
-                                            id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_Divider'
-                                            class='mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
-                                        >
-                                            <i class='fa-solid fa-circle-info me-2 text-light'></i>
-                                            <span
-                                                id='ChuyenBay_Item_x_Detail_TrungGian_Item_y_Divider_SanBay'
-                                                class='custom-font p16-S text-light'
-                                            >Dừng ở sân bay ABC (1h 30m)</span>
-                                        </div>
+                                        {{/each}}
                                     </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
+                        {{/each}}
 
                     </div>
 

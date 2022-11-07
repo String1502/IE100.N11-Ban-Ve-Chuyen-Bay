@@ -31,11 +31,3 @@ const BoLoc_SapXep_CatCanhMuonNhat = document.getElementById('BoLoc_SapXep_CatCa
 const BoLoc_SapXep_HaCanhSomNhat = document.getElementById('BoLoc_SapXep_HaCanhSomNhat');
 const BoLoc_SapXep_HaCanhMuonNhat = document.getElementById('BoLoc_SapXep_HaCanhMuonNhat');
 const BoLoc_SapXep_ThoiGianBayNganNhat = document.getElementById('BoLoc_SapXep_ThoiGianBayNganNhat');
-
-const TomTat_Items = document.querySelectorAll('.TomTat_Item');
-
-for (let i = 0; i < TomTat_Items.length; i++) {
-    TomTat_Items[i].addEventListener('click', (e) => {
-        alert(e.target.querySelector('.TomTat_Item_Title_ThuTu').innerText);
-    });
-}

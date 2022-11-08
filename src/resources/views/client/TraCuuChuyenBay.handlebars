@@ -1,8 +1,3 @@
-{{! SanBays[{MaSanBay: , TenSanBay: , TinhThanh: }]
-HangGhes[{MaHangGhe: , TenHangGhe: }]
-HanhKhach_Max: Hành khách tối đa 1 lần đặt chỗ 
-ChuyenBay_Max: Số lượng hành khách tối đa trong một lần đặt chỗ }}
-
 <div class='bg-tertiary-light'>
 
     <div style='height: 288px;' class='w-100 bg-primary d-none d-sm-block'>
@@ -156,9 +151,11 @@ ChuyenBay_Max: Số lượng hành khách tối đa trong một lần đặt ch�
                                                     <div class='d-flex flex-row'>
 
                                                         <span
-                                                            class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary'
+                                                            class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'
                                                         >{{this.MaSanBay}}</span>
-                                                        <span class='custom-font p14-R text-tertiary'> - Sân bay </span>
+                                                        <span class='custom-font p14-R text-tertiary me-1'>
+                                                            - Sân bay
+                                                        </span>
                                                         <span
                                                             class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'
                                                         >{{this.TenSanBay}}</span>
@@ -439,11 +436,11 @@ ChuyenBay_Max: Số lượng hành khách tối đa trong một lần đặt ch�
                                         <li class='HangGhe_li dropdown-item custom-active'>
                                             <div style='pointer-events:none;' class='d-flex flex-row py-2'>
                                                 <span
-                                                    class='HangGhe_li_MaHangGhe custom-font p14-S text-dark'
+                                                    class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
                                                 >{{this.MaHangGhe}}</span>
-                                                <span class='custom-font p14-S text-dark'> - </span>
+                                                <span class='custom-font p14-S text-dark me-1'> - </span>
                                                 <span
-                                                    class='HangGhe_li_TenHangGhe custom-font p14-S text-dark'
+                                                    class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'
                                                 >{{this.TenHangGhe}}</span>
                                             </div>
                                         </li>

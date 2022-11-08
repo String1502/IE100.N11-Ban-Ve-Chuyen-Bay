@@ -1,7 +1,5 @@
-
 <div class='bg-tertiary-light'>
 
-    
     <div style='height: 88px;' class='w-100 bg-primary'>
         <div class='container h-100'>
             <div class='row h-100 justify-content-end align-items-center'>
@@ -91,7 +89,7 @@
                                 </div>
 
                                 {{! Chi tiết }}
-                                <div class='TomTat_Item_Detail d-flex flex-column mt-3'>
+                                <div class='TomTat_Item_Detail d-flex flex-column mt-3 d-none'>
                                     {{! Hàng 1 }}
                                     <div class='px-2 d-flex flex-row justify-content-between mb-3'>
                                         <div>
@@ -208,18 +206,11 @@
                     </div>
 
                     {{! Modal }}
-                    <div
-                        id="TomTat_Item_Detail_Modal"
-                        class='modal fade '
-                        tabindex='-1'
-                        aria-hidden='true'
-                    >
+                    <div id='TomTat_Item_Detail_Modal' class='modal fade' tabindex='-1' aria-hidden='true'>
                         <div class='modal-dialog modal-dialog-centered modal-lg'>
                             <div class='modal-content'>
                                 <div class='modal-header'>
-                                    <span
-                                        class='modal-title custom-font p20-B text-tertiary'
-                                    >Chi tiết chuyến bay</span>
+                                    <span class='modal-title custom-font p20-B text-tertiary'>Chi tiết chuyến bay</span>
                                     <button
                                         type='button'
                                         class='btn-close'
@@ -241,9 +232,7 @@
                                                     style='height: 16px; width: 16px;'
                                                     class='me-3 p16-B fa-solid fa-plane'
                                                 ></i>
-                                                <span
-                                                    class='custom-font p16-R text-dark me-2'
-                                                >Số hiệu chuyến bay:
+                                                <span class='custom-font p16-R text-dark me-2'>Số hiệu chuyến bay:
                                                 </span>
                                                 <span
                                                     class='TomTat_Item_Detail_Modal_MaChuyenBay custom-font p16-B text-dark'
@@ -254,9 +243,7 @@
                                                     style='height: 16px; width: 16px;'
                                                     class='me-3 p16-B fa-solid fa-ticket-simple'
                                                 ></i>
-                                                <span
-                                                    class='custom-font p16-R text-dark me-2'
-                                                >Giá vé:
+                                                <span class='custom-font p16-R text-dark me-2'>Giá vé:
                                                 </span>
                                                 <span
                                                     class='TomTat_Item_Detail_Modal_GiaVe custom-font p16-B text-dark'
@@ -273,12 +260,9 @@
                                                     style='height: 16px; width: 16px;'
                                                     class='me-3 p16-B fa-solid fa-suitcase'
                                                 ></i>
-                                                <span
-                                                    class='custom-font p16-R text-dark me-2'
-                                                >Hành lý:
+                                                <span class='custom-font p16-R text-dark me-2'>Hành lý:
                                                 </span>
-                                                <span class='custom-font p16-B text-dark'>7kg
-                                                    xách tay</span>
+                                                <span class='custom-font p16-B text-dark'>7kg xách tay</span>
                                             </div>
                                             <div class='d-flex flex-row'>
                                                 <span
@@ -289,21 +273,15 @@
                                     </div>
 
                                     {{! Trung gian container }}
-                                    <div
-                                        class='TomTat_Item_Detail_Modal_TrungGian_Container py-4 d-flex flex-column'
-                                    >
+                                    <div class='TomTat_Item_Detail_Modal_TrungGian_Container py-4 d-flex flex-column'>
                                         <div class='TomTat_Item_Detail_Modal_TrungGian_Item'>
                                             {{! Chặn bay item }}
                                             <div class='px-4 mb-4 d-flex flex-column'>
 
                                                 {{! Thời gian bay đi - đến }}
-                                                <div
-                                                    class='d-flex flex-row justify-content-between'
-                                                >
+                                                <div class='d-flex flex-row justify-content-between'>
                                                     {{! Đi }}
-                                                    <div
-                                                        class='d-flex flex-row align-items-end'
-                                                    >
+                                                    <div class='d-flex flex-row align-items-end'>
                                                         <span
                                                             class='TomTat_Item_Detail_Modal_TrungGian_Item_GioDi custom-font p20-B text-dark'
                                                         >11:11</span>
@@ -319,9 +297,7 @@
                                                         >11h 11m</span>
                                                     </div>
                                                     {{! Đến }}
-                                                    <div
-                                                        class='d-flex flex-row align-items-end'
-                                                    >
+                                                    <div class='d-flex flex-row align-items-end'>
                                                         <span
                                                             style='margin-bottom: 4px;'
                                                             class='TomTat_Item_Detail_Modal_TrungGian_Item_NgayDen me-1 custom-font p12-S text-tertiary'
@@ -334,9 +310,7 @@
 
                                                 {{! decor }}
                                                 <div class='d-flex flex-column py-1'>
-                                                    <div
-                                                        class='d-flex flex-row align-items-center'
-                                                    >
+                                                    <div class='d-flex flex-row align-items-center'>
 
                                                         <div class='w-auto h-auto'>
                                                             <i
@@ -360,15 +334,10 @@
                                                 </div>
 
                                                 {{! Sân bay đi - đến }}
-                                                <div
-                                                    class='d-flex flex-row justify-content-between'
-                                                >
+                                                <div class='d-flex flex-row justify-content-between'>
                                                     {{! Đi }}
                                                     <div class='d-flex flex-column'>
-                                                        <div
-                                                            style='padding: 4px 0px;'
-                                                            class='mx-auto'
-                                                        >
+                                                        <div style='padding: 4px 0px;' class='mx-auto'>
                                                             <span
                                                                 class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDi custom-font p12-S text-dark'
                                                             >TSN - TP HCM</span>
@@ -376,10 +345,7 @@
                                                     </div>
                                                     {{! Đến }}
                                                     <div class='d-flex flex-column'>
-                                                        <div
-                                                            style='padding: 4px 0px;'
-                                                            class='mx-auto'
-                                                        >
+                                                        <div style='padding: 4px 0px;' class='mx-auto'>
                                                             <span
                                                                 class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDen custom-font p12-S text-dark'
                                                             >DAD - Đà Nẵng</span>
@@ -393,12 +359,8 @@
                                             <div
                                                 class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
                                             >
-                                                <i
-                                                    class='fa-solid fa-circle-info me-2 text-light'
-                                                ></i>
-                                                <span
-                                                    class='custom-font p16-S text-light pe-1'
-                                                >Dừng ở sân bay
+                                                <i class='fa-solid fa-circle-info me-2 text-light'></i>
+                                                <span class='custom-font p16-S text-light pe-1'>Dừng ở sân bay
                                                 </span>
                                                 <span
                                                     class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider_SanBay custom-font p16-S text-light'
@@ -406,7 +368,7 @@
                                             </div>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -927,9 +889,7 @@
                             <div class='px-3 mb-3 d-flex flex-row justify-content-between'>
                                 <div>
                                     <span class='custom-font p16-R text-dark'>Số hiệu chuyến bay: </span>
-                                    <span
-                                        class='ChuyenBay_Item_MaChuyenBay custom-font p16-B text-dark'
-                                    >TSN</span>
+                                    <span class='ChuyenBay_Item_MaChuyenBay custom-font p16-B text-dark'>TSN</span>
                                 </div>
                                 <div>
                                     <a
@@ -937,7 +897,6 @@
                                         style='padding: 0px !important;'
                                         type='button'
                                         class='btn btn-primary bg-light border-0 px-4 text-primary custom-font p16-B custom-boxshadow-focus-none'
-                                        href=''
                                     >
                                         Chi tiết chuyến bay
                                     </a>
@@ -963,9 +922,7 @@
                                 <div class='d-flex flex-column'>
                                     {{! Thời gian bay }}
                                     <div class='mx-auto'>
-                                        <span
-                                            class='ChuyenBay_Item_ThoiGianBay custom-font p16-B text-tertiary'
-                                        >11h 11m</span>
+                                        <span class='ChuyenBay_Item_ThoiGianBay custom-font p16-B text-tertiary'>11h 11m</span>
                                     </div>
                                     {{! decor }}
                                     <div class='d-flex flex-row align-items-center'>
@@ -991,18 +948,15 @@
                                     </div>
                                     {{! Điểm dừng }}
                                     <div class='mx-auto'>
-                                        <span
-                                            class='ChuyenBay_Item_SoDiemDung custom-font p16-B text-tertiary'
-                                        >11 điểm dừng</span>
+                                        <span class='ChuyenBay_Item_SoDiemDung custom-font p16-B text-tertiary'>11 điểm
+                                            dừng</span>
                                     </div>
                                 </div>
 
                                 {{! Thời gian bay đến }}
                                 <div class='d-flex flex-column'>
                                     <div class='px-2 mb-1'>
-                                        <span
-                                            class='ChuyenBay_Ite_GioDen custom-font p20-B text-dark'
-                                        >11:11</span>
+                                        <span class='ChuyenBay_Ite_GioDen custom-font p20-B text-dark'>11:11</span>
                                     </div>
                                     <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
                                         <span
@@ -1016,9 +970,7 @@
                             {{! Hàng 3 }}
                             <div class='px-3 mb-3 d-flex flex-row justify-content-between align-items-center'>
                                 <div>
-                                    <span
-                                        class='ChuyenBay_Item_GiaVe custom-font p20-B text-secondary'
-                                    >500.000</span>
+                                    <span class='ChuyenBay_Item_GiaVe custom-font p20-B text-secondary'>500.000</span>
                                     <span class='custom-font p20-B text-secondary'> VND</span>
                                     <span class='custom-font p20-B text-tertiary'>/khách</span>
                                 </div>
@@ -1081,16 +1033,23 @@
                                             <span class='custom-font p16-B text-dark'>7kg xách tay</span>
                                         </div>
                                         <div class='d-flex flex-row'>
-                                            <span
-                                                class='ChuyenBay_Item_Detail_HanhLyMuaThem custom-font p14-S text-primary'
-                                            >+ xem giá hành lý mua thêm</span>
+                                            <a
+                                                style='padding: 0px !important;'
+                                                type='button'
+                                                data-bs-toggle='modal'
+                                                data-bs-target='#HanhLyMuaThem'
+                                                class='ChuyenBay_Item_Detail_HanhLyMuaThem btn btn-primary bg-light border-0 px-4 text-primary custom-font p14-S custom-boxshadow-focus-none'
+                                                href=''
+                                            >
+                                                + xem giá hành lý mua thêm
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
 
                                 {{! Trung gian container }}
                                 <div id='ChuyenBay_Item_Detail_TrungGian_Container' class='py-4 d-flex flex-column'>
-                                    
+
                                     <div class='ChuyenBay_Item_Detail_TrungGian_Item'>
 
                                         {{! Khởi hành - đến item }}
@@ -1183,7 +1142,7 @@
                                             >Dừng ở sân bay Tân Sơn Nhất (11h 11m)</span>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -1192,6 +1151,51 @@
 
                     </div>
 
+                    {{! Modal }}
+                    <div id='HanhLyMuaThem' class='modal fade' tabindex='-1' aria-hidden='true'>
+                        <div class='modal-dialog modal-dialog-centered'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <span class='modal-title custom-font p20-B text-tertiary'>Giá hành lý (Mỗi khách)</span>
+                                    <button
+                                        type='button'
+                                        class='btn-close'
+                                        data-bs-dismiss='modal'
+                                        aria-label='Close'
+                                    ></button>
+                                </div>
+                                <div class='modal-body'>
+
+                                    {{! Mốc hành lý container }}
+                                    <ul class='list-unstyled'>
+
+                                        {{#each HanhLy}}
+                                            {{! Mốc hành lý Item }}
+                                            <li class='mb-3'>
+
+                                                <div class='d-flex flex-row justify-content-between'>
+
+                                                    <div>
+                                                        <span class='custom-font p16-R text-dark'>+{{this.SoKgToiDa}}
+                                                            kg hành lý</span>
+                                                    </div>
+
+                                                    <div>
+                                                        <span class='custom-font p16-B text-tertiary'>{{this.GiaTien}}
+                                                            VND</span>
+                                                    </div>
+
+                                                </div>
+
+                                            </li>
+                                        {{/each}}
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1200,4 +1204,4 @@
 </div>
 
 {{! Our js }}
-<script type='module' src='/javascript/client/ChonChuyenBay.js'></scrip>
+<script type='module' src='/javascript/client/ChonChuyenBay.js'></script>

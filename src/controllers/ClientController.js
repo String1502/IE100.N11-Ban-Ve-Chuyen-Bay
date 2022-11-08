@@ -5,7 +5,7 @@ class ClientController {
     // "/"
     async index(req, res) {
         try {
-            // let SanBays = [
+            //let SanBays = [
             //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
             //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
             // ];
@@ -58,39 +58,10 @@ class ClientController {
         }
     }
 
-    // "/choose_flight"
+    // "/choose_flight" - TraCuuChuyenBay
     async choose_flight(req, res) {
-        // From database
-        let ChuyenBays = [
-            {
-                MaChuyenBay: '1',
-                ThoiGianDi: { GioDi: { Gio: 1, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
-                SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-                ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
-                SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
-                ThoiGianBay: { Gio: 25, Phut: 1 },
-                SoDiemDung: 1,
-                GiaVe: 500000,
-                ChanBay: [
-                    {
-                        ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
-                        SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-                        ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
-                        SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
-                        ThoiGianBay: { Gio: 5, Phut: 5 },
-                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
-                    },
-                    {
-                        ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 2, Thang: 1, Nam: 2023 } },
-                        SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-                        ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
-                        SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
-                        ThoiGianBay: { Gio: 1, Phut: 1 },
-                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
-                    },
-                ],
-            },
-        ];
+        // From DB
+        let HanhLy = [{ SoKgToiDa: '', GiaTien: 0 }];
 
         // Req.body
         let MangChuyenBayTimKiem = JSON.parse(req.body.MangChuyenBay);
@@ -126,16 +97,16 @@ class ClientController {
             return res.render('client/ChonChuyenBay', {
                 layout: 'client.handlebars',
                 MangChuyenBayTimKiem: MangChuyenBayTimKiem,
-                ChuyenBays: ChuyenBays,
                 HangGhe: HangGhe,
                 HanhKhach: HanhKhach,
+                HanhLy: HanhLy,
             });
         } catch (error) {
             console.log(error);
         }
     }
 
-    // "/pre-booking"
+    // "/pre-booking" - TomTatTruocDat
     async prebooking(req, res) {
         try {
             return res.render('client/TomTatTruocDat', {
@@ -146,6 +117,7 @@ class ClientController {
         }
     }
 
+    // "/booking" - DienThongTin
     async booking(req, res) {
         try {
             return res.render('client/DienThongTin', {
@@ -158,3 +130,35 @@ class ClientController {
 }
 
 module.exports = new ClientController();
+
+/* Phần ghi chú-Back up */
+// let ChuyenBays = [
+//     {
+//         MaChuyenBay: '1',
+//         ThoiGianDi: { GioDi: { Gio: 1, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+//         SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+//         ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+//         SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+//         ThoiGianBay: { Gio: 25, Phut: 1 },
+//         SoDiemDung: 1,
+//         GiaVe: 500000,
+//         ChanBay: [
+//             {
+//                 ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+//                 SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+//                 ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+//                 SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+//                 ThoiGianBay: { Gio: 5, Phut: 5 },
+//                 ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
+//             },
+//             {
+//                 ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 2, Thang: 1, Nam: 2023 } },
+//                 SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+//                 ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+//                 SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+//                 ThoiGianBay: { Gio: 1, Phut: 1 },
+//                 ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
+//             },
+//         ],
+//     },
+// ];

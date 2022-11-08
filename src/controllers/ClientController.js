@@ -4,14 +4,48 @@ const { QueryTypes } = require('sequelize');
 class ClientController {
     // "/"
     async index(req, res) {
-        let SanBays = [
-            { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-            { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
-        ];
-        let HangGhes = [{ MaHangGhe: 'Eco', TenHangGhe: 'Phổ thông' }];
-        let HanhKhach_Max = 7;
-        let ChuyenBay_Max = 5;
         try {
+            // let SanBays = [
+            //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+            //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
+            // ];
+            let SanBays = await db.sequelize.query(
+                'select MaSanBay , TenSanBay, TenTinhThanh as TinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            // let HangGhes = [{ MaHangGhe: 'Eco', TenHangGhe: 'Phổ thông' }];
+            let HangGhes = await db.HangGhe.findAll({
+                attributes: ['MaHangGhe', 'TenHangGhe'],
+                where: {
+                    TrangThai: 'apdung',
+                },
+                raw: true,
+            });
+
+            //get so hanh khach toi da 1 chuyen bay
+            let HanhKhach_Max = await db.ThamSo.findOne({
+                attributes: ['GiaTri'],
+                where: {
+                    TenThamSo: 'HanhKhach_Max',
+                },
+                raw: true,
+            });
+            HanhKhach_Max = HanhKhach_Max.GiaTri;
+
+            //get so so chuyen bay toi da 1 lan dat ve
+            let ChuyenBay_Max = await db.ThamSo.findOne({
+                attributes: ['GiaTri'],
+                where: {
+                    TenThamSo: 'ChuyenBay_Max',
+                },
+                raw: true,
+            });
+            ChuyenBay_Max = ChuyenBay_Max.GiaTri;
+
             return res.render('client/TraCuuChuyenBay', {
                 layout: 'client.handlebars',
                 SanBays: SanBays,

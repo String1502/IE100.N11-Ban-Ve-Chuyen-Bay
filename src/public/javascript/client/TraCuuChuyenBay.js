@@ -370,8 +370,25 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     document.getElementById('hangghe_formid').value = hangghe;
     document.getElementById('hanhkhach_formid').value = hanhkhach;
     var search_flight_form = document.forms['search-flight-form'];
+    ///NOTE: Lần đầu tiên gọi thì gọi form này để điều hướng trang web do axios chỉ trả về data ko có điều hướng
     search_flight_form.action = '/choose_flight';
     search_flight_form.submit();
+
+    // Khi chọn 1 chuyến bay khác thì gọi lại req bằng axios
+    // var data_send = {
+    //     mahangghe: 'Eco',
+    //     hanhkhach: mangHanhKhach,
+    //     ngaydi: '2022-11-11',
+    //     masanbaydi: 'BMV',
+    //     masanbayden: 'PQC',
+    // };
+    // axios({
+    //     method: 'post',
+    //     url: '/flight/fullsearch',
+    //     data: data_send,
+    // }).then((res) => {
+    //     console.log(res.data);
+    // });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

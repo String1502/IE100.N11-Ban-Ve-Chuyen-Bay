@@ -1,0 +1,83 @@
+<div class='bg-tertiary-light'>
+
+    <div style='height: 88px;' class='w-100 bg-primary'>
+        <div class='container h-100'>
+            <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
+                <div class='d-flex flex-column'>
+                    <span class='custom-font h28-B text-light mb-2'>Đặt chỗ của tôi</span>
+                    <span class='custom-font p16-R text-light'>Điền thông tin và xem lại đặt chỗ</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='container mt-5 pb-5 h-auto'>
+
+        {{! Thông tin liên hệ }}
+        <div>
+            <div class='mb-3'>
+                <span class='custom-font h24-B text-dark'>Thông tin liên hệ</span>
+            </div>
+            <div class='bg-light shadow rounded-1 h-auto'>
+                <div class='py-2'>
+                    <span class='px-3 custom-font p16-B text-dark'>
+                        Thông tin liên hệ (Nhận vé / Phiếu thanh toán)
+                    </span>
+                </div>
+                <div style='border-top: 1px solid black;'></div>
+                <div class='row mx-0 px-0 py-3'>
+                    {{! Họ }}
+                    <div class='col-12 col-md-6 px-3'>
+                        <div class='d-flex flex-column'>
+                            <label class='form-label custom-font p16-B lh-lg'>Họ (vd: Nguyen)</label>
+                            <input
+                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                type='text'
+                            />
+                            <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
+                        </div>
+                    </div>
+                    {{! Tên đệm và tên }}
+                    <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
+                        <div class='d-flex flex-column'>
+                            <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên (vd: Thi Ngoc Anh)</label>
+                            <input
+                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                type='text'
+                            />
+                            <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row mx-0 px-0 pb-4'>
+                    {{! Điện thoại di động }}
+                    <div class='col-12 col-md-6 px-3'>
+                        <div class='d-flex flex-column'>
+                            <label class='form-label custom-font p16-B lh-lg'>Điện thoại di động</label>
+                            <input
+                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                type='tel'
+                            />
+                            <small class='mt-2 custom-font p12-R text-tertiary'>vd: 0343214971</small>
+                        </div>
+                    </div>
+                    {{! email}}
+                    <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
+                        <div class='d-flex flex-column'>
+                            <label class='form-label custom-font p16-B lh-lg'>Email</label>
+                            <input
+                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                type='email'
+                            />
+                            <small class='mt-2 custom-font p12-R text-tertiary'>vd: email@example.com</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -32,6 +32,15 @@ function showToast({ header = '', body = '', type = '', duration = 3000 }) {
 }
 // Vd: showToast({header:"Dui",body:"haha",duration: 5000,type:'success/info/warning/danger/Trống'});
 
+window.addEventListener('pageshow', function (event) {
+    var historyTraversal =
+        event.persisted || (typeof window.performance != 'undefined' && window.performance.navigation.type === 2);
+    if (historyTraversal) {
+        // Handle page restore.
+        window.location.reload();
+    }
+});
+
 // Mảng các sân bay
 const SanBayDi_lis = document.querySelectorAll('.SanBayDi_li');
 let mangSanBay = [];
@@ -381,22 +390,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let ngaythangnam;
         let NgayBay;
-
-        for (let i = 0; i < soluongChuyenBay; i++) {
-            SanBayDi_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDi').value;
+        if (MotChieu_KhuHoi.checked && KhuHoi.checked) {
+            SanBayDi_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDi').value;
             SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
 
-            SanBayDen_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDen').value;
+            SanBayDen_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDen').value;
             SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
 
             ngaythangnam = (
                 MotChieu_KhuHoi.checked
                     ? Hang3_div.querySelector('.NgayDi').value
-                    : ChuyenBay_Items[i].querySelector('.NgayDi').value
+                    : ChuyenBay_Items[0].querySelector('.NgayDi').value
             ).split('-');
             NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
 
             mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
+
+            // Chuyến khứ hồi
+            SanBayDi_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDen').value;
+            SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
+
+            SanBayDen_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDi').value;
+            SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
+
+            ngaythangnam = document.getElementById('NgayVe').value.split('-');
+            NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
+
+            mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
+        } else {
+            for (let i = 0; i < soluongChuyenBay; i++) {
+                SanBayDi_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDi').value;
+                SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
+
+                SanBayDen_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDen').value;
+                SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
+
+                ngaythangnam = (
+                    MotChieu_KhuHoi.checked
+                        ? Hang3_div.querySelector('.NgayDi').value
+                        : ChuyenBay_Items[i].querySelector('.NgayDi').value
+                ).split('-');
+                NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
+
+                mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
+            }
         }
 
         let bienHangGhe = mangHangGhe.find((item) => item.TenHangGhe == HangGhe.value);

@@ -3,9 +3,6 @@ let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
 
-//test loading
-let myval;
-
 // Toast
 function showToast({ header = '', body = '', type = '', duration = 3000 }) {
     const toastContainer = document.getElementById('toastContainer');
@@ -115,7 +112,6 @@ function XuLyThemChuyenBay() {
         });
     }
 }
-
 XuLyThemChuyenBay();
 
 // Set start date cho ngày đi
@@ -367,6 +363,9 @@ function KiemTra_TraCuu() {
 
     return true;
 }
+
+//test loading
+let myval;
 
 function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     document.getElementById('mangchuyenbay_formid').value = mangchuyenbay;

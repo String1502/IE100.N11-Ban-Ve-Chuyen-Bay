@@ -1,6 +1,8 @@
 import db from '../models/index';
 const { QueryTypes } = require('sequelize');
 
+let PackageBooking;
+
 class ClientController {
     // "/"
     async index(req, res) {
@@ -58,49 +60,79 @@ class ClientController {
         }
     }
 
+    // "/login"
+    async login(req, res) {
+        try {
+            return res.render('client/TraCuuChuyenBay', {
+                layout: 'client.handlebars',
+                SanBays: SanBays,
+                HangGhes: HangGhes,
+                HanhKhach_Max: HanhKhach_Max,
+                ChuyenBay_Max: ChuyenBay_Max,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // "/choose_flight" - TraCuuChuyenBay
     async choose_flight(req, res) {
-        // From DB
-        let HanhLy = [{ SoKgToiDa: '', GiaTien: 0 }];
-
-        // Req.body
-        let MangChuyenBayTimKiem = JSON.parse(req.body.MangChuyenBay);
-        let HangGhe = JSON.parse(req.body.HangGhe);
-        let HanhKhach = JSON.parse(req.body.HanhKhach);
-        for (let i = 0; i < MangChuyenBayTimKiem.length; i++) {
-            MangChuyenBayTimKiem[i]['ThuTu'] = i + 1;
-            MangChuyenBayTimKiem[i]['ChuyenBayDaChon'] = [
-                {
-                    MaChuyenBay: '',
-                    ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
-                    SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                    ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, NgayDen: { Ngay: -1, Thang: -1, Nam: -1 } },
-                    SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                    ThoiGianBay: { Gio: -1, Phut: -1 },
-                    SoDiemDung: -1,
-                    GiaVe: -1,
-                    ChanBay: [
+        try {
+            if (req.body.GetPackageBooing_fromSV == true) {
+                return res.send(JSON.stringify(PackageBooking));
+            } else {
+                // From DB
+                let HanhLy = await db.sequelize.query('select SoKgToiDa , GiaTien from mochanhly', {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                });
+                // Req.body
+                let MangChuyenBayTimKiem = JSON.parse(req.body.MangChuyenBay);
+                let HangGhe = JSON.parse(req.body.HangGhe);
+                let HanhKhach = JSON.parse(req.body.HanhKhach);
+                for (let i = 0; i < MangChuyenBayTimKiem.length; i++) {
+                    MangChuyenBayTimKiem[i]['ThuTu'] = i + 1;
+                    MangChuyenBayTimKiem[i]['ChuyenBayDaChon'] = [
                         {
+                            MaChuyenBay: '',
                             ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
                             SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
                             ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, NgayDen: { Ngay: -1, Thang: -1, Nam: -1 } },
                             SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
                             ThoiGianBay: { Gio: -1, Phut: -1 },
-                            ThoiGianDung_SanBayDen: { Gio: -1, Phut: -1 },
+                            SoDiemDung: -1,
+                            GiaVe: -1,
+                            ChanBay: [
+                                {
+                                    ThoiGianDi: {
+                                        GioDi: { Gio: -1, Phut: -1 },
+                                        NgayDi: { Ngay: -1, Thang: -1, Nam: -1 },
+                                    },
+                                    SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                                    ThoiGianDen: {
+                                        GioDen: { Gio: -1, Phut: -1 },
+                                        NgayDen: { Ngay: -1, Thang: -1, Nam: -1 },
+                                    },
+                                    SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                                    ThoiGianBay: { Gio: -1, Phut: -1 },
+                                    ThoiGianDung_SanBayDen: { Gio: -1, Phut: -1 },
+                                },
+                            ],
                         },
-                    ],
-                },
-            ];
-        }
+                    ];
+                }
 
-        try {
-            return res.render('client/ChonChuyenBay', {
-                layout: 'client.handlebars',
-                MangChuyenBayTimKiem: MangChuyenBayTimKiem,
-                HangGhe: HangGhe,
-                HanhKhach: HanhKhach,
-                HanhLy: HanhLy,
-            });
+                PackageBooking = {
+                    MangChuyenBayTimKiem: MangChuyenBayTimKiem,
+                    HangGhe: HangGhe,
+                    HanhKhach: HanhKhach,
+                    HanhLy: HanhLy,
+                };
+                return res.render('client/ChonChuyenBay', {
+                    layout: 'client.handlebars',
+                    PackageBooking: PackageBooking,
+                });
+            }
         } catch (error) {
             console.log(error);
         }

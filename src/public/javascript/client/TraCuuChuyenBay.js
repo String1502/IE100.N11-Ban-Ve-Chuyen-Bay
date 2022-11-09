@@ -3,6 +3,9 @@ let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
 
+//test loading
+let myval;
+
 // Toast
 function showToast({ header = '', body = '', type = '', duration = 3000 }) {
     const toastContainer = document.getElementById('toastContainer');
@@ -371,24 +374,29 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     document.getElementById('hanhkhach_formid').value = hanhkhach;
     var search_flight_form = document.forms['search-flight-form'];
     ///NOTE: Lần đầu tiên gọi thì gọi form này để điều hướng trang web do axios chỉ trả về data ko có điều hướng
-    search_flight_form.action = '/choose_flight';
-    search_flight_form.submit();
+    // search_flight_form.action = '/choose_flight';
+    // search_flight_form.submit();
 
     // Khi chọn 1 chuyến bay khác thì gọi lại req bằng axios
-    // var data_send = {
-    //     mahangghe: 'Eco',
-    //     hanhkhach: mangHanhKhach,
-    //     ngaydi: '2022-11-11',
-    //     masanbaydi: 'BMV',
-    //     masanbayden: 'PQC',
-    // };
-    // axios({
-    //     method: 'post',
-    //     url: '/flight/fullsearch',
-    //     data: data_send,
-    // }).then((res) => {
-    //     console.log(res.data);
-    // });
+    var data_send = {
+        mahangghe: 'Eco',
+        hanhkhach: mangHanhKhach,
+        ngaydi: '2022-11-11',
+        masanbaydi: 'BMV',
+        masanbayden: 'PQC',
+    };
+
+    var loader = document.getElementById('loader');
+    loader.classList.remove('d-none');
+    axios({
+        method: 'post',
+        url: '/flight/fullsearch',
+        data: data_send,
+    }).then((res) => {
+        myval = res.data;
+        loader.classList.add('d-none');
+        console.log(myval);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,4 +1,4 @@
-import { today } from '../start.js';
+import { today, openLoader, closeLoader } from '../start.js';
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
@@ -364,7 +364,6 @@ function KiemTra_TraCuu() {
     return true;
 }
 
-//test loading
 let myval;
 
 function SendForm(mangchuyenbay, hangghe, hanhkhach) {
@@ -376,7 +375,7 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     // search_flight_form.action = '/choose_flight';
     // search_flight_form.submit();
 
-    // Khi chọn 1 chuyến bay khác thì gọi lại req bằng axios
+    //Khi chọn 1 chuyến bay khác thì gọi lại req bằng axios
     var data_send = {
         mahangghe: 'Eco',
         hanhkhach: mangHanhKhach,
@@ -385,15 +384,14 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
         masanbayden: 'PQC',
     };
 
-    var loader = document.getElementById('loader');
-    loader.classList.remove('d-none');
+    openLoader('Chờ chút');
     axios({
         method: 'post',
         url: '/flight/fullsearch',
         data: data_send,
     }).then((res) => {
         myval = res.data;
-        loader.classList.add('d-none');
+        closeLoader();
         console.log(myval);
     });
 }

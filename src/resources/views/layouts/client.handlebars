@@ -33,6 +33,16 @@
                 </div>
             </div> --}}
         </div>
+    
+        <div id="Spinner_loading" class=" position-fixed top-50 start-50 translate-middle w-100 h-100 d-none" style="z-index: 10001; background-color:rgba(108, 117, 125, 0.5);" >
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div style="border-radius: 15px;" class="border-0 h-25 w-25 bg-light d-flex justify-content-center align-items-center shadow-lg">
+                    <span style="width: 2.5rem; height: 2.5rem; border-width:8px;" class="spinner-border text-primary " role="status"></span>
+                    <span id="Spinner_loading_content" class="ms-3 h24-B custom-font text-primary d-none d-md-block ">Chờ chút</span>
+                </div>
+            </div>
+        </div>
+
         <div>
             {{> client_header}}
 

@@ -63,12 +63,8 @@ class ClientController {
     // "/login"
     async login(req, res) {
         try {
-            return res.render('client/TraCuuChuyenBay', {
+            return res.render('DangNhap', {
                 layout: 'client.handlebars',
-                SanBays: SanBays,
-                HangGhes: HangGhes,
-                HanhKhach_Max: HanhKhach_Max,
-                ChuyenBay_Max: ChuyenBay_Max,
             });
         } catch (error) {
             console.log(error);
@@ -79,7 +75,7 @@ class ClientController {
     async choose_flight(req, res) {
         try {
             if (req.body.GetPackageBooing_fromSV == true) {
-                return res.send(JSON.stringify(PackageBooking));
+                return res.send(PackageBooking);
             } else {
                 // From DB
                 let HanhLy = await db.sequelize.query('select SoKgToiDa , GiaTien from mochanhly', {
@@ -182,14 +178,6 @@ module.exports = new ClientController();
 //                 SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
 //                 ThoiGianBay: { Gio: 5, Phut: 5 },
 //                 ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
-//             },
-//             {
-//                 ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 2, Thang: 1, Nam: 2023 } },
-//                 SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-//                 ThoiGianDen: { GioDen: { Gio: 12, Phut: 12 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
-//                 SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
-//                 ThoiGianBay: { Gio: 1, Phut: 1 },
-//                 ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
 //             },
 //         ],
 //     },

@@ -894,7 +894,7 @@
                     <div id='ChuyenBay_Container' class='h-auto d-flex flex-column'>
 
                         {{! Chuyến bay item }}
-                        <div class='ChuyenBay_Item d-flex flex-column pt-3 mb-4 bg-light shadow rounded-2'>
+                        <div class='ChuyenBay_Item d-flex flex-column pt-3 mb-4 bg-light shadow rounded-2 d-none'>
                             {{! Hàng 1 }}
                             <div class='px-3 mb-3 d-flex flex-row justify-content-between'>
                                 <div>
@@ -1013,10 +1013,10 @@
                                                 style='height: 16px; width: 16px;'
                                                 class='me-3 p16-B fa-solid fa-plane'
                                             ></i>
+                                            <span class='custom-font p16-R text-dark me-2'>Số hiệu chuyến bay: </span>
                                             <span
-                                                class='ChuyenBay_Item_Detail_MaChuyenBay custom-font p16-R text-dark me-2'
-                                            >Số hiệu chuyến bay: </span>
-                                            <span class='custom-font p16-B text-dark'>TSN</span>
+                                                class='ChuyenBay_Item_Detail_MaChuyenBay custom-font p16-B text-dark'
+                                            >TSN</span>
                                         </div>
                                         <div class='d-flex flex-row'>
                                             <i
@@ -1057,9 +1057,9 @@
                                 </div>
 
                                 {{! Trung gian container }}
-                                <div id='ChuyenBay_Item_Detail_TrungGian_Container' class='py-4 d-flex flex-column'>
-
-                                    <div class='ChuyenBay_Item_Detail_TrungGian_Item'>
+                                <div class='ChuyenBay_Item_Detail_TrungGian_Container py-4 d-flex flex-column'>
+                                    {{! Trung gian item }}
+                                    <div class='ChuyenBay_Item_Detail_TrungGian_Item d-none'>
 
                                         {{! Khởi hành - đến item }}
                                         <div class='px-4 mb-4 d-flex flex-column'>
@@ -1147,7 +1147,7 @@
                                         >
                                             <i class='fa-solid fa-circle-info me-2 text-light'></i>
                                             <span
-                                                class='ChuyenBay_Item_Detail_TrungGian_Item_Divider_SanBay custom-font p16-S text-light'
+                                                class='ChuyenBay_Item_Detail_TrungGian_Item_Divider_Content custom-font p16-S text-light'
                                             >Dừng ở sân bay Tân Sơn Nhất (11h 11m)</span>
                                         </div>
                                     </div>

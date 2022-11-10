@@ -75,6 +75,7 @@ let search_flight = async (form_data) => {
             raw: true,
         },
     );
+
     //add thong tin san bay
     let SanBays = await db.sequelize.query(
         'select MaSanBay , TenSanBay, TenTinhThanh as TinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh',
@@ -170,6 +171,9 @@ let search_flight = async (form_data) => {
                 raw: true,
             },
         );
+
+        //sort thoi gian dung max
+
         //get so diem dung
         list_ChuyenBaySuit[i].SoDiemDung = sbtg.length;
 
@@ -215,11 +219,11 @@ let search_flight = async (form_data) => {
                         TinhThanh: sbtg[j].TenTinhThanh,
                     },
                     ThoiGianDi: {
-                        GioDen: {
+                        GioDi: {
                             Gio: thoigiandi.getUTCHours(),
                             Phut: thoigiandi.getMinutes(),
                         },
-                        NgayDen: {
+                        NgayDi: {
                             Ngay: thoigiandi.getDate(),
                             Thang: thoigiandi.getMonth() + 1,
                             Nam: thoigiandi.getFullYear(),
@@ -283,11 +287,11 @@ let search_flight = async (form_data) => {
                         TinhThanh: sbtg[j].TenTinhThanh,
                     },
                     ThoiGianDi: {
-                        GioDen: {
+                        GioDi: {
                             Gio: thoigiandi.getUTCHours(),
                             Phut: thoigiandi.getMinutes(),
                         },
-                        NgayDen: {
+                        NgayDi: {
                             Ngay: thoigiandi.getDate(),
                             Thang: thoigiandi.getMonth() + 1,
                             Nam: thoigiandi.getFullYear(),
@@ -307,9 +311,6 @@ let search_flight = async (form_data) => {
         list_ChuyenBaySuit[i].ThoiGianBay = toHoursAndMinutes(list_ChuyenBaySuit[i].ThoiGianBay);
         //count chan bay
     }
-
-    //loc theo filter view
-    for (var i = 0; i < list_ChuyenBaySuit.length; i++) {}
 
     return list_ChuyenBaySuit;
 };

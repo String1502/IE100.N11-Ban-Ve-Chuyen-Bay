@@ -8,15 +8,26 @@ const { QueryTypes, where } = require('sequelize');
 //     ngaydi: '2022-11-11',
 //     masanbaydi: 'BMV',
 //     masanbayden: 'PQC',
+//     ThoiGianDung_Max
+//     ThoiGianDung_Min
+
+//     ThoiGianBay_Max
+//     ThoiGianBay_Min
+
+//     GiaVe_Max
+//     GiaVe_Min
 // }
 
 //data fullsearch (1 lan req 1 chuyen bay)
 // [{
 //     MaChuyenBay: '',
 //     ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
+//     ThoiGianDen:  {GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
 //     ThoiGianBay: { Gio: -1, Phut: -1 },
 //     SoDiemDung: -1,
 //     GiaVe: -1,
+//     SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+//     SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
 //     ChanBay: [
 //         {
 //             ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 },
@@ -40,7 +51,6 @@ let fullSearch = async (req, res) => {
 
         let form_data = { ...req.body };
         let list_ChuyenBaySuit = await search_flight(form_data);
-        console.log(list_ChuyenBaySuit);
         return res.send(JSON.stringify(list_ChuyenBaySuit));
     } catch (error) {
         console.log(error);
@@ -65,7 +75,23 @@ let search_flight = async (form_data) => {
             raw: true,
         },
     );
+    //add thong tin san bay
+    let SanBays = await db.sequelize.query(
+        'select MaSanBay , TenSanBay, TenTinhThanh as TinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh',
+        {
+            type: QueryTypes.SELECT,
+            raw: true,
+        },
+    );
+    for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
+        SanBays.find((item) => {
+            if (item.MaSanBay == list_ChuyenBaySuit[i].SanBayDen) list_ChuyenBaySuit[i].SanBayDen = item;
+            if (item.MaSanBay == list_ChuyenBaySuit[i].SanBayDi) list_ChuyenBaySuit[i].SanBayDi = item;
+        });
+    }
 
+    let thoigiandi_chuyenbay;
+    let thoigianden_chuyenbay;
     //tim chuyen bay co ghe trong
     for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
         let checkChuyenBay = await db.sequelize.query(
@@ -83,13 +109,58 @@ let search_flight = async (form_data) => {
         if (checkChuyenBay[0].TongVe - checkChuyenBay[0].VeDaBan < form_data.songuoi) {
             list_ChuyenBaySuit.splice(i, 1);
         }
+
+        //convert thoigiandi + thoigianden
+        thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
+        thoigianden_chuyenbay = add_minutes(thoigiandi_chuyenbay, list_ChuyenBaySuit[i].ThoiGianBay);
+        //thoigian di
+        list_ChuyenBaySuit[i].ThoiGianDi = {
+            GioDi: {
+                Gio: thoigiandi_chuyenbay.getUTCHours(),
+                Phut: thoigiandi_chuyenbay.getMinutes(),
+            },
+            NgayDi: {
+                Ngay: thoigiandi_chuyenbay.getDate(),
+                Thang: thoigiandi_chuyenbay.getMonth() + 1,
+                Nam: thoigiandi_chuyenbay.getFullYear(),
+            },
+        };
+        //thoiganden
+        list_ChuyenBaySuit[i].ThoiGianDen = {
+            GioDi: {
+                Gio: thoigianden_chuyenbay.getUTCHours(),
+                Phut: thoigianden_chuyenbay.getMinutes(),
+            },
+            NgayDi: {
+                Ngay: thoigianden_chuyenbay.getDate(),
+                Thang: thoigianden_chuyenbay.getMonth() + 1,
+                Nam: thoigianden_chuyenbay.getFullYear(),
+            },
+        };
     }
-    //tim sanbay trung gian + conver time
+
+    // thoigian di, den, dung cua moi chan bay
+    let thoigiandi;
+    let thoigianden;
+    let thoigianbay;
+    let thoigiandung;
+    //tim sanbay trung gian + convert time
     for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
         //sbtg
-        let chanbay = {};
-        //get chan bay theo ma chuyen bay
-        chanbay = await db.sequelize.query(
+        let sbtg;
+        //chanbay
+        let chanbays = [];
+        let chanbay = {
+            ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+            SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+            ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+            SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+            ThoiGianBay: { Gio: 5, Phut: 5 },
+            ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
+        };
+
+        // //get chan bay theo ma chuyen bay
+        sbtg = await db.sequelize.query(
             'SELECT `MaSBTG`, `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `TenSanBay`, `TenTinhThanh`  FROM `chitietchuyenbay` , sanbay , tinhthanh WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND sanbay.MaTinhThanh = tinhthanh.MaTinhThanh AND  MaChuyenBay = :machuyenbay',
             {
                 replacements: {
@@ -99,52 +170,146 @@ let search_flight = async (form_data) => {
                 raw: true,
             },
         );
-        //format data
-        for (var j = 0; j < chanbay.length; j++) {
-            let dateObject = new Date(chanbay[i].NgayGioDen);
-            chanbay[j] = {
-                ThuTu: chanbay[j].ThuTu,
-                SanBayDen: {
-                    MaSanBay: chanbay[j].MaSBTG,
-                    TenSanBay: chanbay[j].TenSanBay,
-                    TinhThanh: chanbay[j].TenTinhThanh,
-                },
-                ThoiGianDen: {
-                    GioDi: {
-                        Gio: dateObject.getHours(),
-                        Phut: dateObject.getMinutes(),
+        //get so diem dung
+        list_ChuyenBaySuit[i].SoDiemDung = sbtg.length;
+
+        for (var j = 0; j < sbtg.length; j++) {
+            if (j == 0) {
+                //san bay dau -> tram dung dau
+                thoigiandi = new Date(thoigiandi_chuyenbay);
+
+                thoigianden = new Date(sbtg[j].NgayGioDen);
+
+                thoigianbay = getMinDiff(thoigiandi, thoigianden);
+                thoigiandung = parseInt(sbtg[j].ThoiGianDung);
+                chanbay = {
+                    SanBayDi: list_ChuyenBaySuit[i].SanBayDi,
+                    ThoiGianDi: list_ChuyenBaySuit[i].ThoiGianDi,
+                    SanBayDen: {
+                        MaSanBay: sbtg[j].MaSBTG,
+                        TenSanBay: sbtg[j].TenSanBay,
+                        TinhThanh: sbtg[j].TenTinhThanh,
                     },
-                    NgayDi: {
-                        Ngay: dateObject.getDate(),
-                        Thang: dateObject.getMonth() + 1,
-                        Nam: dateObject.getFullYear(),
+                    ThoiGianDen: {
+                        GioDen: {
+                            Gio: thoigianden.getUTCHours(),
+                            Phut: thoigianden.getMinutes(),
+                        },
+                        NgayDen: {
+                            Ngay: thoigianden.getDate(),
+                            Thang: thoigianden.getMonth() + 1,
+                            Nam: thoigianden.getFullYear(),
+                        },
                     },
-                },
-                ThoiGianDung_SanBayDen: toHoursAndMinutes(chanbay[j].ThoiGianDung),
-            };
+                    ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
+                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                };
+                chanbays.push(chanbay);
+                //tram dung dau -> san bay cuoi
+                thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
+                thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
+                chanbay = {
+                    SanBayDi: {
+                        MaSanBay: sbtg[j].MaSBTG,
+                        TenSanBay: sbtg[j].TenSanBay,
+                        TinhThanh: sbtg[j].TenTinhThanh,
+                    },
+                    ThoiGianDi: {
+                        GioDen: {
+                            Gio: thoigiandi.getUTCHours(),
+                            Phut: thoigiandi.getMinutes(),
+                        },
+                        NgayDen: {
+                            Ngay: thoigiandi.getDate(),
+                            Thang: thoigiandi.getMonth() + 1,
+                            Nam: thoigiandi.getFullYear(),
+                        },
+                    },
+                    SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
+                    ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
+                    ThoiGianDung_SanBayDen: 0,
+                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                };
+                chanbays.push(chanbay);
+            } else {
+                //san bay truoc -> san bay trung gian
+                chanbays = chanbays.slice(0, -1);
+                thoigiandi = add_minutes(thoigianden, sbtg[j - 1].ThoiGianDung);
+                thoigianden = new Date(sbtg[j].NgayGioDen);
+                thoigianbay = getMinDiff(thoigiandi, thoigianden);
+
+                chanbay = {
+                    SanBayDi: chanbays[j - 1].SanBayDen,
+                    ThoiGianDi: {
+                        GioDi: {
+                            Gio: thoigiandi.getUTCHours(),
+                            Phut: thoigiandi.getMinutes(),
+                        },
+                        NgayDi: {
+                            Ngay: thoigiandi.getDate(),
+                            Thang: thoigiandi.getMonth() + 1,
+                            Nam: thoigiandi.getFullYear(),
+                        },
+                    },
+                    SanBayDen: {
+                        MaSanBay: sbtg[j].MaSBTG,
+                        TenSanBay: sbtg[j].TenSanBay,
+                        TinhThanh: sbtg[j].TenTinhThanh,
+                    },
+                    ThoiGianDen: {
+                        GioDen: {
+                            Gio: thoigianden.getUTCHours(),
+                            Phut: thoigianden.getMinutes(),
+                        },
+                        NgayDen: {
+                            Ngay: thoigianden.getDate(),
+                            Thang: thoigianden.getMonth() + 1,
+                            Nam: thoigianden.getFullYear(),
+                        },
+                    },
+                    ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
+                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                };
+                chanbays.push(chanbay);
+
+                //san bay trung gian -> san bay cuoi
+                thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
+                thoigianbay = getMinDiff(thoigiandi, thoigianden);
+
+                chanbay = {
+                    SanBayDi: {
+                        MaSanBay: sbtg[j].MaSBTG,
+                        TenSanBay: sbtg[j].TenSanBay,
+                        TinhThanh: sbtg[j].TenTinhThanh,
+                    },
+                    ThoiGianDi: {
+                        GioDen: {
+                            Gio: thoigiandi.getUTCHours(),
+                            Phut: thoigiandi.getMinutes(),
+                        },
+                        NgayDen: {
+                            Ngay: thoigiandi.getDate(),
+                            Thang: thoigiandi.getMonth() + 1,
+                            Nam: thoigiandi.getFullYear(),
+                        },
+                    },
+                    SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
+                    ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
+                    ThoiGianDung_SanBayDen: 0,
+                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                };
+                chanbays.push(chanbay);
+            }
         }
-        list_ChuyenBaySuit[i].ChanBay = chanbay;
 
-        //convert
-        let dateObject = Date.parse(list_ChuyenBaySuit[i].ThoiGianDi);
-        dateObject = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
-
-        list_ChuyenBaySuit[i].ThoiGianDi = {
-            GioDen: {
-                Gio: dateObject.getHours(),
-                Phut: dateObject.getMinutes(),
-            },
-            NgayDen: {
-                Ngay: dateObject.getDate(),
-                Thang: dateObject.getMonth() + 1,
-                Nam: dateObject.getFullYear(),
-            },
-        };
+        list_ChuyenBaySuit[i].ChanBay = chanbays;
 
         list_ChuyenBaySuit[i].ThoiGianBay = toHoursAndMinutes(list_ChuyenBaySuit[i].ThoiGianBay);
         //count chan bay
-        list_ChuyenBaySuit[i].SoDiemDung = list_ChuyenBaySuit[i].ChanBay.length;
     }
+
+    //loc theo filter view
+    for (var i = 0; i < list_ChuyenBaySuit.length; i++) {}
 
     return list_ChuyenBaySuit;
 };
@@ -154,6 +319,16 @@ let toHoursAndMinutes = (totalMinutes) => {
     const Gio = Math.floor(totalMinutes / 60);
     const Phut = totalMinutes % 60;
     return { Gio, Phut };
+};
+
+let add_minutes = function (dt, minutes) {
+    return new Date(dt.getTime() + minutes * 60000);
+};
+
+let getMinDiff = function (startDate, endDate) {
+    const msInMinute = 60 * 1000;
+
+    return Math.round(Math.abs(endDate - startDate) / msInMinute);
 };
 
 module.exports = {

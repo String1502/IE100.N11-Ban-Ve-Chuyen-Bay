@@ -128,11 +128,11 @@ let search_flight = async (form_data) => {
         };
         //thoiganden
         list_ChuyenBaySuit[i].ThoiGianDen = {
-            GioDi: {
+            GioDen: {
                 Gio: thoigianden_chuyenbay.getUTCHours(),
                 Phut: thoigianden_chuyenbay.getMinutes(),
             },
-            NgayDi: {
+            NgayDen: {
                 Ngay: thoigianden_chuyenbay.getDate(),
                 Thang: thoigianden_chuyenbay.getMonth() + 1,
                 Nam: thoigianden_chuyenbay.getFullYear(),

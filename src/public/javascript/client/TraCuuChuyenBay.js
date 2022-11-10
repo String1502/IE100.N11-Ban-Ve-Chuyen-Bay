@@ -61,11 +61,12 @@ function XuLyThemChuyenBay() {
         // Sự kiện click cho sân bay đi list item
         SanBayDi_lis[i].addEventListener('click', (e) => {
             const ChuyenBay = e.target.closest('.ChuyenBay_Item');
-            const SanBayDen = ChuyenBay.querySelector('.SanBayDen');
+            const SanBayDi_MaSanBay = e.target.querySelector('.SanBayDi_li_MaSanBay').innerText;
             const SanBayDi = ChuyenBay.querySelector('.SanBayDi');
+            const SanBayDen = ChuyenBay.querySelector('.SanBayDen');
 
             const TinhThanh = e.target.querySelector('.SanBayDi_li_TenTinhThanh');
-            if (TinhThanh.innerText === SanBayDen.value) {
+            if (SanBayDi_MaSanBay === SanBayDen.title) {
                 showToast({
                     header: 'Sân bay đi không hợp lệ!',
                     body: 'Sân bay đi phải khác sân bay đến',
@@ -74,18 +75,19 @@ function XuLyThemChuyenBay() {
                 });
                 return;
             }
-
+            SanBayDi.title = SanBayDi_MaSanBay;
             SanBayDi.value = TinhThanh.innerText;
         });
 
         // Sự kiện click cho sân bay đến list item
         SanBayDen_lis[i].addEventListener('click', (e) => {
             const ChuyenBay = e.target.closest('.ChuyenBay_Item');
+            const SanBayDen_MaSanBay = e.target.querySelector('.SanBayDen_li_MaSanBay').innerText;
             const SanBayDen = ChuyenBay.querySelector('.SanBayDen');
-            const SanBayDi = ChuyenBay.querySelector('.SanBayDi');
             const TinhThanh = e.target.querySelector('.SanBayDen_li_TenTinhThanh');
+            const SanBayDi = ChuyenBay.querySelector('.SanBayDi');
 
-            if (TinhThanh.innerText == SanBayDi.value) {
+            if (SanBayDen_MaSanBay == SanBayDi.title) {
                 showToast({
                     header: 'Sân bay đến không hợp lệ!',
                     body: 'Sân bay đến phải khác sân bay đi',
@@ -94,7 +96,7 @@ function XuLyThemChuyenBay() {
                 });
                 return;
             }
-
+            SanBayDen.title = SanBayDen_MaSanBay;
             SanBayDen.value = TinhThanh.innerText;
         });
     }
@@ -109,6 +111,9 @@ function XuLyThemChuyenBay() {
             let temp = SanBayDen.value;
             SanBayDen.value = SanBayDi.value;
             SanBayDi.value = temp;
+            let ma_temp = SanBayDen.title;
+            SanBayDen.title = SanBayDi.title;
+            SanBayDi.title = ma_temp;
         });
     }
 }
@@ -364,36 +369,14 @@ function KiemTra_TraCuu() {
     return true;
 }
 
-let myval;
-
 function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     document.getElementById('mangchuyenbay_formid').value = mangchuyenbay;
     document.getElementById('hangghe_formid').value = hangghe;
     document.getElementById('hanhkhach_formid').value = hanhkhach;
     var search_flight_form = document.forms['search-flight-form'];
     ///NOTE: Lần đầu tiên gọi thì gọi form này để điều hướng trang web do axios chỉ trả về data ko có điều hướng
-    // search_flight_form.action = '/choose_flight';
-    // search_flight_form.submit();
-
-    //Khi chọn 1 chuyến bay khác thì gọi lại req bằng axios
-    var data_send = {
-        mahangghe: 'Eco',
-        hanhkhach: mangHanhKhach,
-        ngaydi: '2022-11-11',
-        masanbaydi: 'BMV',
-        masanbayden: 'PQC',
-    };
-
-    openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/flight/fullsearch',
-        data: data_send,
-    }).then((res) => {
-        myval = res.data;
-        closeLoader();
-        console.log(myval);
-    });
+    search_flight_form.action = '/choose_flight';
+    search_flight_form.submit();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -405,19 +388,19 @@ document.addEventListener('DOMContentLoaded', function () {
         let soluongChuyenBay = MotChieu_KhuHoi.checked ? (KhuHoi.checked ? 2 : 1) : ChuyenBay_Items.length;
         let mangChuyenBay = [];
 
-        let SanBayDi_TinhThanh;
+        let MaSanBayDi;
         let SanBayDi;
-        let SanBayDen_TinhThanh;
+        let MaSanBayDen;
         let SanBayDen;
 
         let ngaythangnam;
         let NgayBay;
         if (MotChieu_KhuHoi.checked && KhuHoi.checked) {
-            SanBayDi_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDi').value;
-            SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
+            MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
+            SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
 
-            SanBayDen_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDen').value;
-            SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
+            MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
+            SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
 
             ngaythangnam = (
                 MotChieu_KhuHoi.checked
@@ -429,11 +412,11 @@ document.addEventListener('DOMContentLoaded', function () {
             mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
 
             // Chuyến khứ hồi
-            SanBayDi_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDen').value;
-            SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
+            MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
+            SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
 
-            SanBayDen_TinhThanh = ChuyenBay_Items[0].querySelector('.SanBayDi').value;
-            SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
+            MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
+            SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
 
             ngaythangnam = document.getElementById('NgayVe').value.split('-');
             NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
@@ -441,11 +424,11 @@ document.addEventListener('DOMContentLoaded', function () {
             mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
         } else {
             for (let i = 0; i < soluongChuyenBay; i++) {
-                SanBayDi_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDi').value;
-                SanBayDi = mangSanBay.find((item) => item.TinhThanh == SanBayDi_TinhThanh);
+                MaSanBayDi = ChuyenBay_Items[i].querySelector('.SanBayDi').title;
+                SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
 
-                SanBayDen_TinhThanh = ChuyenBay_Items[i].querySelector('.SanBayDen').value;
-                SanBayDen = mangSanBay.find((item) => item.TinhThanh == SanBayDen_TinhThanh);
+                MaSanBayDen = ChuyenBay_Items[i].querySelector('.SanBayDen').title;
+                SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
 
                 ngaythangnam = (
                     MotChieu_KhuHoi.checked

@@ -88,34 +88,32 @@ class ClientController {
                 let HanhKhach = JSON.parse(req.body.HanhKhach);
                 for (let i = 0; i < MangChuyenBayTimKiem.length; i++) {
                     MangChuyenBayTimKiem[i]['ThuTu'] = i + 1;
-                    MangChuyenBayTimKiem[i]['ChuyenBayDaChon'] = [
-                        {
-                            MaChuyenBay: '',
-                            ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
-                            SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                            ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, NgayDen: { Ngay: -1, Thang: -1, Nam: -1 } },
-                            SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                            ThoiGianBay: { Gio: -1, Phut: -1 },
-                            SoDiemDung: -1,
-                            GiaVe: -1,
-                            ChanBay: [
-                                {
-                                    ThoiGianDi: {
-                                        GioDi: { Gio: -1, Phut: -1 },
-                                        NgayDi: { Ngay: -1, Thang: -1, Nam: -1 },
-                                    },
-                                    SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                                    ThoiGianDen: {
-                                        GioDen: { Gio: -1, Phut: -1 },
-                                        NgayDen: { Ngay: -1, Thang: -1, Nam: -1 },
-                                    },
-                                    SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
-                                    ThoiGianBay: { Gio: -1, Phut: -1 },
-                                    ThoiGianDung_SanBayDen: { Gio: -1, Phut: -1 },
+                    MangChuyenBayTimKiem[i]['ChuyenBayDaChon'] = {
+                        MaChuyenBay: '',
+                        ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
+                        SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                        ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, NgayDen: { Ngay: -1, Thang: -1, Nam: -1 } },
+                        SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                        ThoiGianBay: { Gio: -1, Phut: -1 },
+                        SoDiemDung: -1,
+                        GiaVe: -1,
+                        ChanBay: [
+                            {
+                                ThoiGianDi: {
+                                    GioDi: { Gio: -1, Phut: -1 },
+                                    NgayDi: { Ngay: -1, Thang: -1, Nam: -1 },
                                 },
-                            ],
-                        },
-                    ];
+                                SanBayDi: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                                ThoiGianDen: {
+                                    GioDen: { Gio: -1, Phut: -1 },
+                                    NgayDen: { Ngay: -1, Thang: -1, Nam: -1 },
+                                },
+                                SanBayDen: { MaSanBay: '', TenSanBay: '', TinhThanh: '' },
+                                ThoiGianBay: { Gio: -1, Phut: -1 },
+                                ThoiGianDung_SanBayDen: { Gio: -1, Phut: -1 },
+                            },
+                        ],
+                    };
                 }
 
                 PackageBooking = {
@@ -136,6 +134,7 @@ class ClientController {
 
     // "/pre-booking" - TomTatTruocDat
     async prebooking(req, res) {
+        PackageBooking = structuredClone(JSON.parse(req.body.PackageBooking));
         try {
             return res.render('client/TomTatTruocDat', {
                 layout: 'client.handlebars',

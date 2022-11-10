@@ -2,8 +2,8 @@
 
 /* Font */
 .custom-font {
-    font-family: $custom-font;
     font-style: normal;
+    font-family: $custom-font, sans-serif;
 }
 
 // --heading
@@ -69,6 +69,11 @@
     font-size: 16px;
     line-height: 19px;
 }
+.p14-B {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+}
 .p14-S {
     font-weight: 600;
     font-size: 14px;
@@ -81,6 +86,16 @@
 }
 .p12-S {
     font-weight: 600;
+    font-size: 12px;
+    line-height: 12px;
+}
+.p12-R {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+}
+.p12-L {
+    font-weight: 300;
     font-size: 12px;
     line-height: 12px;
 }

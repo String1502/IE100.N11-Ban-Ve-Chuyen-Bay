@@ -1,14 +1,14 @@
 <div class='bg-tertiary-light'>
-    <div style='height: 80px;' class='w-100'></div>
 
     <div style='height: 88px;' class='w-100 bg-primary'>
         <div class='container h-100'>
             <div class='row h-100 justify-content-end align-items-center'>
                 <div class='col-md-4 w-auto'>
                     <a
+                        id='ThayDoiTimKiem'
                         type='button'
+                        href='/'
                         class='btn btn-primary bg-secondary border-secondary px-4 text-light custom-font p20-S custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                        href=''
                     >
                         Thay đổi tìm kiếm
                     </a>
@@ -18,12 +18,12 @@
         </div>
     </div>
 
-    <div class='container mt-4 pb-4'>
-        <div class='row h-100'>
+    <div class='container mt-4 pb-4 h-auto'>
+        <div class='row'>
 
             {{! Cột 1 }}
-            <div class='col-12 col-lg-4 bg-light shadow rounded-1 px-0'>
-                <div class='d-flex flex-column h-100'>
+            <div class='col-12 col-lg-4 px-0'>
+                <div class='d-flex flex-column bg-light shadow rounded-1 h-auto'>
 
                     <div class='py-2 px-2'>
                         <span class='custom-font p20-B text-dark lh-lg'>Chuyến bay của bạn</span>
@@ -35,77 +35,354 @@
                     {{! Chuyến bay của bạn body }}
                     <div
                         style='margin-left: -4px; margin-right: -5px;'
-                        id='TomTatChuyenBay_Container'
-                        class='overflow-auto h-25'
+                        id='TomTat_Container'
+                        class='overflow-auto h-100'
                     >
+                        {{#each PackageBooking.MangChuyenBayTimKiem}}
+                            {{! Chuyến bay }}
+                            <div style='margin-left: 4px; margin-right: 5px;' class='py-3 px-2 shadow-sm TomTat_Item'>
 
-                        {{! Chuyến bay }}
-                        <div
-                            id='TomTatChuyenBay_div_0'
-                            style='margin-left: 4px; margin-right: 5px;'
-                            class='py-3 px-2 shadow-sm'
-                        >
+                                {{! Tiêu đề }}
+                                <div class='TomTat_Item_Title px-2 d-flex flex-row justify-content-between'>
+                                    <div class='d-flex flex-row'>
+                                        {{! Số thứ tự }}
+                                        <span
+                                            style='width: 40px; height: 40px; border-radius:20px'
+                                            class='TomTat_Item_Title_ThuTu bg-primary text-light custom-font h24-B text-center lh-base align-middle'
+                                        >
+                                            {{this.ThuTu}}
+                                        </span>
 
-                            {{! Tiêu đề }}
-                            <div class='d-flex flex-row justify-content-between'>
-                                <div class='d-flex flex-row'>
-                                    {{! Số thứ tự }}
-                                    <span
-                                        style='width: 40px; height: 40px; border-radius:20px'
-                                        class='bg-secondary text-light custom-font h24-B text-center lh-base align-middle'
-                                    >
-                                        1
-                                    </span>
+                                        {{! ThGian, Sân bay }}
+                                        <div class='d-flex flex-column justify-content-center ms-2'>
+                                            {{! ThGian }}
+                                            <div
+                                                class='TomTat_Item_Title_NgayDi text-dark custom-font p14-R text-start align-middle lh-sm'
+                                            >
+                                                {{this.NgayDi.Ngay}}
+                                                Thg
+                                                {{this.NgayDi.Thang}}
+                                                {{this.NgayDi.Nam}}
+                                            </div>
 
-                                    {{! ThGian, Sân bay }}
-                                    <div class='d-flex flex-column justify-content-center ms-2'>
-                                        {{! ThGian }}
-                                        <div class='text-dark custom-font p14-R text-start align-middle lh-sm'>
-                                            15 Thg 11 2022
-                                        </div>
-
-                                        {{! Sân bay }}
-                                        <div class='text-dark custom-font p16-S text-start align-middle lh-sm'>
-                                            {{! Sân bay đi }}
-                                            <span>
-                                                TP HCM (TSN)
-                                            </span>
-                                            {{! Mũi tên }}
-                                            <i class='fa-solid fa-arrow-right'></i>
-                                            {{! Sân bay đến }}
-                                            <span>
-                                                Đà Nẵng (DAN)
-                                            </span>
+                                            {{! Sân bay }}
+                                            <div class='text-dark custom-font p16-S text-start align-middle lh-sm'>
+                                                {{! Sân bay đi }}
+                                                <span class='TomTat_Item_Title_ThanhPhoDi'>
+                                                    {{this.SanBayDi.TinhThanh}}
+                                                </span>
+                                                {{! Mũi tên }}
+                                                <i class='fa-solid fa-arrow-right'></i>
+                                                {{! Sân bay đến }}
+                                                <span class='TomTat_Item_Title_ThanhPhoDen'>
+                                                    {{this.SanBayDen.TinhThanh}}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
+                                    {{! decor }}
+                                    <div class='h24-B row align-items-center'>
+                                        <i
+                                            class='TomTat_Item_Title_Decor text-primary fa-sharp fa-solid fa-caret-left'
+                                        ></i>
+                                    </div>
                                 </div>
-                                {{! decor }}
-                                <div class='h24-B row align-items-center text-secondary'>
-                                    <i class='fa-sharp fa-solid fa-caret-left'></i>
+
+                                {{! Chi tiết }}
+                                <div class='TomTat_Item_Detail d-flex flex-column mt-3 d-none'>
+                                    {{! Hàng 1 }}
+                                    <div class='px-2 d-flex flex-row justify-content-between mb-3'>
+                                        <div>
+                                            <span
+                                                class='TomTat_Item_Detail_MaChuyenBay custom-font p16-B text-dark'
+                                            >123ABC</span>
+                                        </div>
+                                        <div>
+                                            <a
+                                                style='padding: 0px !important;'
+                                                type='button'
+                                                data-bs-toggle='modal'
+                                                data-bs-target='#TomTat_Item_Detail_Modal'
+                                                class='TomTat_Item_Detail_ChiTiet btn btn-primary bg-light border-0 px-4 text-primary custom-font p16-B custom-boxshadow-focus-none'
+                                                href=''
+                                            >
+                                                Chi tiết
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                    {{! Hàng 2 }}
+                                    <div class='d-flex flex-row justify-content-between mb-3'>
+                                        {{! Thời gian bay đi }}
+                                        <div class='d-flex flex-column'>
+                                            <div class='px-2 mb-1'>
+                                                <span
+                                                    class='TomTat_Item_Detail_GioDi custom-font p20-B text-dark'
+                                                >11:11</span>
+                                            </div>
+                                            <div
+                                                style='border-radius: 20px;'
+                                                class='bg-tertiary-light py-1 px-2 mx-auto'
+                                            >
+                                                <span
+                                                    class='TomTat_Item_Detail_MaSanBayDi custom-font p20-B text-tertiary'
+                                                >TSN</span>
+                                            </div>
+
+                                        </div>
+
+                                        {{! Thời gian bay + điểm dừng }}
+                                        <div class='d-flex flex-column'>
+                                            {{! Thời gian bay }}
+                                            <div class='mx-auto'>
+                                                <span
+                                                    class='TomTat_Item_Detail_ThoiGianBay custom-font p16-B text-tertiary'
+                                                >11h 11m</span>
+                                            </div>
+                                            {{! decor }}
+                                            <div class='d-flex flex-row align-items-center'>
+
+                                                <div class='w-auto h-auto'>
+                                                    <i
+                                                        style='height:20px; width:20px;'
+                                                        class='fa-regular fa-circle text-tertiary'
+                                                    ></i>
+                                                </div>
+
+                                                <div
+                                                    style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                    class='w-100 my-1'
+                                                ></div>
+
+                                                <div class='w-auto h-auto'>
+                                                    <i
+                                                        style='height:20px; width:20px;'
+                                                        class='fa-solid fa-circle text-tertiary'
+                                                    ></i>
+                                                </div>
+                                            </div>
+                                            {{! Điểm dừng }}
+                                            <div class='mx-auto'>
+                                                <span
+                                                    class='TomTat_Item_Detail_SoDiemDung custom-font p16-B text-tertiary'
+                                                >11 điểm dừng</span>
+                                            </div>
+                                        </div>
+
+                                        {{! Thời gian bay đến }}
+                                        <div class='d-flex flex-column'>
+                                            <div class='px-2 mb-1'>
+                                                <span
+                                                    class='TomTat_Item_Detail_GioDen custom-font p20-B text-dark'
+                                                >11:11</span>
+                                            </div>
+                                            <div
+                                                style='border-radius: 20px;'
+                                                class='bg-tertiary-light py-1 px-2 mx-auto'
+                                            >
+                                                <span
+                                                    class='TomTat_Item_Detail_MaSanBayDen custom-font p20-B text-tertiary'
+                                                >TSN</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    {{! Hàng 3 }}
+                                    <div class='d-flex flex-row justify-content-center w-auto'>
+                                        <button
+                                            type='button'
+                                            class='TomTat_Item_Detail_DoiChuyenBay btn btn-primary bg-primary border-primary px-5 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                                        >
+                                            Đổi chuyến bay
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
+                        {{/each}}
+                    </div>
 
-                            {{! Chi tiết }}
-                            <div class=''>
-
-                                <div>
-
+                    {{! Modal }}
+                    <div id='TomTat_Item_Detail_Modal' class='modal fade' tabindex='-1' aria-hidden='true'>
+                        <div class='modal-dialog modal-dialog-centered modal-lg'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <span class='modal-title custom-font p20-B text-tertiary'>Chi tiết chuyến bay</span>
+                                    <button
+                                        type='button'
+                                        class='btn-close'
+                                        data-bs-dismiss='modal'
+                                        aria-label='Close'
+                                    ></button>
                                 </div>
+                                <div class='modal-body'>
+                                    {{! Thông tin chung }}
+                                    <div
+                                        style='border-bottom: 1px solid gray;'
+                                        class='py-3 d-flex flex-row justify-content-between'
+                                    >
 
+                                        {{! Bên trái }}
+                                        <div class='d-flex flex-column'>
+                                            <div class='d-flex flex-row mb-3'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-plane'
+                                                ></i>
+                                                <span class='custom-font p16-R text-dark me-2'>Số hiệu chuyến bay:
+                                                </span>
+                                                <span
+                                                    class='TomTat_Item_Detail_Modal_MaChuyenBay custom-font p16-B text-dark'
+                                                >TSN</span>
+                                            </div>
+                                            <div class='d-flex flex-row'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-ticket-simple'
+                                                ></i>
+                                                <span class='custom-font p16-R text-dark me-2'>Giá vé:
+                                                </span>
+                                                <span
+                                                    class='TomTat_Item_Detail_Modal_GiaVe custom-font p16-B text-dark'
+                                                >500.000</span>
+                                                <span class='ps-1 custom-font p16-B text-dark'>
+                                                    VND /khách</span>
+                                            </div>
+                                        </div>
+
+                                        {{! Bên phải }}
+                                        <div class='d-flex flex-column me-4'>
+                                            <div class='d-flex flex-row mb-2'>
+                                                <i
+                                                    style='height: 16px; width: 16px;'
+                                                    class='me-3 p16-B fa-solid fa-suitcase'
+                                                ></i>
+                                                <span class='custom-font p16-R text-dark me-2'>Hành lý:
+                                                </span>
+                                                <span class='custom-font p16-B text-dark'>7kg xách tay</span>
+                                            </div>
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='TomTat_Item_Detail_Modal_HanhLyMuaThem custom-font p14-S text-primary'
+                                                >+ xem giá hành lý mua thêm</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{! Trung gian container }}
+                                    <div class='TomTat_Item_Detail_Modal_TrungGian_Container py-4 d-flex flex-column'>
+                                        {{! Chặn bay item }}
+                                        <div class='TomTat_Item_Detail_Modal_TrungGian_Item d-none'>
+                                            <div class='px-4 mb-4 d-flex flex-column'>
+
+                                                {{! Thời gian bay đi - đến }}
+                                                <div class='d-flex flex-row justify-content-between'>
+                                                    {{! Đi }}
+                                                    <div class='d-flex flex-row align-items-end'>
+                                                        <span
+                                                            class='TomTat_Item_Detail_Modal_TrungGian_Item_GioDi custom-font p20-B text-dark'
+                                                        >11:11</span>
+                                                        <span
+                                                            style='margin-bottom: 4px;'
+                                                            class='TomTat_Item_Detail_Modal_TrungGian_Item_NgayDi ms-1 custom-font p12-S text-tertiary'
+                                                        >11-11-2022</span>
+                                                    </div>
+                                                    {{! Thời gian bay }}
+                                                    <div class='mx-auto align-self-end'>
+                                                        <span
+                                                            class='TomTat_Item_Detail_Modal_TrungGian_Item_ThoiGianBay custom-font p16-B text-tertiary'
+                                                        >11h 11m</span>
+                                                    </div>
+                                                    {{! Đến }}
+                                                    <div class='d-flex flex-row align-items-end'>
+                                                        <span
+                                                            style='margin-bottom: 4px;'
+                                                            class='TomTat_Item_Detail_Modal_TrungGian_Item_NgayDen me-1 custom-font p12-S text-tertiary'
+                                                        >11-11-2022</span>
+                                                        <span
+                                                            class='TomTat_Item_Detail_Modal_TrungGian_Item_GioDen custom-font p20-B text-dark'
+                                                        >11:11</span>
+                                                    </div>
+                                                </div>
+
+                                                {{! decor }}
+                                                <div class='d-flex flex-column py-1'>
+                                                    <div class='d-flex flex-row align-items-center'>
+
+                                                        <div class='w-auto h-auto'>
+                                                            <i
+                                                                style='height:15px; width:15px; font-size:15px; '
+                                                                class='fa-regular fa-circle text-tertiary'
+                                                            ></i>
+                                                        </div>
+
+                                                        <div
+                                                            style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                            class='w-100'
+                                                        ></div>
+
+                                                        <div class='w-auto h-auto'>
+                                                            <i
+                                                                style='height:15px; width:15px; font-size:15px;'
+                                                                class='fa-solid fa-circle text-tertiary'
+                                                            ></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{! Sân bay đi - đến }}
+                                                <div class='d-flex flex-row justify-content-between'>
+                                                    {{! Đi }}
+                                                    <div class='d-flex flex-column'>
+                                                        <div style='padding: 4px 0px;' class='mx-auto'>
+                                                            <span
+                                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDi custom-font p12-S text-dark'
+                                                            >TSN - TP HCM</span>
+                                                        </div>
+                                                    </div>
+                                                    {{! Đến }}
+                                                    <div class='d-flex flex-column'>
+                                                        <div style='padding: 4px 0px;' class='mx-auto'>
+                                                            <span
+                                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDen custom-font p12-S text-dark'
+                                                            >DAD - Đà Nẵng</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            {{! Divider }}
+                                            <div
+                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
+                                            >
+                                                <i class='fa-solid fa-circle-info me-2 text-light'></i>
+                                                <span class='custom-font p16-S text-light pe-1'>Dừng ở sân bay
+                                                </span>
+                                                <span
+                                                    class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider_SanBay custom-font p16-S text-light'
+                                                >Tân Sơn Nhất (11h 11m)</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
             </div>
 
             {{! Cột 2 }}
-            <div class='col-12 col-lg-8'>
-                <div class='d-flex flex-column'>
+            <div class='col-12 col-lg-8 h-auto'>
+                <div class='d-flex flex-column ms-2'>
 
                     {{! Bộ lọc }}
-                    <div class='py-2 px-2 d-flex flex-row justify-content-between'>
+                    <div class='my-3 my-md-2 py-2 px-0 d-flex flex-row justify-content-between'>
 
                         <div class='custom-font p16-B text-dark lh-lg'>
                             Bộ lọc:
@@ -114,9 +391,10 @@
                         <div class='d-flex flex-fill row justify-content-start mx-2'>
 
                             {{! Lọc điểm dừng }}
-                            <div class='col p-0 mb-1 me-1 input-group dropdown w-auto'>
+                            <div class='p-0 mb-1 me-2 input-group dropdown w-auto'>
                                 <div
-                                    class='text-primary form-control dropdown-toggle custom-font p16-R border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
+                                    id='BoLoc_DiemDung'
+                                    class='text-primary form-control dropdown-toggle custom-font p16-S border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                 >
@@ -138,11 +416,11 @@
                                             <input
                                                 class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                 type='checkbox'
-                                                id='DiemDung_BayThang'
+                                                id='BoLoc_DiemDung_BayThang'
                                             />
                                             <label
                                                 class='form-check-label custom-font p12-S lh-lg'
-                                                for='DiemDung_BayThang'
+                                                for='BoLoc_DiemDung_BayThang'
                                             >
                                                 Bay thẳng
                                             </label>
@@ -152,11 +430,11 @@
                                             <input
                                                 class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                 type='checkbox'
-                                                id='DiemDung_1DiemDung'
+                                                id='BoLoc_DiemDung_1DiemDung'
                                             />
                                             <label
                                                 class='form-check-label custom-font p12-S lh-lg'
-                                                for='DiemDung_1DiemDung'
+                                                for='BoLoc_DiemDung_1DiemDung'
                                             >
                                                 1 điểm dừng
                                             </label>
@@ -166,11 +444,11 @@
                                             <input
                                                 class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                 type='checkbox'
-                                                id='DiemDung_2DiemDung'
+                                                id='BoLoc_DiemDung_Hon2DiemDung'
                                             />
                                             <label
                                                 class='form-check-label custom-font p12-S lh-lg'
-                                                for='DiemDung_2DiemDung'
+                                                for='BoLoc_DiemDung_Hon2DiemDung'
                                             >
                                                 +2 điểm dừng
                                             </label>
@@ -179,16 +457,20 @@
                                     </div>
 
                                     {{! ThGian Dừng }}
-                                    <div class='px-3 py-2'>
+                                    <div class='px-3 py-2 d-none'>
 
-                                        <div style='width: 250px;' class='mb-2 d-flex flex-row justify-content-between'>
+                                        <div
+                                            style='width: 250px;'
+                                            class='mb-2 d-flex flex-row justify-content-between align-items-center'
+                                        >
                                             <span
                                                 class='custom-font p14-B text-dark border-tertiary border-tertiary'
                                             >Thời gian dừng</span>
                                             <span
+                                                id='BoLoc_DiemDung_ThoiGianDung'
                                                 style='padding-top: 2px;'
-                                                class='custom-font p12-S text-dark border-tertiary border-tertiary lh-lg ms-3'
-                                            >07 h</span>
+                                                class='custom-font p12-S text-dark border-tertiary border-tertiary ms-3'
+                                            >24 h</span>
                                         </div>
 
                                         <input
@@ -196,8 +478,9 @@
                                             class='form-range'
                                             min='0'
                                             max='24'
+                                            value='24'
                                             step='1'
-                                            id='ThoiGianDung'
+                                            id='BoLoc_DiemDung_ThoiGianDung_Range'
                                         />
 
                                     </div>
@@ -205,9 +488,10 @@
                             </div>
 
                             {{! Lọc thời gian bay }}
-                            <div class='col p-0 mb-1 me-1 input-group dropdown w-auto'>
+                            <div class='p-0 mb-1 me-2 input-group dropdown w-auto'>
                                 <div
-                                    class='text-primary form-control dropdown-toggle custom-font p16-R border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
+                                    id='BoLoc_ThoiGianBay'
+                                    class='text-primary form-control dropdown-toggle custom-font p16-S border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                 >
@@ -231,9 +515,12 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='CatCanh_SangSom'
+                                                        id='BoLoc_ThoiGianBay_CatCanh_SangSom'
                                                     />
-                                                    <label class='form-check-label' for='CatCanh_SangSom'>
+                                                    <label
+                                                        class='form-check-label'
+                                                        for='BoLoc_ThoiGianBay_CatCanh_SangSom'
+                                                    >
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi sáng sớm
@@ -250,9 +537,12 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='CatCanh_Chieu'
+                                                        id='BoLoc_ThoiGianBay_CatCanh_Chieu'
                                                     />
-                                                    <label class='form-check-label' for='CatCanh_Chieu'>
+                                                    <label
+                                                        class='form-check-label'
+                                                        for='BoLoc_ThoiGianBay_CatCanh_Chieu'
+                                                    >
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi chiều
@@ -271,9 +561,12 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='CatCanh_Sang'
+                                                        id='BoLoc_ThoiGianBay_CatCanh_Sang'
                                                     />
-                                                    <label class='form-check-label' for='CatCanh_Sang'>
+                                                    <label
+                                                        class='form-check-label'
+                                                        for='BoLoc_ThoiGianBay_CatCanh_Sang'
+                                                    >
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi sáng
@@ -290,9 +583,9 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='CatCanh_Toi'
+                                                        id='BoLoc_ThoiGianBay_CatCanh_Toi'
                                                     />
-                                                    <label class='form-check-label' for='CatCanh_Toi'>
+                                                    <label class='form-check-label' for='BoLoc_ThoiGianBay_CatCanh_Toi'>
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi tối
@@ -323,9 +616,12 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='HaCanh_SangSom'
+                                                        id='BoLoc_ThoiGianBay_HaCanh_SangSom'
                                                     />
-                                                    <label class='form-check-label' for='HaCanh_SangSom'>
+                                                    <label
+                                                        class='form-check-label'
+                                                        for='BoLoc_ThoiGianBay_HaCanh_SangSom'
+                                                    >
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi sáng sớm
@@ -342,9 +638,12 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='HaCanh_Chieu'
+                                                        id='BoLoc_ThoiGianBay_HaCanh_Chieu'
                                                     />
-                                                    <label class='form-check-label' for='HaCanh_Chieu'>
+                                                    <label
+                                                        class='form-check-label'
+                                                        for='BoLoc_ThoiGianBay_HaCanh_Chieu'
+                                                    >
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi chiều
@@ -363,9 +662,9 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='HaCanh_Sang'
+                                                        id='BoLoc_ThoiGianBay_HaCanh_Sang'
                                                     />
-                                                    <label class='form-check-label' for='HaCanh_Sang'>
+                                                    <label class='form-check-label' for='BoLoc_ThoiGianBay_HaCanh_Sang'>
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi sáng
@@ -382,9 +681,9 @@
                                                     <input
                                                         class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                                         type='checkbox'
-                                                        id='HaCanh_Toi'
+                                                        id='BoLoc_ThoiGianBay_HaCanh_Toi'
                                                     />
-                                                    <label class='form-check-label' for='HaCanh_Toi'>
+                                                    <label class='form-check-label' for='BoLoc_ThoiGianBay_HaCanh_Toi'>
                                                         <div class='d-flex flex-column'>
                                                             <span class='custom-font p14-S lh-lg'>
                                                                 Buổi tối
@@ -403,32 +702,35 @@
                                     {{! Thời gian bay }}
                                     <div class='px-3 py-2'>
 
-                                        <div class='mb-2 d-flex flex-row justify-content-between'>
+                                        <div class='mb-2 d-flex flex-row justify-content-between align-items-center'>
                                             <span
                                                 class='custom-font p14-B text-dark border-tertiary border-tertiary'
                                             >Thời gian bay</span>
                                             <span
+                                                id='BoLoc_ThoiGianBay_ThoiGianBay'
                                                 style='padding-top: 2px;'
-                                                class='custom-font p12-S text-dark border-tertiary border-tertiary lh-lg ms-3'
-                                            >07 h</span>
+                                                class='custom-font p12-S text-dark border-tertiary border-tertiary ms-3'
+                                            >24 h</span>
                                         </div>
 
                                         <input
                                             type='range'
                                             class='form-range'
                                             min='0'
+                                            value='24'
                                             max='24'
                                             step='1'
-                                            id='ThoiGianBay'
+                                            id='BoLoc_ThoiGianBay_ThoiGianBay_Range'
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             {{! Thêm bộ lọc }}
-                            <div class='col p-0 mb-1 me-1 input-group dropdown w-auto'>
+                            <div class='p-0 mb-1 me-2 input-group dropdown w-auto'>
                                 <div
-                                    class='text-primary form-control dropdown-toggle custom-font p16-R border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
+                                    id='BoLoc_Them'
+                                    class='text-primary form-control dropdown-toggle custom-font p16-S border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                 >
@@ -437,48 +739,31 @@
 
                                 {{! Drop Down }}
                                 <div class='custom-font dropdown-menu custom-font shadow py-0 my-1 h-auto w-auto'>
-                                    {{! Điểm dừng }}
-                                    <div class='border border-1 border-top-0 border-end-0 border-start-0 px-3 py-2'>
-                                        <div class='mb-2'>
-                                            <span
-                                                class='custom-font p14-B text-dark border-tertiary border-tertiary'
-                                            >Tiện ích</span>
-                                        </div>
-
-                                        {{! Hành lý ký gửi }}
-                                        <div class='form-check ms-3'>
-                                            <input
-                                                class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
-                                                type='checkbox'
-                                                id='HanhLyKyGui'
-                                            />
-                                            <label class='form-check-label custom-font p12-S lh-lg' for='HanhLyKyGui'>
-                                                Hành lý ký gửi
-                                            </label>
-                                        </div>
-                                    </div>
-
                                     {{! Giá tiền từng hành khách }}
                                     <div class='px-3 py-2'>
 
-                                        <div style='width: 264px;' class='mb-2 d-flex flex-row justify-content-between'>
+                                        <div
+                                            style='width: 264px;'
+                                            class='mb-2 d-flex flex-row justify-content-between align-items-center'
+                                        >
                                             <span
                                                 class='custom-font p14-B text-dark border-tertiary border-tertiary'
                                             >Giá vé /khách</span>
                                             <span
+                                                id='BoLoc_ThemBoLoc_GiaVe'
                                                 style='padding-top: 2px;'
-                                                class='custom-font p12-S text-dark border-tertiary border-tertiary lh-lg ms-3'
-                                            >100.000.000 VND</span>
+                                                class='custom-font p12-S text-dark border-tertiary border-tertiary ms-3'
+                                            >10.000.000 VND</span>
                                         </div>
 
                                         <input
                                             type='range'
                                             class='form-range'
-                                            min='0'
-                                            max='1000000'
-                                            step='100000'
-                                            id='ThoiGianDung'
-                                            value='500000'
+                                            min='500000'
+                                            max='10000000'
+                                            step='500000'
+                                            id='BoLoc_ThemBoLoc_GiaVe_Range'
+                                            value='10000000'
                                         />
 
                                     </div>
@@ -487,9 +772,10 @@
                         </div>
 
                         {{! Sắp xếp }}
-                        <div class='col p-0 mb-1 me-1 input-group dropdown w-auto align-self-start'>
+                        <div class='p-0 input-group dropdown w-auto align-self-start'>
                             <div
-                                class='text-primary form-control dropdown-toggle custom-font p16-R border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
+                                id='BoLoc_SapXep'
+                                class='text-primary form-control dropdown-toggle custom-font p16-S border-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary form-select d-none-after'
                                 data-bs-toggle='dropdown'
                                 aria-expanded='false'
                             >
@@ -510,11 +796,12 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_GiaThapNhat'
+                                            id='BoLoc_SapXep_GiaThapNhat'
+                                            checked
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_GiaThapNhat'
+                                            for='BoLoc_SapXep_GiaThapNhat'
                                         >
                                             Giá thấp nhất
                                         </label>
@@ -526,11 +813,11 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_CatCanhSomNhat'
+                                            id='BoLoc_SapXep_CatCanhSomNhat'
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_CatCanhSomNhat'
+                                            for='BoLoc_SapXep_CatCanhSomNhat'
                                         >
                                             Cất cánh sớm nhất
                                         </label>
@@ -541,11 +828,11 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_CatCanhMuonNhat'
+                                            id='BoLoc_SapXep_CatCanhMuonNhat'
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_CatCanhMuonNhat'
+                                            for='BoLoc_SapXep_CatCanhMuonNhat'
                                         >
                                             Cất cánh muộn nhất
                                         </label>
@@ -556,11 +843,11 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_HaCanhSomNhat'
+                                            id='BoLoc_SapXep_HaCanhSomNhat'
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_HaCanhSomNhat'
+                                            for='BoLoc_SapXep_HaCanhSomNhat'
                                         >
                                             Hạ cánh sớm nhất
                                         </label>
@@ -571,11 +858,11 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_HaCanhMuonNhat'
+                                            id='BoLoc_SapXep_HaCanhMuonNhat'
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_HaCanhMuonNhat'
+                                            for='BoLoc_SapXep_HaCanhMuonNhat'
                                         >
                                             Hạ cánh muộn nhất
                                         </label>
@@ -586,11 +873,11 @@
                                             class='form-check-input custom-color-checked custom-boxshadow-focus-primary custom-boxshadow-hover-primary'
                                             type='radio'
                                             name='SapXep'
-                                            id='SapXep_ThoiGianBayNganNhat'
+                                            id='BoLoc_SapXep_ThoiGianBayNganNhat'
                                         />
                                         <label
                                             class='form-check-label custom-font p12-S lh-lg'
-                                            for='SapXep_ThoiGianBayNganNhat'
+                                            for='BoLoc_SapXep_ThoiGianBayNganNhat'
                                         >
                                             Thời gian bay ngắn nhất
                                         </label>
@@ -603,10 +890,346 @@
                     </div>
 
                     {{! Danh sách chuyến bay }}
-                    <div>
+                    <div id='ChuyenBay_Container' class='h-auto d-flex flex-column'>
+
+                        {{! Chuyến bay item }}
+                        <div class='ChuyenBay_Item d-flex flex-column pt-3 mb-4 bg-light shadow rounded-2 d-none'>
+                            {{! Hàng 1 }}
+                            <div class='px-3 mb-3 d-flex flex-row justify-content-between'>
+                                <div>
+                                    <span class='custom-font p16-R text-dark'>Số hiệu chuyến bay: </span>
+                                    <span class='ChuyenBay_Item_MaChuyenBay custom-font p16-B text-dark'>TSN</span>
+                                </div>
+                                <div>
+                                    <a
+                                        style='padding: 0px !important;'
+                                        type='button'
+                                        class='ChuyenBay_Item_ChiTiet btn btn-primary bg-light border-0 px-4 text-primary custom-font p16-B custom-boxshadow-focus-none'
+                                    >
+                                        Chi tiết chuyến bay
+                                    </a>
+                                </div>
+                            </div>
+
+                            {{! Hàng 2 }}
+                            <div class='px-5 mb-3 d-flex flex-row justify-content-between'>
+                                {{! Thời gian bay đi }}
+                                <div class='d-flex flex-column'>
+                                    <div class='px-2 mb-1'>
+                                        <span class='ChuyenBay_Item_GioDi custom-font p20-B text-dark'>11:11</span>
+                                    </div>
+                                    <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
+                                        <span
+                                            class='ChuyenBay_Item_MaSanBayDi custom-font p20-B text-tertiary'
+                                        >TSN</span>
+                                    </div>
+
+                                </div>
+
+                                {{! Thời gian bay + điểm dừng }}
+                                <div class='d-flex flex-column'>
+                                    {{! Thời gian bay }}
+                                    <div class='mx-auto'>
+                                        <span class='ChuyenBay_Item_ThoiGianBay custom-font p16-B text-tertiary'>11h 11m</span>
+                                    </div>
+                                    {{! decor }}
+                                    <div class='d-flex flex-row align-items-center'>
+
+                                        <div class='w-auto h-auto'>
+                                            <i
+                                                style='height:20px; width:20px;'
+                                                class='fa-regular fa-circle text-tertiary'
+                                            ></i>
+                                        </div>
+
+                                        <div
+                                            style='border-bottom: 1px solid black; padding: 0 60px;'
+                                            class='w-100 my-1'
+                                        ></div>
+
+                                        <div class='w-auto h-auto'>
+                                            <i
+                                                style='height:20px; width:20px;'
+                                                class='fa-solid fa-circle text-tertiary'
+                                            ></i>
+                                        </div>
+                                    </div>
+                                    {{! Điểm dừng }}
+                                    <div class='mx-auto'>
+                                        <span class='ChuyenBay_Item_SoDiemDung custom-font p16-B text-tertiary'>11 điểm
+                                            dừng</span>
+                                    </div>
+                                </div>
+
+                                {{! Thời gian bay đến }}
+                                <div class='d-flex flex-column'>
+                                    <div class='px-2 mb-1'>
+                                        <span class='ChuyenBay_Item_GioDen custom-font p20-B text-dark'>11:11</span>
+                                    </div>
+                                    <div style='border-radius: 20px;' class='bg-tertiary-light py-1 px-2 mx-auto'>
+                                        <span
+                                            class='ChuyenBay_Item_MaSanBayDen custom-font p20-B text-tertiary'
+                                        >TSN</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {{! Hàng 3 }}
+                            <div class='px-3 mb-3 d-flex flex-row justify-content-between align-items-center'>
+                                <div>
+                                    <span class='ChuyenBay_Item_GiaVe custom-font p20-B text-secondary'>500.000</span>
+                                    <span class='custom-font p20-B text-secondary'> VND</span>
+                                    <span class='custom-font p20-B text-tertiary'>/khách</span>
+                                </div>
+                                <div>
+                                    <button
+                                        type='button'
+                                        class='ChuyenBay_Item__Chon btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                        value=''
+                                    >
+                                        Chọn
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{! Chi tiết }}
+                            <div
+                                style='border-top: 1px solid gray;'
+                                class='ChuyenBay_Item_Detail px-3 mb-3 d-flex flex-column d-none'
+                            >
+
+                                {{! Thông tin chung }}
+                                <div
+                                    style='border-bottom: 1px solid gray;'
+                                    class='py-3 d-flex flex-row justify-content-between'
+                                >
+
+                                    {{! Bên trái }}
+                                    <div class='d-flex flex-column'>
+                                        <div class='d-flex flex-row mb-3'>
+                                            <i
+                                                style='height: 16px; width: 16px;'
+                                                class='me-3 p16-B fa-solid fa-plane'
+                                            ></i>
+                                            <span class='custom-font p16-R text-dark me-2'>Số hiệu chuyến bay: </span>
+                                            <span
+                                                class='ChuyenBay_Item_Detail_MaChuyenBay custom-font p16-B text-dark'
+                                            >TSN</span>
+                                        </div>
+                                        <div class='d-flex flex-row'>
+                                            <i
+                                                style='height: 16px; width: 16px;'
+                                                class='me-3 p16-B fa-solid fa-ticket-simple'
+                                            ></i>
+                                            <span class='custom-font p16-R text-dark me-2'>Giá vé: </span>
+                                            <span
+                                                class='ChuyenBay_Item_Detail_GiaVe custom-font p16-B text-dark'
+                                            >500.000</span>
+                                            <span class='ps-1 custom-font p16-B text-dark'> VND /khách</span>
+                                        </div>
+                                    </div>
+
+                                    {{! Bên phải }}
+                                    <div class='d-flex flex-column me-4'>
+                                        <div class='d-flex flex-row mb-2'>
+                                            <i
+                                                style='height: 16px; width: 16px;'
+                                                class='me-3 p16-B fa-solid fa-suitcase'
+                                            ></i>
+                                            <span class='custom-font p16-R text-dark me-2'>Hành lý: </span>
+                                            <span class='custom-font p16-B text-dark'>7kg xách tay</span>
+                                        </div>
+                                        <div class='d-flex flex-row'>
+                                            <a
+                                                style='padding: 0px !important;'
+                                                type='button'
+                                                data-bs-toggle='modal'
+                                                data-bs-target='#HanhLyMuaThem'
+                                                class='ChuyenBay_Item_Detail_HanhLyMuaThem btn btn-primary bg-light border-0 px-4 text-primary custom-font p14-S custom-boxshadow-focus-none'
+                                                href=''
+                                            >
+                                                + xem giá hành lý mua thêm
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{! Trung gian container }}
+                                <div class='ChuyenBay_Item_Detail_TrungGian_Container py-4 d-flex flex-column'>
+                                    {{! Trung gian item }}
+                                    <div class='ChuyenBay_Item_Detail_TrungGian_Item d-none'>
+
+                                        {{! Khởi hành - đến item }}
+                                        <div class='px-4 mb-4 d-flex flex-column'>
+
+                                            {{! Thời gian bay đi - đến }}
+                                            <div class='d-flex flex-row justify-content-between'>
+                                                {{! Đi }}
+                                                <div class='d-flex flex-row align-items-end'>
+                                                    <span
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_GioDi custom-font p20-B text-dark'
+                                                    >11:11</span>
+                                                    <span
+                                                        style='margin-bottom: 4px;'
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_NgayDi ms-1 custom-font p12-S text-tertiary'
+                                                    >11-11-2022</span>
+                                                </div>
+                                                {{! Thời gian bay }}
+                                                <div class='mx-auto align-self-end'>
+                                                    <span
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_ThoiGianBay custom-font p16-B text-tertiary'
+                                                    >11h 11m</span>
+                                                </div>
+                                                {{! Đến }}
+                                                <div class='d-flex flex-row align-items-end'>
+                                                    <span
+                                                        style=' margin-bottom: 4px;'
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_NgayDen me-1 custom-font p12-S text-tertiary'
+                                                    >11-11-2022</span>
+                                                    <span
+                                                        class='ChuyenBay_Item_Detail_TrungGian_Item_GioDen custom-font p20-B text-dark'
+                                                    >11h 11m</span>
+                                                </div>
+                                            </div>
+
+                                            {{! decor }}
+                                            <div class='d-flex flex-column py-1'>
+                                                <div class='d-flex flex-row align-items-center'>
+
+                                                    <div class='w-auto h-auto'>
+                                                        <i
+                                                            style='height:15px; width:15px; font-size:15px; '
+                                                            class='fa-regular fa-circle text-tertiary'
+                                                        ></i>
+                                                    </div>
+
+                                                    <div
+                                                        style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                        class='w-100'
+                                                    ></div>
+
+                                                    <div class='w-auto h-auto'>
+                                                        <i
+                                                            style='height:15px; width:15px; font-size:15px;'
+                                                            class='fa-solid fa-circle text-tertiary'
+                                                        ></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{! Sân bay đi - đến }}
+                                            <div class='d-flex flex-row justify-content-between'>
+                                                {{! Đi }}
+                                                <div class='d-flex flex-column'>
+                                                    <div style='padding: 4px 0px;' class='mx-auto'>
+                                                        <span
+                                                            class='ChuyenBay_Item_Detail_TrungGian_Item_SanBayDi custom-font p12-S text-dark'
+                                                        >TSN - TP HCM</span>
+                                                    </div>
+                                                </div>
+                                                {{! Đến }}
+                                                <div class='d-flex flex-column'>
+                                                    <div style='padding: 4px 0px;' class='mx-auto'>
+                                                        <span
+                                                            class='ChuyenBay_Item_Detail_TrungGian_Item_SanBayDen custom-font p12-S text-dark'
+                                                        >TSN - TP HCM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        {{! Divider }}
+                                        <div
+                                            class='ChuyenBay_Item_Detail_TrungGian_Item_Divider mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
+                                        >
+                                            <i class='fa-solid fa-circle-info me-2 text-light'></i>
+                                            <span
+                                                class='ChuyenBay_Item_Detail_TrungGian_Item_Divider_Content custom-font p16-S text-light'
+                                            >Dừng ở sân bay Tân Sơn Nhất (11h 11m)</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
+                    {{! Không có chuyến bay }}
+                    <div id='No_Flight' class='h-auto d-flex flex-column align-items-center py-5 d-none'>
+                        <div class='mb-2'>
+                            <i
+                                style='height: 150px; width:150px; font-size:150px;'
+                                class='fa-solid fa-plane-circle-xmark text-tertiary'
+                            ></i>
+                        </div>
+
+                        <div class='mb-3'>
+                            <span style='font-weight: 400; font-size:20px;' class='custom-font text-tertiary'>Không có
+                                chuyến bay phù hợp.</span>
+                        </div>
+
+                        <div>
+                            <a
+                                id='No_Flight_ThayDoiTimKiem'
+                                type='button'
+                                href='/'
+                                class='btn btn-primary bg-primary border-primary px-4 text-light custom-font h24-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                            >
+                                Đổi tìm kiếm
+                            </a>
+                        </div>
+                    </div>
+
+                    {{! Modal }}
+                    <div id='HanhLyMuaThem' class='modal fade' tabindex='-1' aria-hidden='true'>
+                        <div class='modal-dialog modal-dialog-centered'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <span class='modal-title custom-font p20-B text-tertiary'>Giá hành lý (Mỗi khách)</span>
+                                    <button
+                                        type='button'
+                                        class='btn-close'
+                                        data-bs-dismiss='modal'
+                                        aria-label='Close'
+                                    ></button>
+                                </div>
+                                <div class='modal-body'>
+
+                                    {{! Mốc hành lý container }}
+                                    <ul class='list-unstyled'>
+
+                                        {{#each PackageBooking.HanhLy}}
+                                            {{! Mốc hành lý Item }}
+                                            <li class='mb-3'>
+
+                                                <div class='d-flex flex-row justify-content-between'>
+
+                                                    <div>
+                                                        <span class='custom-font p16-R text-dark'>+{{this.SoKgToiDa}}
+                                                            kg hành lý</span>
+                                                    </div>
+
+                                                    <div>
+                                                        <span class='custom-font p16-B text-tertiary'>{{this.GiaTien}}
+                                                            VND</span>
+                                                    </div>
+
+                                                </div>
+
+                                            </li>
+                                        {{/each}}
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -614,5 +1237,10 @@
     </div>
 </div>
 
+<form name='book-flight-form' method='POST' style='display: none;'>
+    <input id='packagebooking' name='PackageBooking' />
+</form>
+
 {{! Our js }}
-<script type='module' src='/javascript/client/ChonChuyenBay.js'></script>
+<script type='module' src='/javascript/client/ChonChuyenBay.js'>
+</script>

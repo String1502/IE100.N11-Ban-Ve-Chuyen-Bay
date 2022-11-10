@@ -1,9 +1,11 @@
-const notLoginRouter = require('./client');
-const loggedinStaffRouter = require('./staff');
+const ClientRouter = require('./client');
+const StaffRouter = require('./staff');
+const FlightRouter = require('./Flight');
 
 const route = (app) => {
-    app.use('/staff', loggedinStaffRouter);
-    app.use('/', notLoginRouter);
+    app.use('/flight', FlightRouter);
+    app.use('/staff', StaffRouter);
+    app.use('/', ClientRouter);
 };
 
 module.exports = route;

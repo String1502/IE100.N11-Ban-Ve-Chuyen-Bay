@@ -1,2 +1,40 @@
-h1 {
-  color: red; }
+/* Font */
+/* Color */
+/* Navbar */
+@media (min-width: 991.98px) {
+  .nav-item-hover:hover {
+    border-bottom: 2px solid #04bfae;
+    padding-bottom: 6px;
+    color: #04bfae !important; } }
+
+@media (max-width: 991.98px) {
+  .nav-item-hover:hover {
+    border-right: 3px solid #04bfae;
+    color: #04bfae !important; } }
+
+.form-control[readonly] {
+  background-color: white !important;
+  opacity: 1; }
+
+/* Radio, check button */
+.custom-color-checked:checked {
+  background-color: #04bfae !important;
+  border-color: #04bfae !important; }
+
+/* Box shadow focus none */
+.custom-boxshadow-focus-none:focus {
+  box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0) !important; }
+
+/* Active */
+.custom-active:active {
+  background-color: #04bfae; }
+
+/* ::after display none */
+.d-none-after::after {
+  display: none !important; }
+
+/* Input date */
+input[type='date'] {
+  display: flex;
+  flex-flow: row-reverse;
+  column-gap: 0.75rem; }

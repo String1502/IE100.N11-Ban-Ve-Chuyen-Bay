@@ -9,7 +9,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             GiaTri: {
-                type: Sequelize.DATE,
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

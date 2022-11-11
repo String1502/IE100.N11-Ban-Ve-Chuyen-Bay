@@ -138,7 +138,48 @@ class ClientController {
             if (req.body.GetPackageBooing_fromSV == true) {
                 return res.send(PackageBooking);
             } else {
+                let form = JSON.parse(req.body.PackageBooking);
+                let mangchuyenbay = [...form.MangChuyenBayTimKiem];
+                let manghanhkhach = [...form.HanhKhach];
+
+                for (var i = 0; i < mangchuyenbay.length; i++) {
+                    mangchuyenbay[i] = {
+                        MaChuyenBay: mangchuyenbay[i].ChuyenBayDaChon.MaChuyenBay,
+                        GiaVe: mangchuyenbay[i].ChuyenBayDaChon.GiaVe,
+                    };
+                }
+
+                let tile_loaihanhkhach = await db.LoaiKhachHang.findAll({});
+
+                for (var i = 0; i < manghanhkhach.length; i++) {
+                    for (var j = 0; j < tile_loaihanhkhach.length; j++) {
+                        if (manghanhkhach[i].title == tile_loaihanhkhach[j].TenLoai) {
+                            manghanhkhach[i].HeSo = tile_loaihanhkhach[j].HeSo;
+                            manghanhkhach[i].TongTienVe = 0;
+                            break;
+                        }
+                    }
+                }
+
+                for (var i = 0; i < mangchuyenbay.length; i++) {
+                    for (var j = 0; j < manghanhkhach.length; j++) {
+                        manghanhkhach[j].TongTienVe += mangchuyenbay[i].GiaVe * manghanhkhach[j].HeSo;
+                        delete manghanhkhach[j].HeSo;
+                    }
+                }
+
                 PackageBooking = JSON.parse(req.body.PackageBooking);
+                PackageBooking.HanhKhach = manghanhkhach;
+
+                let hangghe = await db.HangGhe.findOne({
+                    attributes: ['MaHangGhe', 'TenHangGhe', 'HeSo'],
+                    where: {
+                        MaHangGhe: form.HangGhe.MaHangGhe,
+                    },
+                    raw: true,
+                });
+                PackageBooking.HangGhe = hangghe;
+                console.log(PackageBooking);
                 return res.render('client/TomTatTruocDat', {
                     layout: 'client.handlebars',
                     PackageBooking: PackageBooking,

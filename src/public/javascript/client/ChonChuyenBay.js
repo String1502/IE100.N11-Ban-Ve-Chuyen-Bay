@@ -290,12 +290,6 @@ const ChuyenBay_Container = document.getElementById('ChuyenBay_Container');
 //Lấy các tiêu chuẩn tra cứu từ Tra cứu chuyến bay
 let PackageBooking;
 let ChuyenBayDangChon = 0;
-// PackageBooking = {
-//     MangChuyenBayTimKiem: MangChuyenBayTimKiem,
-//     HangGhe: HangGhe,
-//     HanhKhach: HanhKhach,
-//     HanhLy: HanhLy,
-// };
 function GetPackageBooing_fromSV() {
     openLoader('Chờ chút');
     axios({
@@ -441,6 +435,9 @@ function HienThiChuyenBay_fromDB() {
 
     if (ChuyenBay_Items_fromDB)
         if (ChuyenBay_Items_fromDB.length > 0) {
+            if (!document.getElementById('No_Flight').classList.contains('d-none'))
+                document.getElementById('No_Flight').classList.add('d-none');
+            console.log(ChuyenBay_Items_fromDB);
             // Copy node
             for (let i = 0; i < ChuyenBay_Items_fromDB.length; i++) {
                 const ChuyenBay_Item = ChuyenBay_Items[0].cloneNode(true);
@@ -589,8 +586,7 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
         data: data_send,
     }).then((res) => {
         ChuyenBay_Items_fromDB = res.data;
-
-        KhoiTaoCacRange_BoLoc();
+        if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
         HienThiChuyenBay_fromDB();
         closeLoader();
     });

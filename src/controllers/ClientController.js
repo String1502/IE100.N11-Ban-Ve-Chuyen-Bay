@@ -134,11 +134,16 @@ class ClientController {
 
     // "/pre-booking" - TomTatTruocDat
     async prebooking(req, res) {
-        PackageBooking = structuredClone(JSON.parse(req.body.PackageBooking));
         try {
-            return res.render('client/TomTatTruocDat', {
-                layout: 'client.handlebars',
-            });
+            if (req.body.GetPackageBooing_fromSV == true) {
+                return res.send(PackageBooking);
+            } else {
+                PackageBooking = JSON.parse(req.body.PackageBooking);
+                return res.render('client/TomTatTruocDat', {
+                    layout: 'client.handlebars',
+                    PackageBooking: PackageBooking,
+                });
+            }
         } catch (error) {
             console.log(error);
         }

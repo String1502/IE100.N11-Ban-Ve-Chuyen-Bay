@@ -59,9 +59,9 @@ let fullSearch = async (req, res) => {
 
 let search_flight = async (form_data) => {
     form_data.songuoi = 0;
-    // for (let i = 0; i < form_data.hanhkhach.length; i++) {
-    //     form_data.songuoi = form_data.songuoi + parseInt(form_data.hanhkhach[i].value);
-    // }
+    for (let i = 0; i < form_data.hanhkhach.length; i++) {
+        form_data.songuoi = form_data.songuoi + parseInt(form_data.hanhkhach[i].value);
+    }
     //tim tat ca chuyen bay hop le
     let list_ChuyenBaySuit = await db.sequelize.query(
         'select `MaChuyenBay`, `MaSanBayDi` as SanBayDi, `MaSanBayDen` as SanBayDen, `NgayGio` as ThoiGianDi, `ThoiGianBay` as ThoiGianBay, `GiaVeCoBan` as GiaVe from chuyenbay where DATE(NgayGio) = :ngaygio AND TrangThai = "ChuaKhoiHanh" AND  MaSanBayDi =  :sanbaydi  AND MaSanBayDen =  :sanbayden ',

@@ -58,7 +58,7 @@ let CreateHoaDon = async (req_body) => {
                 },
                 { raw: true },
             );
-            HanhKhach.save();
+            await HanhKhach.save();
             HanhKhachs[index] = { ...HanhKhach.dataValues };
         }
         for (var i in HanhKhachs) {
@@ -86,7 +86,7 @@ let CreateHoaDon = async (req_body) => {
             },
             { raw: true },
         );
-        hoadon.save();
+        await hoadon.save();
 
         let ves = [];
         for (var i = 0; i < MangChuyenBayDat.length; i++) {
@@ -134,8 +134,30 @@ let CreateHoaDon = async (req_body) => {
                 ves.push(ve);
                 //info_chuyenbay[0].HeSo * info_chuyenbay[0].GiaVe *
                 hoadon.TongTien += ve.GiaVe;
-                hoadon.save();
+                await hoadon.save();
+
+                //update doanh thu chuyen bay
+                let chuyenbay = await db.ChuyenBay.findOne({
+                    where: {
+                        MaChuyenBay: info_chuyenbay[0].MaChuyenBay,
+                    },
+                });
+                chuyenbay.set({
+                    DoanhThu: chuyenbay.DoanhThu + ve.GiaVe,
+                });
+                chuyenbay.save();
             }
+
+            //update ve da ban
+            let chitiet = await db.ChiTietHangVe.findOne({
+                where: {
+                    MaCTVe: info_chuyenbay[0].MaCTVe,
+                },
+            });
+            chitiet.set({
+                VeDaBan: chitiet.VeDaBan + HanhKhachs.length,
+            });
+            await chitiet.save();
         }
 
         return 1;

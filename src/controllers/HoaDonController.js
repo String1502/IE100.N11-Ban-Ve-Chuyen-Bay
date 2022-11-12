@@ -5,15 +5,16 @@ const { QueryTypes, where } = require('sequelize');
 // thongtintaove
 // req.body =
 // {
+//     MangChuyenBayDat: [{
+//         MaChuyenBay,
+//         MaMocHanhLy: [],
+//     }],
 //     HanhKhach: [{
 //         MaLoaiKhach,
 //         HoTen,
 //         NgaySinh,
-//         GioiTinh,  Vd: GioiTinh: 1    nam: 0, nu:1, khac:3
-//     }],
-//     MangChuyenBayDat: [{
-//         MaChuyenBay,
-//         SoKgToiDa,
+//         GioiTinh,  //Vd: GioiTinh: 1    nam: 0, nu:1, khac:3
+//         MaMocHanhLy,
 //     }],
 //     NguoiLienHe: {
 //         HoTen,
@@ -21,13 +22,13 @@ const { QueryTypes, where } = require('sequelize');
 //         SDT
 //     },
 //     MaHangGhe,
-//     NgayGioDat, ////Cái này là thời gian tạo hóa đơn từ lúc bấm vào chuyển qua màn hình thanh toán
+//     NgayGioDat, //format: yyyy-MM-dd
 // }
 
 // example data
 // req.body = {
 //     HanhKhach: [{ "MaLoaiKhach": 1, "HoTen": "Tân Sơn Nhất", "NgaySinh": "2002-09-25" , "GioiTinh": 1 } , { "MaLoaiKhach": 2, "HoTen": "Tân Sơn Nhì", "NgaySinh": "2002-09-25" , "GioiTinh": 0 }],
-//     MangChuyenBayDat:[{ "MaChuyenBay": 1, "SoKgToiDa": 15 } , { "MaChuyenBay": 2, "SoKgToiDa": 15 }]
+//     MangChuyenBayDat:[{ "MaChuyenBay": 1, "MaMocHanhLy": [15, 20]} , { "MaChuyenBay": 2, "MaMocHanhLy": [20,25] }]
 //     NguoiLienHe:{"HoTen": "Trí", "Email": "thanhtritran951@gmail.com", "SDT": "0899313685"}
 //     MaHangGhe: Business,
 //     NgayGioDat: 2022-11-12T06:03:13.715Z
@@ -63,15 +64,15 @@ let CreateHoaDon = async (req_body) => {
         }
         for (var i in HanhKhachs) {
             let heso_hanhkhach = await db.LoaiKhachHang.findOne({
-                attributes: ['HeSo'],
+                attributes: ['HeSo', 'TenLoai'],
                 where: {
                     MaLoaiKhach: HanhKhachs[i].MaLoaiKhach,
                 },
             });
             HanhKhachs[i].HeSo = parseFloat(heso_hanhkhach.dataValues.HeSo);
+            HanhKhachs[i].TenLoai = heso_hanhkhach.dataValues.TenLoai;
         }
         //HanhKhachs {MaLoaiKhach , HoTen, NgaySinh, GioiTinh, HeSo}
-        let mang = '[{ "MaChuyenBay": 1, "SoKgToiDa": 15 } , { "MaChuyenBay": 2, "SoKgToiDa": 15 }]';
         let MangChuyenBayDat = JSON.parse(req_body.MangChuyenBayDat);
 
         let nguoilienhe = JSON.parse(req_body.NguoiLienHe);
@@ -89,17 +90,14 @@ let CreateHoaDon = async (req_body) => {
         await hoadon.save();
 
         let ves = [];
-        for (var i = 0; i < MangChuyenBayDat.length; i++) {
-            let maMocHanhLy = await db.MocHanhLy.findOne(
-                {
-                    where: {
-                        SoKgToiDa: MangChuyenBayDat[i].SoKgToiDa,
-                    },
-                },
-                { raw: true },
-            );
-            maMocHanhLy = maMocHanhLy.dataValues;
 
+        //[ [15,25], [25,25] ]
+        let mangHanhLyDat = [];
+        for (var i = 0; i < MangChuyenBayDat.length; i++) {
+            mangHanhLyDat.push(MangChuyenBayDat[i].MaMocHanhLy);
+        }
+
+        for (var i = 0; i < MangChuyenBayDat.length; i++) {
             //info_chuyenbay{MaCTVe, MaChuyenBay, HeSo, GiaVe}
             let info_chuyenbay = await db.sequelize.query(
                 'SELECT `MaCTVe`, chuyenbay.`MaChuyenBay`, HeSo, GiaVeCoBan FROM `chitiethangve`, chuyenbay, hangghe WHERE chitiethangve.MaChuyenBay = chuyenbay.MaChuyenBay AND chitiethangve.MaHangGhe = hangghe.MaHangGhe  AND chuyenbay.MaChuyenBay = :machuyenbay AND chitiethangve.MaHangGhe = :mahangghe ',
@@ -113,25 +111,62 @@ let CreateHoaDon = async (req_body) => {
                 },
             );
 
-            //tao ve cho 1 hanh khach
+            // tao ve cho 1 hanh khach
             for (var index in HanhKhachs) {
-                let ve = await db.Ve.create(
+                let mocHanhLy = await db.MocHanhLy.findOne(
                     {
-                        MaMocHanhLy: maMocHanhLy.MaMocHanhLy,
-                        MaCTVe: info_chuyenbay[0].MaCTVe,
-                        MaHK: HanhKhachs[i].MaHK,
-                        GiaVe:
-                            info_chuyenbay[0].HeSo * info_chuyenbay[0].GiaVeCoBan * parseFloat(HanhKhachs[i].HeSo) +
-                            maMocHanhLy.GiaTien,
-                        // Giave = heso_hangghe * giave_coban * heso_loaikhach + giatien_hanhly
-                        MaHoaDon: hoadon.MaHoaDon,
+                        where: {
+                            SoKgToiDa: mangHanhLyDat[i][index],
+                        },
                     },
                     { raw: true },
                 );
+                mocHanhLy = mocHanhLy.dataValues;
+                let ve;
+                console.log(mocHanhLy);
+                if (HanhKhachs[index].TenLoai !== 'Em bé') {
+                    ve = await db.Ve.create(
+                        {
+                            MaMocHanhLy: mocHanhLy.MaMocHanhLy,
+                            MaCTVe: info_chuyenbay[0].MaCTVe,
+                            MaHK: HanhKhachs[index].MaHK,
+                            GiaVe:
+                                info_chuyenbay[0].HeSo *
+                                    info_chuyenbay[0].GiaVeCoBan *
+                                    parseFloat(HanhKhachs[index].HeSo) +
+                                mocHanhLy.GiaTien,
+                            // Giave = heso_hangghe * giave_coban * heso_loaikhach + giatien_hanhly
+                            MaHoaDon: hoadon.MaHoaDon,
+                        },
+                        { raw: true },
+                    );
 
-                ve.save();
-                ve = ve.dataValues;
-                ves.push(ve);
+                    ve.save();
+                    ve = ve.dataValues;
+                    ves.push(ve);
+                } else {
+                    // let GiaVe_TreEm = db.ThamSo.findOne({
+                    //     where: {
+                    //         TenThamSo: 'GiaVeTreEm',
+                    //     }
+                    // })
+                    let GiaVe_TreEm = 100000;
+                    ve = await db.Ve.create(
+                        {
+                            MaMocHanhLy: mocHanhLy.MaMocHanhLy,
+                            MaCTVe: info_chuyenbay[0].MaCTVe,
+                            MaHK: HanhKhachs[index].MaHK,
+                            GiaVe: GiaVe_TreEm,
+                            // Giave = heso_hangghe * giave_coban * heso_loaikhach + giatien_hanhly
+                            MaHoaDon: hoadon.MaHoaDon,
+                        },
+                        { raw: true },
+                    );
+                    ve.save();
+                    ve = ve.dataValues;
+                    ves.push(ve);
+                }
+
                 //info_chuyenbay[0].HeSo * info_chuyenbay[0].GiaVe *
                 hoadon.TongTien += ve.GiaVe;
                 await hoadon.save();

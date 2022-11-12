@@ -148,6 +148,7 @@ function AddTomTat_KhachHang_Item() {
     }
 
     const HanhKhachs = PackageBooking.HanhKhach;
+    console.log(HanhKhachs);
     let GiaBanTra = 0;
     for (let i = 0; i < HanhKhachs.length; i++) {
         const node = TomTat_HanhKhach_Items[0].cloneNode(true);

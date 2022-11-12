@@ -218,46 +218,37 @@ class ClientController {
 
                 PackageBooking.HanhLy = MocHanhLy;
 
-                let ChuyenBayDaChon = [];
-                for (let i = 0; i < PackageBooking.MangChuyenBayTimKiem.length; i++) {
-                    let CBDChon = PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon;
-                    let ChuyenBayDaChon_item = { MaChuyenBay: CBDChon.MaChuyenBay };
-                    let ThongTinHanhLy = [];
-                    for (let j = 0; j < PackageBooking.HanhKhach; j++) {
-                        ThongTinHanhLy.push({
-                            MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
-                            DanhSachMuaHanhLy: [],
-                        });
-                    }
-                    ChuyenBayDaChon_item['ThongTinHanhLy'] = ThongTinHanhLy;
-
-                    ChuyenBayDaChon.push(ChuyenBayDaChon_item);
-                }
-
-                let ThongTinHanhKhach = [];
+                let HanhKhach = [];
                 for (let j = 0; j < PackageBooking.HanhKhach.length; j++) {
-                    let ThongTinHanhKhachItem = {
-                        MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
-                        SoLuong: PackageBooking.HanhKhach[j].value,
-                    };
-
-                    let ThongTinTungHanhKhach = [];
                     for (let z = 0; z < PackageBooking.HanhKhach[j].value; z++) {
-                        ThongTinTungHanhKhach.push({
-                            DanhXung: '',
+                        HanhKhach.push({
+                            MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
+                            GioiTinh: '',
                             Ho: '',
                             Ten: '',
                             NgaySinh: { Ngay: 0, Thang: 0, Nam: 0 },
                         });
                     }
-                    ThongTinHanhKhachItem['ThongTinTungHanhKhach'] = ThongTinTungHanhKhach;
-                    ThongTinHanhKhach.push(ThongTinHanhKhachItem);
+                }
+
+                let MangChuyenBayDat = [];
+                let LoaiKhachEmBe = PackageBooking.HanhKhach.find((item) => item.title == 'Em bé').MaLoaiKhach;
+                for (let i = 0; i < PackageBooking.MangChuyenBayTimKiem.length; i++) {
+                    let CBDChon = PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon;
+                    let MaMocHanhLy = [];
+                    for (let j = 0; j < HanhKhach.length; j++) {
+                        if (HanhKhach[j].MaLoaiKhach == LoaiKhachEmBe) MaMocHanhLy.push(0);
+                        else MaMocHanhLy.push(7);
+                    }
+                    MangChuyenBayDat.push({ MaChuyenBay: CBDChon.MaChuyenBay, MaMocHanhLy: MaMocHanhLy });
                 }
 
                 PackageBooking['HoaDon'] = {
                     NguoiLienHe: { Ho: '', Ten: '', SDT: 0, Email: '' },
-                    ChuyenBayDaChon: ChuyenBayDaChon,
-                    ThongTinHanhKhach: ThongTinHanhKhach,
+                    MaHangGhe: PackageBooking.HangGhe.MaHangGhe,
+                    NgayGioDat: '',
+                    MangChuyenBayDat: MangChuyenBayDat,
+                    HanhKhach: HanhKhach,
                 };
 
                 console.log(PackageBooking);
@@ -300,37 +291,10 @@ module.exports = new ClientController();
 // HoaDon:
 // {
 //     NguoiLienHe: {Ho:'', Ten:'', SDT:0, Email:''},
-//     ChuyenBayDaChon:
-//         [
-//             {
-//                 MaChuyenBay:0,
-//                 ThongTinHanhLy:
-//                     [
-//                         {
-//                             MaLoaiKhach: 1,
-//                             DanhSachMuaHanhLy:
-//                                 [
-//                                     {
-//                                         NguoiMua: { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} },
-//                                         MaMocHanhLy: 1
-//                                     }
-//                                 ]
-//                         },
-//                     ],
-//             },
-
-//         ],
-//     ThongTinHanhKhach:
-//         [
-//             {
-//                 MaLoaiKhach: 3,
-//                 SoLuong:2,
-//                 ThongTinTungHanhKhach:
-//                     [
-//                         { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} },
-//                         { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} }
-//                     ]
-//             },
-
-//         ],
+//     MaHangGhe:'',
+//     NgayGioDat:'',
+//     MangChuyenBayDat:
+//         [   {   MaChuyenBay:0, MaMocHanhLy:[],  },  ],
+//     HanhKhach:
+//         [   {MaLoaiKhach: 3, GioiTinh:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} }   ],
 // },

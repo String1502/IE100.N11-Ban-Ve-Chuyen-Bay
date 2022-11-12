@@ -8,14 +8,6 @@ const { QueryTypes, where } = require('sequelize');
 //     ngaydi: '2022-11-11',
 //     masanbaydi: 'BMV',
 //     masanbayden: 'PQC',
-//     ThoiGianDung_Max
-//     ThoiGianDung_Min
-
-//     ThoiGianBay_Max
-//     ThoiGianBay_Min
-
-//     GiaVe_Max
-//     GiaVe_Min
 // }
 
 //data fullsearch (1 lan req 1 chuyen bay)
@@ -54,6 +46,7 @@ let fullSearch = async (req, res) => {
         return res.send(JSON.stringify(list_ChuyenBaySuit));
     } catch (error) {
         console.log(error);
+        return res.send([]);
     }
 };
 
@@ -106,9 +99,14 @@ let search_flight = async (form_data) => {
                 raw: true,
             },
         );
+        if (checkChuyenBay.length === 0) {
+            list_ChuyenBaySuit.splice(i, 1);
+            continue;
+        }
 
         if (checkChuyenBay[0].TongVe - checkChuyenBay[0].VeDaBan < form_data.songuoi) {
             list_ChuyenBaySuit.splice(i, 1);
+            continue;
         }
 
         //convert thoigiandi + thoigianden
@@ -140,176 +138,185 @@ let search_flight = async (form_data) => {
         };
     }
 
-    // thoigian di, den, dung cua moi chan bay
-    let thoigiandi;
-    let thoigianden;
-    let thoigianbay;
-    let thoigiandung;
-    //tim sanbay trung gian + convert time
-    for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
-        //sbtg
-        let sbtg;
-        //chanbay
-        let chanbays = [];
-        let chanbay = {
-            ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
-            SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-            ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
-            SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
-            ThoiGianBay: { Gio: 5, Phut: 5 },
-            ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
-        };
+    if (list_ChuyenBaySuit.length !== 0) {
+        // thoigian di, den, dung cua moi chan bay
+        let thoigiandi;
+        let thoigianden;
+        let thoigianbay;
+        let thoigiandung;
+        //tim sanbay trung gian + convert time
+        for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
+            //sbtg
+            let sbtg;
+            //chanbay
+            let chanbays = [];
+            let chanbay = {
+                ThoiGianDi: { GioDi: { Gio: 11, Phut: 11 }, NgayDi: { Ngay: 1, Thang: 1, Nam: 2023 } },
+                SanBayDi: { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
+                ThoiGianDen: { GioDen: { Gio: 6, Phut: 6 }, NgayDen: { Ngay: 2, Thang: 1, Nam: 2023 } },
+                SanBayDen: { MaSanBay: 'DAD', TenSanBay: 'Tân Sơn Nhì', TinhThanh: 'Đà Nẵng' },
+                ThoiGianBay: { Gio: 5, Phut: 5 },
+                ThoiGianDung_SanBayDen: { Gio: 0, Phut: 30 },
+            };
 
-        // //get chan bay theo ma chuyen bay
-        sbtg = await db.sequelize.query(
-            'SELECT `MaSBTG`, `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `TenSanBay`, `TenTinhThanh`  FROM `chitietchuyenbay` , sanbay , tinhthanh WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND sanbay.MaTinhThanh = tinhthanh.MaTinhThanh AND  MaChuyenBay = :machuyenbay',
-            {
-                replacements: {
-                    machuyenbay: list_ChuyenBaySuit[i].MaChuyenBay,
+            // //get chan bay theo ma chuyen bay
+            sbtg = await db.sequelize.query(
+                'SELECT `MaSBTG`, `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `TenSanBay`, `TenTinhThanh`  FROM `chitietchuyenbay` , sanbay , tinhthanh WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND sanbay.MaTinhThanh = tinhthanh.MaTinhThanh AND  MaChuyenBay = :machuyenbay',
+                {
+                    replacements: {
+                        machuyenbay: list_ChuyenBaySuit[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
                 },
-                type: QueryTypes.SELECT,
-                raw: true,
-            },
-        );
+            );
 
-        //sort thoi gian dung max
+            //sort thoi gian dung max
 
-        //get so diem dung
-        list_ChuyenBaySuit[i].SoDiemDung = sbtg.length;
+            //get so diem dung
+            list_ChuyenBaySuit[i].SoDiemDung = sbtg.length;
 
-        for (var j = 0; j < sbtg.length; j++) {
-            if (j == 0) {
-                //san bay dau -> tram dung dau
-                thoigiandi = new Date(thoigiandi_chuyenbay);
+            for (var j = 0; j < sbtg.length; j++) {
+                if (j == 0) {
+                    //san bay dau -> tram dung dau
+                    thoigiandi = new Date(thoigiandi_chuyenbay);
 
-                thoigianden = new Date(sbtg[j].NgayGioDen);
+                    thoigianden = new Date(sbtg[j].NgayGioDen);
 
-                thoigianbay = getMinDiff(thoigiandi, thoigianden);
-                thoigiandung = parseInt(sbtg[j].ThoiGianDung);
-                chanbay = {
-                    SanBayDi: list_ChuyenBaySuit[i].SanBayDi,
-                    ThoiGianDi: list_ChuyenBaySuit[i].ThoiGianDi,
-                    SanBayDen: {
-                        MaSanBay: sbtg[j].MaSBTG,
-                        TenSanBay: sbtg[j].TenSanBay,
-                        TinhThanh: sbtg[j].TenTinhThanh,
-                    },
-                    ThoiGianDen: {
-                        GioDen: {
-                            Gio: thoigianden.getUTCHours(),
-                            Phut: thoigianden.getMinutes(),
+                    thoigianbay = getMinDiff(thoigiandi, thoigianden);
+                    thoigiandung = parseInt(sbtg[j].ThoiGianDung);
+                    chanbay = {
+                        SanBayDi: list_ChuyenBaySuit[i].SanBayDi,
+                        ThoiGianDi: list_ChuyenBaySuit[i].ThoiGianDi,
+                        SanBayDen: {
+                            MaSanBay: sbtg[j].MaSBTG,
+                            TenSanBay: sbtg[j].TenSanBay,
+                            TinhThanh: sbtg[j].TenTinhThanh,
                         },
-                        NgayDen: {
-                            Ngay: thoigianden.getDate(),
-                            Thang: thoigianden.getMonth() + 1,
-                            Nam: thoigianden.getFullYear(),
+                        ThoiGianDen: {
+                            GioDen: {
+                                Gio: thoigianden.getUTCHours(),
+                                Phut: thoigianden.getMinutes(),
+                            },
+                            NgayDen: {
+                                Ngay: thoigianden.getDate(),
+                                Thang: thoigianden.getMonth() + 1,
+                                Nam: thoigianden.getFullYear(),
+                            },
                         },
-                    },
-                    ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
-                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
-                };
-                chanbays.push(chanbay);
-                //tram dung dau -> san bay cuoi
-                thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
-                thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
-                chanbay = {
-                    SanBayDi: {
-                        MaSanBay: sbtg[j].MaSBTG,
-                        TenSanBay: sbtg[j].TenSanBay,
-                        TinhThanh: sbtg[j].TenTinhThanh,
-                    },
-                    ThoiGianDi: {
-                        GioDi: {
-                            Gio: thoigiandi.getUTCHours(),
-                            Phut: thoigiandi.getMinutes(),
+                        ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
+                        ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                    };
+                    chanbays.push(chanbay);
+                    //tram dung dau -> san bay cuoi
+                    thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
+                    thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
+                    chanbay = {
+                        SanBayDi: {
+                            MaSanBay: sbtg[j].MaSBTG,
+                            TenSanBay: sbtg[j].TenSanBay,
+                            TinhThanh: sbtg[j].TenTinhThanh,
                         },
-                        NgayDi: {
-                            Ngay: thoigiandi.getDate(),
-                            Thang: thoigiandi.getMonth() + 1,
-                            Nam: thoigiandi.getFullYear(),
+                        ThoiGianDi: {
+                            GioDi: {
+                                Gio: thoigiandi.getUTCHours(),
+                                Phut: thoigiandi.getMinutes(),
+                            },
+                            NgayDi: {
+                                Ngay: thoigiandi.getDate(),
+                                Thang: thoigiandi.getMonth() + 1,
+                                Nam: thoigiandi.getFullYear(),
+                            },
                         },
-                    },
-                    SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
-                    ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
-                    ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
-                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
-                };
-                chanbays.push(chanbay);
-            } else {
-                //san bay truoc -> san bay trung gian
-                chanbays = chanbays.slice(0, -1);
-                thoigiandi = add_minutes(thoigianden, sbtg[j - 1].ThoiGianDung);
-                thoigianden = new Date(sbtg[j].NgayGioDen);
-                thoigianbay = getMinDiff(thoigiandi, thoigianden);
+                        SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
+                        ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
+                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
+                        ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                    };
+                    chanbays.push(chanbay);
+                } else {
+                    //san bay truoc -> san bay trung gian
+                    chanbays = chanbays.slice(0, -1);
+                    thoigiandi = add_minutes(thoigianden, sbtg[j - 1].ThoiGianDung);
+                    thoigianden = new Date(sbtg[j].NgayGioDen);
+                    thoigianbay = getMinDiff(thoigiandi, thoigianden);
 
-                chanbay = {
-                    SanBayDi: chanbays[j - 1].SanBayDen,
-                    ThoiGianDi: {
-                        GioDi: {
-                            Gio: thoigiandi.getUTCHours(),
-                            Phut: thoigiandi.getMinutes(),
+                    chanbay = {
+                        SanBayDi: chanbays[j - 1].SanBayDen,
+                        ThoiGianDi: {
+                            GioDi: {
+                                Gio: thoigiandi.getUTCHours(),
+                                Phut: thoigiandi.getMinutes(),
+                            },
+                            NgayDi: {
+                                Ngay: thoigiandi.getDate(),
+                                Thang: thoigiandi.getMonth() + 1,
+                                Nam: thoigiandi.getFullYear(),
+                            },
                         },
-                        NgayDi: {
-                            Ngay: thoigiandi.getDate(),
-                            Thang: thoigiandi.getMonth() + 1,
-                            Nam: thoigiandi.getFullYear(),
+                        SanBayDen: {
+                            MaSanBay: sbtg[j].MaSBTG,
+                            TenSanBay: sbtg[j].TenSanBay,
+                            TinhThanh: sbtg[j].TenTinhThanh,
                         },
-                    },
-                    SanBayDen: {
-                        MaSanBay: sbtg[j].MaSBTG,
-                        TenSanBay: sbtg[j].TenSanBay,
-                        TinhThanh: sbtg[j].TenTinhThanh,
-                    },
-                    ThoiGianDen: {
-                        GioDen: {
-                            Gio: thoigianden.getUTCHours(),
-                            Phut: thoigianden.getMinutes(),
+                        ThoiGianDen: {
+                            GioDen: {
+                                Gio: thoigianden.getUTCHours(),
+                                Phut: thoigianden.getMinutes(),
+                            },
+                            NgayDen: {
+                                Ngay: thoigianden.getDate(),
+                                Thang: thoigianden.getMonth() + 1,
+                                Nam: thoigianden.getFullYear(),
+                            },
                         },
-                        NgayDen: {
-                            Ngay: thoigianden.getDate(),
-                            Thang: thoigianden.getMonth() + 1,
-                            Nam: thoigianden.getFullYear(),
-                        },
-                    },
-                    ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
-                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
-                };
-                chanbays.push(chanbay);
+                        ThoiGianDung_SanBayDen: toHoursAndMinutes(sbtg[j].ThoiGianDung),
+                        ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                    };
+                    chanbays.push(chanbay);
 
-                //san bay trung gian -> san bay cuoi
-                thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
-                thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
+                    //san bay trung gian -> san bay cuoi
+                    thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
+                    thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
 
-                chanbay = {
-                    SanBayDi: {
-                        MaSanBay: sbtg[j].MaSBTG,
-                        TenSanBay: sbtg[j].TenSanBay,
-                        TinhThanh: sbtg[j].TenTinhThanh,
-                    },
-                    ThoiGianDi: {
-                        GioDi: {
-                            Gio: thoigiandi.getUTCHours(),
-                            Phut: thoigiandi.getMinutes(),
+                    chanbay = {
+                        SanBayDi: {
+                            MaSanBay: sbtg[j].MaSBTG,
+                            TenSanBay: sbtg[j].TenSanBay,
+                            TinhThanh: sbtg[j].TenTinhThanh,
                         },
-                        NgayDi: {
-                            Ngay: thoigiandi.getDate(),
-                            Thang: thoigiandi.getMonth() + 1,
-                            Nam: thoigiandi.getFullYear(),
+                        ThoiGianDi: {
+                            GioDi: {
+                                Gio: thoigiandi.getUTCHours(),
+                                Phut: thoigiandi.getMinutes(),
+                            },
+                            NgayDi: {
+                                Ngay: thoigiandi.getDate(),
+                                Thang: thoigiandi.getMonth() + 1,
+                                Nam: thoigiandi.getFullYear(),
+                            },
                         },
-                    },
-                    SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
-                    ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
-                    ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
-                    ThoiGianBay: toHoursAndMinutes(thoigianbay),
-                };
-                chanbays.push(chanbay);
+                        SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
+                        ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
+                        ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
+                        ThoiGianBay: toHoursAndMinutes(thoigianbay),
+                    };
+                    chanbays.push(chanbay);
+                }
             }
+
+            list_ChuyenBaySuit[i].ChanBay = chanbays;
+
+            list_ChuyenBaySuit[i].ThoiGianBay = toHoursAndMinutes(list_ChuyenBaySuit[i].ThoiGianBay);
+            //Gia Ve = GiaVeCoBan * HeSoHangGhe
+            let heso_hangghe = await db.HangGhe.findOne({
+                where: {
+                    MaHangGhe: form_data.mahangghe,
+                },
+            });
+
+            list_ChuyenBaySuit[i].GiaVe = list_ChuyenBaySuit[i].GiaVe * parseFloat(heso_hangghe.HeSo);
         }
-
-        list_ChuyenBaySuit[i].ChanBay = chanbays;
-
-        list_ChuyenBaySuit[i].ThoiGianBay = toHoursAndMinutes(list_ChuyenBaySuit[i].ThoiGianBay);
-        //count chan bay
     }
 
     return list_ChuyenBaySuit;

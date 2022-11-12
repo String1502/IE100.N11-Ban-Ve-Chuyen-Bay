@@ -139,6 +139,7 @@ class ClientController {
                 return res.send(PackageBooking);
             } else {
                 let form = JSON.parse(req.body.PackageBooking);
+                console.log(req.body.PackageBooking);
                 let mangchuyenbay = [...form.MangChuyenBayTimKiem];
                 let manghanhkhach = [...form.HanhKhach];
 
@@ -163,7 +164,8 @@ class ClientController {
 
                 for (var i = 0; i < mangchuyenbay.length; i++) {
                     for (var j = 0; j < manghanhkhach.length; j++) {
-                        manghanhkhach[j].TongTienVe += mangchuyenbay[i].GiaVe * manghanhkhach[j].HeSo;
+                        manghanhkhach[j].TongTienVe +=
+                            mangchuyenbay[i].GiaVe * manghanhkhach[j].HeSo * manghanhkhach[j].value;
                         delete manghanhkhach[j].HeSo;
                     }
                 }
@@ -179,7 +181,7 @@ class ClientController {
                     raw: true,
                 });
                 PackageBooking.HangGhe = hangghe;
-                console.log(PackageBooking);
+
                 return res.render('client/TomTatTruocDat', {
                     layout: 'client.handlebars',
                     PackageBooking: PackageBooking,

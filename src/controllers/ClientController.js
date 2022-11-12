@@ -195,9 +195,76 @@ class ClientController {
     // "/booking" - DienThongTin
     async booking(req, res) {
         try {
-            return res.render('client/DienThongTin', {
-                layout: 'client.handlebars',
-            });
+            if (req.body.GetPackageBooing_fromSV == true) {
+                return res.send(PackageBooking);
+            } else {
+                PackageBooking = JSON.parse(req.body.PackageBooking);
+
+                let HeSoHanhKhach = await db.sequelize.query('select MaLoaiKhach, TenLoai , HeSo from loaikhachhang', {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                });
+
+                for (let i = 0; i < PackageBooking.HanhKhach.length; i++) {
+                    const HeSo = HeSoHanhKhach.find((item) => item.TenLoai == PackageBooking.HanhKhach[i].title);
+                    PackageBooking.HanhKhach[i]['HeSo'] = HeSo.HeSo;
+                    PackageBooking.HanhKhach[i]['MaLoaiKhach'] = HeSo.MaLoaiKhach;
+                }
+
+                let MocHanhLy = await db.sequelize.query('select MaMocHanhLy, SoKgToiDa, GiaTien from mochanhly', {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                });
+
+                PackageBooking.HanhLy = MocHanhLy;
+
+                let ChuyenBayDaChon = [];
+                for (let i = 0; i < PackageBooking.MangChuyenBayTimKiem.length; i++) {
+                    let CBDChon = PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon;
+                    let ChuyenBayDaChon_item = { MaChuyenBay: CBDChon.MaChuyenBay };
+                    let ThongTinHanhLy = [];
+                    for (let j = 0; j < PackageBooking.HanhKhach; j++) {
+                        ThongTinHanhLy.push({
+                            MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
+                            DanhSachMuaHanhLy: [],
+                        });
+                    }
+                    ChuyenBayDaChon_item['ThongTinHanhLy'] = ThongTinHanhLy;
+
+                    ChuyenBayDaChon.push(ChuyenBayDaChon_item);
+                }
+
+                let ThongTinHanhKhach = [];
+                for (let j = 0; j < PackageBooking.HanhKhach.length; j++) {
+                    let ThongTinHanhKhachItem = {
+                        MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
+                        SoLuong: PackageBooking.HanhKhach[j].value,
+                    };
+
+                    let ThongTinTungHanhKhach = [];
+                    for (let z = 0; z < PackageBooking.HanhKhach[j].value; z++) {
+                        ThongTinTungHanhKhach.push({
+                            DanhXung: '',
+                            Ho: '',
+                            Ten: '',
+                            NgaySinh: { Ngay: 0, Thang: 0, Nam: 0 },
+                        });
+                    }
+                    ThongTinHanhKhachItem['ThongTinTungHanhKhach'] = ThongTinTungHanhKhach;
+                    ThongTinHanhKhach.push(ThongTinHanhKhachItem);
+                }
+
+                PackageBooking['HoaDon'] = {
+                    NguoiLienHe: { Ho: '', Ten: '', SDT: 0, Email: '' },
+                    ChuyenBayDaChon: ChuyenBayDaChon,
+                    ThongTinHanhKhach: ThongTinHanhKhach,
+                };
+
+                console.log(PackageBooking);
+                return res.render('client/DienThongTin', {
+                    layout: 'client.handlebars',
+                });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -229,3 +296,41 @@ module.exports = new ClientController();
 //         ],
 //     },
 // ];
+
+// HoaDon:
+// {
+//     NguoiLienHe: {Ho:'', Ten:'', SDT:0, Email:''},
+//     ChuyenBayDaChon:
+//         [
+//             {
+//                 MaChuyenBay:0,
+//                 ThongTinHanhLy:
+//                     [
+//                         {
+//                             MaLoaiKhach: 1,
+//                             DanhSachMuaHanhLy:
+//                                 [
+//                                     {
+//                                         NguoiMua: { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} },
+//                                         MaMocHanhLy: 1
+//                                     }
+//                                 ]
+//                         },
+//                     ],
+//             },
+
+//         ],
+//     ThongTinHanhKhach:
+//         [
+//             {
+//                 MaLoaiKhach: 3,
+//                 SoLuong:2,
+//                 ThongTinTungHanhKhach:
+//                     [
+//                         { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} },
+//                         { DanhXung:'', Ho:'', Ten:'', NgaySinh: {Ngay:0, Thang:0, Nam:0} }
+//                     ]
+//             },
+
+//         ],
+// },

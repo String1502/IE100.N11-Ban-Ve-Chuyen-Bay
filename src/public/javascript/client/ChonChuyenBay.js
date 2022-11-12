@@ -299,10 +299,10 @@ function GetPackageBooing_fromSV() {
     }).then((res) => {
         PackageBooking = res.data;
         closeLoader();
-        console.log(PackageBooking);
         TomTat_Item_Detail_ChiTiet_HienThi();
         DoiMauChuyenBayDangChon();
 
+        console.log(PackageBooking);
         // Chuyến bay số 1
         if (PackageBooking.MangChuyenBayTimKiem.length > 0)
             LayChuyenBay_fromDB(
@@ -437,7 +437,6 @@ function HienThiChuyenBay_fromDB() {
         if (ChuyenBay_Items_fromDB.length > 0) {
             if (!document.getElementById('No_Flight').classList.contains('d-none'))
                 document.getElementById('No_Flight').classList.add('d-none');
-            console.log(ChuyenBay_Items_fromDB);
             // Copy node
             for (let i = 0; i < ChuyenBay_Items_fromDB.length; i++) {
                 const ChuyenBay_Item = ChuyenBay_Items[0].cloneNode(true);
@@ -579,6 +578,7 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
         masanbaydi: SanBayDi.MaSanBay.toString(),
         masanbayden: SanBayDen.MaSanBay.toString(),
     };
+
     openLoader('Chờ chút');
     axios({
         method: 'post',
@@ -586,9 +586,10 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
         data: data_send,
     }).then((res) => {
         ChuyenBay_Items_fromDB = res.data;
+        closeLoader();
+
         if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
         HienThiChuyenBay_fromDB();
-        closeLoader();
     });
 }
 

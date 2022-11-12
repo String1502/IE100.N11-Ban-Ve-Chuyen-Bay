@@ -32,3 +32,12 @@ export function closeLoader() {
         document.getElementById('Spinner_loading').classList.add('d-none');
     }, 1400);
 }
+
+export function getThuTrongTuan(date) {
+    switch (date.getDay()) {
+        case 0:
+            return 'CN';
+        default:
+            return 'T' + date.getDay().toString();
+    }
+}

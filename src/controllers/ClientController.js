@@ -162,13 +162,26 @@ class ClientController {
                     }
                 }
 
+                // let GiaVe_TreEm = db.ThamSo.findOne({
+                //     where: {
+                //         TenThamSo: 'GiaVeTreEm',
+                //     },
+                // });
+                let GiaVe_TreEm = 100000;
+
+                //tong tien ve = gia ve chuyen bay * heso_hanhkhach * sohanhkhach
                 for (var i = 0; i < mangchuyenbay.length; i++) {
                     for (var j = 0; j < manghanhkhach.length; j++) {
-                        manghanhkhach[j].TongTienVe +=
-                            mangchuyenbay[i].GiaVe * manghanhkhach[j].HeSo * manghanhkhach[j].value;
-                        delete manghanhkhach[j].HeSo;
+                        if (manghanhkhach[j].title === 'Em bé') manghanhkhach[j].TongTienVe += GiaVe_TreEm;
+                        else
+                            manghanhkhach[j].TongTienVe +=
+                                mangchuyenbay[i].GiaVe *
+                                parseFloat(manghanhkhach[j].HeSo) *
+                                parseInt(manghanhkhach[j].value);
                     }
                 }
+
+                for (var i in manghanhkhach) delete manghanhkhach[i].HeSo;
 
                 PackageBooking = JSON.parse(req.body.PackageBooking);
                 PackageBooking.HanhKhach = manghanhkhach;

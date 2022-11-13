@@ -1,6 +1,10 @@
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+//operator for sequelize
+const { Op } = require('sequelize'); //https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
+
+//#region Tra cứu chuyến bay cho client
 //req.body
 // {
 //     mahangghe: 'Eco',
@@ -30,7 +34,7 @@ const { QueryTypes, where } = require('sequelize');
 //     ],
 // }]
 
-let fullSearch = async (req, res) => {
+async function fullSearch(req, res) {
     try {
         //form truyen len
         // {
@@ -40,7 +44,6 @@ let fullSearch = async (req, res) => {
         //     masanbaydi,
         //     masanbayden,
         // }
-
         let form_data = { ...req.body };
         let list_ChuyenBaySuit = await search_flight(form_data);
         return res.send(JSON.stringify(list_ChuyenBaySuit));
@@ -48,7 +51,7 @@ let fullSearch = async (req, res) => {
         console.log(error);
         return res.send([]);
     }
-};
+}
 
 let search_flight = async (form_data) => {
     form_data.songuoi = 0;
@@ -338,8 +341,113 @@ let getMinDiff = function (startDate, endDate) {
 
     return Math.round(Math.abs(endDate - startDate) / msInMinute);
 };
+//#endregion
+
+//#region Tra cứu cho nhân viên
+//Trả về tất cả chuyến bay có thời gian khởi hành > time.now
+// res = [{
+//     MaChuyenBay,
+//     SanBayDi: {
+//         TenSanBay,
+//         MaSanBay,
+//     },
+//     SanBayDen: {
+//         TenSanBay,
+//         MaSanBay,
+//     },
+//     NgayKhoiHanh,
+//     SoDiemDung,
+//     SoHangVe,
+//     GiaVeCoBan,
+//     GheTrong,
+//     TongGhe,
+// }]
+let GetInfoAllFlights = async (req, res) => {
+    try {
+        let Chuyenbays = await db.ChuyenBay.findAll({
+            attributes: { exclude: ['createdAt', 'updatedAt', 'TrangThai', 'ThoiGianBay', 'DoanhThu'] },
+            where: {
+                // [Op.gt]: {
+                //     NgayGio: now.yyyymmdd(),
+                // },
+            },
+            raw: true,
+        });
+
+        // SELECT MaChuyenBay, COUNT(*) FROM `chitietchuyenbay` WHERE MaChuyenBay = 1 GROUP BY MaChuyenBay
+        for (var i in Chuyenbays) {
+            //sodiemdung luon cho 1 gtri duy nhat -> sodiemdung[0]
+            let sodiemdung = await db.sequelize.query(
+                'SELECT MaChuyenBay, COUNT(*) as SoDiemDung FROM `chitietchuyenbay` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay',
+                {
+                    replacements: {
+                        machuyenbay: Chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            Chuyenbays[i].SoDiemDung = sodiemdung[0].SoDiemDung;
+
+            //add info sanbay
+            Chuyenbays[i].SanBayDi = await getInfoSanBay(Chuyenbays[i].MaSanBayDi);
+            Chuyenbays[i].SanBayDen = await getInfoSanBay(Chuyenbays[i].MaSanBayDen);
+
+            //tinh so ghe trong+ tong ghe
+
+            let soghe = await db.sequelize.query(
+                ' SELECT SUM(TongVe) as TongGhe, SUM(VeDaBan) as TongVeBan FROM `chitiethangve` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay',
+                {
+                    replacements: {
+                        machuyenbay: Chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            Chuyenbays[i].GheTrong = parseInt(soghe[0].TongGhe) - parseInt(soghe[0].TongVeBan);
+            Chuyenbays[i].TongGhe = parseInt(soghe[0].TongGhe);
+        }
+
+        console.log(Chuyenbays);
+
+        return res.send(JSON.stringify(Chuyenbays));
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};
+
+Date.prototype.yyyymmdd = function () {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+
+    return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
+};
+
+let getInfoSanBay = async (maSanBay) => {
+    let sanbay = await db.SanBay.findOne({
+        where: {
+            MaSanBay: maSanBay,
+        },
+    });
+    console.log(sanbay);
+    return {
+        MaSanBay: sanbay.MaSanBay,
+        TenSanBay: sanbay.TenSanBay,
+    };
+};
+//#endregion
+
+//#region tìm thông tin chuyến bay chỉ định
+//req.body = { MaChuyenBay }
+let getFlight = async (req, res) => {
+    let machuyenbay = req.body.MaChuyenBay;
+};
+//#endregion
 
 module.exports = {
     fullSearch: fullSearch,
     toHoursAndMinutes: toHoursAndMinutes,
+    GetInfoAllFlights: GetInfoAllFlights,
 };

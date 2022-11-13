@@ -232,15 +232,20 @@ class ClientController {
                 PackageBooking.HanhLy = MocHanhLy;
 
                 let HanhKhach = [];
+                let index = 0;
                 for (let j = 0; j < PackageBooking.HanhKhach.length; j++) {
                     for (let z = 0; z < PackageBooking.HanhKhach[j].value; z++) {
                         HanhKhach.push({
+                            index: index,
                             MaLoaiKhach: PackageBooking.HanhKhach[j].MaLoaiKhach,
-                            GioiTinh: '',
+                            TenLoai: PackageBooking.HanhKhach[j].title,
+                            ThuTu: z + 1,
+                            GioiTinh: -1,
                             Ho: '',
                             Ten: '',
                             NgaySinh: { Ngay: 0, Thang: 0, Nam: 0 },
                         });
+                        index++;
                     }
                 }
 
@@ -267,6 +272,7 @@ class ClientController {
                 console.log(PackageBooking);
                 return res.render('client/DienThongTin', {
                     layout: 'client.handlebars',
+                    PackageBooking: PackageBooking,
                 });
             }
         } catch (error) {

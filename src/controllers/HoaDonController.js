@@ -54,14 +54,7 @@ let CreateHoaDon = async (req_body) => {
         };
 
         let HanhKhachs = req_body.HanhKhach;
-        //format
-        for (var i in HanhKhachs) {
-            HanhKhachs[i].HoTen = HanhKhachs[i].Ho + ' ' + HanhKhachs[i].Ten;
-            if (HanhKhachs[i].NgaySinh.Thang < 10) HanhKhachs[i].NgaySinh.Thang = '0' + HanhKhachs[i].NgaySinh.Thang;
-            if (HanhKhachs[i].NgaySinh.Ngay < 10) HanhKhachs[i].NgaySinh.Ngay = '0' + HanhKhachs[i].NgaySinh.Ngay;
-            HanhKhachs[i].NgaySinh =
-                HanhKhachs[i].NgaySinh.Nam + '-' + HanhKhachs[i].NgaySinh.Thang + '-' + HanhKhachs[i].NgaySinh.Ngay;
-        }
+
         let nguoilienhe = req_body.NguoiLienHe;
         nguoilienhe.HoTen = nguoilienhe.Ho + ' ' + nguoilienhe.Ten;
 
@@ -70,7 +63,7 @@ let CreateHoaDon = async (req_body) => {
                 {
                     MaLoaiKhach: HanhKhachs[index].MaLoaiKhach,
                     HoTen: HanhKhachs[index].HoTen,
-                    NgaySinh: HanhKhachs[index].NgaySinh,
+                    NgaySinh: Date.parse(HanhKhachs[index].NgaySinh),
                     GioiTinh: HanhKhachs[index].GioiTinh,
                 },
                 { raw: true },
@@ -138,6 +131,7 @@ let CreateHoaDon = async (req_body) => {
                     { raw: true },
                 );
                 mocHanhLy = mocHanhLy.dataValues;
+
                 let ve;
                 if (HanhKhachs[index].TenLoai !== 'Em bé') {
                     ve = await db.Ve.create(
@@ -181,6 +175,10 @@ let CreateHoaDon = async (req_body) => {
                     ve = ve.dataValues;
                     ves.push(ve);
                 }
+                hoadon.set({
+                    TongTien: hoadon.TongTien + ve.GiaVe,
+                });
+                await hoadon.save();
                 DoanhThu = DoanhThu + ve.GiaVe;
             }
             data_res.ChuyenBay.push({
@@ -237,6 +235,7 @@ let ThanhToan = async (req, res) => {
         });
         hoadon.set({
             NgayGioThanhToan: data_req.NgayGioThanhToan,
+            TrangThai: 'DaThanhToan',
         });
         await hoadon.save();
 

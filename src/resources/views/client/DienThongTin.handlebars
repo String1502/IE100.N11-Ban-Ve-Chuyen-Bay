@@ -732,7 +732,7 @@
                         {{#each this.PackageBooking.MangChuyenBayTimKiem}}
                             <div
                                 style='border-bottom: 1px solid black;'
-                                class='TienNghi_Item d-flex flex-row mx-3 py-3 mb-3'
+                                class='TienNghi_Item d-flex flex-row mx-3 py-3 mb-3 d-none'
                                 title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
                             >
                                 <div class='d-flex flex-column w-100'>
@@ -806,11 +806,11 @@
                     {{! Nội dung }}
                     <div>
                         {{! Tiền vé cho từng chuyến bay - TienVe_Container }}
-                        <div class='d-flex flex-column pt-3'>
+                        <div id='TienVe_Container' class='d-flex flex-column pt-3'>
 
                             {{#each this.PackageBooking.HanhKhach}}
                                 {{! TienVe_Item }}
-                                <div class='d-flex flex-row justify-content-between align-items-start mb-3'>
+                                <div class='TienVe_Item d-flex flex-row justify-content-between align-items-start mb-3'>
                                     <div class='d-flex flex-row'>
                                         <span class='px-3 custom-font p20-B text-dark'>
                                             (<span>{{this.title}}</span>) x<span>{{this.value}}</span>
@@ -841,7 +841,7 @@
                                 {{! HanhLy_Item }}
                                 <div
                                     title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
-                                    class='TomTat_HanhLy_Item d-flex flex-row justify-content-between align-items-center mb-3'
+                                    class='TomTat_HanhLy_Item d-flex flex-row justify-content-between align-items-center mb-3 d-none'
                                 >
                                     <div class='d-flex flex-row'>
                                         <span class='px-3 custom-font p20-B text-dark'>
@@ -851,15 +851,13 @@
                                     </div>
 
                                     <div class='d-flex flex-row'>
-                                        <div>
-                                            <span
-                                                class='TomTat_HanhLy_Item_GiaTien ps-3 custom-font p20-B text-dark me-1'
-                                            >
+                                        <div class='me-1'>
+                                            <span class='TomTat_HanhLy_Item_GiaTien ps-3 custom-font p20-B text-dark'>
                                                 0
                                             </span>
                                         </div>
-                                        <div>
-                                            <span class='pe-3 custom-font p20-B text-dark'>VND</span>
+                                        <div class='me-3'>
+                                            <span class='custom-font p20-B text-dark'>VND</span>
                                         </div>
                                     </div>
                                 </div>

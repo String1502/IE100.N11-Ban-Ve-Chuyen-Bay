@@ -79,7 +79,7 @@ function Add_ChuyenBay_Item_ChiTiet_Click() {
             if (Model_TrungGian_Items.length > 1) {
                 let num = Model_TrungGian_Items.length;
                 for (let j = num - 1; j > 0; j--) {
-                    Model_TrungGian_Container.removeChild(Model_TrungGian_Items[i]);
+                    Model_TrungGian_Container.removeChild(Model_TrungGian_Items[j]);
                 }
             }
             const ChanBays = structuredClone(ChuyenBayDaChon.ChanBay);

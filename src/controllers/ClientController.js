@@ -256,8 +256,8 @@ class ClientController {
                     let CBDChon = PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon;
                     let MaMocHanhLy = [];
                     for (let j = 0; j < HanhKhach.length; j++) {
-                        if (HanhKhach[j].MaLoaiKhach == LoaiKhachEmBe) MaMocHanhLy.push(0);
-                        else MaMocHanhLy.push(7);
+                        if (HanhKhach[j].MaLoaiKhach == LoaiKhachEmBe) MaMocHanhLy.push(-1);
+                        else MaMocHanhLy.push(0);
                     }
                     MangChuyenBayDat.push({ MaChuyenBay: CBDChon.MaChuyenBay, MaMocHanhLy: MaMocHanhLy });
                 }
@@ -274,6 +274,22 @@ class ClientController {
                 return res.render('client/DienThongTin', {
                     layout: 'client.handlebars',
                     PackageBooking: PackageBooking,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // "/payment" - ThanhToan
+    async payment(req, res) {
+        try {
+            if (req.body.GetPackageBooing_fromSV == true) {
+                return res.send(PackageBooking);
+            } else {
+                PackageBooking = JSON.parse(req.body.PackageBooking);
+                return res.render('client/ThanhToan', {
+                    layout: 'client.handlebars',
                 });
             }
         } catch (error) {

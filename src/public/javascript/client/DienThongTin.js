@@ -26,8 +26,9 @@ function GetPackageBooing_fromSV() {
         console.log(PackageBooking);
 
         if (PackageBooking) {
+            PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
             AddEventHanhKhach_Item();
-            HanhKhach_Item_Input_Change();
+            NguoiLienHe_Input_Change();
             AddEventHanhLy_Modal();
             TienNghiChuyenBay();
             TiepTucTren_Onclick();
@@ -50,8 +51,11 @@ function AddEventHanhKhach_Item() {
                     .querySelector('.HanhKhach_Item_GioiTinh');
 
                 HanhKhach_Item_GioiTinh.value = e.target.querySelector('.DanhXung_li_Value').innerText;
-                if (HanhKhach_Item_GioiTinh.value == 'Ông') HanhKhach_Item_GioiTinh.title = '0';
-                else HanhKhach_Item_GioiTinh.title = '1';
+
+                const index = e.target.closest('.HanhKhach_Item').title;
+                if (HanhKhach_Item_GioiTinh.value == 'Ông') PackageBooking.HoaDon.HanhKhach[index].GioiTinh = 0;
+                else if (HanhKhach_Item_GioiTinh.value == 'Cô') PackageBooking.HoaDon.HanhKhach[index].GioiTinh = 1;
+                AnHienPhanDuoi();
             });
         }
 
@@ -91,6 +95,11 @@ function AddEventHanhKhach_Item() {
                 HanhKhach_Item_NgaySinh_Ngay.value = e.target.querySelector(
                     '.HanhKhach_Item_NgaySinh_Ngay_li_value',
                 ).innerText;
+
+                const index = e.target.closest('.HanhKhach_Item').title;
+                PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay = parseInt(HanhKhach_Item_NgaySinh_Ngay.value);
+
+                AnHienPhanDuoi();
             });
         }
 
@@ -114,6 +123,13 @@ function AddEventHanhKhach_Item() {
                 HanhKhach_Item_NgaySinh_Thang.value = e.target.querySelector(
                     '.HanhKhach_Item_NgaySinh_Thang_li_value',
                 ).innerText;
+
+                const index = e.target.closest('.HanhKhach_Item').title;
+                PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thang = parseInt(
+                    HanhKhach_Item_NgaySinh_Thang.value.split(' ')[1],
+                );
+
+                AnHienPhanDuoi();
             });
         }
 
@@ -159,203 +175,52 @@ function AddEventHanhKhach_Item() {
                 HanhKhach_Item_NgaySinh_Nam.value = e.target.querySelector(
                     '.HanhKhach_Item_NgaySinh_Nam_li_value',
                 ).innerText;
+
+                const index = e.target.closest('.HanhKhach_Item').title;
+                PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam = parseInt(HanhKhach_Item_NgaySinh_Nam.value);
+                AnHienPhanDuoi();
             });
         }
-    }
-}
 
-function HanhKhach_Item_Input_Change() {
-    const HanhKhach_Items = document.querySelectorAll('.HanhKhach_Item');
-    for (let i = 0; i < HanhKhach_Items.length; i++) {
-        HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').addEventListener('change', (e) => {
-            const index = e.target.closest('.HanhKhach_Item').title;
-            if (e.target.value == 'Ông') PackageBooking.HoaDon.HanhKhach[index].GioiTinh = 0;
-            else if (e.target.value == 'Cô') PackageBooking.HoaDon.HanhKhach[index].GioiTinh = 1;
-
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
-        });
+        // Họ
         HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').addEventListener('change', (e) => {
             const index = e.target.closest('.HanhKhach_Item').title;
             PackageBooking.HoaDon.HanhKhach[index].Ho = e.target.value;
 
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
+            AnHienPhanDuoi();
         });
+
+        // Tên
         HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').addEventListener('change', (e) => {
             const index = e.target.closest('.HanhKhach_Item').title;
             PackageBooking.HoaDon.HanhKhach[index].Ten = e.target.value;
 
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
-        });
-        HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').addEventListener('change', (e) => {
-            const index = e.target.closest('.HanhKhach_Item').title;
-            PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay = parseInt(e.target.value);
-
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
-        });
-        HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').addEventListener('change', (e) => {
-            const index = e.target.closest('.HanhKhach_Item').title;
-            PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thanng = parseInt(e.target.value);
-
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
-        });
-        HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').addEventListener('change', (e) => {
-            const index = e.target.closest('.HanhKhach_Item').title;
-            PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam = parseInt(e.target.value);
-
-            const KiemTra = KiemTraNhapThongTin();
-            const PhanDuoi = document.getElementById('PhanDuoi');
-            const TiepTucTren = document.getElementById('TiepTucTren');
-            if (KiemTra.flag) {
-                if (PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.remove('d-none');
-                    TiepTucTren.classList.add('d-none');
-                }
-            } else {
-                if (!PhanDuoi.classList.contains('d-none')) {
-                    PhanDuoi.classList.add('d-none');
-                    TiepTucTren.classList.remove('d-none');
-                }
-            }
+            AnHienPhanDuoi();
         });
     }
+}
 
+function NguoiLienHe_Input_Change() {
     // Người liên hệ
     document.getElementById('NguoiLienHe_Ho').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.Ho = e.target.value;
 
-        const KiemTra = KiemTraNhapThongTin();
-        const PhanDuoi = document.getElementById('PhanDuoi');
-        const TiepTucTren = document.getElementById('TiepTucTren');
-        if (KiemTra.flag) {
-            if (PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.remove('d-none');
-                TiepTucTren.classList.add('d-none');
-            }
-        } else {
-            if (!PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.add('d-none');
-                TiepTucTren.classList.remove('d-none');
-            }
-        }
+        AnHienPhanDuoi();
     });
     document.getElementById('NguoiLienHe_Ten').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.Ten = e.target.value;
 
-        const KiemTra = KiemTraNhapThongTin();
-        const PhanDuoi = document.getElementById('PhanDuoi');
-        const TiepTucTren = document.getElementById('TiepTucTren');
-        if (KiemTra.flag) {
-            if (PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.remove('d-none');
-                TiepTucTren.classList.add('d-none');
-            }
-        } else {
-            if (!PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.add('d-none');
-                TiepTucTren.classList.remove('d-none');
-            }
-        }
+        AnHienPhanDuoi();
     });
     document.getElementById('NguoiLienHe_SDT').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.SDT = e.target.value;
 
-        const KiemTra = KiemTraNhapThongTin();
-        const PhanDuoi = document.getElementById('PhanDuoi');
-        const TiepTucTren = document.getElementById('TiepTucTren');
-        if (KiemTra.flag) {
-            if (PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.remove('d-none');
-                TiepTucTren.classList.add('d-none');
-            }
-        } else {
-            if (!PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.add('d-none');
-                TiepTucTren.classList.remove('d-none');
-            }
-        }
+        AnHienPhanDuoi();
     });
     document.getElementById('NguoiLienHe_Email').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.Email = e.target.value;
 
-        const KiemTra = KiemTraNhapThongTin();
-        const PhanDuoi = document.getElementById('PhanDuoi');
-        const TiepTucTren = document.getElementById('TiepTucTren');
-        if (KiemTra.flag) {
-            if (PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.remove('d-none');
-                TiepTucTren.classList.add('d-none');
-            }
-        } else {
-            if (!PhanDuoi.classList.contains('d-none')) {
-                PhanDuoi.classList.add('d-none');
-                TiepTucTren.classList.remove('d-none');
-            }
-        }
+        AnHienPhanDuoi();
     });
 }
 
@@ -453,11 +318,11 @@ function LoadHanhKhachMuaHanhLy() {
                 const MangChuyenBayDat = PackageBooking.HoaDon.MangChuyenBayDat.find(
                     (item) => item.MaChuyenBay == MaChuyenBay,
                 );
-                MangChuyenBayDat.MaMocHanhLy[indexHanhKhach] = MocHanhLy.SoKgToiDa + 7;
+                MangChuyenBayDat.MaMocHanhLy[indexHanhKhach] = MocHanhLy.SoKgToiDa;
 
                 let chuoi = '';
                 MangChuyenBayDat.MaMocHanhLy.map((item) => {
-                    if (item > 7) chuoi += item - 7 + ' kg, ';
+                    if (item >= 0) chuoi += item + ' kg, ';
                 });
                 const ChuyenBay_lis = document.querySelectorAll('.ChuyenBay_li');
                 let ChuyenBay_li;
@@ -471,9 +336,9 @@ function LoadHanhKhachMuaHanhLy() {
 
                 let tien = 0;
                 MangChuyenBayDat.MaMocHanhLy.map((item) => {
-                    if (item > 0) {
+                    if (item >= 0) {
                         for (let z = 0; z < PackageBooking.HanhLy.length; z++) {
-                            if (PackageBooking.HanhLy[z].SoKgToiDa == item - 7) {
+                            if (PackageBooking.HanhLy[z].SoKgToiDa == item) {
                                 tien += PackageBooking.HanhLy[z].GiaTien;
                             }
                         }
@@ -499,6 +364,14 @@ function LoadHanhKhachMuaHanhLy() {
                 }
                 TienNghi_Item.querySelector('.TienNghi_Item_MocHanhLy').innerText = chuoi;
                 TienNghi_Item.querySelector('.TienNghi_Item_TienHanhLy').innerText = numberWithDot(tien);
+                if (tien > 0) {
+                    if (TienNghi_Item.classList.contains('d-none')) {
+                        TienNghi_Item.classList.remove('d-none');
+                    }
+                    TienNghi_Item.querySelector('.TienNghi_Item_TienHanhLy').innerText = numberWithDot(tien);
+                } else if (!TienNghi_Item.classList.contains('d-none')) {
+                    TienNghi_Item.classList.add('d-none');
+                }
 
                 // Tóm tắt Zone
                 const TomTat_HanhLy_Items = document.querySelectorAll('.TomTat_HanhLy_Item');
@@ -509,7 +382,14 @@ function LoadHanhKhachMuaHanhLy() {
                         break;
                     }
                 }
-                TomTat_HanhLy_Item.querySelector('.TomTat_HanhLy_Item_GiaTien').innerText = numberWithDot(tien);
+                if (tien > 0) {
+                    if (TomTat_HanhLy_Item.classList.contains('d-none')) {
+                        TomTat_HanhLy_Item.classList.remove('d-none');
+                    }
+                    TomTat_HanhLy_Item.querySelector('.TomTat_HanhLy_Item_GiaTien').innerText = numberWithDot(tien);
+                } else if (!TomTat_HanhLy_Item.classList.contains('d-none')) {
+                    TomTat_HanhLy_Item.classList.add('d-none');
+                }
                 CapNhatTongTien();
             });
         }
@@ -520,8 +400,8 @@ function LoadHanhKhachMuaHanhLy() {
         const MangChuyenBayDat = PackageBooking.HoaDon.MangChuyenBayDat.find((item) => item.MaChuyenBay == MaChuyenBay);
         let MocHanhLyDaChon;
         for (let j = 0; j < PackageBooking.HanhLy.length; j++) {
-            if (MangChuyenBayDat.MaMocHanhLy[indexHanhKhach] <= 7) continue;
-            if (PackageBooking.HanhLy[j].SoKgToiDa == MangChuyenBayDat.MaMocHanhLy[indexHanhKhach] - 7) {
+            if (MangChuyenBayDat.MaMocHanhLy[indexHanhKhach] < 0) continue;
+            if (PackageBooking.HanhLy[j].SoKgToiDa == MangChuyenBayDat.MaMocHanhLy[indexHanhKhach]) {
                 MocHanhLyDaChon = structuredClone(PackageBooking.HanhLy[j]);
                 break;
             }
@@ -625,6 +505,12 @@ function TomTat_func() {
     CapNhatTongTien();
     const TomTat_HanhKhach_TienVes = document.querySelectorAll('.TomTat_HanhKhach_TienVe');
     for (let i = 0; i < TomTat_HanhKhach_TienVes.length; i++) {
+        if (parseInt(TomTat_HanhKhach_TienVes[i].innerText) <= 0) {
+            const TienVe_Container = document
+                .getElementById('TienVe_Container')
+                .removeChild(TomTat_HanhKhach_TienVes[i].closest('.TienVe_Item'));
+            continue;
+        }
         TomTat_HanhKhach_TienVes[i].innerText = numberWithDot(TomTat_HanhKhach_TienVes[i].innerText);
     }
 }
@@ -638,18 +524,35 @@ function CapNhatTongTien() {
     for (let i = 0; i < PackageBooking.HoaDon.MangChuyenBayDat.length; i++) {
         const ChuyenBay = PackageBooking.HoaDon.MangChuyenBayDat[i];
         for (let j = 0; j < ChuyenBay.MaMocHanhLy.length; j++) {
-            if (ChuyenBay.MaMocHanhLy[j] <= 7) continue;
-            let tien = PackageBooking.HanhLy.find((item) => item.SoKgToiDa == ChuyenBay.MaMocHanhLy[j] - 7).GiaTien;
+            if (ChuyenBay.MaMocHanhLy[j] < 0) continue;
+            let tien = PackageBooking.HanhLy.find((item) => item.SoKgToiDa == ChuyenBay.MaMocHanhLy[j]).GiaTien;
             value += tien;
         }
     }
     document.getElementById('TomTat_TongTien').innerText = numberWithDot(value);
 }
 
+function AnHienPhanDuoi() {
+    const KiemTra = KiemTraNhapThongTin();
+    const PhanDuoi = document.getElementById('PhanDuoi');
+    const TiepTucTren = document.getElementById('TiepTucTren');
+    if (KiemTra.flag) {
+        if (PhanDuoi.classList.contains('d-none')) {
+            PhanDuoi.classList.remove('d-none');
+            TiepTucTren.classList.add('d-none');
+        }
+    } else {
+        if (!PhanDuoi.classList.contains('d-none')) {
+            PhanDuoi.classList.add('d-none');
+            TiepTucTren.classList.remove('d-none');
+        }
+    }
+}
+
 function SendForm(_PackageBooking) {
     document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
     var book_flight_form = document.forms['book-flight-form'];
-    book_flight_form.action = '/booking'; //view Thanh Toán
+    book_flight_form.action = '/payment';
     book_flight_form.submit();
 }
 
@@ -658,8 +561,7 @@ if (TiepTucDuoi)
     TiepTucDuoi.addEventListener('click', () => {
         let KiemTra = KiemTraNhapThongTin();
         if (KiemTra.flag) {
-            console.log(PackageBooking);
-            //SendForm(PackageBooking);
+            SendForm(PackageBooking);
         } else showToast({ header: KiemTra.head, body: KiemTra.body, duration: 5000, type: 'warning' });
     });
 

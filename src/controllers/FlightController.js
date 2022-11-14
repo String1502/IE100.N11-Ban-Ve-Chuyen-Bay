@@ -203,7 +203,7 @@ let search_flight = async (form_data) => {
                                 Phut: thoigianden.getMinutes(),
                             },
                             NgayDen: {
-                                Ngay: thoigianden.getDate(),
+                                Ngay: thoigianden.getUTCDate(),
                                 Thang: thoigianden.getMonth() + 1,
                                 Nam: thoigianden.getFullYear(),
                             },
@@ -227,7 +227,7 @@ let search_flight = async (form_data) => {
                                 Phut: thoigiandi.getMinutes(),
                             },
                             NgayDi: {
-                                Ngay: thoigiandi.getDate(),
+                                Ngay: thoigiandi.getUTCDate(),
                                 Thang: thoigiandi.getMonth() + 1,
                                 Nam: thoigiandi.getFullYear(),
                             },
@@ -253,7 +253,7 @@ let search_flight = async (form_data) => {
                                 Phut: thoigiandi.getMinutes(),
                             },
                             NgayDi: {
-                                Ngay: thoigiandi.getDate(),
+                                Ngay: thoigiandi.getUTCDate(),
                                 Thang: thoigiandi.getMonth() + 1,
                                 Nam: thoigiandi.getFullYear(),
                             },
@@ -269,7 +269,7 @@ let search_flight = async (form_data) => {
                                 Phut: thoigianden.getMinutes(),
                             },
                             NgayDen: {
-                                Ngay: thoigianden.getDate(),
+                                Ngay: thoigianden.getUTCDate(),
                                 Thang: thoigianden.getMonth() + 1,
                                 Nam: thoigianden.getFullYear(),
                             },
@@ -295,7 +295,7 @@ let search_flight = async (form_data) => {
                                 Phut: thoigiandi.getMinutes(),
                             },
                             NgayDi: {
-                                Ngay: thoigiandi.getDate(),
+                                Ngay: thoigiandi.getUTCDate(),
                                 Thang: thoigiandi.getMonth() + 1,
                                 Nam: thoigiandi.getFullYear(),
                             },
@@ -421,7 +421,7 @@ let GetInfoAllFlights = async (req, res) => {
 
 Date.prototype.yyyymmdd = function () {
     var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
+    var dd = this.getUTCDate();
 
     return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
 };

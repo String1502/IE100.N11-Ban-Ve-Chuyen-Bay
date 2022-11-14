@@ -114,6 +114,7 @@ let search_flight = async (form_data) => {
 
         //convert thoigiandi + thoigianden
         thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
+        console.log(thoigiandi_chuyenbay);
         thoigianden_chuyenbay = add_minutes(thoigiandi_chuyenbay, list_ChuyenBaySuit[i].ThoiGianBay);
         //thoigian di
         list_ChuyenBaySuit[i].ThoiGianDi = {
@@ -122,7 +123,7 @@ let search_flight = async (form_data) => {
                 Phut: thoigiandi_chuyenbay.getMinutes(),
             },
             NgayDi: {
-                Ngay: thoigiandi_chuyenbay.getDate(),
+                Ngay: thoigiandi_chuyenbay.getUTCDate(),
                 Thang: thoigiandi_chuyenbay.getMonth() + 1,
                 Nam: thoigiandi_chuyenbay.getFullYear(),
             },
@@ -134,7 +135,7 @@ let search_flight = async (form_data) => {
                 Phut: thoigianden_chuyenbay.getMinutes(),
             },
             NgayDen: {
-                Ngay: thoigianden_chuyenbay.getDate(),
+                Ngay: thoigianden_chuyenbay.getUTCDate(),
                 Thang: thoigianden_chuyenbay.getMonth() + 1,
                 Nam: thoigianden_chuyenbay.getFullYear(),
             },
@@ -300,7 +301,7 @@ let search_flight = async (form_data) => {
                             },
                         },
                         SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
-                        ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
+                        ThoiGianDen: list_ChuyenBaySuit[i].ThoigianDen,
                         ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
                         ThoiGianBay: toHoursAndMinutes(thoigianbay),
                     };
@@ -321,7 +322,7 @@ let search_flight = async (form_data) => {
             list_ChuyenBaySuit[i].GiaVe = list_ChuyenBaySuit[i].GiaVe * parseFloat(heso_hangghe.HeSo);
         }
     }
-
+    console.log(list_ChuyenBaySuit[0].ThoiGianDen);
     return list_ChuyenBaySuit;
 };
 

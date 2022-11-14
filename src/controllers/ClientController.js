@@ -172,7 +172,8 @@ class ClientController {
                 //tong tien ve = gia ve chuyen bay * heso_hanhkhach * sohanhkhach
                 for (var i = 0; i < mangchuyenbay.length; i++) {
                     for (var j = 0; j < manghanhkhach.length; j++) {
-                        if (manghanhkhach[j].title === 'Em bé') manghanhkhach[j].TongTienVe += GiaVe_TreEm;
+                        if (manghanhkhach[j].title === 'Em bé')
+                            manghanhkhach[j].TongTienVe += GiaVe_TreEm * parseInt(manghanhkhach[j].value);
                         else
                             manghanhkhach[j].TongTienVe +=
                                 mangchuyenbay[i].GiaVe *

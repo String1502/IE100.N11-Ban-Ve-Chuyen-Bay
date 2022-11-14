@@ -23,11 +23,9 @@ function GetPackageBooing_fromSV() {
     }).then((res) => {
         PackageBooking = res.data;
         closeLoader();
-        console.log(PackageBooking);
     });
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
-
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =
         event.persisted || (typeof window.performance != 'undefined' && window.performance.navigation.type === 2);
@@ -39,5 +37,22 @@ window.addEventListener('pageshow', function (event) {
 
 // Nút thanh toán onclick
 document.getElementById('ThanhToan').addEventListener('click', () => {
-    // Trí
+    let HoaDon = document.getElementById('data-hoadon');
+    let data_send = HoaDon.getAttribute('data-HoaDon');
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    data_send = JSON.parse(data_send);
+    data_send.NgayGioThanhToan = today;
+    openLoader('Chờ chút');
+    axios({
+        method: 'post',
+        url: '/hoadon/thanhtoan',
+        data: data_send,
+    }).then((res) => {
+        console.log(res.data);
+        if (res.data === 'Success') alert('Thanh toán thành công');
+        else alert('thanh toán thất bại');
+    });
+
+    closeLoader();
 });

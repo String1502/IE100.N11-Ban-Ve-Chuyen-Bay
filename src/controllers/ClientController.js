@@ -1,4 +1,5 @@
 import db from '../models/index';
+import HoaDonController from './HoaDonController';
 const { QueryTypes } = require('sequelize');
 
 let PackageBooking;
@@ -78,7 +79,7 @@ class ClientController {
                 return res.send(PackageBooking);
             } else {
                 // From DB
-                let HanhLy = await db.sequelize.query('select SoKgToiDa , GiaTien from mochanhly', {
+                let HanhLy = await db.sequelize.query('select SoKgToiDa , GiaTien from mochanhly WHERE  GiaTien <> 0', {
                     type: QueryTypes.SELECT,
                     raw: true,
                 });
@@ -139,7 +140,6 @@ class ClientController {
                 return res.send(PackageBooking);
             } else {
                 let form = JSON.parse(req.body.PackageBooking);
-                console.log(req.body.PackageBooking);
                 let mangchuyenbay = [...form.MangChuyenBayTimKiem];
                 let manghanhkhach = [...form.HanhKhach];
 
@@ -288,8 +288,10 @@ class ClientController {
                 return res.send(PackageBooking);
             } else {
                 PackageBooking = JSON.parse(req.body.PackageBooking);
+                let HoaDon = await HoaDonController.CreateHoaDon(PackageBooking.HoaDon);
                 return res.render('client/ThanhToan', {
                     layout: 'client.handlebars',
+                    HoaDon: JSON.stringify(HoaDon),
                 });
             }
         } catch (error) {

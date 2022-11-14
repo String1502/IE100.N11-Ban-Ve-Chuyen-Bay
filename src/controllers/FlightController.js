@@ -441,8 +441,95 @@ let getInfoSanBay = async (maSanBay) => {
 
 //#region tìm thông tin chuyến bay chỉ định
 //req.body = { MaChuyenBay }
-let getFlight = async (req, res) => {
-    let machuyenbay = req.body.MaChuyenBay;
+
+//chuyenbay = {
+//     MaCuyenBay,
+//     NgayKhoiHanh,
+//     ThoiGianBay
+//     SanBayDi,
+//     SanBayDen,
+//     GiaVeCoBan,
+//     SanBayTrungGian: [{
+//         ThuTu,
+//         TenSanBay,
+//         ThoiGianDen,
+//         ThoiGianDung,
+//         GhiChu
+//     }],
+//     HangVe: [{
+//         MaHangVe,
+//         TenHangVe,
+//         GiaTien,
+//         GheTrong,
+//     }]
+//     VeDaDat: [{
+//         MaVe,
+//         MaHanhKhach,
+//         TenKhach,
+//         TenHangVe,
+//         HanhLy,
+//         NgayThanhToan,
+//         LienLac,
+//     }]
+// }
+let getFlight = async (machuyenbay) => {
+    try {
+        let Chuyenbay = await db.ChuyenBay.findOne({
+            attributes: { exclude: ['createdAt', 'updatedAt', 'TrangThai', 'DoanhThu'] },
+            where: {
+                MaChuyenBay: machuyenbay,
+            },
+            raw: true,
+        });
+
+        //add san bay trung gian
+        let sbtg = await db.sequelize.query(
+            'SELECT `MaSBTG`, TenSanBay , `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `GhiChu` FROM `chitietchuyenbay`, sanbay WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND MaChuyenBay = :machuyenbay ',
+            {
+                replacements: {
+                    machuyenbay: machuyenbay,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+        Chuyenbay.SanBayTrungGian = sbtg;
+
+        //hangve = [{MaHangGhe, TenHangGhe, HeSo, TongVe, VeDaBan }]
+        let HangVe = await db.sequelize.query(
+            '  SELECT  MaCTVe, chitiethangve.`MaHangGhe`, hangghe.TenHangGhe ,  hangghe.HeSo ,`TongVe`, `VeDaBan` FROM `chitiethangve`, hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
+            {
+                replacements: {
+                    machuyenbay: machuyenbay,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+
+        let VeDaDats = [];
+        for (var i in HangVe) {
+            HangVe[i].GiaTien = parseInt(Chuyenbay.GiaVeCoBan) * parseFloat(HangVe[i].HeSo);
+
+            let vedadat = await db.sequelize.query(
+                '  SELECT ve.MaHK, hanhkhach.HoTen, `MaVe`, mochanhly.SoKgToiDa, `GiaVe`FROM `ve` , mochanhly , hanhkhach WHERE ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaHK = hanhkhach.MaHK AND MaCTVe = :mactve ',
+                {
+                    replacements: {
+                        mactve: HangVe[i].MaCTVe,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            VeDaDats = VeDaDats.concat(vedadat);
+        }
+        Chuyenbay.VeDaDat = VeDaDats;
+
+        return Chuyenbay;
+    } catch (error) {
+        console.log(error);
+        return {};
+    }
 };
 //#endregion
 

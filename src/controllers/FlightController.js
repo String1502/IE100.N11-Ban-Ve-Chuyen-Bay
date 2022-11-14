@@ -301,7 +301,7 @@ let search_flight = async (form_data) => {
                             },
                         },
                         SanBayDen: list_ChuyenBaySuit[i].SanBayDen,
-                        ThoiGianDen: list_ChuyenBaySuit[i].ThoigianDen,
+                        ThoiGianDen: list_ChuyenBaySuit[i].ThoiGianDen,
                         ThoiGianDung_SanBayDen: { Gio: 0, Phut: 0 },
                         ThoiGianBay: toHoursAndMinutes(thoigianbay),
                     };

@@ -594,9 +594,27 @@ let getFlight = async (machuyenbay) => {
 let filterFlight = async (req, res) => {
     try {
         let form_data = { ...req.body };
-        let chuyenbays = await db.ChuyenBay.findAll({
-            raw: true,
-        });
+
+        form_data.GioKhoiHanh = JSON.parse(form_data.GioKhoiHanh);
+        let chuyenbays;
+        if (typeof form_data.GioKhoiHanh.Gio !== 'undefined' && parseInt(form_data.GioKhoiHanh.Gio) !== -1) {
+            //
+            chuyenbays = await db.sequelize.query(
+                'SELECT `MaChuyenBay`, `MaSanBayDi`, `MaSanBayDen`, `NgayGio`, `ThoiGianBay`, `GiaVeCoBan`, `DoanhThu`, `TrangThai`, `createdAt`, `updatedAt` FROM `chuyenbay` WHERE HOUR(NgayGio) > :gio OR( HOUR(NgayGio) = :gio AND MINUTE(NgayGio) >= :phut)',
+                {
+                    replacements: {
+                        gio: form_data.GioKhoiHanh.Gio,
+                        phut: form_data.GioKhoiHanh.Phut,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+        } else {
+            chuyenbays = await db.ChuyenBay.findAll({
+                raw: true,
+            });
+        }
 
         //#region Lọc lại chuyến bay
         for (var i in chuyenbays) {
@@ -645,6 +663,16 @@ let filterFlight = async (req, res) => {
         if (typeof form_data.GheTrong !== 'undefined' && parseInt(form_data.GheTrong) !== -1) {
             chuyenbays = chuyenbays.filter((item, index) => {
                 return item.GheTrong <= parseInt(form_data.GheTrong);
+            });
+        }
+
+        form_data.NgayKhoiHanh = JSON.parse(form_data.NgayKhoiHanh);
+        if (typeof form_data.NgayKhoiHanh.Ngay !== 'undefined' && parseInt(form_data.NgayKhoiHanh.Ngay) !== -1) {
+            let strDate =
+                form_data.NgayKhoiHanh.Nam + '-' + form_data.NgayKhoiHanh.Thang + '-' + form_data.NgayKhoiHanh.Ngay;
+            let date = new Date(strDate);
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.NgayGio >= date;
             });
         }
 
@@ -720,7 +748,7 @@ let filterFlight = async (req, res) => {
             delete chuyenbays[i].ThoiGianBay;
         }
         //#endregion
-        console.log(chuyenbays);
+        // console.log(chuyenbays);
         return res.send(JSON.stringify(chuyenbays));
     } catch (error) {
         console.log(error);

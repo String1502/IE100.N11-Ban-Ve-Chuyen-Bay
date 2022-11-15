@@ -54,16 +54,24 @@ let CreateHoaDon = async (req_body) => {
         };
 
         let HanhKhachs = req_body.HanhKhach;
-
         let nguoilienhe = req_body.NguoiLienHe;
+
         nguoilienhe.HoTen = nguoilienhe.Ho + ' ' + nguoilienhe.Ten;
 
         for (var index in HanhKhachs) {
+            HanhKhachs[index].HoTen = HanhKhachs[index].Ho + HanhKhachs[index].Ten;
+            console.log();
+            HanhKhachs[index].NgaySinh =
+                HanhKhachs[index].NgaySinh.Nam +
+                '-' +
+                HanhKhachs[index].NgaySinh.Thang +
+                '-' +
+                HanhKhachs[index].NgaySinh.Ngay;
             const HanhKhach = await db.HanhKhach.create(
                 {
                     MaLoaiKhach: HanhKhachs[index].MaLoaiKhach,
                     HoTen: HanhKhachs[index].HoTen,
-                    NgaySinh: Date.parse(HanhKhachs[index].NgaySinh),
+                    NgaySinh: new Date(HanhKhachs[index].NgaySinh),
                     GioiTinh: HanhKhachs[index].GioiTinh,
                 },
                 { raw: true },

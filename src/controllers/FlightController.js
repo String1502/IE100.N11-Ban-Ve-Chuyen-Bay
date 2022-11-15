@@ -418,46 +418,10 @@ let GetInfoAllFlights = async (req, res) => {
         return [];
     }
 };
-
-Date.prototype.yyyymmdd = function () {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getUTCDate();
-
-    return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
-};
-
-let getInfoSanBay = async (maSanBay) => {
-    let sanbay = await db.SanBay.findOne({
-        where: {
-            MaSanBay: maSanBay,
-        },
-        include: [{ model: db.TinhThanh, attributes: ['TenTinhThanh'] }],
-    });
-    return {
-        MaSanBay: sanbay.MaSanBay,
-        TenSanBay: sanbay.TenSanBay,
-        TinhThanh: sanbay.TinhThanh.TenTinhThanh,
-    };
-};
-
-let getInfoHangGhe = async (machuyenbay) => {
-    // SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = 1
-    let hangghe = await db.sequelize.query(
-        ' SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
-        {
-            replacements: {
-                machuyenbay: machuyenbay,
-            },
-            type: QueryTypes.SELECT,
-            raw: true,
-        },
-    );
-    return hangghe;
-};
 //#endregion
 
 //#region tìm thông tin chuyến bay chỉ định
-//req.body = { MaChuyenBay }
+//req.body = { MaChuyenBay , MaChuyenBayHienThi }
 
 //chuyenbay = {
 //     MaCuyenBay,
@@ -489,12 +453,14 @@ let getInfoHangGhe = async (machuyenbay) => {
 //         LienLac,
 //     }]
 // }
-let getFlight = async (machuyenbay) => {
+let getFlight = async (req, res) => {
     try {
+        let maChuyenBay = req.body.MaChuyenBay;
+        let maChuyenBayHienThi = req.body.MaChuyenBayHienThi;
         let Chuyenbay = await db.ChuyenBay.findOne({
             attributes: { exclude: ['createdAt', 'updatedAt', 'TrangThai', 'DoanhThu'] },
             where: {
-                MaChuyenBay: machuyenbay,
+                MaChuyenBay: maChuyenBay,
             },
             raw: true,
         });
@@ -504,45 +470,150 @@ let getFlight = async (machuyenbay) => {
             'SELECT `MaSBTG`, TenSanBay , `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `GhiChu` FROM `chitietchuyenbay`, sanbay WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND MaChuyenBay = :machuyenbay ',
             {
                 replacements: {
-                    machuyenbay: machuyenbay,
+                    machuyenbay: maChuyenBay,
                 },
                 type: QueryTypes.SELECT,
                 raw: true,
             },
         );
-        Chuyenbay.SanBayTrungGian = sbtg;
+        for (var i in sbtg) {
+            let ngayGioDen = formatDateTime(sbtg[i].NgayGioDen);
+            sbtg[i].ThoiGianDen = {
+                GioDen: { Gio: ngayGioDen.Gio, Phut: ngayGioDen.Phut },
+                NgayDen: { Ngay: ngayGioDen.Ngay, Thang: ngayGioDen.Thang, Nam: ngayGioDen.Nam },
+            };
+            delete sbtg[i].NgayGioDen;
+        }
+        Chuyenbay.SanBayTG = sbtg;
 
         //hangve = [{MaHangGhe, TenHangGhe, HeSo, TongVe, VeDaBan }]
-        let HangVe = await db.sequelize.query(
+        let HangVes = await db.sequelize.query(
             '  SELECT  MaCTVe, chitiethangve.`MaHangGhe`, hangghe.TenHangGhe ,  hangghe.HeSo ,`TongVe`, `VeDaBan` FROM `chitiethangve`, hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
             {
                 replacements: {
-                    machuyenbay: machuyenbay,
+                    machuyenbay: maChuyenBay,
                 },
                 type: QueryTypes.SELECT,
                 raw: true,
             },
         );
+        let tongGheTrong = 0;
+        Chuyenbay.HangVe = [];
+        for (var i in HangVes) {
+            let hangve = {
+                TenHangVe: HangVes[i].TenHangGhe,
+                GiaTien: HangVes[i].HeSo * Chuyenbay.GiaVeCoBan, // = giavecoban*heso
+                GheTrong: HangVes[i].TongVe - HangVes[i].VeDaBan,
+            };
+            tongGheTrong += hangve.GheTrong;
+            Chuyenbay.HangVe.push(hangve);
+        }
+        Chuyenbay.GheTrong = tongGheTrong;
 
         let VeDaDats = [];
-        for (var i in HangVe) {
-            HangVe[i].GiaTien = parseInt(Chuyenbay.GiaVeCoBan) * parseFloat(HangVe[i].HeSo);
+        // console.log(HangVe);
+        for (var i in HangVes) {
+            HangVes[i].GiaTien = parseInt(Chuyenbay.GiaVeCoBan) * parseFloat(HangVes[i].HeSo);
 
             let vedadat = await db.sequelize.query(
-                '  SELECT ve.MaHK, hanhkhach.HoTen, `MaVe`, mochanhly.SoKgToiDa, `GiaVe`FROM `ve` , mochanhly , hanhkhach WHERE ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaHK = hanhkhach.MaHK AND MaCTVe = :mactve ',
+                '  SELECT MaVe, ve.MaHK, hanhkhach.HoTen, `MaVe`, ve.MaMocHanhLy as MocHanhLy,GioiTinh ,`GiaVe`, NgaySinh, MaHoaDon FROM `ve` , mochanhly , hanhkhach WHERE ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaHK = hanhkhach.MaHK AND MaCTVe = :mactve ',
                 {
                     replacements: {
-                        mactve: HangVe[i].MaCTVe,
+                        mactve: HangVes[i].MaCTVe,
                     },
                     type: QueryTypes.SELECT,
                     raw: true,
                 },
             );
-            VeDaDats = VeDaDats.concat(vedadat);
+
+            for (var j in vedadat) {
+                vedadat[j].HanhKhach = {};
+                let NgaySinh = formatDateTime(vedadat[j].NgaySinh);
+                vedadat[j].HanhKhach = {
+                    MaHK: vedadat[j].MaHK,
+                    GioiTinh: vedadat[j].GioiTinh,
+                    HoTen: vedadat[j].HoTen,
+                    NgaySinh: {
+                        Ngay: NgaySinh.Ngay,
+                        Thang: NgaySinh.Thang,
+                        Nam: NgaySinh.Nam,
+                    },
+                };
+
+                let NguoiLienHe = await db.HoaDon.findOne(
+                    {
+                        attributes: ['SDT', 'HoTen', 'Email', 'NgayGioThanhToan'],
+                        where: {
+                            MaHoaDon: vedadat[j].MaHoaDon,
+                        },
+                    },
+                    { raw: true },
+                );
+                let ngaygioThanhToan = NguoiLienHe.NgayGioThanhToan;
+                delete NguoiLienHe.NgayGioThanhToan;
+
+                vedadat[j].NguoiLienHe = NguoiLienHe;
+                console.log();
+
+                if (ngaygioThanhToan) {
+                    let ngaydat = formatDateTime(ngaygioThanhToan);
+                    vedadat[j].ThoiGianThanhToan = {
+                        GioThanhToan: {
+                            Gio: ngaydat.Gio,
+                            Phut: ngaydat.Phut,
+                        },
+                        NgayThanhToan: {
+                            Ngay: ngaydat.Ngay,
+                            Thang: ngaydat.Thang,
+                            Nam: ngaydat.Nam,
+                        },
+                    };
+                } else {
+                    vedadat[j].ThoiGianThanhToan = {
+                        GioThanhToan: {
+                            Gio: -1,
+                            Phut: -1,
+                        },
+                        NgayThanhToan: {
+                            Ngay: -1,
+                            Thang: -1,
+                            Nam: -1,
+                        },
+                    };
+                }
+
+                vedadat[j].MaVeHienThi = maChuyenBayHienThi + vedadat[j].MaVe;
+
+                delete vedadat[j].MaHK;
+                delete vedadat[j].GioiTinh;
+                delete vedadat[j].HoTen;
+                delete vedadat[j].NgaySinh;
+            }
+            if (vedadat) VeDaDats = VeDaDats.concat(vedadat);
         }
         Chuyenbay.VeDaDat = VeDaDats;
 
-        return Chuyenbay;
+        Chuyenbay.SanBayDi = await getInfoSanBay(Chuyenbay.MaSanBayDi);
+        Chuyenbay.SanBayDen = await getInfoSanBay(Chuyenbay.MaSanBayDen);
+
+        let thoiGianDi = formatDateTime(Chuyenbay.NgayGio);
+        (Chuyenbay.ThoiGianDi = {
+            GioDi: {
+                Gio: thoiGianDi.Gio,
+                Phut: thoiGianDi.Phut,
+            },
+            NgayDi: {
+                Ngay: thoiGianDi.Ngay,
+                Thang: thoiGianDi.Thang,
+                Nam: thoiGianDi.Nam,
+            },
+        }),
+            delete Chuyenbay.NgayGio;
+        delete Chuyenbay.MaSanBayDi;
+        delete Chuyenbay.MaSanBayDen;
+
+        console.log(Chuyenbay);
+        return res.send(JSON.stringify(Chuyenbay));
     } catch (error) {
         console.log(error);
         return {};
@@ -758,9 +829,60 @@ let filterFlight = async (req, res) => {
 
 //#endregion
 
+//#region func util
+Date.prototype.yyyymmdd = function () {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getUTCDate();
+
+    return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
+};
+
+let getInfoSanBay = async (maSanBay) => {
+    let sanbay = await db.SanBay.findOne({
+        where: {
+            MaSanBay: maSanBay,
+        },
+        include: [{ model: db.TinhThanh, attributes: ['TenTinhThanh'] }],
+    });
+    return {
+        MaSanBay: sanbay.MaSanBay,
+        TenSanBay: sanbay.TenSanBay,
+        TinhThanh: sanbay.TinhThanh.TenTinhThanh,
+    };
+};
+
+let getInfoHangGhe = async (machuyenbay) => {
+    // SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = 1
+    let hangghe = await db.sequelize.query(
+        ' SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
+        {
+            replacements: {
+                machuyenbay: machuyenbay,
+            },
+            type: QueryTypes.SELECT,
+            raw: true,
+        },
+    );
+    return hangghe;
+};
+
+let formatDateTime = (dateTime) => {
+    let timeFormat = new Date(dateTime);
+
+    return {
+        Gio: timeFormat.getUTCHours(),
+        Phut: timeFormat.getMinutes(),
+        Ngay: timeFormat.getUTCDate(),
+        Thang: timeFormat.getMonth() + 1,
+        Nam: timeFormat.getFullYear(),
+    };
+};
+//#endregion
+
 module.exports = {
     fullSearch: fullSearch,
     toHoursAndMinutes: toHoursAndMinutes,
     GetInfoAllFlights: GetInfoAllFlights,
     filterFlight: filterFlight,
+    getFlight: getFlight,
 };

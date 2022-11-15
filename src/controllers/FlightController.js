@@ -431,12 +431,28 @@ let getInfoSanBay = async (maSanBay) => {
         where: {
             MaSanBay: maSanBay,
         },
+        include: [{ model: db.TinhThanh, attributes: ['TenTinhThanh'] }],
     });
-    console.log(sanbay);
     return {
         MaSanBay: sanbay.MaSanBay,
         TenSanBay: sanbay.TenSanBay,
+        TinhThanh: sanbay.TinhThanh.TenTinhThanh,
     };
+};
+
+let getInfoHangGhe = async (machuyenbay) => {
+    // SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = 1
+    let hangghe = await db.sequelize.query(
+        ' SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe, hangghe.HeSo FROM `chitiethangve` , hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
+        {
+            replacements: {
+                machuyenbay: machuyenbay,
+            },
+            type: QueryTypes.SELECT,
+            raw: true,
+        },
+    );
+    return hangghe;
 };
 //#endregion
 
@@ -534,8 +550,189 @@ let getFlight = async (machuyenbay) => {
 };
 //#endregion
 
+//#region axios filter chuyenbay
+//data_send = {
+//     MaChuyenBay: '',
+//     MaSanBayDi: '',
+//     MaSanBayDen: '',
+//     MaHangGhe: '',
+//     GheTrong: '',
+//     NgayKhoiHanh: {Ngay: , Thang: , Nam:},
+//     GioKhoiHanh: {Gio: , Phut:},
+//     GiaVeCoBan: -1,
+//     TrangThai: ''
+// }
+
+//data_res = [{
+//     MaChuyenBay,
+//     MaHienThi,
+//     GheTrong,
+//     GiaVeCoBan,
+//     SoDiemDung,
+//     TrangThai,
+//     KhoiHanh: {
+//         NgayDi: {Ngay, Thang, Nam},
+//         GioDi: {Gio, Phut}
+//     },
+//     SanBayDi: {
+//         MaSanBay,
+//         TenSanBay,
+//         TinhThanh,
+//     }
+//     SanBayDen: {
+//         MaSanBay,
+//         TenSanBay,
+//         TinhThanh,
+//     }
+//     HangGhe: [{
+//         MaHangGhe,
+//         TenHangGhe,
+//         HeSo,
+//     }]
+// }]
+
+let filterFlight = async (req, res) => {
+    try {
+        let form_data = { ...req.body };
+        let chuyenbays = await db.ChuyenBay.findAll({
+            raw: true,
+        });
+
+        //#region Lọc lại chuyến bay
+        for (var i in chuyenbays) {
+            let ghetrong = await db.ChiTietHangVe.findAll({
+                attributes: ['TongVe', 'VeDaBan', 'MaHangGhe'],
+                where: {
+                    MaChuyenBay: chuyenbays[i].MaChuyenBay,
+                },
+                raw: true,
+            });
+
+            chuyenbays[i].GheTrong = 0;
+            chuyenbays[i].MaHangGhe = [];
+            if (ghetrong) {
+                ghetrong.forEach((element) => {
+                    chuyenbays[i].GheTrong = chuyenbays[i].GheTrong + element.TongVe - element.VeDaBan;
+                    chuyenbays[i].MaHangGhe.push(element.MaHangGhe);
+                });
+            }
+        }
+
+        if (typeof form_data.MaChuyenBay !== 'undefined' && form_data.MaChuyenBay !== '') {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.MaChuyenBay === parseInt(form_data.MaChuyenBay);
+            });
+        }
+
+        if (typeof form_data.MaSanBayDi !== 'undefined' && form_data.MaSanBayDi !== '') {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.MaSanBayDi === form_data.MaSanBayDi;
+            });
+        }
+
+        if (typeof form_data.MaSanBayDen !== 'undefined' && form_data.MaSanBayDen !== '') {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.MaSanBayDen === form_data.MaSanBayDen;
+            });
+        }
+
+        if (typeof form_data.GiaVeCoBan !== 'undefined' && parseInt(form_data.GiaVeCoBan) !== -1) {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.GiaVeCoBan <= parseInt(form_data.GiaVeCoBan);
+            });
+        }
+
+        if (typeof form_data.GheTrong !== 'undefined' && parseInt(form_data.GheTrong) !== -1) {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.GheTrong <= parseInt(form_data.GheTrong);
+            });
+        }
+
+        if (typeof form_data.TrangThai !== 'undefined' && form_data.TrangThai !== '') {
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.TrangThai === form_data.TrangThai;
+            });
+        }
+
+        if (typeof form_data.MaHangGhe !== 'undefined' && form_data.MaHangGhe !== '') {
+            for (var i in chuyenbays) {
+                let find_mahangghe = chuyenbays[i].MaHangGhe.find((element) => {
+                    return element === form_data.MaHangGhe;
+                });
+                if (find_mahangghe) {
+                    chuyenbays[i].MaHangGhe = find_mahangghe;
+                } else {
+                    chuyenbays[i].MaHangGhe = '';
+                }
+                chuyenbays = chuyenbays.filter((item, index) => {
+                    return item.MaHangGhe !== '';
+                });
+            }
+        }
+        //#endregion
+
+        //#region Add thêm thông tin
+        for (var i in chuyenbays) {
+            delete chuyenbays[i].createdAt;
+            delete chuyenbays[i].updatedAt;
+            delete chuyenbays[i].DoanhThu;
+
+            //Ma Hien Thi
+            chuyenbays[i].MaHienThi =
+                chuyenbays[i].MaSanBayDi + '-' + chuyenbays[i].MaSanBayDen + '-' + chuyenbays[i].MaChuyenBay;
+
+            chuyenbays[i].SanBayDi = await getInfoSanBay(chuyenbays[i].MaSanBayDi);
+            chuyenbays[i].SanBayDen = await getInfoSanBay(chuyenbays[i].MaSanBayDen);
+            chuyenbays[i].HangGhe = await getInfoHangGhe(chuyenbays[i].MaChuyenBay);
+
+            //so diem dung
+            let sbtg = await db.sequelize.query(
+                'SELECT `MaSBTG`, `ThuTu`, `NgayGioDen`, `ThoiGianDung`, `TenSanBay`, `TenTinhThanh`  FROM `chitietchuyenbay` , sanbay , tinhthanh WHERE chitietchuyenbay.MaSBTG = sanbay.MaSanBay AND sanbay.MaTinhThanh = tinhthanh.MaTinhThanh AND  MaChuyenBay = :machuyenbay',
+                {
+                    replacements: {
+                        machuyenbay: chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            chuyenbays[i].SoDiemDung = sbtg.length;
+
+            //format thoigian
+            let thoigiandi_chuyenbay = new Date(chuyenbays[i].NgayGio);
+            //thoigian di
+            chuyenbays[i].KhoiHanh = {
+                GioDi: {
+                    Gio: thoigiandi_chuyenbay.getUTCHours(),
+                    Phut: thoigiandi_chuyenbay.getMinutes(),
+                },
+                NgayDi: {
+                    Ngay: thoigiandi_chuyenbay.getUTCDate(),
+                    Thang: thoigiandi_chuyenbay.getMonth() + 1,
+                    Nam: thoigiandi_chuyenbay.getFullYear(),
+                },
+            };
+
+            delete chuyenbays[i].MaSanBayDi;
+            delete chuyenbays[i].MaSanBayDen;
+            delete chuyenbays[i].MaHangGhe;
+            delete chuyenbays[i].NgayGio;
+            delete chuyenbays[i].ThoiGianBay;
+        }
+        //#endregion
+        console.log(chuyenbays);
+        return res.send(JSON.stringify(chuyenbays));
+    } catch (error) {
+        console.log(error);
+        return res.send([]);
+    }
+};
+
+//#endregion
+
 module.exports = {
     fullSearch: fullSearch,
     toHoursAndMinutes: toHoursAndMinutes,
     GetInfoAllFlights: GetInfoAllFlights,
+    filterFlight: filterFlight,
 };

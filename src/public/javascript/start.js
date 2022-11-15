@@ -70,3 +70,11 @@ export function showToast({ header = '', body = '', type = '', duration = 3000 }
     new bootstrap.Toast(toastContainer.lastElementChild, { delay: duration }).show();
 }
 // Vd: showToast({header:"Dui",body:"haha",duration: 5000,type:'success/info/warning/danger/Trống'});
+
+export function dateIsValid(date) {
+    if (typeof date === 'object' && date !== null && typeof date.getTime === 'function' && !isNaN(date)) {
+        return true;
+    }
+
+    return false;
+}

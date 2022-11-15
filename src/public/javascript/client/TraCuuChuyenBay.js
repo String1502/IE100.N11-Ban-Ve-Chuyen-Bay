@@ -114,6 +114,7 @@ for (let i = 0; i < hanhkhach_inputnumber_items.length; i++) {
     hanhkhach_inputnumber_items[i].addEventListener('change', (e) => {
         let sum = 0;
         let limit = parseInt(document.getElementById('HanhKhach_Max').innerText.toString());
+        console.log(limit);
         let mangtemp = structuredClone(mangHanhKhach);
         mangHanhKhach.map((item) => {
             if (item.title == e.target.title) {

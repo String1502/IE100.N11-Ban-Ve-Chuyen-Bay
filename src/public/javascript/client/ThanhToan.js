@@ -50,9 +50,12 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
         data: data_send,
     }).then((res) => {
         console.log(res.data);
+        closeLoader();
         if (res.data === 'Success') alert('Thanh toán thành công');
         else alert('thanh toán thất bại');
-    });
 
-    closeLoader();
+        var home_form = document.forms['home_form'];
+        home_form.action = '/';
+        home_form.submit();
+    });
 });

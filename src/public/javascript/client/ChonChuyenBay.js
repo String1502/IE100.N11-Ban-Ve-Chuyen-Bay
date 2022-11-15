@@ -6,14 +6,20 @@ const BoLoc_DiemDung = document.getElementById('BoLoc_DiemDung');
 if (BoLoc_DiemDung) {
     // Bay thẳng
     document.getElementById('BoLoc_DiemDung_BayThang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_1DiemDung').checked = false;
+        document.getElementById('BoLoc_DiemDung_Hon2DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // 1 điểm dừng
     document.getElementById('BoLoc_DiemDung_1DiemDung').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_BayThang').checked = false;
+        document.getElementById('BoLoc_DiemDung_Hon2DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // 2 điểm dừng
     document.getElementById('BoLoc_DiemDung_Hon2DiemDung').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_BayThang').checked = false;
+        document.getElementById('BoLoc_DiemDung_1DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // thời gian dừng range
@@ -27,35 +33,60 @@ const BoLoc_ThoiGianBay = document.getElementById('BoLoc_ThoiGianBay');
 if (BoLoc_ThoiGianBay) {
     // Cất cánh sáng sớm
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh sáng
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh chiều
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh tối
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+
         XuLyCacBoLoc();
     });
 
     // Hạ cánh sáng sớm
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh sáng
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh chiều
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh tối
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
         XuLyCacBoLoc();
     });
 

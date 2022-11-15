@@ -587,7 +587,7 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
     }).then((res) => {
         ChuyenBay_Items_fromDB = res.data;
         closeLoader();
-
+        console.log(ChuyenBay_Items_fromDB);
         if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
         HienThiChuyenBay_fromDB();
     });

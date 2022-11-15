@@ -61,17 +61,6 @@ class ClientController {
         }
     }
 
-    // "/login"
-    async login(req, res) {
-        try {
-            return res.render('DangNhap', {
-                layout: 'client.handlebars',
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     // "/choose_flight" - TraCuuChuyenBay
     async choose_flight(req, res) {
         try {

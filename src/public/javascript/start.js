@@ -38,7 +38,7 @@ export function getThuTrongTuan(date) {
         case 0:
             return 'CN';
         default:
-            return 'T' + date.getDay().toString();
+            return 'T' + (date.getDay() + 1).toString();
     }
 }
 

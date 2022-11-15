@@ -3,6 +3,7 @@ const router = express.Router();
 
 const staffController = require('../controllers/StaffController');
 
-router.get('/', staffController.index);
+router.get('/flightdetail', staffController.flightdetail);
+router.post('/', staffController.index);
 
 module.exports = router;

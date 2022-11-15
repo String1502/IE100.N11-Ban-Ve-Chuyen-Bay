@@ -17,6 +17,12 @@
     }
 }
 
+.Zoom:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+// Form-control
 .form-control[readonly] {
     background-color: white !important;
     opacity: 1;
@@ -45,6 +51,13 @@
 
 /* Input date */
 input[type='date'] {
+    display: flex;
+    flex-flow: row-reverse;
+    column-gap: 0.75rem;
+}
+
+/* Input time */
+input[type='time'] {
     display: flex;
     flex-flow: row-reverse;
     column-gap: 0.75rem;

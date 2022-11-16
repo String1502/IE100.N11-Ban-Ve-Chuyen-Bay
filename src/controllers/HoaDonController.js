@@ -60,18 +60,27 @@ let CreateHoaDon = async (req_body) => {
 
         for (var index in HanhKhachs) {
             HanhKhachs[index].HoTen = HanhKhachs[index].Ho + HanhKhachs[index].Ten;
-            console.log();
-            HanhKhachs[index].NgaySinh =
-                HanhKhachs[index].NgaySinh.Nam +
-                '-' +
-                HanhKhachs[index].NgaySinh.Thang +
-                '-' +
-                HanhKhachs[index].NgaySinh.Ngay;
+            // HanhKhachs[index].NgaySinh =
+            //     HanhKhachs[index].NgaySinh.Nam +
+            //     '-' +
+            //     HanhKhachs[index].NgaySinh.Thang +
+            //     '-' +
+            //     HanhKhachs[index].NgaySinh.Ngay;
+
+            let NgaySinh = new Date(
+                parseInt(HanhKhachs[index].NgaySinh.Nam),
+                parseInt(HanhKhachs[index].NgaySinh.Thang),
+                parseInt(HanhKhachs[index].NgaySinh.Ngay),
+                7,
+                0,
+            );
+            console.log(NgaySinh);
+
             const HanhKhach = await db.HanhKhach.create(
                 {
                     MaLoaiKhach: HanhKhachs[index].MaLoaiKhach,
                     HoTen: HanhKhachs[index].HoTen,
-                    NgaySinh: new Date(HanhKhachs[index].NgaySinh),
+                    NgaySinh: NgaySinh, //new Date(HanhKhachs[index].NgaySinh),
                     GioiTinh: HanhKhachs[index].GioiTinh,
                 },
                 { raw: true },
@@ -93,12 +102,26 @@ let CreateHoaDon = async (req_body) => {
         let MangChuyenBayDat = req_body.MangChuyenBayDat;
 
         //create hoa don
+        let giodat = new Date(req_body.NgayGioDat);
+        console.log(giodat.getUTCHours() + 7);
+        console.log(giodat.getUTCMinutes());
+
+        giodat = new Date(
+            giodat.getFullYear(),
+            giodat.getMonth(),
+            giodat.getDate(),
+            giodat.getHours() + 7,
+            giodat.getMinutes(),
+        );
+        console.log(giodat.getHours());
+        console.log(giodat.getUTCHours());
+
         let hoadon = await db.HoaDon.create(
             {
                 HoTen: nguoilienhe.HoTen,
                 Email: nguoilienhe.Email,
                 SDT: nguoilienhe.SDT,
-                NgayGioDat: Date.parse(req_body.NgayGioDat),
+                NgayGioDat: giodat,
                 TongTien: 0,
                 TrangThai: 'ChuaThanhToan',
             },
@@ -234,15 +257,23 @@ let ThanhToan = async (req, res) => {
             });
             await chitiet.save();
         }
-
         //Add NgayGioThanhToan
+
+        data_req.NgayGioThanhToan = new Date(data_req.NgayGioThanhToan);
+        let giodat = new Date(
+            data_req.NgayGioThanhToan.getFullYear(),
+            data_req.NgayGioThanhToan.getMonth(),
+            data_req.NgayGioThanhToan.getDate(),
+            data_req.NgayGioThanhToan.getHours() + 7,
+            data_req.NgayGioThanhToan.getMinutes(),
+        );
         let hoadon = await db.HoaDon.findOne({
             where: {
                 MaHoaDon: data_req.MaHoaDon,
             },
         });
         hoadon.set({
-            NgayGioThanhToan: data_req.NgayGioThanhToan,
+            NgayGioThanhToan: giodat,
             TrangThai: 'DaThanhToan',
         });
         await hoadon.save();

@@ -366,7 +366,7 @@ let getMinDiff = function (startDate, endDate) {
 let GetInfoAllFlights = async (req, res) => {
     try {
         let Chuyenbays = await db.ChuyenBay.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt', 'TrangThai', 'ThoiGianBay', 'DoanhThu'] },
+            attributes: { exclude: ['createdAt', 'updatedAt', 'ThoiGianBay', 'DoanhThu'] },
             where: {
                 // [Op.gt]: {
                 //     NgayGio: now.yyyymmdd(),
@@ -388,16 +388,22 @@ let GetInfoAllFlights = async (req, res) => {
                     raw: true,
                 },
             );
-            Chuyenbays[i].SoDiemDung = sodiemdung[0].SoDiemDung;
+
+            if (sodiemdung.length === 0) Chuyenbays[i].SoDiemDung = 0;
+            else Chuyenbays[i].SoDiemDung = sodiemdung[0].SoDiemDung;
 
             //add info sanbay
+
+            Chuyenbays[i].MaHienThi =
+                Chuyenbays[i].MaSanBayDi + '-' + Chuyenbays[i].MaSanBayDen + '-' + Chuyenbays[i].MaChuyenBay;
             Chuyenbays[i].SanBayDi = await getInfoSanBay(Chuyenbays[i].MaSanBayDi);
             Chuyenbays[i].SanBayDen = await getInfoSanBay(Chuyenbays[i].MaSanBayDen);
 
             //tinh so ghe trong+ tong ghe
 
+            console.log(Chuyenbays[i].MaChuyenBay);
             let soghe = await db.sequelize.query(
-                ' SELECT SUM(TongVe) as TongGhe, SUM(VeDaBan) as TongVeBan FROM `chitiethangve` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay',
+                ' SELECT SUM(TongVe) as TongGhe, SUM(VeDaBan) as TongVeBan FROM `chitiethangve` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay ',
                 {
                     replacements: {
                         machuyenbay: Chuyenbays[i].MaChuyenBay,
@@ -406,12 +412,42 @@ let GetInfoAllFlights = async (req, res) => {
                     raw: true,
                 },
             );
-            Chuyenbays[i].GheTrong = parseInt(soghe[0].TongGhe) - parseInt(soghe[0].TongVeBan);
-            Chuyenbays[i].TongGhe = parseInt(soghe[0].TongGhe);
+            console.log(soghe);
+            if (soghe.length === 0) {
+                Chuyenbays[i].TongGhe = 0;
+                Chuyenbays[i].GheTrong = 0;
+            } else {
+                Chuyenbays[i].GheTrong = parseInt(soghe[0].TongGhe) - parseInt(soghe[0].TongVeBan);
+                Chuyenbays[i].TongGhe = parseInt(soghe[0].TongGhe);
+            }
+
+            //format KhoiHanh
+            let KhoiHanh = formatDateTime(Chuyenbays[i].NgayGio);
+            Chuyenbays[i].KhoiHanh = {
+                NgayDi: {
+                    Ngay: KhoiHanh.Ngay,
+                    Thang: KhoiHanh.Thang,
+                    Nam: KhoiHanh.Nam,
+                },
+                GioDi: {
+                    Gio: KhoiHanh.Gio,
+                    Phut: KhoiHanh.Phut,
+                },
+            };
+            delete Chuyenbays[i].NgayGio;
+
+            let HangGhe = await db.sequelize.query(
+                '  SELECT  chitiethangve.`MaHangGhe`, hangghe.TenHangGhe ,  hangghe.HeSo FROM `chitiethangve`, hangghe WHERE chitiethangve.MaHangGhe = hangghe.MaHangGhe AND MaChuyenBay = :machuyenbay ',
+                {
+                    replacements: {
+                        machuyenbay: Chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            Chuyenbays[i].HangGhe = HangGhe;
         }
-
-        console.log(Chuyenbays);
-
         return res.send(JSON.stringify(Chuyenbays));
     } catch (error) {
         console.log(error);
@@ -582,7 +618,7 @@ let getFlight = async (req, res) => {
                     };
                 }
 
-                vedadat[j].MaVeHienThi = maChuyenBayHienThi + vedadat[j].MaVe;
+                vedadat[j].MaVeHienThi = maChuyenBayHienThi + '-' + vedadat[j].MaVe;
 
                 delete vedadat[j].MaHK;
                 delete vedadat[j].GioiTinh;
@@ -597,7 +633,7 @@ let getFlight = async (req, res) => {
         Chuyenbay.SanBayDen = await getInfoSanBay(Chuyenbay.MaSanBayDen);
 
         let thoiGianDi = formatDateTime(Chuyenbay.NgayGio);
-        (Chuyenbay.ThoiGianDi = {
+        Chuyenbay.ThoiGianDi = {
             GioDi: {
                 Gio: thoiGianDi.Gio,
                 Phut: thoiGianDi.Phut,
@@ -607,8 +643,9 @@ let getFlight = async (req, res) => {
                 Thang: thoiGianDi.Thang,
                 Nam: thoiGianDi.Nam,
             },
-        }),
-            delete Chuyenbay.NgayGio;
+        };
+
+        delete Chuyenbay.NgayGio;
         delete Chuyenbay.MaSanBayDi;
         delete Chuyenbay.MaSanBayDen;
 

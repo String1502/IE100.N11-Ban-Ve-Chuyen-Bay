@@ -59,7 +59,7 @@ let CreateHoaDon = async (req_body) => {
         nguoilienhe.HoTen = nguoilienhe.Ho + ' ' + nguoilienhe.Ten;
 
         for (var index in HanhKhachs) {
-            HanhKhachs[index].HoTen = HanhKhachs[index].Ho + HanhKhachs[index].Ten;
+            HanhKhachs[index].HoTen = HanhKhachs[index].Ho + ' ' + HanhKhachs[index].Ten;
             // HanhKhachs[index].NgaySinh =
             //     HanhKhachs[index].NgaySinh.Nam +
             //     '-' +

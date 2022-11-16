@@ -494,7 +494,7 @@ let getFlight = async (req, res) => {
         let maChuyenBay = req.body.MaChuyenBay;
         let maChuyenBayHienThi = req.body.MaChuyenBayHienThi;
         let Chuyenbay = await db.ChuyenBay.findOne({
-            attributes: { exclude: ['createdAt', 'updatedAt', 'TrangThai', 'DoanhThu'] },
+            attributes: { exclude: ['createdAt', 'updatedAt', 'DoanhThu'] },
             where: {
                 MaChuyenBay: maChuyenBay,
             },

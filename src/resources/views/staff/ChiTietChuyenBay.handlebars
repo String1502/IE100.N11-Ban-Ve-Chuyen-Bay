@@ -40,6 +40,8 @@
                                 type='text'
                                 class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                 id='MaChuyenBay'
+                                value='{{Package.MaChuyenBayHienThi}}'
+                                machuyenbay='{{Package.MaChuyenBay}}'
                                 readonly
                             />
                         </div>
@@ -190,13 +192,13 @@
                                     <th scope='col'>Ghi chú</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class='custom-font p16-R align-middle text-center'>
-                                    <th>1</th>
-                                    <td>Tân Sơn Nhất</td>
-                                    <td>11:11 11/11/2022</td>
-                                    <td>180</td>
-                                    <td></td>
+                            <tbody id='SanBayTrungGian_Container'>
+                                <tr class='SanBayTrungGian_Item custom-font p16-R align-middle text-center d-none'>
+                                    <th class='ThuTu'>1</th>
+                                    <td class='TenSanBay'>Tân Sơn Nhất</td>
+                                    <td class='ThoiGianDen'>11:11 11/11/2022</td>
+                                    <td class='ThoiGianDung'>180</td>
+                                    <td class='GhiChu'></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -226,11 +228,11 @@
                                     <th scope='col'>Ghế trống</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class='custom-font p16-R align-middle text-center'>
-                                    <th>Phổ thông</th>
-                                    <td>500.000</td>
-                                    <td>11</td>
+                            <tbody id='HangVe_Container'>
+                                <tr class='HangVe_Item custom-font p16-R align-middle text-center d-none'>
+                                    <th class='TenHangVe'>Phổ thông</th>
+                                    <td class='GiaTien'>500.000</td>
+                                    <td class='GheTrong'>11</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -284,15 +286,15 @@
                                 <th scope='col'>Liên lạc</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class='custom-font p16-R align-middle text-center'>
-                                <th>1</th>
-                                <td>Phan Trường Huy</td>
-                                <td>Thương gia</td>
-                                <td>+ 15kg</td>
-                                <td>11:11 11/11/2022</td>
-                                <td>500.000</td>
-                                <td style='width: 12.5%;'>
+                        <tbody id='VeDaDat_Container'>
+                            <tr class='VeDaDat_Item custom-font p16-R align-middle text-center d-none'>
+                                <th class='MaVeHienThi'>1</th>
+                                <td class='TenHanhKhach'>Phan Trường Huy</td>
+                                <td class='TenHangVe'>Thương gia</td>
+                                <td class='SoKgHanhLy'>+ 15kg</td>
+                                <td class='NgayThanhToan'>11:11 11/11/2022</td>
+                                <td class='GiaVe'>500.000</td>
+                                <td class='LienLac_btn' style='width: 12.5%;'>
                                     <a
                                         type='button'
                                         class='btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'
@@ -310,3 +312,7 @@
     </div>
 
 </div>
+
+{{! Our js }}
+<script type='module' src='/javascript/staff/ChiTietChuyenBay.js'>
+</script>

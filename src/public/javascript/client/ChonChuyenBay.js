@@ -6,14 +6,20 @@ const BoLoc_DiemDung = document.getElementById('BoLoc_DiemDung');
 if (BoLoc_DiemDung) {
     // Bay thẳng
     document.getElementById('BoLoc_DiemDung_BayThang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_1DiemDung').checked = false;
+        document.getElementById('BoLoc_DiemDung_Hon2DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // 1 điểm dừng
     document.getElementById('BoLoc_DiemDung_1DiemDung').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_BayThang').checked = false;
+        document.getElementById('BoLoc_DiemDung_Hon2DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // 2 điểm dừng
     document.getElementById('BoLoc_DiemDung_Hon2DiemDung').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_DiemDung_BayThang').checked = false;
+        document.getElementById('BoLoc_DiemDung_1DiemDung').checked = false;
         XuLyCacBoLoc();
     });
     // thời gian dừng range
@@ -27,35 +33,60 @@ const BoLoc_ThoiGianBay = document.getElementById('BoLoc_ThoiGianBay');
 if (BoLoc_ThoiGianBay) {
     // Cất cánh sáng sớm
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh sáng
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh chiều
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Cất cánh tối
     document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked = false;
+
         XuLyCacBoLoc();
     });
 
     // Hạ cánh sáng sớm
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh sáng
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh chiều
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked = false;
         XuLyCacBoLoc();
     });
     // Hạ cánh tối
     document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').addEventListener('click', (e) => {
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_SangSom').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked = false;
+        document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked = false;
         XuLyCacBoLoc();
     });
 
@@ -290,12 +321,6 @@ const ChuyenBay_Container = document.getElementById('ChuyenBay_Container');
 //Lấy các tiêu chuẩn tra cứu từ Tra cứu chuyến bay
 let PackageBooking;
 let ChuyenBayDangChon = 0;
-// PackageBooking = {
-//     MangChuyenBayTimKiem: MangChuyenBayTimKiem,
-//     HangGhe: HangGhe,
-//     HanhKhach: HanhKhach,
-//     HanhLy: HanhLy,
-// };
 function GetPackageBooing_fromSV() {
     openLoader('Chờ chút');
     axios({
@@ -305,10 +330,10 @@ function GetPackageBooing_fromSV() {
     }).then((res) => {
         PackageBooking = res.data;
         closeLoader();
-        console.log(PackageBooking);
         TomTat_Item_Detail_ChiTiet_HienThi();
         DoiMauChuyenBayDangChon();
 
+        console.log(PackageBooking);
         // Chuyến bay số 1
         if (PackageBooking.MangChuyenBayTimKiem.length > 0)
             LayChuyenBay_fromDB(
@@ -441,6 +466,8 @@ function HienThiChuyenBay_fromDB() {
 
     if (ChuyenBay_Items_fromDB)
         if (ChuyenBay_Items_fromDB.length > 0) {
+            if (!document.getElementById('No_Flight').classList.contains('d-none'))
+                document.getElementById('No_Flight').classList.add('d-none');
             // Copy node
             for (let i = 0; i < ChuyenBay_Items_fromDB.length; i++) {
                 const ChuyenBay_Item = ChuyenBay_Items[0].cloneNode(true);
@@ -582,6 +609,7 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
         masanbaydi: SanBayDi.MaSanBay.toString(),
         masanbayden: SanBayDen.MaSanBay.toString(),
     };
+
     openLoader('Chờ chút');
     axios({
         method: 'post',
@@ -589,10 +617,10 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
         data: data_send,
     }).then((res) => {
         ChuyenBay_Items_fromDB = res.data;
-
-        KhoiTaoCacRange_BoLoc();
-        HienThiChuyenBay_fromDB();
         closeLoader();
+        console.log(ChuyenBay_Items_fromDB);
+        if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
+        HienThiChuyenBay_fromDB();
     });
 }
 

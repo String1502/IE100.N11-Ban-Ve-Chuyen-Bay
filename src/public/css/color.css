@@ -7,6 +7,9 @@
 .bg-primary {
   background-color: #04bfae !important; }
 
+.bg-primary-hover {
+  background-color: rgba(4, 191, 174, 0.25) !important; }
+
 .border-primary {
   border-color: #04bfae !important; }
 

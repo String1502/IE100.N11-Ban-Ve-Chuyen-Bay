@@ -19,7 +19,7 @@ module.exports = {
                 type: Sequelize.DATE,
             },
             ThoiGianBay: {
-                type: Sequelize.DATE,
+                type: Sequelize.INTEGER,
             },
             GiaVeCoBan: {
                 type: Sequelize.BIGINT,

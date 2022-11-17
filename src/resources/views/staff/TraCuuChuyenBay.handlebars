@@ -22,7 +22,7 @@
                 {{! Dòng 1 }}
                 <div class='row px-5 pt-4 mb-2 justify-content-center'>
                     {{! Mã chuyến bay }}
-                    <div class='col-12'>
+                    <div class='col-12 d-none'>
                         <div class='mb-3'>
                             <label for='MaChuyenBay' class='form-label custom-font p14-S'>Mã chuyến bay</label>
                             <input
@@ -30,6 +30,7 @@
                                 type='text'
                                 class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                 id='MaChuyenBay'
+                                placeholder='Vd: SG-HA-1'
                             />
                         </div>
                     </div>
@@ -39,7 +40,7 @@
                 {{! Dòng 2 }}
                 <div class='row px-5 mb-2'>
                     {{! Sân bay đi }}
-                    <div class='col-5 col-md-3'>
+                    <div class='SanBayDi col-5 col-md-3'>
                         <div class='mb-3'>
                             <label for='SanBayDi' class='form-label custom-font p14-S'>Sân bay đi</label>
                             <div class='input-group dropdown'>
@@ -52,6 +53,7 @@
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                     placeholder='Sân bay đi'
+                                    masanbay=''
                                     readonly
                                 />
                                 {{! Drop down }}
@@ -70,27 +72,50 @@
                                         </div>
                                     </li>
                                     {{! Dropdown items }}
-                                    {{!-- {{#each SanBays}} --}}
                                     <li
+                                        style='height: 48px;'
                                         class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                     >
                                         <div style='pointer-events:none;' class='d-flex flex-column'>
-                                            <span class='SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'>TP
-                                                HCM</span>
+                                            <span
+                                                class='SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'
+                                            ></span>
                                             <div class='d-flex flex-row'>
 
                                                 <span
                                                     class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'
-                                                >TSN</span>
+                                                ></span>
                                                 <span class='custom-font p14-R text-tertiary me-1'>
-                                                    - Sân bay
                                                 </span>
-                                                <span class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'>Tan
-                                                    Son Nhat</span>
+                                                <span
+                                                    class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'
+                                                ></span>
                                             </div>
                                         </div>
                                     </li>
-                                    {{!-- {{/each}} --}}
+                                    {{#each SanBays}}
+                                        <li
+                                            class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
+                                        >
+                                            <div style='pointer-events:none;' class='d-flex flex-column'>
+                                                <span
+                                                    class='SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'
+                                                >{{this.TinhThanh}}</span>
+                                                <div class='d-flex flex-row'>
+
+                                                    <span
+                                                        class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'
+                                                    >{{this.MaSanBay}}</span>
+                                                    <span class='custom-font p14-R text-tertiary me-1'>
+                                                        - Sân bay
+                                                    </span>
+                                                    <span
+                                                        class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'
+                                                    >{{this.TenSanBay}}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {{/each}}
                                 </ul>
                             </div>
                         </div>
@@ -113,7 +138,7 @@
                     </div>
 
                     {{! Sân bay đến }}
-                    <div class='col-5 col-md-3'>
+                    <div class='SanBayDen col-5 col-md-3'>
                         <div class='mb-3'>
                             <label for='SanBayDen' class='form-label custom-font p14-S'>Sân bay đến</label>
                             <div class='input-group dropdown'>
@@ -125,6 +150,7 @@
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                     placeholder='Sân bay đến'
+                                    masanbay=''
                                     readonly
                                 />
                                 {{! Drop down }}
@@ -143,34 +169,57 @@
                                         </div>
                                     </li>
                                     {{! Dropdown items }}
-                                    {{!-- {{#each SanBays}} --}}
                                     <li
+                                        style='height: 48px;'
                                         class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                     >
                                         <div style='pointer-events:none;' class='d-flex flex-column'>
-                                            <span class='SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'>TP
-                                                HCM</span>
+                                            <span
+                                                class='SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'
+                                            ></span>
                                             <div class='d-flex flex-row'>
 
                                                 <span
                                                     class='SanBayDen_li_MaSanBay custom-font p14-R text-tertiary me-1'
-                                                >TSN</span>
+                                                ></span>
                                                 <span class='custom-font p14-R text-tertiary me-1'>
-                                                    - Sân bay
                                                 </span>
-                                                <span class='SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'>Tan
-                                                    Son Nhat</span>
+                                                <span
+                                                    class='SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'
+                                                ></span>
                                             </div>
                                         </div>
                                     </li>
-                                    {{!-- {{/each}} --}}
+                                    {{#each SanBays}}
+                                        <li
+                                            class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
+                                        >
+                                            <div style='pointer-events:none;' class='d-flex flex-column'>
+                                                <span
+                                                    class='SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'
+                                                >{{this.TinhThanh}}</span>
+                                                <div class='d-flex flex-row'>
+
+                                                    <span
+                                                        class='SanBayDen_li_MaSanBay custom-font p14-R text-tertiary me-1'
+                                                    >{{this.MaSanBay}}</span>
+                                                    <span class='custom-font p14-R text-tertiary me-1'>
+                                                        - Sân bay
+                                                    </span>
+                                                    <span
+                                                        class='SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'
+                                                    >{{this.TenSanBay}}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {{/each}}
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     {{! Hạng ghế }}
-                    <div class='col-6 col-md-3'>
+                    <div class='HangGhe col-6 col-md-3'>
                         <div class='mb-3'>
                             <label for='HangGhe' class='form-label custom-font p14-S'>Hạng ghế</label>
                             <div class='input-group dropdown'>
@@ -182,6 +231,7 @@
                                     data-bs-toggle='dropdown'
                                     aria-expanded='false'
                                     placeholder='Hạng ghế'
+                                    mahangghe=''
                                     readonly
                                 />
                                 {{! Drop down }}
@@ -190,17 +240,31 @@
                                     class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
                                 >
                                     {{! Dropdown items }}
-                                    {{!-- {{#each HangGhes}} --}}
-                                    <li class='HangGhe_li dropdown-item custom-active'>
+                                    <li
+                                        style='height: 46px;'
+                                        class='HangGhe_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
                                         <div style='pointer-events:none;' class='d-flex flex-row py-2'>
-                                            <span
-                                                class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
-                                            >Eco</span>
-                                            <span class='custom-font p14-S text-dark me-1'> - </span>
-                                            <span class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'>Phổ thông</span>
+                                            <span class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'></span>
+                                            <span class='custom-font p14-S text-dark me-1'></span>
+                                            <span class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'></span>
                                         </div>
                                     </li>
-                                    {{!-- {{/each}} --}}
+                                    {{#each HangGhes}}
+                                        <li
+                                            class='HangGhe_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                        >
+                                            <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                                <span
+                                                    class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
+                                                >{{this.MaHangGhe}}</span>
+                                                <span class='custom-font p14-S text-dark me-1'> - </span>
+                                                <span
+                                                    class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'
+                                                >{{this.TenHangGhe}}</span>
+                                            </div>
+                                        </li>
+                                    {{/each}}
                                 </ul>
                             </div>
                         </div>
@@ -260,6 +324,7 @@
                                     type='text'
                                     class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                     id='GiaVeCoBan'
+                                    onkeypress='onlyNumber(event)'
                                 />
                                 <span
                                     style='height: 36px;'
@@ -272,13 +337,76 @@
                     {{! Trạng thái }}
                     <div class='col-6 col-md-3'>
                         <div class='mb-3'>
-                            <label for='MaChuyenBay' class='form-label custom-font p14-S'>Trạng thái</label>
-                            <input
-                                style='height: 36px;'
-                                type='text'
-                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                id='Trạng thái'
-                            />
+
+                            <label for='TrangThai' class='form-label custom-font p14-S'>Trạng thái</label>
+                            <div class='input-group dropdown'>
+                                <input
+                                    style='height: 36px;'
+                                    id='TrangThai'
+                                    type='text'
+                                    class='form-control dropdown-toggle custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary form-select'
+                                    data-bs-toggle='dropdown'
+                                    aria-expanded='false'
+                                    placeholder='Trạng thái'
+                                    GiaTri=''
+                                    readonly
+                                />
+                                {{! Drop down }}
+                                <ul
+                                    style='width: 300px; height: auto;'
+                                    class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
+                                >
+                                    {{! Rỗng }}
+                                    <li
+                                        style='height: 46px;'
+                                        class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span
+                                                GiaTri=''
+                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                            ></span>
+                                        </div>
+                                    </li>
+
+                                    {{! Chưa khởi hành }}
+                                    <li
+                                        class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span
+                                                GiaTri='ChuaKhoiHanh'
+                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                            >Chưa khởi hành</span>
+                                        </div>
+                                    </li>
+
+                                    {{! Đã khởi hành }}
+                                    <li
+                                        class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span
+                                                GiaTri='DaKhoiHanh'
+                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                            >Đã khởi hành</span>
+                                        </div>
+                                    </li>
+
+                                    {{! Đã hủy }}
+                                    <li
+                                        class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span
+                                                GiaTri='DaHuy'
+                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                            >Đã hủy</span>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
 

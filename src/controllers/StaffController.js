@@ -25,6 +25,17 @@ class StaffController {
             console.log(error);
         }
     }
+    async Regulations(req, res) {
+        try {
+            
+            return res.render('staff/QuyDinh', {
+                layout: 'staff.handlebars',
+               
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new StaffController();

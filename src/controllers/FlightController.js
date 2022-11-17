@@ -114,7 +114,6 @@ let search_flight = async (form_data) => {
 
         //convert thoigiandi + thoigianden
         thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
-        console.log(thoigiandi_chuyenbay);
         thoigianden_chuyenbay = add_minutes(thoigiandi_chuyenbay, list_ChuyenBaySuit[i].ThoiGianBay);
         //thoigian di
         list_ChuyenBaySuit[i].ThoiGianDi = {
@@ -322,7 +321,6 @@ let search_flight = async (form_data) => {
             list_ChuyenBaySuit[i].GiaVe = list_ChuyenBaySuit[i].GiaVe * parseFloat(heso_hangghe.HeSo);
         }
     }
-    console.log(list_ChuyenBaySuit[0].ThoiGianDen);
     return list_ChuyenBaySuit;
 };
 
@@ -400,8 +398,6 @@ let GetInfoAllFlights = async (req, res) => {
             Chuyenbays[i].SanBayDen = await getInfoSanBay(Chuyenbays[i].MaSanBayDen);
 
             //tinh so ghe trong+ tong ghe
-
-            console.log(Chuyenbays[i].MaChuyenBay);
             let soghe = await db.sequelize.query(
                 ' SELECT SUM(TongVe) as TongGhe, SUM(VeDaBan) as TongVeBan FROM `chitiethangve` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay ',
                 {
@@ -412,7 +408,6 @@ let GetInfoAllFlights = async (req, res) => {
                     raw: true,
                 },
             );
-            console.log(soghe);
             if (soghe.length === 0) {
                 Chuyenbays[i].TongGhe = 0;
                 Chuyenbays[i].GheTrong = 0;
@@ -589,7 +584,6 @@ let getFlight = async (req, res) => {
                 delete NguoiLienHe.NgayGioThanhToan;
 
                 vedadat[j].NguoiLienHe = NguoiLienHe;
-                console.log();
 
                 if (ngaygioThanhToan) {
                     let ngaydat = formatDateTime(ngaygioThanhToan);
@@ -649,7 +643,6 @@ let getFlight = async (req, res) => {
         delete Chuyenbay.MaSanBayDi;
         delete Chuyenbay.MaSanBayDen;
 
-        console.log(Chuyenbay);
         return res.send(JSON.stringify(Chuyenbay));
     } catch (error) {
         console.log(error);
@@ -702,8 +695,6 @@ let getFlight = async (req, res) => {
 let filterFlight = async (req, res) => {
     try {
         let form_data = { ...req.body };
-
-        form_data.GioKhoiHanh = JSON.parse(form_data.GioKhoiHanh);
         let chuyenbays;
         if (typeof form_data.GioKhoiHanh.Gio !== 'undefined' && parseInt(form_data.GioKhoiHanh.Gio) !== -1) {
             //
@@ -774,7 +765,6 @@ let filterFlight = async (req, res) => {
             });
         }
 
-        form_data.NgayKhoiHanh = JSON.parse(form_data.NgayKhoiHanh);
         if (typeof form_data.NgayKhoiHanh.Ngay !== 'undefined' && parseInt(form_data.NgayKhoiHanh.Ngay) !== -1) {
             let strDate =
                 form_data.NgayKhoiHanh.Nam + '-' + form_data.NgayKhoiHanh.Thang + '-' + form_data.NgayKhoiHanh.Ngay;
@@ -856,7 +846,6 @@ let filterFlight = async (req, res) => {
             delete chuyenbays[i].ThoiGianBay;
         }
         //#endregion
-        // console.log(chuyenbays);
         return res.send(JSON.stringify(chuyenbays));
     } catch (error) {
         console.log(error);

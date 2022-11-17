@@ -59,7 +59,7 @@ function GetFilterFlight_fromSV() {
     let GheTrong = parseInt(document.getElementById('GheTrong').value);
     let NgayKhoiHanh = document.getElementById('NgayKhoiHanh').value;
     let GioKhoiHanh = document.getElementById('GioKhoiHanh').value;
-    let GiaVeCoBan = parseInt(document.getElementById('GiaVeCoBan').value);
+    let GiaVeCoBan = parseInt(numberWithoutDot(document.getElementById('GiaVeCoBan').value));
     let TrangThai = document.getElementById('TrangThai').getAttribute('GiaTri');
     let mark = false;
 
@@ -147,8 +147,8 @@ function AddEventCacTieuChuanTraCuu() {
 
     // Giá vé cơ bản
     document.getElementById('GiaVeCoBan').addEventListener('change', (e) => {
-        GetFilterFlight_fromSV();
         e.target.value = numberWithDot(e.target.value);
+        GetFilterFlight_fromSV();
     });
     // Giá vé cơ bản khi focus
     document.getElementById('GiaVeCoBan').addEventListener('focus', (e) => {

@@ -664,7 +664,7 @@ let getFlight = async (req, res) => {
 //     MaSanBayDi: '',
 //     MaSanBayDen: '',
 //     MaHangGhe: '',
-//     GheTrong: '',
+//     GheTrong: -1,
 //     NgayKhoiHanh: {Ngay: , Thang: , Nam:},
 //     GioKhoiHanh: {Gio: , Phut:},
 //     GiaVeCoBan: -1,
@@ -770,7 +770,7 @@ let filterFlight = async (req, res) => {
 
         if (typeof form_data.GheTrong !== 'undefined' && parseInt(form_data.GheTrong) !== -1) {
             chuyenbays = chuyenbays.filter((item, index) => {
-                return item.GheTrong <= parseInt(form_data.GheTrong);
+                return item.GheTrong >= parseInt(form_data.GheTrong);
             });
         }
 
@@ -800,10 +800,10 @@ let filterFlight = async (req, res) => {
                 } else {
                     chuyenbays[i].MaHangGhe = '';
                 }
-                chuyenbays = chuyenbays.filter((item, index) => {
-                    return item.MaHangGhe !== '';
-                });
             }
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.MaHangGhe !== '';
+            });
         }
         //#endregion
 

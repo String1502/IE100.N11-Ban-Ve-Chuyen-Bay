@@ -286,8 +286,48 @@ let ThanhToan = async (req, res) => {
 };
 //#endregion
 
+//#region update hóa đơn
+// req_body
+// {
+// 	MaHoaDon:-1,
+// 	NguoiLienHe:
+// 	{
+// 		HoTen:'',
+// 		SDT: '',
+// 		Email: '',
+// 	}
+// }
+
+//res = true || false
+
+let updateHoaDon = async (req, res) => {
+    try {
+        let form_data = { ...req.body };
+
+        let hoadon = await db.HoaDon.findOne({
+            where: {
+                MaHoaDon: form_data.MaHoaDon,
+            },
+            raw: true,
+        });
+
+        hoadon.set({
+            HoTen: form_data.HoTen,
+            SDT: form_data.SDT,
+            Email: form_data.Email,
+        });
+        await hoadon.save();
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
+    }
+};
+//#endregion
+
 module.exports = {
     Create: Create,
     CreateHoaDon: CreateHoaDon,
     ThanhToan: ThanhToan,
+    updateHoaDon: updateHoaDon,
 };

@@ -308,14 +308,14 @@ let updateHoaDon = async (req, res) => {
             where: {
                 MaHoaDon: form_data.MaHoaDon,
             },
-            raw: true,
         });
 
-        hoadon.set({
+        await hoadon.set({
             HoTen: form_data.NguoiLienHe.HoTen,
             SDT: form_data.NguoiLienHe.SDT,
             Email: form_data.NguoiLienHe.Email,
         });
+
         await hoadon.save();
         return res.send('true');
     } catch (error) {

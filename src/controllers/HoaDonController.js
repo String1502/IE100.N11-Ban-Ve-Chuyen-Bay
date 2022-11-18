@@ -312,9 +312,9 @@ let updateHoaDon = async (req, res) => {
         });
 
         hoadon.set({
-            HoTen: form_data.HoTen,
-            SDT: form_data.SDT,
-            Email: form_data.Email,
+            HoTen: form_data.NguoiLienHe.HoTen,
+            SDT: form_data.NguoiLienHe.SDT,
+            Email: form_data.NguoiLienHe.Email,
         });
         await hoadon.save();
         return res.send('true');

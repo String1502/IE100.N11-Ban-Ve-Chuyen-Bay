@@ -71,7 +71,12 @@ function Add_ChuyenBay_Item_ChiTiet_Click() {
                 (item) => item.ChuyenBayDaChon.MaChuyenBay == MaChuyenBay,
             ).ChuyenBayDaChon;
             const Modal = document.getElementById('Modal');
-            Modal.querySelector('.Modal_MaChuyenBay').innerText = MaChuyenBay.toString();
+            Modal.querySelector('.Modal_MaChuyenBay').innerText =
+                ChuyenBayDaChon.SanBayDi.MaSanBay +
+                '-' +
+                ChuyenBayDaChon.SanBayDen.MaSanBay +
+                '-' +
+                ChuyenBayDaChon.MaChuyenBay;
             Modal.querySelector('.Modal_GiaVe').innerText = numberWithDot(ChuyenBayDaChon.GiaVe);
             const Model_TrungGian_Container = document.getElementById('Model_TrungGian_Container');
 

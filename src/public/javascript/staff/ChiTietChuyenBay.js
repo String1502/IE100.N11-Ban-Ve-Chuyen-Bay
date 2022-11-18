@@ -7,7 +7,10 @@ import {
     getThuTrongTuan,
     today,
     showToast,
+    onlyNumber,
 } from '../start.js';
+
+window.onlyNumber = onlyNumber;
 
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =
@@ -31,8 +34,15 @@ function GetFlight_fromSV() {
         data: data,
     }).then((res) => {
         Flight_fromDB = res.data;
+
         closeLoader();
         if (Flight_fromDB) {
+            Flight_fromDB['MaChuyenBayHienThi'] =
+                Flight_fromDB.SanBayDi.MaSanBay +
+                '-' +
+                Flight_fromDB.SanBayDen.MaSanBay +
+                '-' +
+                Flight_fromDB.MaChuyenBay;
             LoadDataLenView();
             AddModalEvent();
             console.log(Flight_fromDB);
@@ -247,45 +257,65 @@ function AddModalEvent() {
 
     // họ tên
     document.getElementById('NguoiLienHe_HoTen').addEventListener('change', (e) => {
+        if (e.target.value == '') {
+            const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
+            const NguoiLienHe = Flight_fromDB.VeDaDat[index].NguoiLienHe;
+            e.target.value = NguoiLienHe.HoTen;
+        }
         document.getElementById('Luu_NguoiLienHe').disabled = ChuyenTrangThaiNutLuu();
     });
 
     // SDT
     document.getElementById('NguoiLienHe_SDT').addEventListener('change', (e) => {
+        if (e.target.value == '') {
+            const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
+            const NguoiLienHe = Flight_fromDB.VeDaDat[index].NguoiLienHe;
+            e.target.value = NguoiLienHe.SDT;
+        }
         document.getElementById('Luu_NguoiLienHe').disabled = ChuyenTrangThaiNutLuu();
     });
 
     // Email
     document.getElementById('NguoiLienHe_Email').addEventListener('change', (e) => {
+        if (e.target.value == '') {
+            const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
+            const NguoiLienHe = Flight_fromDB.VeDaDat[index].NguoiLienHe;
+            e.target.value = NguoiLienHe.Email;
+        }
         document.getElementById('Luu_NguoiLienHe').disabled = ChuyenTrangThaiNutLuu();
     });
 
     // Nút lưu
     document.getElementById('Luu_NguoiLienHe').addEventListener('click', (e) => {
-        null;
+        const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
+        const data_send = {
+            MaHoaDon: Flight_fromDB.VeDaDat[index].MaHoaDon,
+            NguoiLienHe: structuredClone(Flight_fromDB.VeDaDat[index].NguoiLienHe),
+        };
+        delete data_send.NguoiLienHe.NgayGioThanhToan;
+        data_send.NguoiLienHe.HoTen = document.getElementById('NguoiLienHe_HoTen').value;
+        data_send.NguoiLienHe.SDT = document.getElementById('NguoiLienHe_SDT').value;
+        data_send.NguoiLienHe.Email = document.getElementById('NguoiLienHe_Email').value;
+        console.log(data_send);
+        axios({
+            method: 'post',
+            url: '/hoadon/update',
+            data: data_send,
+        }).then((res) => {
+            console.log(res.data);
+            if (res.data == true) {
+                Flight_fromDB.VeDaDat[index].NguoiLienHe.HoTen = data_send.NguoiLienHe.HoTen;
+                Flight_fromDB.VeDaDat[index].NguoiLienHe.SDT = data_send.NguoiLienHe.SDT;
+                Flight_fromDB.VeDaDat[index].NguoiLienHe.Email = data_send.NguoiLienHe.Email;
+                showToast({ header: 'Người liên hệ', body: 'Cập nhật thành công', duration: 5000, type: 'success' });
+            }
+            CapNhatNguoiLienHeHienTai();
+        });
     });
 
     // Nút hủy
     document.getElementById('Huy_NguoiLienHe').addEventListener('click', (e) => {
-        const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
-        const NguoiLienHe = Flight_fromDB.VeDaDat[index].NguoiLienHe;
-        const HanhKhach = Flight_fromDB.VeDaDat[index].HanhKhach;
-
-        resetModal();
-        document.getElementById('NguoiLienHe_HoTen').value = NguoiLienHe.HoTen;
-        document.getElementById('NguoiLienHe_SDT').value = NguoiLienHe.SDT;
-        document.getElementById('NguoiLienHe_Email').value = NguoiLienHe.Email;
-        document.getElementById('ChinhSua_NguoiLienHe').setAttribute('index', index);
-        document.getElementById('NguoiLienHe_HoTen').setAttribute('index', index);
-        document.getElementById('NguoiLienHe_SDT').setAttribute('index', index);
-        document.getElementById('NguoiLienHe_Email').setAttribute('index', index);
-
-        document.getElementById('HanhKhach_DanhXung').value = HanhKhach.GioiTinh == 0 ? 'Ông' : 'Cô';
-        document.getElementById('HanhKhach_HoTen').value = HanhKhach.HoTen;
-        document.getElementById('HanhKhach_NgaySinh_Ngay').value = 'Ngày ' + numberSmallerTen(HanhKhach.NgaySinh.Ngay);
-        document.getElementById('HanhKhach_NgaySinh_Thang').value =
-            'Tháng ' + numberSmallerTen(HanhKhach.NgaySinh.Thang);
-        document.getElementById('HanhKhach_NgaySinh_Nam').value = 'Năm ' + HanhKhach.NgaySinh.Nam;
+        CapNhatNguoiLienHeHienTai();
     });
 }
 
@@ -306,15 +336,30 @@ function ChuyenTrangThaiNutLuu() {
     return true;
 }
 
-// function SendForm(_PackageBooking) {
-//     //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
-//     var staff_form = document.forms['staff-form'];
-//     staff_form.action = '/staff';
-//     staff_form.submit();
-// }
+function CapNhatNguoiLienHeHienTai() {
+    const index = document.getElementById('ChinhSua_NguoiLienHe').getAttribute('index');
+    const NguoiLienHe = Flight_fromDB.VeDaDat[index].NguoiLienHe;
 
-// const DangNhap = document.getElementById('DangNhap');
+    resetModal();
+    document.getElementById('NguoiLienHe_HoTen').value = NguoiLienHe.HoTen;
+    document.getElementById('NguoiLienHe_SDT').value = NguoiLienHe.SDT;
+    document.getElementById('NguoiLienHe_Email').value = NguoiLienHe.Email;
+    document.getElementById('ChinhSua_NguoiLienHe').setAttribute('index', index);
+    document.getElementById('NguoiLienHe_HoTen').setAttribute('index', index);
+    document.getElementById('NguoiLienHe_SDT').setAttribute('index', index);
+    document.getElementById('NguoiLienHe_Email').setAttribute('index', index);
+}
 
-// DangNhap.addEventListener('click', (e) => {
-//     SendForm('Haha');
-// });
+document.getElementById('XacNhan_btn').addEventListener('click', (e) => {
+    const _Flight_fromDB = structuredClone(Flight_fromDB);
+    delete _Flight_fromDB.GheTrong;
+    delete _Flight_fromDB.VeDaDat;
+    SendForm(_Flight_fromDB);
+});
+
+function SendForm(_Flight_fromDB) {
+    document.getElementById('Flight_Edit').value = JSON.stringify(_Flight_fromDB);
+    var staff_form = document.forms['staff-form'];
+    staff_form.action = '/staff/flightdetail/editdetail';
+    staff_form.submit();
+}

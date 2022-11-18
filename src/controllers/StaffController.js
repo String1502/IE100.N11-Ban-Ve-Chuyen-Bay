@@ -43,6 +43,19 @@ class StaffController {
             console.log(error);
         }
     }
+    // "/staff/flightdetail/editdetail"
+    async editdetail(req, res) {
+        try {
+            let Flight_Edit = JSON.parse(req.body.Flight_Edit);
+            console.log(Flight_Edit);
+            return res.render('staff/ChinhSuaChuyenBay', {
+                layout: 'staff.handlebars',
+                Flight_Edit: Flight_Edit,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new StaffController();

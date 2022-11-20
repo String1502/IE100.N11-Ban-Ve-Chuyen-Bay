@@ -1,6 +1,7 @@
 import e from 'express';
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
+import Mailer from '../utils/mailer';
 
 //#region Tao ve
 // thongtintaove
@@ -277,6 +278,8 @@ let ThanhToan = async (req, res) => {
             TrangThai: 'DaThanhToan',
         });
         await hoadon.save();
+
+        Mailer.sendMail(hoadon.Email, 'Verify mail', `<a href="https://www.facebook.com/">verify</a>`);
 
         return res.send('Success');
     } catch (error) {

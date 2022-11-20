@@ -1,7 +1,9 @@
-import e from 'express';
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 import Mailer from '../utils/mailer';
+import pdfController from './pdfController';
+const fs = require('fs');
+const path = require('path');
 
 //#region Tao ve
 // thongtintaove
@@ -279,8 +281,22 @@ let ThanhToan = async (req, res) => {
         });
         await hoadon.save();
 
-        Mailer.sendMail(hoadon.Email, 'Verify mail', `<a href="https://www.facebook.com/">verify</a>`);
+        let pdf = await pdfController.generateHoaDonPdf();
+        if (pdf.status === 'ok') {
+            Mailer.sendMail(
+                hoadon.Email,
+                'Verify mail',
+                `<a href="https://www.facebook.com/">verify</a>`,
+                pdf.filename,
+            );
+        } else return res.send('Fail');
 
+        let directory = path.join(__dirname, '../public/temp');
+
+        fs.unlink(path.join(directory, pdf.filename), (err) => {
+            if (err) throw err;
+        });
+        console.log('asdlasdhl');
         return res.send('Success');
     } catch (error) {
         console.log(error);

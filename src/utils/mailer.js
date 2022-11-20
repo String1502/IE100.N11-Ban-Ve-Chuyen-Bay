@@ -1,8 +1,9 @@
 const nodeMailer = require('nodemailer');
 import mailConfig from '../config/mail.config';
+const path = require('path');
 require('dotenv/config');
 
-let sendMail = (to, subject, htmlContent) => {
+let sendMail = async (to, subject, htmlContent, filename) => {
     let transporter = nodeMailer.createTransport({
         host: mailConfig.HOST,
         port: mailConfig.PORT,
@@ -13,11 +14,14 @@ let sendMail = (to, subject, htmlContent) => {
         },
     });
 
+    let pathAttach = path.join(__dirname, '../public/temp/' + filename);
+
     let options = {
         from: mailConfig.FROM_ADDRESS,
         to: to,
         subject: subject,
         html: htmlContent,
+        attachments: [{ path: pathAttach }],
     };
 
     return transporter.sendMail(options);

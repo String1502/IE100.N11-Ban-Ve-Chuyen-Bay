@@ -296,7 +296,7 @@ let ThanhToan = async (req, res) => {
         fs.unlink(path.join(directory, pdf.filename), (err) => {
             if (err) throw err;
         });
-        console.log('asdlasdhl');
+        console.log('Gửi mail được!');
         return res.send('Success');
     } catch (error) {
         console.log(error);

@@ -1,3 +1,4 @@
+import mailConfig from '../config/mail.config';
 import db from '../models/index';
 import HoaDonController from './HoaDonController';
 const { QueryTypes } = require('sequelize');
@@ -287,6 +288,12 @@ class ClientController {
             console.log(error);
         }
     }
+
+    //#region Mã xác nhận
+    // data_req = { Email: '' };
+    // res =  { Code: '' };
+
+    //#endregion
 }
 
 module.exports = new ClientController();

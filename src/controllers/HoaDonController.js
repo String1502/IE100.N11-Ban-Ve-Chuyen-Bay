@@ -283,7 +283,7 @@ let ThanhToan = async (req, res) => {
 
         let pdf = await pdfController.generateHoaDonPdf();
         if (pdf.status === 'ok') {
-            Mailer.sendMail(
+            await Mailer.sendMail(
                 hoadon.Email,
                 'Verify mail',
                 `<a href="https://www.facebook.com/">verify</a>`,

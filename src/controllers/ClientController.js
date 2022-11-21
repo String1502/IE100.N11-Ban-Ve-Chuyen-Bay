@@ -2,6 +2,7 @@ import mailConfig from '../config/mail.config';
 import db from '../models/index';
 import HoaDonController from './HoaDonController';
 const { QueryTypes } = require('sequelize');
+import Mailer from '../utils/mailer';
 
 let PackageBooking;
 
@@ -291,8 +292,33 @@ class ClientController {
 
     //#region Mã xác nhận
     // data_req = { Email: '' };
-    // res =  { Code: '' };
+    // res =  { Code: 'xxxxxx' }; x -> (0,9)
+    // if(err) res = { Code: -1 }
+    async validateCode(req, res) {
+        try {
+            function RandomNum(min, max) {
+                return parseInt(Math.random() * (max - min) + min);
+            }
 
+            let Email = req.body.Email;
+
+            let num1 = RandomNum(0, 10);
+            let num2 = RandomNum(0, 10);
+            let num3 = RandomNum(0, 10);
+            let num4 = RandomNum(0, 10);
+            let num5 = RandomNum(0, 10);
+            let num6 = RandomNum(0, 10);
+
+            let Code = '' + num1 + num2 + num3 + num4 + num5 + num6;
+
+            await Mailer.sendMail(Email, 'Verify mail', `<p>Your verify code: ${Code} </p>`);
+
+            return res.send({ Code: Code });
+        } catch (error) {
+            console.log(error);
+            return res.send({ Code: -1 });
+        }
+    }
     //#endregion
 }
 

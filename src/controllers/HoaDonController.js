@@ -281,12 +281,25 @@ let ThanhToan = async (req, res) => {
         });
         await hoadon.save();
 
-        let pdf = await pdfController.generateHoaDonPdf();
+        // SELECT DISTINCT chitiethangve.MaHangGhe  from hoadon, ve, chitiethangve WHERE hoadon.MaHoaDon = 6 AND hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe
+
+        let MaHangGhe = await db.sequelize.query(
+            'SELECT DISTINCT chitiethangve.MaHangGhe  from hoadon, ve, chitiethangve WHERE hoadon.MaHoaDon = :mahoadon AND hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe',
+            {
+                replacements: {
+                    mahoadon: hoadon.MaHoaDon,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+
+        let pdf = await pdfController.generateHoaDonPdf(hoadon.MaHoaDon, MaHangGhe[0].MaHangGhe);
         if (pdf.status === 'ok') {
-            await Mailer.sendMail(
+            await Mailer.sendMailWithAttach(
                 hoadon.Email,
-                'Verify mail',
-                `<a href="https://www.facebook.com/">verify</a>`,
+                `[Planet] Your E-ticket - Booking ID [${MaHangGhe[0].MaHangGhe}-${hoadon.MaHoaDon}]`,
+                `<p>Cám ơn bạn đã lựa chọn Planet!</p>`,
                 pdf.filename,
             );
         } else return res.send('Fail');

@@ -3,10 +3,11 @@ const pdf = require('pdf-creator-node');
 const path = require('path');
 const options = require('../utils/pdfOptions');
 
-const generateHoaDonPdf = async () => {
+const generateHoaDonPdf = async (MaHoaDon, MaHangGhe) => {
     try {
         const html = fs.readFileSync(path.join(__dirname, '../resources/views/pdfTemplate/template.html'), 'utf-8');
-        const filename = Math.random() + '_doc' + '.pdf';
+        let date = new Date(Date.now());
+        const filename = `[${date.toDateString()}].[${MaHangGhe}-${MaHoaDon}].pdf`;
         let array = [];
 
         let data_res = {

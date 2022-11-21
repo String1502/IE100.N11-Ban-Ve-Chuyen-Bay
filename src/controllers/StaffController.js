@@ -42,22 +42,29 @@ class StaffController {
         }
     }
     // Update ThamSo
-    // ngayf update, input roongx
+    // ngayf update
     async UpdateThamSo(req, res) {
         try {
             let P_ThamSo = req.body;
-            let U_ThamSo = await db.ThamSo.findOne({
-                where: {
-                    TenThamSo: P_ThamSo.TenThamSo,
-                },
-            });
-            if (U_ThamSo) {
-                await U_ThamSo.set({
-                    GiaTri: P_ThamSo.GiaTri,
+            let U_ThamSo = await db.ThamSo.findAll({});
+            for (let i = 0; i < U_ThamSo.length; i++) {
+                await U_ThamSo[i].set({
+                    GiaTri: parseInt(P_ThamSo[i]),
                 });
-                await U_ThamSo.save();
+                await U_ThamSo[i].save();
             }
             console.log(U_ThamSo);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // LoadThamSo
+    async LoadThamSo(req, res) {
+        try {
+            let PackageThamSo = await db.ThamSo.findAll();
+            console.log(PackageThamSo);
+            return res.send(PackageThamSo);
         } catch (error) {
             console.log(error);
         }

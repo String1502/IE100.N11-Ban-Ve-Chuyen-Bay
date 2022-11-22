@@ -294,7 +294,8 @@ let ThanhToan = async (req, res) => {
             },
         );
 
-        let pdf = await pdfController.generateHoaDonPdf(hoadon.MaHoaDon, MaHangGhe[0].MaHangGhe);
+        let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, MaHangGhe[0].MaHangGhe);
+
         if (pdf.status === 'ok') {
             await Mailer.sendMailWithAttach(
                 hoadon.Email,
@@ -306,10 +307,15 @@ let ThanhToan = async (req, res) => {
 
         let directory = path.join(__dirname, '../public/temp');
 
-        fs.unlink(path.join(directory, pdf.filename), (err) => {
+        fs.readdir(directory, (err, files) => {
             if (err) throw err;
+
+            for (const file of files) {
+                fs.unlink(path.join(directory, file), (err) => {
+                    if (err) throw err;
+                });
+            }
         });
-        console.log('Gửi mail được!');
         return res.send('Success');
     } catch (error) {
         console.log(error);

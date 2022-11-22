@@ -302,7 +302,7 @@ class ClientController {
             return res.send({ Code: Code });
         } catch (error) {
             console.log(error);
-            return res.send({ Code: -1 });
+            return res.send({ Code: '-1' });
         }
     }
     //#endregion

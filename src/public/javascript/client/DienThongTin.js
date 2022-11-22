@@ -9,6 +9,7 @@ import {
     showToast,
     dateIsValid,
     onlyNumber,
+    validateEmail,
 } from '../start.js';
 window.onlyNumber = onlyNumber;
 let dd = String(today.getDate()).padStart(2, '0');
@@ -445,16 +446,19 @@ function KiemTraNhapThongTin() {
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').value == '') {
             toast_body = 'Ngày sinh còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').value == '') {
             toast_body = 'Tháng sinh còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').value == '') {
             toast_body = 'Năm sinh còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
@@ -474,16 +478,19 @@ function KiemTraNhapThongTin() {
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').value == '') {
             toast_body = 'Danh xưng còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').value == '') {
             toast_body = 'Họ còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').value == '') {
             toast_body = 'Tên còn trống';
+            HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
     }
@@ -493,19 +500,27 @@ function KiemTraNhapThongTin() {
 
     if (document.getElementById('NguoiLienHe_Ho').value == '') {
         toast_body = 'Họ của người liên hệ còn trống';
-
+        document.getElementById('NguoiLienHe_Ho').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_Ten').value == '') {
         toast_body = 'Tên của người liên hệ còn trống';
+        document.getElementById('NguoiLienHe_Ten').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_SDT').value == '') {
         toast_body = 'SDT của người liên hệ còn trống';
+        document.getElementById('NguoiLienHe_SDT').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_Email').value == '') {
         toast_body = 'Email của người liên hệ còn trống';
+        document.getElementById('NguoiLienHe_Email').focus();
+        return { head: toast_header, body: toast_body, flag: false };
+    }
+    if (!validateEmail(document.getElementById('NguoiLienHe_Email').value)) {
+        toast_body = 'Email của người liên hệ chưa hợp lệ';
+        document.getElementById('NguoiLienHe_Email').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
 
@@ -582,9 +597,30 @@ if (TiepTucDuoi)
     TiepTucDuoi.addEventListener('click', () => {
         let KiemTra = KiemTraNhapThongTin();
         if (KiemTra.flag) {
-            SendForm(PackageBooking);
+            document.getElementById('XacNhan_Email').innerText = document.getElementById('NguoiLienHe_Email').value;
+            new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
         } else showToast({ header: KiemTra.head, body: KiemTra.body, duration: 5000, type: 'warning' });
     });
+
+const DoiEmail_XacNhan = document.getElementById('DoiEmail_XacNhan');
+if (DoiEmail_XacNhan) {
+    DoiEmail_XacNhan.addEventListener('click', (e) => {
+        document.getElementById('NguoiLienHe_Email').value = '';
+        document.getElementById('NguoiLienHe_Email').focus();
+        const PhanDuoi = document.getElementById('PhanDuoi');
+        if (!PhanDuoi.classList.contains('d-none')) {
+            PhanDuoi.classList.add('d-none');
+            TiepTucTren.classList.remove('d-none');
+        }
+    });
+}
+
+const XacNhan = document.getElementById('XacNhan');
+if (XacNhan) {
+    XacNhan.addEventListener('click', (e) => {
+        // SendForm(PackageBooking);
+    });
+}
 
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =

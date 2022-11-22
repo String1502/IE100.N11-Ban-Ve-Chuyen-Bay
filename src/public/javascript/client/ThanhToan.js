@@ -15,15 +15,21 @@ let yyyy = today.getFullYear();
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/payment',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
+    // });
+    //#endregion
+
     openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/payment',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
-    });
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 

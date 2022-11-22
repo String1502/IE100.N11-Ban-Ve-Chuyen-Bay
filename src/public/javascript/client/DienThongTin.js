@@ -19,26 +19,43 @@ let yyyy = today.getFullYear();
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
-    openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/booking',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
-        console.log(PackageBooking);
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/booking',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
+    //     console.log(PackageBooking);
 
-        if (PackageBooking) {
-            PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
-            AddEventHanhKhach_Item();
-            NguoiLienHe_Input_Change();
-            AddEventHanhLy_Modal();
-            TienNghiChuyenBay();
-            TiepTucTren_Onclick();
-            TomTat_func();
-        }
-    });
+    //     if (PackageBooking) {
+    //         PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
+    //         AddEventHanhKhach_Item();
+    //         NguoiLienHe_Input_Change();
+    //         AddEventHanhLy_Modal();
+    //         TienNghiChuyenBay();
+    //         TiepTucTren_Onclick();
+    //         TomTat_func();
+    //     }
+    // });
+    //#endregion
+
+    openLoader('Chờ chút');
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
+    console.log(PackageBooking);
+
+    if (PackageBooking) {
+        PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
+        AddEventHanhKhach_Item();
+        NguoiLienHe_Input_Change();
+        AddEventHanhLy_Modal();
+        TienNghiChuyenBay();
+        TiepTucTren_Onclick();
+        TomTat_func();
+    }
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 

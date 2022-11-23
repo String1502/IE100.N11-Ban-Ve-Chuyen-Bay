@@ -615,7 +615,28 @@ if (TiepTucDuoi)
         let KiemTra = KiemTraNhapThongTin();
         if (KiemTra.flag) {
             document.getElementById('XacNhan_Email').innerText = document.getElementById('NguoiLienHe_Email').value;
+            let input = document.getElementById('MaXacNhan_input');
+            input.value = '';
+            const NhacNhapCode = document.getElementById('NhacNhapCode');
+            if (!NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.add('d-none');
+            if (!input.classList.contains('custom-boxshadow-focus-primary')) {
+                input.classList.add('custom-boxshadow-focus-primary');
+            }
+            if (input.classList.contains('custom-boxshadow-focus-secondary')) {
+                input.classList.remove('custom-boxshadow-focus-secondary');
+            }
+            document.getElementById('XacNhan').disabled = true;
             new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
+
+            axios({
+                method: 'post',
+                url: '/validatecode',
+                data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+            }).then((res) => {
+                MaXacNhan = res.data.Code;
+                console.log(MaXacNhan);
+                document.getElementById('XacNhan').disabled = false;
+            });
         } else showToast({ header: KiemTra.head, body: KiemTra.body, duration: 5000, type: 'warning' });
     });
 
@@ -633,9 +654,26 @@ if (DoiEmail_XacNhan) {
 }
 
 const XacNhan = document.getElementById('XacNhan');
+let MaXacNhan = '';
 if (XacNhan) {
     XacNhan.addEventListener('click', (e) => {
-        // SendForm(PackageBooking);
+        let input = document.getElementById('MaXacNhan_input');
+        if (input.value == '' || input.value != MaXacNhan) {
+            const NhacNhapCode = document.getElementById('NhacNhapCode');
+
+            if (input.value == '') NhacNhapCode.innerText = 'Bạn chưa nhập mã code!';
+            else NhacNhapCode.innerText = 'Mã code không đúng!';
+
+            if (NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.remove('d-none');
+            if (input.classList.contains('custom-boxshadow-focus-primary')) {
+                input.classList.remove('custom-boxshadow-focus-primary');
+            }
+            if (!input.classList.contains('custom-boxshadow-focus-secondary')) {
+                input.classList.add('custom-boxshadow-focus-secondary');
+            }
+            return;
+        }
+        SendForm(PackageBooking);
     });
 }
 

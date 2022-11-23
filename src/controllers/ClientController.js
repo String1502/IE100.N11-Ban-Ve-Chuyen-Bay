@@ -279,7 +279,7 @@ class ClientController {
     //#region Mã xác nhận
     // data_req = { Email: '' };
     // res =  { Code: 'xxxxxx' }; x -> (0,9)
-    // if(err) res = { Code: -1 }
+    // if(err) res = { Code: '-1' }
     async validateCode(req, res) {
         try {
             function RandomNum(min, max) {
@@ -288,7 +288,7 @@ class ClientController {
 
             let Email = req.body.Email;
 
-            let num1 = RandomNum(0, 10);
+            let num1 = RandomNum(0, 10); //0-9
             let num2 = RandomNum(0, 10);
             let num3 = RandomNum(0, 10);
             let num4 = RandomNum(0, 10);

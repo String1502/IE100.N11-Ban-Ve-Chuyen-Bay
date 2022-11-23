@@ -52,6 +52,7 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
     data_send.NgayGioThanhToan = today;
     data_send.PackageBooking = PackageBooking;
 
+    console.log(data_send);
     openLoader('Chờ chút');
     axios({
         method: 'post',
@@ -63,8 +64,8 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
         if (res.data === 'Success') alert('Thanh toán thành công');
         else alert('thanh toán thất bại');
 
-        var home_form = document.forms['home_form'];
-        home_form.action = '/';
-        home_form.submit();
+        // var home_form = document.forms['home_form'];
+        // home_form.action = '/';
+        // home_form.submit();
     });
 });

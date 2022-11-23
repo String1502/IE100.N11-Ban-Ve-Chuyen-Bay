@@ -1,9 +1,9 @@
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 import Mailer from '../utils/mailer';
-import pdfController from './pdfController';
 const fs = require('fs');
 const path = require('path');
+import pdfController from './pdfController';
 
 //#region Tao ve
 // thongtintaove
@@ -294,16 +294,19 @@ let ThanhToan = async (req, res) => {
             },
         );
 
-        let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, MaHangGhe[0].MaHangGhe);
+        let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, data_req.PackageBooking);
 
         if (pdf.status === 'ok') {
+            console.log('asjdasdj');
             await Mailer.sendMailWithAttach(
                 hoadon.Email,
                 `[Planet] Your E-ticket - Booking ID [${MaHangGhe[0].MaHangGhe}-${hoadon.MaHoaDon}]`,
                 `<p>Cám ơn bạn đã lựa chọn Planet!</p>`,
                 pdf.filename,
             );
-        } else return res.send('Fail');
+        } else {
+            return res.send('Fail');
+        }
 
         let directory = path.join(__dirname, '../public/temp');
 

@@ -87,19 +87,17 @@
                                         <div class="d-flex flex-column px-3">
                                             <div class="d-flex flex-row justify-content-between mb-2">
                                                 <div class="custom-font p20-R text-dark">Họ tên:</div>
-                                                <div class="custom-font p20-S text-dark">Phan Trường Huy</div>
+                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.HoTen}}</div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-2">
                                                 <div class="custom-font p20-R text-dark">Số điện thoại:</div>
-                                                <div class="custom-font p20-S text-dark">0343214971</div>
+                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.SDT}}</div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-3">
                                                 <div class="custom-font p20-R text-dark">Email:</div>
-                                                <div class="custom-font p20-S text-dark">
-                                                    phantruonghuy0701@gmail.com
-                                                </div>
+                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.Email}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +114,9 @@
                                         <div class="d-flex flex-column px-3">
                                             <div class="d-flex flex-row justify-content-between mb-2">
                                                 <div class="custom-font p20-R text-dark">Hạng vé:</div>
-                                                <div class="custom-font p20-S text-dark">Eco - Phổ thông</div>
+                                                <div class="custom-font p20-S text-dark">
+                                                    {{HangGhe.MaHangGhe}} - {{HangGhe.TenHangGhe}}
+                                                </div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-2">
@@ -126,7 +126,7 @@
 
                                             <div class="d-flex flex-row justify-content-between mb-3">
                                                 <div class="custom-font p20-R text-dark">Số tiền thanh toán:</div>
-                                                <div class="custom-font p20-S text-dark">500.000 VND</div>
+                                                <div class="custom-font p20-S text-dark">{{SoTien}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,26 +194,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each HanhKhach}}
                                 <tr class="custom-font p20-R text-dark">
                                     <td class="text-end">1</td>
                                     <td></td>
-                                    <td>Ông Phan Trường Huy</td>
-                                    <td>Người lớn</td>
+                                    <td>{{this.HoTen}}</td>
+                                    <td>{{this.DoTuoi}}</td>
                                 </tr>
-
-                                <tr class="custom-font p20-R text-dark">
-                                    <td class="text-end">2</td>
-                                    <td></td>
-                                    <td>Ông Phan Trường Huy Huy</td>
-                                    <td>Người lớn</td>
-                                </tr>
-
-                                <tr class="custom-font p20-R text-dark">
-                                    <td class="text-end">3</td>
-                                    <td></td>
-                                    <td>Ông Phan Trường Huy Huy Huy</td>
-                                    <td>Người lớn</td>
-                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>
@@ -241,68 +229,28 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each ChuyenBay}}
                                 <tr class="custom-font p20-R text-dark">
                                     <td class="text-end">1</td>
-                                    <td>TSN-HA-1</td>
-                                    <td>Tân Sơn Nhất</td>
-                                    <td>Nội Bài</td>
+                                    <td>{{this.MaChuyenBay}}</td>
+                                    <td>{{this.SanBayDi}}</td>
+                                    <td>{{this.SanBayDen}}</td>
                                     <td>
-                                        11:11 <br />
-                                        11-11-2022
+                                        {{this.KhoiHanh.Gio}}:{{this.KhoiHanh.Phut}} <br />
+                                        {{this.KhoiHanh.Ngay}}:{{this.KhoiHanh.Thang}}:{{this.KhoiHanh.Nam}}
                                     </td>
                                     <td>
-                                        11:11 <br />
-                                        11-11-2022
+                                        {{this.Den.Gio}}:{{this.Den.Phut}} <br />
+                                        {{this.Den.Ngay}}:{{this.Den.Thang}}:{{this.Den.Nam}}
                                     </td>
-                                    <td>+ 30kg</td>
+                                    <td>+ {{this.HanhLy}}kg</td>
                                     <td>
                                         <div class="p-2 bg-primary text-center text-light p20-B rounded">
-                                            2-TSN-HA-1
+                                            {{this.BookingID}}
                                         </div>
                                     </td>
                                 </tr>
-
-                                <tr class="custom-font p20-R text-dark">
-                                    <td class="text-end">1</td>
-                                    <td>TSN-HA-1</td>
-                                    <td>Tân Sơn Nhất</td>
-                                    <td>Nội Bài</td>
-                                    <td>
-                                        11:11 <br />
-                                        11-11-2022
-                                    </td>
-                                    <td>
-                                        11:11 <br />
-                                        11-11-2022
-                                    </td>
-                                    <td>+ 30kg</td>
-                                    <td>
-                                        <div class="p-2 bg-primary text-center text-light p20-B rounded">
-                                            2-TSN-HA-1
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="custom-font p20-R text-dark">
-                                    <td class="text-end">1</td>
-                                    <td>TSN-HA-1</td>
-                                    <td>Tân Sơn Nhất</td>
-                                    <td>Nội Bài</td>
-                                    <td>
-                                        11:11 <br />
-                                        11-11-2022
-                                    </td>
-                                    <td>
-                                        11:11 <br />
-                                        11-11-2022
-                                    </td>
-                                    <td>+ 30kg</td>
-                                    <td>
-                                        <div class="p-2 bg-primary text-center text-light p20-B rounded">
-                                            2-TSN-HA-1
-                                        </div>
-                                    </td>
-                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>

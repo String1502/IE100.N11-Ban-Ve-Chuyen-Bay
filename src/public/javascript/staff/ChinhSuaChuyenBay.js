@@ -67,3 +67,37 @@ if (ThemDiemDung) {
         DiemDung_Container.appendChild(node);
     });
 }
+
+// Nút thêm hạng ghế
+const ThemHangGhe = document.getElementById('ThemHangGhe');
+if (ThemHangGhe) {
+    ThemHangGhe.addEventListener('click', (e) => {
+        const node = document.querySelector('.HangGhe_Item').cloneNode(true);
+        node.classList.remove('d-none');
+
+        // Nút xóa
+        const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
+        if (HangGhe_Items.length > 1) {
+            const lastitem = HangGhe_Items[HangGhe_Items.length - 1].querySelector('.HangGhe_Item_Xoa');
+            if (!lastitem.classList.contains('d-none')) {
+                lastitem.classList.add('d-none');
+            }
+        }
+        const NutXoa = node.querySelector('.HangGhe_Item_Xoa');
+        if (NutXoa.classList.contains('d-none')) {
+            NutXoa.classList.remove('d-none');
+        }
+        NutXoa.addEventListener('click', (e) => {
+            const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
+            if (HangGhe_Items.length - 1 > 1) {
+                const sublastitem = HangGhe_Items[HangGhe_Items.length - 2].querySelector('.HangGhe_Item_Xoa');
+                if (sublastitem.classList.contains('d-none')) {
+                    sublastitem.classList.remove('d-none');
+                }
+            }
+            document.getElementById('HangGhe_Container').removeChild(e.target.closest('.HangGhe_Item'));
+        });
+
+        HangGhe_Container.appendChild(node);
+    });
+}

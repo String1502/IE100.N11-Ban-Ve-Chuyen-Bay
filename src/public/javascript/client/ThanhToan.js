@@ -50,6 +50,8 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
     const today = new Date(timeElapsed);
     data_send = JSON.parse(data_send);
     data_send.NgayGioThanhToan = today;
+    data_send.PackageBooking = PackageBooking;
+
     openLoader('Chờ chút');
     axios({
         method: 'post',

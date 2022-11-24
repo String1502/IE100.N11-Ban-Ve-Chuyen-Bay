@@ -28,14 +28,13 @@ function LoadInformation() {
         Package = res.data;
         console.log(Package);
         SanBays_P_Update = structuredClone(Package.SanBays);
-        const SanBay = document.querySelectorAll('.SanBay');
+        let SanBay = document.querySelectorAll('.SanBay');
         for (let i = 0; i < SanBay.length; i++) {
             SanBay[i].querySelector('.SanBay_DiaChi').value = Package.SanBays[i].MaTinhThanh;
             if (Package.SanBays[i].TrangThai == 'HoatDong') {
                 SanBay[i].querySelector('.SanBay_TrangThai').value = 1;
-            }
+            } else SanBay[i].querySelector('.SanBay_TrangThai').value = 2;
         }
-        LoadTrangThaiSanBay();
     });
 }
 window.onlyNumber = onlyNumber;
@@ -110,8 +109,35 @@ document.querySelector('.SanBay--Sua').addEventListener('click', (e) => {
     e.target.classList.add('d-none');
     document.querySelector('.SanBay--Them').classList.remove('d-none');
     document.querySelector('.SanBay--CapNhat').classList.remove('d-none');
+    document.querySelector('.SanBay--Huy').classList.remove('d-none');
 });
-
+//nút hủy cập nhật sân bay
+document.querySelector('.SanBay--Huy').addEventListener('click', (e) => {
+    const SanBays_New = document.querySelectorAll('.SanBay_New');
+    for (let i = 0; i < SanBays_New.length; i++) {
+        document.querySelector('.SanBay_Card').removeChild(SanBays_New[i]);
+    }
+    for (let i = 0; i < SanBays_P_Update.length; i++) {
+        if (SanBays_P_Update[i].ID_Update == 1) {
+            SanBays[i].querySelector('.SanBay_Ma').value = Package.SanBays[i].MaSanBay;
+            SanBays[i].querySelector('.SanBay_Ten').value = Package.SanBays[i].TenSanBay;
+            SanBays[i].querySelector('.SanBay_DiaChi').value = Package.SanBays[i].MaTinhThanh;
+            SanBays[i].querySelector('.SanBay_TrangThai').value = Package.SanBays[i].TrangThai == 'HoatDong' ? 1 : 2;
+        }
+    }
+    SanBays_P_Update = structuredClone(Package.SanBays);
+    F_SanBay_Updated = false;
+    for (let i = 0; i < SanBays.length; i++) {
+        SanBays[i].querySelector('.SanBay_Ten').disabled = true;
+        SanBays[i].querySelector('.SanBay_Ma').disabled = true;
+        SanBays[i].querySelector('.SanBay_DiaChi').disabled = true;
+        SanBays[i].querySelector('.SanBay_TrangThai').disabled = true;
+    }
+    document.querySelector('.SanBay--Them').classList.add('d-none');
+    document.querySelector('.SanBay--CapNhat').classList.add('d-none');
+    e.target.classList.add('d-none');
+    document.querySelector('.SanBay--Sua').classList.remove('d-none');
+});
 //Nút thêm sân bay
 document.querySelector('.SanBay--Them').addEventListener('click', (e) => {
     const SanBay = document.querySelector('.SanBay_Cop').cloneNode(true);
@@ -152,7 +178,6 @@ for (let i = 0; i < SanBays.length; i++) {
         if (e.target.value != Package.SanBays[i].TenSanBay) {
             SanBays_P_Update[i].ID_Update = 1;
             SanBays_P_Update[i].TenSanBay = e.target.value;
-            console.log(SanBays_P_Update);
             F_SanBay_Updated = true;
         }
     });
@@ -160,7 +185,6 @@ for (let i = 0; i < SanBays.length; i++) {
         if (e.target.value != Package.SanBays[i].MaTinhThanh) {
             SanBays_P_Update[i].ID_Update = 1;
             SanBays_P_Update[i].MaTinhThanh = e.target.value;
-            console.log(SanBays_P_Update);
             F_SanBay_Updated = true;
         }
     });
@@ -168,31 +192,16 @@ for (let i = 0; i < SanBays.length; i++) {
         if (e.target.value == 1 && Package.SanBays[i].TrangThai == 'NgungHoatDong') {
             SanBays_P_Update[i].ID_Update = 1;
             SanBays_P_Update[i].TrangThai = 'HoatDong';
-            console.log(SanBays_P_Update);
             F_SanBay_Updated = true;
         }
         if (e.target.value == 2 && Package.SanBays[i].TrangThai == 'HoatDong') {
             SanBays_P_Update[i].ID_Update = 1;
             SanBays_P_Update[i].TrangThai = 'NgungHoatDong';
-            console.log(SanBays_P_Update);
             F_SanBay_Updated = true;
         }
     });
 }
-//Loat trạng thái
 
-function LoadTrangThaiSanBay() {
-    let SanBay_TrangThai = document.querySelectorAll('.SanBay_TrangThai');
-    for (let i = 0; i < SanBay_TrangThai.length - 1; i++) {
-        if (Package.SanBays[i].TrangThai == 'HoatDong') {
-            SanBay_TrangThai[i].value = 1;
-        } else SanBay_TrangThai[i].value = 2;
-    }
-    let SanBays = document.querySelectorAll('.SanBay');
-    for (let i = 0; i < SanBays.length; i++) {
-        SanBays[i].setAttribute('Index', i);
-    }
-}
 //Cập nhật Sân bay
 document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
     SanBays_P_Add = [];
@@ -255,6 +264,7 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
             TrangThai: SanBays_New[i].querySelector('.SanBay_TrangThai').value == 1 ? 'HoatDong' : 'NgungHoatDong',
         });
     }
+    //Đếm sân bay thay đổi
     for (let i = 0; i < SanBays_P_Update.length; i++) {
         if (SanBays_P_Update[i].ID_Update == 1) SoSanBayUPdate++;
     }
@@ -268,9 +278,10 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
                 method: 'POST',
                 url: '/staff/UpdateSanBay',
                 data: SanBays_P,
+            }).then((res) => {
+                Package = res.data;
             });
             // chuyển trạng thái sang sửa
-
             for (let i = 0; i < SanBays_New.length; i++) {
                 SanBays_New[i].querySelector('.SanBay_Ma').disabled = true;
                 SanBays_New[i].querySelector('.SanBay_Ten').disabled = true;
@@ -289,6 +300,7 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
             }
             // hiển thị thông báo cập nhật thành công
             document.querySelector('.SanBay--Them').classList.add('d-none');
+            document.querySelector('.SanBay--Huy').classList.add('d-none');
             e.target.classList.add('d-none');
             document.querySelector('.SanBay--Sua').classList.remove('d-none');
             if (F_SanBay_Updated == true) {
@@ -307,9 +319,8 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
                     type: 'success',
                 });
             }
-            SanBays_P_Update = [];
+            SanBays_P_Update = structuredClone(Package.SanBays);
             F_SanBay_Updated = false;
-            LoadInformation();
         }
     } else {
         for (let i = 0; i < SanBays.length; i++) {
@@ -319,13 +330,14 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
             SanBays[i].querySelector('.SanBay_TrangThai').disabled = true;
         }
         document.querySelector('.SanBay--Them').classList.add('d-none');
+        document.querySelector('.SanBay--Huy').classList.add('d-none');
         e.target.classList.add('d-none');
         document.querySelector('.SanBay--Sua').classList.remove('d-none');
         showToast({
             header: 'Thông tin sân bay',
             body: 'Không có sự thay đổi',
             duration: 5000,
-            type: 'info',
+            type: '',
         });
     }
 });

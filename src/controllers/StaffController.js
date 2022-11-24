@@ -122,22 +122,24 @@ class StaffController {
                     MaTinhThanh: SanBay_A[i].MaTinhThanh,
                     TrangThai: SanBay_A[i].TrangThai,
                 });
-                // await db.sequelize.query(
-                //     "INSERT INTO sanbay (MaSanBay,TenSanBay,MaTinhThanh,TrangThai) values ('" +
-                //         SanBay_A[i].MaSanBay +
-                //         "','" +
-                //         SanBay_A[i].TenSanBay +
-                //         "','" +
-                //         SanBay_A[i].MaTinhThanh +
-                //         "','" +
-                //         SanBay_A[i].TrangThai +
-                //         "')",
-                //     {
-                //         type: QueryTypes.INSERT,
-                //         raw: true,
-                //     },
-                // );
             }
+            let Package = {};
+            let ThamSos = await db.sequelize.query('select TenThamSo , GiaTri from thamso', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let SanBays = await db.sequelize.query('select MaSanBay , TenSanBay, TrangThai, MaTinhThanh from sanbay', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let TinhThanhs = await db.sequelize.query('select MaTinhThanh , TenTinhThanh from tinhthanh', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            Package.ThamSos = structuredClone(ThamSos);
+            Package.SanBays = structuredClone(SanBays);
+            Package.TinhThanhs = structuredClone(TinhThanhs);
+            return res.send(Package);
         } catch (error) {
             console.log(error);
         }

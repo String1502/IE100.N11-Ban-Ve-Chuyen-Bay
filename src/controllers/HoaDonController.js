@@ -297,7 +297,6 @@ let ThanhToan = async (req, res) => {
         let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, data_req.PackageBooking);
 
         if (pdf.status === 'ok') {
-            console.log('asjdasdj');
             await Mailer.sendMailWithAttach(
                 hoadon.Email,
                 `[Planet] Your E-ticket - Booking ID [${MaHangGhe[0].MaHangGhe}-${hoadon.MaHoaDon}]`,

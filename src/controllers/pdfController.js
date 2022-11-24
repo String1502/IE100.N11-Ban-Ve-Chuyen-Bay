@@ -101,6 +101,18 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
     }
 
     for (var i in PackageBooking.MangChuyenBayTimKiem) {
+        let HanhLy = await db.sequelize.query(
+            'SELECT SUM(mochanhly.SoKgToiDa) as TongKg FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = :machuyenbay AND hoadon.MaHoaDon = :mahoadon GROUP BY chitiethangve.MaChuyenBay',
+            {
+                replacements: {
+                    machuyenbay: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.MaChuyenBay,
+                    mahoadon: MaHoaDon,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+
         let chuyenbay = {
             MaChuyenBay: `${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDi.MaSanBay}-${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDen.MaSanBay}-${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.MaChuyenBay}`,
             SanBayDi: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDi.TenSanBay,
@@ -119,12 +131,14 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
                 Thang: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.NgayDen.Thang,
                 Nam: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.NgayDen.Nam,
             },
-            HanhLy: 30,
+            HanhLy: HanhLy[0].TongKg,
             BookingID: '',
         };
         chuyenbay.BookingID = `${MaHoaDon}-${chuyenbay.MaChuyenBay}`;
         data.ChuyenBay.push(chuyenbay);
     }
+
+    // SELECT  chitiethangve.MaChuyenBay, mochanhly.SoKgToiDa FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = 1 AND hoadon.MaHoaDon = 46 GROUP BY chitiethangve.MaChuyenBay
 
     let date = new Date(Date.now());
     const filename = `[${date.toDateString()}].[Deluxe-${MaHoaDon}].pdf`;

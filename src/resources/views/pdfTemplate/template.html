@@ -28,13 +28,317 @@
             rel="stylesheet"
         />
         {{!-- Our css --}}
-        <link rel="stylesheet" href="/src/public/css/app.css" />
-        <link rel="stylesheet" href="/src/public/css/color.css" />
-        <link rel="stylesheet" href="/src/public/css/font.css" />
+        <link rel="stylesheet" href="/css/app.css" />
+        <link rel="stylesheet" href="/css/color.css" />
+        <link rel="stylesheet" href="/css/font.css" />
+
+        <style>
+            /* Font */
+            /* Color */
+            /* Navbar */
+            @media (min-width: 991.98px) {
+                .nav-item-hover:hover {
+                    border-bottom: 2px solid #04bfae;
+                    padding-bottom: 6px;
+                    color: #04bfae !important;
+                }
+            }
+
+            @media (max-width: 991.98px) {
+                .nav-item-hover:hover {
+                    border-right: 3px solid #04bfae;
+                    color: #04bfae !important;
+                }
+            }
+
+            .Zoom:hover {
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+
+            .form-control[readonly] {
+                background-color: white;
+                opacity: 1;
+            }
+
+            /* Radio, check button */
+            .custom-color-checked:checked {
+                background-color: #04bfae !important;
+                border-color: #04bfae !important;
+            }
+
+            /* Box shadow focus none */
+            .custom-boxshadow-focus-none:focus {
+                box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0) !important;
+            }
+
+            /* Active */
+            .custom-active:active {
+                background-color: #04bfae;
+            }
+
+            /* ::after display none */
+            .d-none-after::after {
+                display: none !important;
+            }
+
+            /* Input date */
+            input[type='date'] {
+                display: flex;
+                flex-flow: row-reverse;
+                column-gap: 0.75rem;
+            }
+
+            /* Input time */
+            input[type='time'] {
+                display: flex;
+                flex-flow: row-reverse;
+                column-gap: 0.75rem;
+            }
+
+            /* Button disabled */
+            button:disabled,
+            button[disabled] {
+                background-color: #cccccc !important;
+                color: #666666 !important;
+                opacity: 0.3;
+            }
+
+            /* Font */
+            /* Color */
+            /* Color */
+            .text-primary {
+                color: #04bfae !important;
+            }
+
+            .bg-primary {
+                background-color: #04bfae !important;
+            }
+
+            .bg-primary-hover {
+                background-color: rgba(4, 191, 174, 0.25) !important;
+            }
+
+            .border-primary {
+                border-color: #04bfae !important;
+            }
+
+            .custom-boxshadow-focus-primary:focus,
+            .custom-boxshadow-hover-primary:hover {
+                box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0.25) !important;
+            }
+
+            .custom-bg-hover-primary:hover {
+                background-color: rgba(4, 191, 174, 0.25) !important;
+            }
+
+            .text-secondary {
+                color: #f25c05 !important;
+            }
+
+            .bg-secondary {
+                background-color: #f25c05 !important;
+            }
+
+            .border-secondary {
+                border-color: #f25c05 !important;
+            }
+
+            .custom-boxshadow-focus-secondary:focus,
+            .custom-boxshadow-hover-secondary:hover {
+                box-shadow: 0 0 0 0.25rem rgba(242, 92, 5, 0.25) !important;
+            }
+
+            .custom-bg-hover-secondary:hover {
+                background-color: rgba(242, 92, 5, 0.25) !important;
+            }
+
+            .text-tertiary {
+                color: #6c757d !important;
+            }
+
+            .bg-tertiary {
+                background-color: #6c757d !important;
+            }
+
+            .border-tertiary {
+                border-color: #6c757d !important;
+            }
+
+            .custom-boxshadow-focus-tertiary:focus,
+            .custom-boxshadow-hover-tertiary:hover {
+                box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25) !important;
+            }
+
+            .custom-bg-hover-tertiary:hover {
+                background-color: rgba(108, 117, 125, 0.25) !important;
+            }
+
+            .text-tertiary-light {
+                color: #e9ecef !important;
+            }
+
+            .bg-tertiary-light {
+                background-color: #e9ecef !important;
+            }
+
+            .border-tertiary-light {
+                border-color: #e9ecef !important;
+            }
+
+            .custom-boxshadow-focus-tertiary-light:focus,
+            .custom-boxshadow-hover-tertiary-light:hover {
+                box-shadow: 0 0 0 0.25rem rgba(233, 236, 239, 0.25) !important;
+            }
+
+            .custom-bg-hover-tertiary-light:hover {
+                background-color: rgba(233, 236, 239, 0.25) !important;
+            }
+
+            .text-light {
+                color: white !important;
+            }
+
+            .bg-light {
+                background-color: white !important;
+            }
+
+            .border-light {
+                border-color: white !important;
+            }
+
+            .text-dark {
+                color: black !important;
+            }
+
+            .bg-dark {
+                background-color: black !important;
+            }
+
+            .border-dark {
+                border-color: black !important;
+            }
+
+            /* Font */
+            /* Color */
+            /* Font */
+            .custom-font {
+                font-style: normal;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .h64-B {
+                font-weight: 700 !important;
+                font-size: 64px !important;
+                line-height: 75px !important;
+            }
+
+            .h48-B {
+                font-weight: 700 !important;
+                font-size: 48px !important;
+                line-height: 56px !important;
+            }
+
+            .h32-B {
+                font-weight: 700 !important;
+                font-size: 32px !important;
+                line-height: 38px !important;
+            }
+
+            .h28-B {
+                font-weight: 700 !important;
+                font-size: 28px !important;
+                line-height: 33px !important;
+            }
+
+            .h24-B {
+                font-weight: 700 !important;
+                font-size: 24px !important;
+                line-height: 28px !important;
+            }
+
+            .p32-R {
+                font-weight: 400 !important;
+                font-size: 32px !important;
+                line-height: 38px !important;
+            }
+
+            .p20-B {
+                font-weight: 700 !important;
+                font-size: 20px !important;
+                line-height: 23px !important;
+            }
+
+            .p20-S {
+                font-weight: 600 !important;
+                font-size: 20px !important;
+                line-height: 23px !important;
+            }
+
+            .p20-R {
+                font-weight: 400 !important;
+                font-size: 20px !important;
+                line-height: 23px !important;
+            }
+
+            .p16-B {
+                font-weight: 700 !important;
+                font-size: 16px !important;
+                line-height: 19px !important;
+            }
+
+            .p16-S {
+                font-weight: 600 !important;
+                font-size: 16px !important;
+                line-height: 19px !important;
+            }
+
+            .p16-R {
+                font-weight: 400 !important;
+                font-size: 16px !important;
+                line-height: 19px !important;
+            }
+
+            .p14-B {
+                font-weight: 700 !important;
+                font-size: 14px !important;
+                line-height: 16px !important;
+            }
+
+            .p14-S {
+                font-weight: 600 !important;
+                font-size: 14px !important;
+                line-height: 16px !important;
+            }
+
+            .p14-R {
+                font-weight: 400 !important;
+                font-size: 14px !important;
+                line-height: 16px !important;
+            }
+
+            .p12-S {
+                font-weight: 600 !important;
+                font-size: 12px !important;
+                line-height: 12px !important;
+            }
+
+            .p12-R {
+                font-weight: 400 !important;
+                font-size: 12px !important;
+                line-height: 12px !important;
+            }
+
+            .p12-L {
+                font-weight: 300 !important;
+                font-size: 12px !important;
+                line-height: 12px !important;
+            }
+        </style>
     </head>
     <body>
         <div class="bg-light">
-            <div class="container mt-4 pb-4">
+            <div class="container-fluid mt-4 pb-4">
                 {{! Hàng 1 }}
                 <div class="row align-items-center mb-3">
                     <div class="col-2">
@@ -63,7 +367,7 @@
 
                 {{! Hàng 2 }}
                 <div class="row align-items-center mb-5">
-                    <div class="col-5">
+                    <div class="col-12">
                         <div style="font-weight: 400px !important; font-size: 48px" class="custom-font text-dark">
                             E-ticket
                             <span style="font-size: 36px" class="text-tertiary"> / Vé điện tử</span>

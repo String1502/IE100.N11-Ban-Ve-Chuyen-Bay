@@ -159,7 +159,7 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
             await page.setContent(html);
             // We use pdf function to generate the pdf in the same folder as this file.
 
-            await page.pdf({ path: `./src/public/temp/${filename}`, format: 'A3' });
+            await page.pdf({ path: `./src/public/temp/${filename}`, format: 'A4' });
             await browser.close();
             console.log('PDF Generated');
         })

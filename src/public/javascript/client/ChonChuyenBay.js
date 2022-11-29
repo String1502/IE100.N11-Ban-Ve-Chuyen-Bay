@@ -320,26 +320,43 @@ const ChuyenBay_Container = document.getElementById('ChuyenBay_Container');
 let PackageBooking;
 let ChuyenBayDangChon = 0;
 function GetPackageBooing_fromSV() {
-    openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/choose_flight',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
-        TomTat_Item_Detail_ChiTiet_HienThi();
-        DoiMauChuyenBayDangChon();
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/choose_flight',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
+    //     TomTat_Item_Detail_ChiTiet_HienThi();
+    //     DoiMauChuyenBayDangChon();
 
-        console.log(PackageBooking);
-        // Chuyến bay số 1
-        if (PackageBooking.MangChuyenBayTimKiem.length > 0)
-            LayChuyenBay_fromDB(
-                PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
-                PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
-                PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
-            );
-    });
+    //     console.log(PackageBooking);
+    //     // Chuyến bay số 1
+    //     if (PackageBooking.MangChuyenBayTimKiem.length > 0)
+    //         LayChuyenBay_fromDB(
+    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
+    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
+    //             PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
+    //         );
+    // });
+    //#endregion
+
+    openLoader('Chờ chút');
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
+    TomTat_Item_Detail_ChiTiet_HienThi();
+    DoiMauChuyenBayDangChon();
+
+    console.log(PackageBooking);
+    // Chuyến bay số 1
+    if (PackageBooking.MangChuyenBayTimKiem.length > 0)
+        LayChuyenBay_fromDB(
+            PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
+            PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
+            PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
+        );
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 

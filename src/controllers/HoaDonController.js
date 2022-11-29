@@ -1,6 +1,9 @@
-import e from 'express';
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
+import Mailer from '../utils/mailer';
+const fs = require('fs');
+const path = require('path');
+import pdfController from './pdfController';
 
 //#region Tao ve
 // thongtintaove
@@ -278,6 +281,43 @@ let ThanhToan = async (req, res) => {
         });
         await hoadon.save();
 
+        // SELECT DISTINCT chitiethangve.MaHangGhe  from hoadon, ve, chitiethangve WHERE hoadon.MaHoaDon = 6 AND hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe
+
+        let MaHangGhe = await db.sequelize.query(
+            'SELECT DISTINCT chitiethangve.MaHangGhe  from hoadon, ve, chitiethangve WHERE hoadon.MaHoaDon = :mahoadon AND hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe',
+            {
+                replacements: {
+                    mahoadon: hoadon.MaHoaDon,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+
+        let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, data_req.PackageBooking);
+
+        if (pdf.status === 'ok') {
+            await Mailer.sendMailWithAttach(
+                hoadon.Email,
+                `[Planet] Your E-ticket - Booking ID [${MaHangGhe[0].MaHangGhe}-${hoadon.MaHoaDon}]`,
+                `<p>Cám ơn bạn đã lựa chọn Planet!</p>`,
+                pdf.filename,
+            );
+        } else {
+            return res.send('Fail');
+        }
+
+        let directory = path.join(__dirname, '../public/temp');
+
+        fs.readdir(directory, (err, files) => {
+            if (err) throw err;
+
+            for (const file of files) {
+                fs.unlink(path.join(directory, file), (err) => {
+                    if (err) throw err;
+                });
+            }
+        });
         return res.send('Success');
     } catch (error) {
         console.log(error);
@@ -286,8 +326,48 @@ let ThanhToan = async (req, res) => {
 };
 //#endregion
 
+//#region update hóa đơn
+// req_body
+// {
+// 	MaHoaDon:-1,
+// 	NguoiLienHe:
+// 	{
+// 		HoTen:'',
+// 		SDT: '',
+// 		Email: '',
+// 	}
+// }
+
+//res = true || false
+
+let updateHoaDon = async (req, res) => {
+    try {
+        let form_data = { ...req.body };
+
+        let hoadon = await db.HoaDon.findOne({
+            where: {
+                MaHoaDon: form_data.MaHoaDon,
+            },
+        });
+
+        await hoadon.set({
+            HoTen: form_data.NguoiLienHe.HoTen,
+            SDT: form_data.NguoiLienHe.SDT,
+            Email: form_data.NguoiLienHe.Email,
+        });
+
+        await hoadon.save();
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
+    }
+};
+//#endregion
+
 module.exports = {
     Create: Create,
     CreateHoaDon: CreateHoaDon,
     ThanhToan: ThanhToan,
+    updateHoaDon: updateHoaDon,
 };

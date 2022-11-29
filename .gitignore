@@ -2,6 +2,6 @@
 /vendor
 /.idea
 .idea/
-
+/src/public/temp/*
 # .prettierrc
 # /.vscode

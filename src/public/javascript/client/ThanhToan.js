@@ -15,15 +15,21 @@ let yyyy = today.getFullYear();
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/payment',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
+    // });
+    //#endregion
+
     openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/payment',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
-    });
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 
@@ -44,6 +50,9 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
     const today = new Date(timeElapsed);
     data_send = JSON.parse(data_send);
     data_send.NgayGioThanhToan = today;
+    data_send.PackageBooking = PackageBooking;
+
+    console.log(data_send);
     openLoader('Chờ chút');
     axios({
         method: 'post',
@@ -55,8 +64,8 @@ document.getElementById('ThanhToan').addEventListener('click', () => {
         if (res.data === 'Success') alert('Thanh toán thành công');
         else alert('thanh toán thất bại');
 
-        var home_form = document.forms['home_form'];
-        home_form.action = '/';
-        home_form.submit();
+        // var home_form = document.forms['home_form'];
+        // home_form.action = '/';
+        // home_form.submit();
     });
 });

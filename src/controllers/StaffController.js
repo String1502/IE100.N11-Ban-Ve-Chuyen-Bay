@@ -67,6 +67,7 @@ class StaffController {
                 });
                 await U_ThamSo[i].save();
             }
+            return res.send(U_ThamSo);
         } catch (error) {
             console.log(error);
         }
@@ -97,10 +98,11 @@ class StaffController {
         }
     }
 
-    // Update ThamSo
+    // Update SanBay
     async UpdateSanBay(req, res) {
         try {
             let SanBay_P = req.body;
+            // let SanBay_P = JSON.parse(req.body.Package);
             let SanBay_U = SanBay_P.SanBays_P_Update;
             let SanBay_A = SanBay_P.SanBays_P_Add;
             let SanBay = await db.SanBay.findAll({});

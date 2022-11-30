@@ -17,10 +17,10 @@
                 Các quy định áp dụng cho tất cả chuyến bay
             </div>
             <div class='card-body'>
-                <div action='' id='FormThamSo'>
 
+                <div class='row d-flex mb-4'>
                     {{#each ThamSos}}
-                        <div class='ThamSo row mb-3'>
+                        <div class='ThamSo col-3'>
                             <label class='TenthamSo p14-S form-label'>{{this.TenThamSo}}</label>
                             <div tabindex='1' class='d-flex flex-row RowThamSo'>
                                 <input
@@ -33,53 +33,30 @@
                             </div>
                         </div>
                     {{/each}}
-                    <div class='row mx-0 justify-content-center'>
-                        <div class='col-3'>
-                            <button
-                                style='width: 100%;'
-                                class='d-none mb-3 ThamSo_CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
-                            >Cập nhật</button>
-                        </div>
+                </div>
+                <div class='row mx-0 justify-content-center'>
+                    <div class='col-6 justify-content-center d-flex'>
+                        <button
+                            style='width: 100%;'
+                            class='d-none me-5 ThamSo--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        >Hủy</button>
+                        <button
+                            style='width: 100%;'
+                            class='d-none ThamSo--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                        >Cập nhật</button>
                     </div>
+                </div>
 
-                    <div class='row mx-0 justify-content-center'>
-                        <div class='col-3'>
-                            <button
-                                style='width: 100%;'
-                                class='mb-3 ThamSo_Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
-                            >Sửa</button>
-                        </div>
+                <div class='row mx-0 justify-content-center'>
+                    <div class='col-3'>
+                        <button
+                            style='width: 100%;'
+                            class='ThamSo--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        >Sửa</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Modal -->
-        <div
-            class='modal fade'
-            id='staticBackdrop'
-            data-bs-backdrop='static'
-            data-bs-keyboard='false'
-            tabindex='-1'
-            aria-labelledby='staticBackdropLabel'
-            aria-hidden='true'
-        >
-            <div class='modal-dialog modal-dialog-centered'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <h5 class='modal-title' id='staticBackdropLabel'>Cẩn thận</h5>
-                    </div>
-                    <div class='modal-body'>
-                        Bạn có muốn lưu lại thông tin?
-                    </div>
-                    <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Hủy</button>
-                        <button type='button' class='btn btn-primary'>Lưu</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         {{! Thông tin các sân bay }}
         <div class='row'>
             <div class='custom-font h24-B mt-4 mb-4'>Thông tin các sân bay</div>
@@ -92,9 +69,8 @@
                     <input
                         type='text'
                         style='border-right: 0px !important;'
-                        oninput='let p = this.selectionStart; this.value = this.value.toUpperCase();this.setSelectionRange(p, p);'
                         class='SanBay_Input--Search form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-none border border-1 border-dark'
-                        placeholder='Mã sân bay'
+                        placeholder='Tìm kiếm'
                     />
                     <div class='input-group-text bg-light border border-1 border-dark'><i
                             class='fa-sharp fa-solid fa-magnifying-glass'
@@ -466,9 +442,9 @@
     </div>
 </div>
 
-{{! form conect js }}
-<form name='update_ThamSo_form' method='POST' style='display: none;'>
-    <input id='p_ThamSo' name='P_ThamSo' />
+{{! form }}
+<form name='form-update' method='POST' style='display: none;'>
+    <input id='package' name='Package' />
 </form>
 
 {{! Our JS }}

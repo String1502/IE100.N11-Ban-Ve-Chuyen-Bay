@@ -214,6 +214,11 @@ document.querySelector('.SanBay--Them').addEventListener('click', (e) => {
     SanBay.querySelector('.SanBay_Cop--Xoa').addEventListener('click', (e) => {
         document.querySelector('.SanBay_Card').removeChild(e.target.closest('.SanBay_New'));
     });
+    SanBay.querySelector('.SanBay_Ten').addEventListener('keyup', (e) => {
+        let p = e.target.selectionStart;
+        e.target.value = toUpperCaseString(e.target.value);
+        e.target.setSelectionRange(p, p);
+    });
 });
 //Nút tìm kiếm
 document.querySelector('.SanBay_input--Search').addEventListener('keyup', (e) => {
@@ -279,7 +284,23 @@ for (let i = 0; i < SanBays.length; i++) {
     });
 }
 //Cập nhật Sân bay
-
+// Viết hoa chữ cái đầu
+for (let i = 0; i < SanBays.length; i++) {
+    SanBays[i].querySelector('.SanBay_Ten').addEventListener('keyup', (e) => {
+        let p = e.target.selectionStart;
+        e.target.value = toUpperCaseString(e.target.value);
+        e.target.setSelectionRange(p, p);
+    });
+}
+function toUpperCaseString(string) {
+    string = string.charAt(0).toUpperCase() + string.slice(1);
+    for (let j = 1; j < string.length; j++) {
+        if (string.charAt(j - 1) === ' ') {
+            string = string.slice(0, j - 1) + ' ' + string.charAt(j).toUpperCase() + string.slice(j + 1);
+        }
+    }
+    return string;
+}
 //Load sân bay
 function LoadSanBay() {
     let SanBays = document.querySelectorAll('.SanBay');

@@ -40,6 +40,10 @@ class StaffController {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
+            let HangGhes = await db.sequelize.query('select MaHangGhe , TenHangGhe, HeSo, TrangThai from hangghe', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
 
             for (let i = 0; i < SanBays.length; i++) {
                 SanBays[i].TinhThanhs = structuredClone(TinhThanhs);
@@ -50,6 +54,7 @@ class StaffController {
                 ThamSos: ThamSos,
                 SanBays: SanBays,
                 TinhThanhs: TinhThanhs,
+                HangGhes: HangGhes,
             });
         } catch (error) {
             console.log(error);
@@ -89,9 +94,14 @@ class StaffController {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
+            let HangGhes = await db.sequelize.query('select MaHangGhe , TenHangGhe, HeSo, TrangThai from hangghe', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
             Package.ThamSos = structuredClone(ThamSos);
             Package.SanBays = structuredClone(SanBays);
             Package.TinhThanhs = structuredClone(TinhThanhs);
+            Package.HangGhes = structuredClone(HangGhes);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -102,7 +112,6 @@ class StaffController {
     async UpdateSanBay(req, res) {
         try {
             let SanBay_P = req.body;
-            // let SanBay_P = JSON.parse(req.body.Package);
             let SanBay_U = SanBay_P.SanBays_P_Update;
             let SanBay_A = SanBay_P.SanBays_P_Add;
             let SanBay = await db.SanBay.findAll({});
@@ -125,22 +134,51 @@ class StaffController {
                     TrangThai: SanBay_A[i].TrangThai,
                 });
             }
-            let Package = {};
-            let ThamSos = await db.sequelize.query('select TenThamSo , GiaTri from thamso', {
-                type: QueryTypes.SELECT,
-                raw: true,
-            });
+            let Package = [];
             let SanBays = await db.sequelize.query('select MaSanBay , TenSanBay, TrangThai, MaTinhThanh from sanbay', {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
-            let TinhThanhs = await db.sequelize.query('select MaTinhThanh , TenTinhThanh from tinhthanh', {
+            Package = structuredClone(SanBays);
+            return res.send(Package);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async UpdateHangGhe(req, res) {
+        try {
+            let HangGhe_P = req.body;
+            let HangGhe_U = HangGhe_P.HangGhes_P_Update;
+            let HangGhe_A = HangGhe_P.HangGhes_P_Add;
+            let HangGhe = await db.HangGhe.findAll({});
+            for (let i = 0; i < HangGhe_U.length; i++) {
+                if (HangGhe_U[i].ID_Update == 1) {
+                    await HangGhe[i].set({
+                        TenHangGhe: HangGhe_U[i].TenHangGhe,
+                        HeSo: HangGhe_U[i].HeSo,
+                        TrangThai: HangGhe_U[i].TrangThai,
+                    });
+                    await HangGhe[i].save();
+                }
+            }
+            console.log(HangGhe_A);
+            for (let i = 0; i < HangGhe_A.length; i++) {
+                await db.HangGhe.create({
+                    MaHangGhe: HangGhe_A[i].MaHangGhe,
+                    TenHangGhe: HangGhe_A[i].TenHangGhe,
+                    HeSo: HangGhe_A[i].HeSo,
+                    TrangThai: HangGhe_A[i].TrangThai,
+                });
+            }
+            let Package = [];
+
+            let HangGhes = await db.sequelize.query('select MaHangGhe , TenHangGhe, HeSo , TrangThai from HangGhe', {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
-            Package.ThamSos = structuredClone(ThamSos);
-            Package.SanBays = structuredClone(SanBays);
-            Package.TinhThanhs = structuredClone(TinhThanhs);
+
+            Package = structuredClone(HangGhes);
+            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);

@@ -7,6 +7,7 @@ router.post('/flightdetail', staffController.flightdetail);
 router.get('/Regulations', staffController.Regulations);
 router.post('/UpdateThamSo', staffController.UpdateThamSo);
 router.post('/UpdateSanBay', staffController.UpdateSanBay);
+router.post('/UpdateHangGhe', staffController.UpdateHangGhe);
 router.post('/LoadRegulation', staffController.LoadRegulation);
 router.post('/', staffController.index);
 

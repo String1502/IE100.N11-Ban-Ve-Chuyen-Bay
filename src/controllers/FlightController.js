@@ -114,7 +114,13 @@ let search_flight = async (form_data) => {
 
         //convert thoigiandi + thoigianden
         thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
+
         thoigianden_chuyenbay = add_minutes(thoigiandi_chuyenbay, list_ChuyenBaySuit[i].ThoiGianBay);
+        list_ChuyenBaySuit[i].thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
+        list_ChuyenBaySuit[i].thoigianden_chuyenbay = add_minutes(
+            thoigiandi_chuyenbay,
+            list_ChuyenBaySuit[i].ThoiGianBay,
+        );
         //thoigian di
         list_ChuyenBaySuit[i].ThoiGianDi = {
             GioDi: {
@@ -127,6 +133,7 @@ let search_flight = async (form_data) => {
                 Nam: thoigiandi_chuyenbay.getFullYear(),
             },
         };
+
         //thoiganden
         list_ChuyenBaySuit[i].ThoiGianDen = {
             GioDen: {
@@ -173,7 +180,6 @@ let search_flight = async (form_data) => {
                     raw: true,
                 },
             );
-
             //sort thoi gian dung max
 
             //get so diem dung
@@ -182,11 +188,13 @@ let search_flight = async (form_data) => {
             for (var j = 0; j < sbtg.length; j++) {
                 if (j == 0) {
                     //san bay dau -> tram dung dau
-                    thoigiandi = new Date(thoigiandi_chuyenbay);
+
+                    thoigiandi = list_ChuyenBaySuit[i].thoigiandi_chuyenbay;
 
                     thoigianden = new Date(sbtg[j].NgayGioDen);
 
                     thoigianbay = getMinDiff(thoigiandi, thoigianden);
+
                     thoigiandung = parseInt(sbtg[j].ThoiGianDung);
                     chanbay = {
                         SanBayDi: list_ChuyenBaySuit[i].SanBayDi,
@@ -241,7 +249,9 @@ let search_flight = async (form_data) => {
                     //san bay truoc -> san bay trung gian
                     chanbays = chanbays.slice(0, -1);
                     thoigiandi = add_minutes(thoigianden, sbtg[j - 1].ThoiGianDung);
+                    console.log(sbtg);
                     thoigianden = new Date(sbtg[j].NgayGioDen);
+
                     thoigianbay = getMinDiff(thoigiandi, thoigianden);
 
                     chanbay = {
@@ -280,7 +290,7 @@ let search_flight = async (form_data) => {
 
                     //san bay trung gian -> san bay cuoi
                     thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
-                    thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
+                    thoigianbay = getMinDiff(thoigiandi, list_ChuyenBaySuit[i].thoigianden_chuyenbay);
 
                     chanbay = {
                         SanBayDi: {

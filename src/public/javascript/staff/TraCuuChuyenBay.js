@@ -33,6 +33,7 @@ function GetFlight_fromSV() {
         if (FlightList_fromDB) {
             LoadChuyenBayLenView();
             AddEventCacTieuChuanTraCuu();
+            AddEventKeyUpSearch();
             console.log(FlightList_fromDB);
         }
     });
@@ -122,6 +123,7 @@ function GetFilterFlight_fromSV() {
             }
         });
     }
+    document.getElementById('SearchChuyenBay').value = '';
 }
 
 function AddEventCacTieuChuanTraCuu() {
@@ -219,7 +221,6 @@ function AddEventCacTieuChuanTraCuu() {
     document.getElementById('SwapSanBay').addEventListener('click', (e) => {
         let TenSanBay = document.getElementById('SanBayDi').value;
         let MaSanBay = document.getElementById('SanBayDi').getAttribute('masanbay');
-
         document.getElementById('SanBayDi').value = document.getElementById('SanBayDen').value;
         document
             .getElementById('SanBayDi')
@@ -227,6 +228,7 @@ function AddEventCacTieuChuanTraCuu() {
 
         document.getElementById('SanBayDen').value = TenSanBay;
         document.getElementById('SanBayDen').setAttribute('masanbay', MaSanBay);
+
         GetFilterFlight_fromSV();
     });
 
@@ -292,4 +294,23 @@ function SendForm(Package) {
     var staff_form = document.forms['flight-detail-form'];
     staff_form.action = '/staff/flightdetail';
     staff_form.submit();
+}
+
+function AddEventKeyUpSearch() {
+    document.getElementById('SearchChuyenBay').addEventListener('keyup', (e) => {
+        const ChuyenBay_Items = document.querySelectorAll('.ChuyenBay_Item');
+        var search = e.target.value.toString().toUpperCase();
+        for (let i = 1; i < ChuyenBay_Items.length; i++) {
+            var MaChuyenBay = ChuyenBay_Items[i].querySelector('.MaChuyenBayHienThi').innerText.toUpperCase();
+            if (MaChuyenBay.includes(search) || search == '') {
+                if (ChuyenBay_Items[i].classList.contains('d-none')) {
+                    ChuyenBay_Items[i].classList.remove('d-none');
+                }
+            } else {
+                if (!ChuyenBay_Items[i].classList.contains('d-none')) {
+                    ChuyenBay_Items[i].classList.add('d-none');
+                }
+            }
+        }
+    });
 }

@@ -45,6 +45,7 @@ function GetFlight_fromSV() {
                 Flight_fromDB.MaChuyenBay;
             LoadDataLenView();
             AddModalEvent();
+            AddEventKeyUpSearch();
             console.log(Flight_fromDB);
         }
     });
@@ -69,8 +70,14 @@ function LoadDataLenView() {
 
     document.getElementById('ThoiGianBay').value = Flight_fromDB.ThoiGianBay;
     document.getElementById('SoGheTrong').value = Flight_fromDB.GheTrong;
-    document.getElementById('TrangThai').value =
-        Flight_fromDB.TrangThai == 'ChuaKhoiHanh' ? 'Chưa khởi hành' : 'Đã khởi hành';
+
+    if (Flight_fromDB.TrangThai == 'ChuaKhoiHanh') {
+        document.getElementById('TrangThai').value = 'Chưa khởi hành';
+    } else {
+        document.getElementById('TrangThai').value =
+            Flight_fromDB.TrangThai == 'DaKhoiHanh' ? 'Đã khởi hành' : 'Đã hủy';
+    }
+
     document.getElementById('GiaVeCoBan').value = numberWithDot(Flight_fromDB.GiaVeCoBan);
     LoadSanBayTrungGian();
     LoadHangVe();
@@ -362,4 +369,23 @@ function SendForm(_Flight_fromDB) {
     var staff_form = document.forms['staff-form'];
     staff_form.action = '/staff/flightdetail/editdetail';
     staff_form.submit();
+}
+
+function AddEventKeyUpSearch() {
+    document.getElementById('SearchVe').addEventListener('keyup', (e) => {
+        const VeDaDat_Items = document.querySelectorAll('.VeDaDat_Item');
+        var search = e.target.value.toString().toUpperCase();
+        for (let i = 1; i < VeDaDat_Items.length; i++) {
+            var MaVe = VeDaDat_Items[i].querySelector('.MaVeHienThi').innerText.toUpperCase();
+            if (MaVe.includes(search) || search == '') {
+                if (VeDaDat_Items[i].classList.contains('d-none')) {
+                    VeDaDat_Items[i].classList.remove('d-none');
+                }
+            } else {
+                if (!VeDaDat_Items[i].classList.contains('d-none')) {
+                    VeDaDat_Items[i].classList.add('d-none');
+                }
+            }
+        }
+    });
 }

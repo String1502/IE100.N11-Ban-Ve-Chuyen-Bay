@@ -57,7 +57,7 @@
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 350px; height: 400px;'
+                                    style='width: 350px; height: 400px; z-index:10000;'
                                     class='list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
                                 >
                                     {{! Dropdown header }}
@@ -154,7 +154,7 @@
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 350px; height: 400px;'
+                                    style='width: 350px; height: 400px; z-index:10000;'
                                     class='list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
                                 >
                                     {{! Dropdown header }}
@@ -235,7 +235,7 @@
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 300px; height: auto;'
+                                    style='width: 300px; height: auto; z-index:10000;'
                                     class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
                                 >
                                     {{! Dropdown items }}
@@ -352,7 +352,7 @@
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 300px; height: auto;'
+                                    style='width: 300px; height: auto; z-index:10000;'
                                     class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
                                 >
                                     {{! Rỗng }}
@@ -416,45 +416,69 @@
 
         {{! Bảng dữ liệu }}
         <div class='mb-5'>
-            <div class='bg-light shadow rounded-2'>
-                <div class='px-2 py-4 h-auto'>
+            <div class='d-flex flex-column bg-light shadow rounded-2 h-auto'>
 
-                    <table class='table'>
-                        <thead>
-                            <tr class='custom-font p16-S text-center'>
-                                <th scope='col'>Mã chuyến bay</th>
-                                <th scope='col'>Sân bay đi</th>
-                                <th scope='col'>Sân bay đến</th>
-                                <th scope='col'>Khởi hành</th>
-                                <th scope='col'>Điểm dừng</th>
-                                <th scope='col'>Giá vé cơ bản</th>
-                                <th scope='col'>Ghế trống</th>
-                                <th scope='col'>Chi tiết</th>
+                {{! Tiêu đề }}
+                <div class='px-3 d-flex flex-row justify-content-between align-items-center'>
+                    <div class='custom-font h24-B text-tertiary py-3'>
+                    </div>
 
-                            </tr>
-                        </thead>
-                        <tbody id='ChuyenBay_Container'>
-                            <tr
-                                aria-valuetext=''
-                                class='ChuyenBay_Item custom-font p16-R align-middle text-center d-none'
-                            >
-                                <th class='MaChuyenBayHienThi'>1</th>
-                                <td class='TenSanBayDi'>TSN</td>
-                                <td class='TenSanBayDen'>DAD</td>
-                                <td class='KhoiHanh'>11:11 11/11/2022</td>
-                                <td class='DiemDung'>11</td>
-                                <td class='GiaVeCoBan'>100.000</td>
-                                <td class='GheTrong'>20</td>
-                                <td style='width: 12.5%;'>
-                                    <a
-                                        type='button'
-                                        class='ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'
-                                    >Chi tiết</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    {{! Search chuyến bay}}
+                    <div class='py-3'>
+                        <div class='input-group'>
+                            <input
+                                type='text'
+                                class='form-control custom-font p16-S border-tertiary custom-boxshadow-focus-primary'
+                                id='SearchChuyenBay'
+                                placeholder='Mã chuyến bay'
+                            />
+                            <span class='bg-light border-tertiary input-group-text custom-font p16-S text-tertiary'><i
+                                    class='fa-solid fa-magnifying-glass'
+                                ></i></span>
+                        </div>
+                    </div>
+                </div>
 
+                <div class='px-2 pb-3'>
+                    <div class='table-responsive overflow-auto' style='height: 500px;'>
+
+                        <table class='table'>
+                            <thead class='sticky-top bg-light shadow-sm'>
+                                <tr class='custom-font p16-S text-center'>
+                                    <th scope='col'>Mã chuyến bay</th>
+                                    <th scope='col'>Sân bay đi</th>
+                                    <th scope='col'>Sân bay đến</th>
+                                    <th scope='col'>Khởi hành</th>
+                                    <th scope='col'>Điểm dừng</th>
+                                    <th scope='col'>Giá vé cơ bản</th>
+                                    <th scope='col'>Ghế trống</th>
+                                    <th scope='col'>Chi tiết</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id='ChuyenBay_Container'>
+                                <tr
+                                    aria-valuetext=''
+                                    class='ChuyenBay_Item custom-font p16-R align-middle text-center d-none'
+                                >
+                                    <th class='MaChuyenBayHienThi'>1</th>
+                                    <td class='TenSanBayDi'>TSN</td>
+                                    <td class='TenSanBayDen'>DAD</td>
+                                    <td class='KhoiHanh'>11:11 11/11/2022</td>
+                                    <td class='DiemDung'>11</td>
+                                    <td class='GiaVeCoBan'>100.000</td>
+                                    <td class='GheTrong'>20</td>
+                                    <td style='width: 12.5%;'>
+                                        <a
+                                            type='button'
+                                            class='ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'
+                                        >Chi tiết</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
 

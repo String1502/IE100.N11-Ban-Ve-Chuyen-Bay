@@ -16,7 +16,7 @@
             <div class='card-header p16-B custom-font align-items-center'>
                 Các quy định áp dụng cho tất cả chuyến bay
             </div>
-            <div class='card-body'>
+            <div class='card-body pe-4'>
 
                 <div class='row d-flex mb-4'>
                     {{#each ThamSos}}
@@ -233,7 +233,7 @@
                 </div>
             </div>
 
-            <div class='card-body HangGhe_Card' style='height: 300px; overflow-y: scroll;'>
+            <div class='card-body HangGhe_Card' style='height: 325px; overflow-y: scroll;'>
                 {{#each HangGhes}}
                     <div class='row mb-3 HangGhe'>
                         <div class='col-2'>
@@ -363,80 +363,150 @@
             </div>
         </div>
 
-        {{! Thông tin các loại khách hàng }}
+        {{! Thông tin các loại hành khách }}
         <div class='row'>
-            <div class='custom-font h24-B mt-4 mb-4'>Thông tin các loại khách hàng</div>
+            <div class='custom-font h24-B mt-4 mb-4'>Thông tin các loại hành khách</div>
         </div>
         <div class='card'>
             <div class='card-header d-flex justify-content-between align-items-center'>
-                <div class='p16-B custom-font col-8'>Các loại khách hàng sử dụng cho các chuyến bay</div>
-                <input
-                    type='text'
-                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                    placeholder='Tên loại khách hàng'
-                />
-                <button
-                    onclick='search_click'
-                    style='height: 34px;'
-                    type='button'
-                    class='btn custom-boxshadow-hover-primary custom-boxshadow-focus-none ms-2'
-                >
-                    <i class='fa-sharp fa-solid fa-magnifying-glass'></i>
-                </button>
+                <div class='p16-B custom-font col-8'>Các loại hành khách sử dụng cho các chuyến bay</div>
+                {{! nut tim kiem hang ghế }}
+                <div class='input-group'>
+                    <input
+                        type='text'
+                        style='border-right: 0px !important;'
+                        class='LoaiKhachHang_Input--Search form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-none border border-1 border-dark'
+                        placeholder='Tìm kiếm'
+                    />
+                    <div class='input-group-text bg-light border border-1 border-dark'><i
+                            class='fa-sharp fa-solid fa-magnifying-glass'
+                        ></i></div>
+                </div>
             </div>
-            <div class='card-body'>
-                <form action=''>
 
-                    {{!-- {{#each LoaiKhachHangs}} --}}
-                    <div class='row'>
-                        <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Tên loại khách hàng</label>
+            <div class='card-body LoaiKhachHang_Card pe-4' style='height: 251px; overflow-y: scroll;'>
+                {{#each LoaiKhachHangs}}
+                    <div class='row mb-3 LoaiKhachHang' index='{{this.MaLoaiKhachHang}}'>
+                        <div class='col-2'>
+                            <label for='' class='p14-S form-label'>Tên loại hành khách</label>
                             <input
+                                value='{{this.TenLoaiKhachHang}}'
                                 type='text'
-                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                disabled
+                                class='LoaiKhachHang_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                             />
                         </div>
                         <div class='col-3'>
                             <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
                             <input
                                 type='text'
-                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                value='{{this.SoTuoiToiThieu}}'
+                                disabled
+                                class='LoaiKhachHang_SoTuoiToiThieu form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                             />
                         </div>
                         <div class='col-3'>
                             <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
                             <input
-                                type='text'
-                                class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                type='number'
+                                max='20'
+                                min='1'
+                                onkeypress='onlyNumber(event)'
+                                value='{{this.SoTuoiToiDa}}'
+                                disabled
+                                class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                             />
                         </div>
-                        <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Hệ số<i></i></label>
-                            <div class='d-flex'>
-                                <input
-                                    type='text'
-                                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary me-2'
-                                />
-                                <button
-                                    class='Sua btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S me-2 shadow-sm'
-                                >Sửa</button>
-
-                                <button
-                                    class='Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm'
-                                >Xóa</button>
-                            </div>
+                        <div class='col-4'>
+                            <label for='' class='p14-S form-label'>Hệ số</label>
+                            <input
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                value='{{this.HeSo}}'
+                                disabled
+                                class='LoaiKhachHang_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
                         </div>
                     </div>
+                {{/each}}
 
-                    {{!-- {{/each}} --}}
-                </form>
+                {{! Dòng loại hành khách khi được thêm }}
+                <div class='row mb-3 LoaiKhachHang_Cop d-none'>
+                    <div class='col-2'>
+                        <label for='' class='p14-S form-label'>Tên loại hành khách</label>
+                        <input
+                            value='{{this.TenLoaiKhachHang}}'
+                            type='text'
+                            class='LoaiKhachHang_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
+                        <input
+                            type='text'
+                            value='{{this.SoTuoiToiThieu}}'
+                            disabled
+                            class='LoaiKhachHang_SoTuoiToiThieu form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
+                        <input
+                            type='text'
+                            onkeypress='onlyNumber(event)'
+                            value='{{this.SoTuoiToiDa}}'
+                            class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-4'>
+                        <label for='' class='p14-S form-label'>Hệ số</label>
+                        <div class='d-flex'>
+                            <input
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                value='{{this.HeSo}}'
+                                class='LoaiKhachHang_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary me-2'
+                            />
+                            <button
+                                class='LoaiKhachHang_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm'
+                            >Xóa</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {{! Nút thêm loại hành khách }}
+            <div class='row mx-0 mb-3 mt-1 justify-content-start'>
+                <div class='w-auto'>
+                    <button
+                        type='button'
+                        class='LoaiKhachHang--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                    >
+                        <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                        Thêm loại hành khách
+                    </button>
+                </div>
+            </div>
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-6 justify-content-center d-flex'>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 me-5 LoaiKhachHang--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Hủy</button>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 LoaiKhachHang--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Cập nhật</button>
+                </div>
+            </div>
+
             <div class='row mx-0 justify-content-center'>
                 <div class='col-3'>
                     <button
                         style='width: 100%;'
-                        class='mb-3 Them btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
-                    >Thêm</button>
+                        class='mb-3 LoaiKhachHang--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Sửa</button>
                 </div>
             </div>
         </div>

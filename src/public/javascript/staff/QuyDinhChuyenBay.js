@@ -9,7 +9,6 @@ import {
     onlyNumber,
     showToast,
 } from '../start.js';
-// khong thay doi k thong bao, co nut susa !impotant
 const ThamSo_CapNhat = document.querySelector('.ThamSo--CapNhat');
 const ThamSo_Huy = document.querySelector('.ThamSo--Huy');
 const ThamSo_Sua = document.querySelector('.ThamSo--Sua');
@@ -19,6 +18,8 @@ let SanBays_P_Update = [];
 let SanBays_P_Add = [];
 let HangGhes_P_Update = [];
 let HangGhes_P_Add = [];
+let LoaiKhachHangs_P_Update = [];
+let LoaiKhachHangs_P_Add = [];
 // Load dữ liệu cho màn hình
 if (!Package) {
     LoadInformation();
@@ -32,6 +33,7 @@ function LoadInformation() {
         console.log(Package);
         SanBays_P_Update = structuredClone(Package.SanBays);
         HangGhes_P_Update = structuredClone(Package.HangGhes);
+        LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
         let SanBays = document.querySelectorAll('.SanBay');
         for (let i = 0; i < SanBays.length; i++) {
             SanBays[i].querySelector('.SanBay_DiaChi').value = Package.SanBays[i].MaTinhThanh;
@@ -62,6 +64,11 @@ function LoadInformation() {
     });
 }
 window.onlyNumber = onlyNumber;
+
+//
+// Js in ThamSo
+//
+
 //button ThamSo--Huy
 ThamSo_Huy.addEventListener('click', (e) => {
     //trả gtr về ban đàu
@@ -73,6 +80,7 @@ ThamSo_Huy.addEventListener('click', (e) => {
     ThamSo_CapNhat.classList.add('d-none');
     ThamSo_Huy.classList.add('d-none');
 });
+
 //Button_ThamSo--Sua
 ThamSo_Sua.addEventListener('click', (e) => {
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
@@ -149,6 +157,7 @@ function CheckChangeThamSo(P_ThamSo) {
         return false;
     }
 }
+
 //Cập nhật thông tin
 function CapNhat_ThamSo() {
     let P_ThamSo = [];
@@ -178,12 +187,15 @@ function CapNhat_ThamSo() {
         ThamSo_Huy.classList.add('d-none');
     });
 }
+
 // button_ThamSo_CapNhat
 ThamSo_CapNhat.addEventListener('click', (e) => {
     CapNhat_ThamSo();
 });
 
+//
 // Js in SanBay
+//
 
 //nút sửa sân bay
 let SanBays = document.querySelectorAll('.SanBay');
@@ -198,6 +210,7 @@ document.querySelector('.SanBay--Sua').addEventListener('click', (e) => {
     document.querySelector('.SanBay--CapNhat').classList.remove('d-none');
     document.querySelector('.SanBay--Huy').classList.remove('d-none');
 });
+
 //nút hủy cập nhật sân bay
 document.querySelector('.SanBay--Huy').addEventListener('click', (e) => {
     const SanBays_New = document.querySelectorAll('.SanBay_New');
@@ -234,6 +247,7 @@ document.querySelector('.SanBay--Huy').addEventListener('click', (e) => {
     e.target.classList.add('d-none');
     document.querySelector('.SanBay--Sua').classList.remove('d-none');
 });
+
 //Nút thêm sân bay
 document.querySelector('.SanBay--Them').addEventListener('click', (e) => {
     const SanBay = document.querySelector('.SanBay_Cop').cloneNode(true);
@@ -261,6 +275,7 @@ document.querySelector('.SanBay--Them').addEventListener('click', (e) => {
         }
     });
 });
+
 //Nút tìm kiếm
 document.querySelector('.SanBay_input--Search').addEventListener('keyup', (e) => {
     let search = document.querySelector('.SanBay_input--Search').value.toString().toUpperCase();
@@ -355,6 +370,7 @@ function toUpperCaseString(string) {
     }
     return string;
 }
+
 //Load sân bay
 function LoadSanBay() {
     let SanBays = document.querySelectorAll('.SanBay');
@@ -517,7 +533,10 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
     }
 });
 
+//
 //js in HangGhe
+//
+
 let HangGhes = document.querySelectorAll('.HangGhe');
 // Nút sửa hạng ghế
 document.querySelector('.HangGhe--Sua').addEventListener('click', (e) => {
@@ -531,6 +550,7 @@ document.querySelector('.HangGhe--Sua').addEventListener('click', (e) => {
     document.querySelector('.HangGhe--CapNhat').classList.remove('d-none');
     document.querySelector('.HangGhe--Huy').classList.remove('d-none');
 });
+
 // Nút thêm hạng ghế
 document.querySelector('.HangGhe--Them').addEventListener('click', (e) => {
     const HangGhe = document.querySelector('.HangGhe_Cop').cloneNode(true);
@@ -569,6 +589,7 @@ document.querySelector('.HangGhe--Them').addEventListener('click', (e) => {
         }
     });
 });
+
 // Nút tìm kiếm hạng ghế
 document.querySelector('.HangGhe_input--Search').addEventListener('keyup', (e) => {
     let search = document.querySelector('.HangGhe_input--Search').value.toString().toUpperCase();
@@ -599,6 +620,7 @@ document.querySelector('.HangGhe_input--Search').addEventListener('keyup', (e) =
         }
     }
 });
+
 // kiểm tra sự thay đổi
 let F_HangGhe_Updated = false;
 for (let i = 0; i < HangGhes.length; i++) {
@@ -674,6 +696,7 @@ for (let i = 0; i < HangGhes.length; i++) {
         }
     });
 }
+
 // Nút hủy cập nhật hạng ghế
 document.querySelector('.HangGhe--Huy').addEventListener('click', (e) => {
     const HangGhes_New = document.querySelectorAll('.HangGhe_New');
@@ -878,6 +901,448 @@ document.querySelector('.HangGhe--CapNhat').addEventListener('click', (e) => {
         document.querySelector('.HangGhe--Sua').classList.remove('d-none');
         showToast({
             header: 'Thông tin hạng ghế',
+            body: 'Không có sự thay đổi',
+            duration: 5000,
+            type: '',
+        });
+    }
+});
+
+//
+// Js in LoaiKhachHang
+//
+
+let LoaiKhachHangs = document.querySelectorAll('.LoaiKhachHang');
+// Nút sửa loại khách hàng
+document.querySelector('.LoaiKhachHang--Sua').addEventListener('click', (e) => {
+    for (let i = 0; i < LoaiKhachHangs.length; i++) {
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = false;
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = false;
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = false;
+    }
+    e.target.classList.add('d-none');
+    document.querySelector('.LoaiKhachHang--Them').classList.remove('d-none');
+    document.querySelector('.LoaiKhachHang--CapNhat').classList.remove('d-none');
+    document.querySelector('.LoaiKhachHang--Huy').classList.remove('d-none');
+});
+
+// Nút thêm loại khách hàng
+document.querySelector('.LoaiKhachHang--Them').addEventListener('click', (e) => {
+    const LoaiKhachHang = document.querySelector('.LoaiKhachHang_Cop').cloneNode(true);
+    LoaiKhachHang.classList.remove('d-none');
+    LoaiKhachHang.classList.remove('LoaiKhachHang_Cop');
+    LoaiKhachHang.classList.add('LoaiKhachHang_New');
+    document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
+    LoaiKhachHang.querySelector('.LoaiKhachHang_SoTuoiToiThieu').value =
+        LoaiKhachHangs[LoaiKhachHangs.length - 1].querySelector('.LoaiKhachHang_SoTuoiToiDa').value;
+    document.querySelector('.LoaiKhachHang_Card').appendChild(LoaiKhachHang);
+    LoaiKhachHang.querySelector('.LoaiKhachHang_Ten').focus();
+    //Nút xóa LoaiKhachHang
+    LoaiKhachHang.querySelector('.LoaiKhachHang_Cop--Xoa').addEventListener('click', (e) => {
+        document.querySelector('.LoaiKhachHang_Card').removeChild(e.target.closest('.LoaiKhachHang_New'));
+        document.querySelector('.LoaiKhachHang--Them').classList.remove('d-none');
+    });
+    LoaiKhachHang.querySelector('.LoaiKhachHang_Ten').addEventListener('keyup', (e) => {
+        let p = e.target.selectionStart;
+        e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+        e.target.setSelectionRange(p, p);
+    });
+    LoaiKhachHang.querySelector('.LoaiKhachHang_HeSo').addEventListener('blur', (e) => {
+        e.target.value = parseFloat(e.target.value).toFixed(2);
+        if (parseFloat(e.target.value) > 99.99) {
+            e.target.value = 99.99;
+        }
+    });
+    LoaiKhachHang.querySelector('.LoaiKhachHang_SoTuoiToiDa').addEventListener('blur', (e) => {
+        if (parseInt(e.target.value) > 200) e.target.value = 200;
+    });
+});
+
+// Nút tìm kiếm loại khách hàng
+document.querySelector('.LoaiKhachHang_input--Search').addEventListener('keyup', (e) => {
+    let search = document.querySelector('.LoaiKhachHang_input--Search').value.toString().toUpperCase();
+    for (let i = 0; i < LoaiKhachHangs.length; i++) {
+        let LoaiKhachHang_Ten = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').value.toString().toUpperCase();
+        let LoaiKhachHang_SoTuoiToiDa = LoaiKhachHangs[i]
+            .querySelector('.LoaiKhachHang_SoTuoiToiDa')
+            .value.toString()
+            .toUpperCase();
+        let LoaiKhachHang_SoTuoiToiThieu = LoaiKhachHangs[i]
+            .querySelector('.LoaiKhachHang_SoTuoiToiThieu')
+            .value.toString()
+            .toUpperCase();
+        let LoaiKhachHang_HeSo = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').value.toString().toUpperCase();
+        if (
+            LoaiKhachHang_Ten.includes(search) == false &&
+            LoaiKhachHang_SoTuoiToiDa.includes(search) == false &&
+            LoaiKhachHang_SoTuoiToiThieu.includes(search) == false &&
+            LoaiKhachHang_HeSo.includes(search) == false
+        ) {
+            LoaiKhachHangs[i].classList.add('d-none');
+        } else LoaiKhachHangs[i].classList.remove('d-none');
+    }
+});
+
+// Kiểm tra sự thay đổi
+let F_LoaiKhachHang_Updated = false;
+for (let i = 0; i < LoaiKhachHangs.length; i++) {
+    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').addEventListener('blur', (e) => {
+        if (e.target.value == '') {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body: 'Tên loại khách hàng không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = Package.LoaiKhachHangs[i].TenLoaiKhachHang;
+            e.target.focus();
+            return;
+        }
+        if (e.target.value != Package.LoaiKhachHangs[i].TenLoaiKhachHang) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 1;
+            LoaiKhachHangs_P_Update[i].TenLoaiKhachHang = e.target.value;
+            F_LoaiKhachHang_Updated = true;
+        }
+    });
+    //cập nhật số tuổi tuối thiệu của hàng dưới
+    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').addEventListener('keyup', (e) => {
+        if (i == LoaiKhachHangs.length - 1) {
+            if (document.querySelector('.LoaiKhachHang_New')) {
+                document.querySelector('.LoaiKhachHang_New').querySelector('.LoaiKhachHang_SoTuoiToiThieu').value =
+                    e.target.value;
+            }
+        } else {
+            LoaiKhachHangs[i + 1].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value = e.target.value;
+        }
+    });
+    //
+    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').addEventListener('blur', (e) => {
+        if (e.target.value == '') {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body: 'Số tuổi tối đa không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = Package.LoaiKhachHangs[i].SoTuoiToiDa;
+            if (i == LoaiKhachHangs.length - 1) {
+                if (document.querySelector('.LoaiKhachHang_New')) {
+                    document.querySelector('.LoaiKhachHang_New').querySelector('.LoaiKhachHang_SoTuoiToiThieu').value =
+                        e.target.value;
+                }
+            } else {
+                LoaiKhachHangs[i + 1].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value = e.target.value;
+            }
+            e.target.focus();
+            return;
+        }
+        if (e.target.value == 0) {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body: 'Số tuổi tối đa phải khác 0',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = Package.LoaiKhachHangs[i].SoTuoiToiDa;
+            if (i == LoaiKhachHangs.length - 1) {
+                if (document.querySelector('.LoaiKhachHang_New')) {
+                    document.querySelector('.LoaiKhachHang_New').querySelector('.LoaiKhachHang_SoTuoiToiThieu').value =
+                        e.target.value;
+                }
+            } else {
+                LoaiKhachHangs[i + 1].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value = e.target.value;
+            }
+            e.target.focus();
+            return;
+        }
+        if (parseInt(e.target.value) > 200) {
+            e.target.value = 200;
+            if (i == LoaiKhachHangs.length - 1) {
+                if (document.querySelector('.LoaiKhachHang_New')) {
+                    document
+                        .querySelector('.LoaiKhachHang_New')
+                        .querySelector('.LoaiKhachHang_SoTuoiToiThieu').value = 200;
+                }
+            } else {
+                LoaiKhachHangs[i + 1].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value = 200;
+            }
+        }
+        if (e.target.value != Package.LoaiKhachHangs[i].SoTuoiToiDa) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 1;
+            LoaiKhachHangs_P_Update[i + 1].ID_Update = 1;
+            LoaiKhachHangs_P_Update[i].SoTuoiToiDa = e.target.value;
+            F_LoaiKhachHang_Updated = true;
+        }
+    });
+    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').addEventListener('blur', (e) => {
+        if (e.target.value == '') {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body: 'Hệ số không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = Package.LoaiKhachHangs[i].HeSo;
+            e.target.focus();
+            return;
+        }
+        if (parseFloat(e.target.value) == 0) {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body: 'Hệ số phải khác 0',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = Package.LoaiKhachHangs[i].HeSo;
+            e.target.focus();
+            return;
+        }
+        if (parseFloat(e.target.value) > 99.99) {
+            e.target.value = 99.99;
+        } else {
+            if (e.target.value == parseFloat(parseFloat(e.target.value).toFixed(2))) {
+                e.target.value = parseFloat(e.target.value).toFixed(2);
+            } else {
+                e.target.value = parseFloat(e.target.value).toFixed(2);
+            }
+        }
+        if (e.target.value != Package.LoaiKhachHangs[i].HeSo) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 1;
+            LoaiKhachHangs_P_Update[i].HeSo = e.target.value;
+            F_LoaiKhachHang_Updated = true;
+        }
+    });
+}
+
+// Nút hủy cập nhật loại khách hàng
+document.querySelector('.LoaiKhachHang--Huy').addEventListener('click', (e) => {
+    if (document.querySelector('.LoaiKhachHang_New'))
+        document.querySelector('.LoaiKhachHang_Card').removeChild(document.querySelector('.LoaiKhachHang_New'));
+    for (let i = 0; i < LoaiKhachHangs_P_Update.length; i++) {
+        if (LoaiKhachHangs_P_Update[i].ID_Update == 1) {
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').value = Package.LoaiKhachHangs[i].TenLoaiKhachHang;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value = Package.LoaiKhachHangs[i].SoTuoiToiDa;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value =
+                Package.LoaiKhachHangs[i].SoTuoiToiThieu;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').value = Package.LoaiKhachHangs[i].HeSo;
+        }
+    }
+    LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
+    F_LoaiKhachHang_Updated = false;
+    for (let i = 0; i < LoaiKhachHangs.length; i++) {
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+        LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+    }
+    document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
+    document.querySelector('.LoaiKhachHang--CapNhat').classList.add('d-none');
+    e.target.classList.add('d-none');
+    document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
+});
+// Load loại khách hàng
+
+//Nút cập nhật loại khách hàng
+document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) => {
+    LoaiKhachHangs_P_Add = [];
+    let SoLoaiKhachHangUPdate = 0;
+    const LoaiKhachHangs_New = document.querySelectorAll('.LoaiKhachHang_New');
+    // kiểm tra thông tin vào
+    for (let i = 0; i < LoaiKhachHangs_New.length; i++) {
+        // kiểm tra tên loại khách hàng ( không trùng)
+        for (let j = 0; j < Package.LoaiKhachHangs.length; j++) {
+            if (
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').value ==
+                Package.LoaiKhachHangs[j].TenLoaiKhachHang
+            ) {
+                showToast({
+                    header: 'Thêm loại khách hàng mới',
+                    body: 'Tên loại khách hàng "' + Package.LoaiKhachHangs[j].TenLoaiKhachHang + '" đã tồn tại',
+                    duration: 5000,
+                    type: 'warning',
+                });
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').value = '';
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').focus();
+                return;
+            }
+        }
+        // kiểm tra tên loại khách hàng ( không trống)
+        if (LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').value == '') {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Tên loại khách hàng không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').focus();
+            return;
+        }
+        //Kiểm tra SoTuoiToiDa
+        if (LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value == '') {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Số tuổi tối đa không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
+        if (LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value == 0) {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Số tuổi tối đa phải khác 0',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
+        // kiểm tra Hệ số ( không trống, khac 0)
+        if (LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value == '') {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Hệ số không được để trống',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').focus();
+            return;
+        }
+        if (parseFloat(LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value) == 0) {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Hệ số phải khác 0',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value = '';
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').focus();
+            return;
+        }
+        // Add thông tin loại khách hàng mới vô gói Package
+        LoaiKhachHangs_P_Add.push({
+            TenLoaiKhachHang: LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').value,
+            SoTuoiToiThieu: LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value,
+            SoTuoiToiDa: LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value,
+            HeSo: LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value,
+        });
+    }
+    //Kiểm tra logic của số tuổi tối thiểu và tối đa
+    for (let i = 0; i < LoaiKhachHangs.length; i++) {
+        let SoTuoiToiDa = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value;
+        let SoTuoiToiThieu = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value;
+        if (parseInt(SoTuoiToiThieu) > parseInt(SoTuoiToiDa)) {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body:
+                    'Số tuổi tối đa của "' +
+                    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').value +
+                    '" không được nhỏ hơn số tuổi tối thiểu',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value = '';
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
+    }
+    if (LoaiKhachHangs_New.length > 0) {
+        if (
+            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_SoTuoiToiDa').value <
+            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value
+        ) {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body:
+                    'Số tuổi tối đa của "' +
+                    LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_Ten').value +
+                    '" không được nhỏ hơn số tuổi tối thiểu',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_SoTuoiToiDa').value = '';
+            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
+    }
+    //Đếm loại khách hàng thay đổi
+    for (let i = 0; i < LoaiKhachHangs_P_Update.length; i++) {
+        if (LoaiKhachHangs_P_Update[i].ID_Update == 1) SoLoaiKhachHangUPdate++;
+    }
+    if (F_LoaiKhachHang_Updated == true || LoaiKhachHangs_New.length > 0) {
+        if (F_LoaiKhachHang_Updated == true || LoaiKhachHangs_New.length > 0) {
+            let LoaiKhachHangs_P = {};
+            LoaiKhachHangs_P.LoaiKhachHangs_P_Update = structuredClone(LoaiKhachHangs_P_Update);
+            LoaiKhachHangs_P.LoaiKhachHangs_P_Add = structuredClone(LoaiKhachHangs_P_Add);
+            console.log(LoaiKhachHangs_P);
+            // chuyển trạng thái sang sửa
+            LoaiKhachHangs[0].querySelector('.LoaiKhachHang_Ten').focus();
+            for (let i = 0; i < LoaiKhachHangs_New.length; i++) {
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Cop--Xoa').classList.add('d-none');
+                LoaiKhachHangs_New[i].classList.remove('LoaiKhachHang_New');
+                LoaiKhachHangs_New[i].classList.add('LoaiKhachHang');
+            }
+            LoaiKhachHangs = document.querySelectorAll('.LoaiKhachHang');
+            for (let i = 0; i < LoaiKhachHangs.length; i++) {
+                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+            }
+            document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
+            document.querySelector('.LoaiKhachHang--Huy').classList.add('d-none');
+            e.target.classList.add('d-none');
+            document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
+            axios({
+                method: 'POST',
+                url: '/staff/UpdateLoaiKhachHang',
+                data: LoaiKhachHangs_P,
+            }).then((res) => {
+                Package.LoaiKhachHangs = res.data;
+                // LoadLoaiKhachHang();
+                //    hiển thị thông báo cập nhật thành công
+                document.querySelector('.LoaiKhachHang--CapNhat').focus();
+                if (F_LoaiKhachHang_Updated == true) {
+                    showToast({
+                        header: 'Thông tin loại khách hàng',
+                        body: 'Đã cập nhật thành công ' + SoLoaiKhachHangUPdate + ' loại khách hàng',
+                        duration: 5000,
+                        type: 'success',
+                    });
+                }
+                if (LoaiKhachHangs_New.length > 0) {
+                    showToast({
+                        header: 'Thông tin loại khách hàng',
+                        body:
+                            'Đã thêm thành công loại khách hàng "' +
+                            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_Ten').value +
+                            '"',
+                        duration: 5000,
+                        type: 'success',
+                    });
+                }
+                LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
+                F_LoaiKhachHang_Updated = false;
+            });
+        }
+    } else {
+        for (let i = 0; i < LoaiKhachHangs.length; i++) {
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+        }
+        document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
+        document.querySelector('.LoaiKhachHang--Huy').classList.add('d-none');
+        e.target.classList.add('d-none');
+        document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
+        showToast({
+            header: 'Thông tin loại khách hàng',
             body: 'Không có sự thay đổi',
             duration: 5000,
             type: '',

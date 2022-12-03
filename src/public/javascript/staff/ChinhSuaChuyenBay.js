@@ -26,6 +26,7 @@ function GetFlight_Edit() {
     openLoader('Chờ chút');
     Flight_Edit = JSON.parse(document.getElementById('Flight_EditJS').getAttribute('Flight_EditJS'));
 
+    console.log(Flight_Edit);
     // Gán thông tin chuyến bay cố định
     document.getElementById('MaChuyenBay').value = Flight_Edit.MaChuyenBayHienThi;
     document.getElementById('SanBayDi').value = Flight_Edit.SanBayDi.TenSanBay;
@@ -56,7 +57,6 @@ function GetFlight_Edit() {
                 ':' +
                 numberSmallerTen(Flight_Edit.ThoiGianDi.GioDi.Phut),
         );
-    console.log(Flight_Edit.ThoiGianDi.GioDi);
 
     document.getElementById('ThoiGianBay').value = Flight_Edit.ThoiGianBay;
 

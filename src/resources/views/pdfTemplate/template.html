@@ -28,53 +28,10 @@
             rel="stylesheet"
         />
         {{!-- Our css --}}
-        <link rel="stylesheet" href="/css/app.css" />
-        <link rel="stylesheet" href="/css/color.css" />
-        <link rel="stylesheet" href="/css/font.css" />
-
         <style>
-            /* Font */
-            /* Color */
-            /* Navbar */
-            @media (min-width: 991.98px) {
-                .nav-item-hover:hover {
-                    border-bottom: 2px solid #04bfae;
-                    padding-bottom: 6px;
-                    color: #04bfae !important;
-                }
-            }
-
-            @media (max-width: 991.98px) {
-                .nav-item-hover:hover {
-                    border-right: 3px solid #04bfae;
-                    color: #04bfae !important;
-                }
-            }
-
-            .Zoom:hover {
-                transform: scale(1.1);
-                cursor: pointer;
-            }
-
             .form-control[readonly] {
                 background-color: white;
                 opacity: 1;
-            }
-
-            /* Radio, check button */
-            .custom-color-checked:checked {
-                background-color: #04bfae !important;
-                border-color: #04bfae !important;
-            }
-
-            /* Box shadow focus none */
-            .custom-boxshadow-focus-none:focus {
-                box-shadow: 0 0 0 0.25rem rgba(4, 191, 174, 0) !important;
-            }
-
-            /* Active */
-            .custom-active:active {
-                background-color: #04bfae;
             }
 
             /* ::after display none */
@@ -104,8 +61,6 @@
                 opacity: 0.3;
             }
 
-            /* Font */
-            /* Color */
             /* Color */
             .text-primary {
                 color: #04bfae !important;
@@ -154,15 +109,15 @@
             }
 
             .text-tertiary {
-                color: #6c757d !important;
+                color: #cecfd0 !important;
             }
 
             .bg-tertiary {
-                background-color: #6c757d !important;
+                background-color: #cecfd0 !important;
             }
 
             .border-tertiary {
-                border-color: #6c757d !important;
+                border-color: #cecfd0 !important;
             }
 
             .custom-boxshadow-focus-tertiary:focus,
@@ -219,9 +174,6 @@
                 border-color: black !important;
             }
 
-            /* Font */
-            /* Color */
-            /* Font */
             .custom-font {
                 font-style: normal;
                 font-family: 'Roboto', sans-serif;
@@ -366,7 +318,7 @@
                 </div>
 
                 {{! Hàng 2 }}
-                <div class="row align-items-center mb-5">
+                <div class="row align-items-center mb-3">
                     <div class="col-12">
                         <div style="font-weight: 400px !important; font-size: 48px" class="custom-font text-dark">
                             E-ticket
@@ -376,32 +328,32 @@
                 </div>
 
                 {{! Hàng 3 }}
-                <div class="row align-items-center mb-5">
+                <div class="row align-items-center mb-3">
                     <div class="col">
                         <div style="border: 3px dashed" class="rounded border-primary">
                             <div class="row align-items-center justify-content-between m-0">
                                 <div class="col-6 px-0 border-primary" style="border-right: 3px dashed">
                                     <div class="d-flex flex-column mt-3">
                                         <div class="custom-font h24-B text-primary text-center align-middle">
-                                            <i class="fa-solid fa-envelope h24-B me-2"></i>Người liên hệ
+                                            <i class="fa-solid fa-envelope p20-B me-2"></i>Người liên hệ
                                         </div>
 
                                         <div style="border-bottom: 3px dashed" class="my-3 border-primary"></div>
 
                                         <div class="d-flex flex-column px-3">
                                             <div class="d-flex flex-row justify-content-between mb-2">
-                                                <div class="custom-font p20-R text-dark">Họ tên:</div>
-                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.HoTen}}</div>
+                                                <div class="custom-font p16-R text-dark">Họ tên:</div>
+                                                <div class="custom-font p16-S text-dark">{{NguoiLienHe.HoTen}}</div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-2">
-                                                <div class="custom-font p20-R text-dark">Số điện thoại:</div>
-                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.SDT}}</div>
+                                                <div class="custom-font p16-R text-dark">Số điện thoại:</div>
+                                                <div class="custom-font p16-S text-dark">{{NguoiLienHe.SDT}}</div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-3">
-                                                <div class="custom-font p20-R text-dark">Email:</div>
-                                                <div class="custom-font p20-S text-dark">{{NguoiLienHe.Email}}</div>
+                                                <div class="custom-font p16-R text-dark">Email:</div>
+                                                <div class="custom-font p16-S text-dark">{{NguoiLienHe.Email}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -410,27 +362,27 @@
                                 <div class="col-6 px-0">
                                     <div class="d-flex flex-column mt-3">
                                         <div class="custom-font h24-B text-primary text-center align-middle">
-                                            <i class="fa-solid fa-money-check-dollar h24-B me-2"></i>Thanh toán
+                                            <i class="fa-solid fa-money-check-dollar p20-B me-2"></i>Thanh toán
                                         </div>
 
                                         <div style="border-bottom: 3px dashed" class="my-3 border-primary"></div>
 
                                         <div class="d-flex flex-column px-3">
                                             <div class="d-flex flex-row justify-content-between mb-2">
-                                                <div class="custom-font p20-R text-dark">Hạng vé:</div>
-                                                <div class="custom-font p20-S text-dark">
+                                                <div class="custom-font p16-R text-dark">Hạng vé:</div>
+                                                <div class="custom-font p16-S text-dark">
                                                     {{HangGhe.MaHangGhe}} - {{HangGhe.TenHangGhe}}
                                                 </div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-2">
-                                                <div class="custom-font p20-R text-dark">Hình thức thanh toán:</div>
-                                                <div class="custom-font p20-S text-dark">Momo</div>
+                                                <div class="custom-font p16-R text-dark">Hình thức thanh toán:</div>
+                                                <div class="custom-font p16-S text-dark">Chưa làm :)</div>
                                             </div>
 
                                             <div class="d-flex flex-row justify-content-between mb-3">
-                                                <div class="custom-font p20-R text-dark">Số tiền thanh toán:</div>
-                                                <div class="custom-font p20-S text-dark">{{SoTien}}</div>
+                                                <div class="custom-font p16-R text-dark">Số tiền thanh toán:</div>
+                                                <div class="custom-font p16-S text-dark">{{SoTien}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -441,7 +393,7 @@
                 </div>
 
                 {{! Hàng 4 }}
-                <div class="row align-items-center mb-5">
+                <div class="row align-items-center mb-3">
                     <div class="col">
                         <div
                             class="row mx-0 border-tertiary py-3"
@@ -456,7 +408,7 @@
                                         <i class="fa-solid fa-address-book"></i>
                                     </div>
 
-                                    <div class="custom-font p20-R text-tertiary text-wrap ms-3">
+                                    <div class="custom-font p16-R text-tertiary text-wrap ms-3">
                                         Trình CMND/ hộ chiếu và vé điện tử khi làm thủ tục bay ở quầy.
                                     </div>
                                 </div>
@@ -471,7 +423,7 @@
                                         <i class="fa-solid fa-clock"></i>
                                     </div>
 
-                                    <div class="custom-font p20-R text-tertiary text-wrap ms-3">
+                                    <div class="custom-font p16-R text-tertiary text-wrap ms-3">
                                         Làm thủ tục ít nhất 90 phút trước giờ khởi hành.
                                     </div>
                                 </div>
@@ -481,16 +433,16 @@
                 </div>
 
                 {{! Hàng 5 }}
-                <div class="d-flex flex-column mb-5">
+                <div class="d-flex flex-column mb-3">
                     <div style="font-weight: 600px !important; font-size: 28px" class="custom-font text-dark">
                         Passenger(s)
                         <span style="font-size: 20px" class="text-tertiary"> / Hành khách</span>
                     </div>
 
                     <div>
-                        <table class="table mt-3">
+                        <table class="table mt-2">
                             <thead>
-                                <tr class="custom-font p20-R text-dark">
+                                <tr class="custom-font p16-R text-tertiary">
                                     <th style="width: 10%" scope="col" class="text-end">Thứ tự</th>
                                     <th style="width: 5%" scope="col"></th>
                                     <th style="width: 55%" scope="col">Tên hành khách</th>
@@ -499,7 +451,7 @@
                             </thead>
                             <tbody>
                                 {{#each HanhKhach}}
-                                <tr class="custom-font p20-R text-dark">
+                                <tr class="custom-font p16-R text-dark">
                                     <td class="text-end">1</td>
                                     <td></td>
                                     <td>{{this.HoTen}}</td>
@@ -512,46 +464,44 @@
                 </div>
 
                 {{! Hàng 6 }}
-                <div class="d-flex flex-column mb-5">
+                <div class="d-flex flex-column mb-3">
                     <div style="font-weight: 600px !important; font-size: 28px" class="custom-font text-dark">
                         Flight(s)
                         <span style="font-size: 20px" class="text-tertiary"> / Chuyến bay</span>
                     </div>
 
                     <div>
-                        <table class="table mt-3 align-middle">
+                        <table class="table mt-2 align-middle">
                             <thead>
-                                <tr class="custom-font p20-R text-dark">
+                                <tr class="custom-font p16-R text-tertiary">
                                     <th style="width: 5%" scope="col" class="text-end">TT</th>
-                                    <th style="width: 15%" scope="col">Mã chuyến bay</th>
-                                    <th style="width: 15%" scope="col">Sân bay đi</th>
-                                    <th style="width: 15%" scope="col">Sân bay đến</th>
-                                    <th style="width: 13%" scope="col">Khởi hành</th>
-                                    <th style="width: 13%" scope="col">Đến</th>
+                                    <th style="width: 13%" scope="col">Mã chbay</th>
+                                    <th style="width: 15%" scope="col">Sbay đi</th>
+                                    <th style="width: 15%" scope="col">Sbay đến</th>
+                                    <th style="width: 14%" scope="col">Khởi hành</th>
+                                    <th style="width: 14%" scope="col">Đến</th>
                                     <th style="width: 10%" scope="col">Hành lý</th>
                                     <th style="width: 14%" scope="col">Booking ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each ChuyenBay}}
-                                <tr class="custom-font p20-R text-dark">
+                                <tr class="custom-font p16-R text-dark">
                                     <td class="text-end">1</td>
                                     <td>{{this.MaChuyenBay}}</td>
                                     <td>{{this.SanBayDi}}</td>
                                     <td>{{this.SanBayDen}}</td>
                                     <td>
                                         {{this.KhoiHanh.Gio}}:{{this.KhoiHanh.Phut}} <br />
-                                        {{this.KhoiHanh.Ngay}}:{{this.KhoiHanh.Thang}}:{{this.KhoiHanh.Nam}}
+                                        {{this.KhoiHanh.Ngay}}/{{this.KhoiHanh.Thang}}/{{this.KhoiHanh.Nam}}
                                     </td>
                                     <td>
                                         {{this.Den.Gio}}:{{this.Den.Phut}} <br />
-                                        {{this.Den.Ngay}}:{{this.Den.Thang}}:{{this.Den.Nam}}
+                                        {{this.Den.Ngay}}/{{this.Den.Thang}}/{{this.Den.Nam}}
                                     </td>
                                     <td>+ {{this.HanhLy}}kg</td>
                                     <td>
-                                        <div class="p-2 bg-primary text-center text-light p20-B rounded">
-                                            {{this.BookingID}}
-                                        </div>
+                                        <div class="text-center text-dark p16-B">{{this.BookingID}}</div>
                                     </td>
                                 </tr>
                                 {{/each}}

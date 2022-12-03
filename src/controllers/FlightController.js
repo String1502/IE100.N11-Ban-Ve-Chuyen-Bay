@@ -479,10 +479,11 @@ let GetInfoAllFlights = async (req, res) => {
 //         GhiChu
 //     }],
 //     HangVe: [{
-//         MaHangVe,
 //         TenHangVe,
 //         GiaTien,
 //         GheTrong,
+//         MaHangVe,
+//         TongVe,
 //     }]
 //     VeDaDat: [{
 //         MaVe,
@@ -542,6 +543,8 @@ let getFlight = async (req, res) => {
         Chuyenbay.HangVe = [];
         for (var i in HangVes) {
             let hangve = {
+                MaHangVe: HangVes[i].MaHangGhe,
+                TongVe: HangVes[i].TongVe,
                 TenHangVe: HangVes[i].TenHangGhe,
                 GiaTien: HangVes[i].HeSo * Chuyenbay.GiaVeCoBan, // = giavecoban*heso
                 GheTrong: HangVes[i].TongVe - HangVes[i].VeDaBan,

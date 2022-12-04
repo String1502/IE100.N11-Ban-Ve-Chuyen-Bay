@@ -51,6 +51,10 @@ class StaffController {
                     raw: true,
                 },
             );
+            let MocHanhLys = await db.sequelize.query('select MaMocHanhLy, SoKgToiDa ,GiaTien from mochanhly', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
             for (let i = 0; i < SanBays.length; i++) {
                 SanBays[i].TinhThanhs = structuredClone(TinhThanhs);
                 SanBays[i].TinhThanhs = TinhThanhs;
@@ -62,6 +66,7 @@ class StaffController {
                 TinhThanhs: TinhThanhs,
                 HangGhes: HangGhes,
                 LoaiKhachHangs: LoaiKhachHangs,
+                MocHanhLys: MocHanhLys,
             });
         } catch (error) {
             console.log(error);
@@ -88,17 +93,22 @@ class StaffController {
                 raw: true,
             });
             let LoaiKhachHangs = await db.sequelize.query(
-                'select MaLoaiKhach as MaLoaiKhachHang, TenLoai as TenLoaiKhachHang, SoTuoiToiThieu,SoTuoiToiDa, HeSo from loaikhachhang',
+                'select MaLoaiKhach as MaLoaiKhachHang, TenLoai as TenLoaiKhachHang, SoTuoiToiThieu, SoTuoiToiDa, HeSo from loaikhachhang',
                 {
                     type: QueryTypes.SELECT,
                     raw: true,
                 },
             );
+            let MocHanhLys = await db.sequelize.query('select MaMocHanhLy, SoKgToiDa, GiaTien from mochanhly', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
             Package.ThamSos = structuredClone(ThamSos);
             Package.SanBays = structuredClone(SanBays);
             Package.TinhThanhs = structuredClone(TinhThanhs);
             Package.HangGhes = structuredClone(HangGhes);
             Package.LoaiKhachHangs = structuredClone(LoaiKhachHangs);
+            Package.MocHanhLys = structuredClone(MocHanhLys);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -237,6 +247,43 @@ class StaffController {
                 },
             );
             Package = structuredClone(LoaiKhachHangs);
+            console.log(Package);
+            return res.send(Package);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // cập nhật mốc hành lý
+    async UpdateMocHanhLy(req, res) {
+        try {
+            let MocHanhLy_P = req.body;
+            let MocHanhLy_U = MocHanhLy_P.MocHanhLys_P_Update;
+            let MocHanhLy_A = MocHanhLy_P.MocHanhLys_P_Add;
+            let MocHanhLy = await db.MocHanhLy.findAll({});
+            for (let i = 0; i < MocHanhLy_U.length; i++) {
+                if (MocHanhLy_U[i].ID_Update == 1) {
+                    await MocHanhLy[i].set({
+                        SoKgToiDa: MocHanhLy_U[i].SoKgToiDa,
+                        GiaTien: MocHanhLy_U[i].GiaTien,
+                    });
+                    await MocHanhLy[i].save();
+                }
+            }
+            console.log(MocHanhLy_A);
+            for (let i = 0; i < MocHanhLy_A.length; i++) {
+                await db.MocHanhLy.create({
+                    SoKgToiDa: MocHanhLy_A[i].SoKgToiDa,
+                    GiaTien: MocHanhLy_A[i].GiaTien,
+                });
+            }
+            let Package = [];
+
+            let MocHanhLys = await db.sequelize.query('select MaMocHanhLy, SoKgToiDa, GiaTien from mochanhly', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            Package = structuredClone(MocHanhLys);
             console.log(Package);
             return res.send(Package);
         } catch (error) {

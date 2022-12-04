@@ -9,10 +9,7 @@ import {
     onlyNumber,
     showToast,
 } from '../start.js';
-const ThamSo_CapNhat = document.querySelector('.ThamSo--CapNhat');
-const ThamSo_Huy = document.querySelector('.ThamSo--Huy');
-const ThamSo_Sua = document.querySelector('.ThamSo--Sua');
-const ThamSo_GiaTri = document.querySelectorAll('.ThamSo_GiaTri');
+
 let Package;
 let SanBays_P_Update = [];
 let SanBays_P_Add = [];
@@ -61,14 +58,51 @@ function LoadInformation() {
                 HangGhe_TrangThai.classList.add('text-danger');
             }
         }
+        let MocHanhLys = document.querySelectorAll('.MocHanhLy');
+        for (let i = 0; i < MocHanhLys.length; i++) {
+            MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').value = numberWithDot(
+                MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').value,
+            );
+            MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').addEventListener('keyup', (e) => {
+                e.target.value = formatVND(e.target.value);
+            });
+            MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').addEventListener('blur', (e) => {
+                if (e.target.value == '') e.target.value = 0;
+                if (e.target.value.replace('.', '').length >= 20) {
+                    showToast({
+                        header: 'Thông tin mốc hành lý ',
+                        body: 'Số tiền quá lớn',
+                        duration: 5000,
+                        type: 'warning',
+                    });
+                    e.target.value = 0;
+                    e.target.focus();
+                }
+            });
+            MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').addEventListener('blur', (e) => {
+                if (e.target.value == '') e.target.value = Package.MocHanhLys[i].SoKgToiDa;
+                if (e.target.value > 1000) {
+                    showToast({
+                        header: 'Thông tin mốc hành lý ',
+                        body: 'Số kg tối đa phải nhỏ hơn 1000Kg',
+                        duration: 5000,
+                        type: 'warning',
+                    });
+                    e.target.value = Package.MocHanhLys[i].SoKgToiDa;
+                    e.target.focus();
+                }
+            });
+        }
     });
 }
 window.onlyNumber = onlyNumber;
-
 //
 // Js in ThamSo
 //
-
+const ThamSo_CapNhat = document.querySelector('.ThamSo--CapNhat');
+const ThamSo_Huy = document.querySelector('.ThamSo--Huy');
+const ThamSo_Sua = document.querySelector('.ThamSo--Sua');
+const ThamSo_GiaTri = document.querySelectorAll('.ThamSo_GiaTri');
 //button ThamSo--Huy
 ThamSo_Huy.addEventListener('click', (e) => {
     //trả gtr về ban đàu
@@ -1071,6 +1105,7 @@ for (let i = 0; i < LoaiKhachHangs.length; i++) {
             LoaiKhachHangs_P_Update[i].ID_Update = 1;
             LoaiKhachHangs_P_Update[i + 1].ID_Update = 1;
             LoaiKhachHangs_P_Update[i].SoTuoiToiDa = e.target.value;
+            LoaiKhachHangs_P_Update[i + 1].SoTuoiToiThieu = e.target.value;
             F_LoaiKhachHang_Updated = true;
         }
     });
@@ -1140,10 +1175,10 @@ document.querySelector('.LoaiKhachHang--Huy').addEventListener('click', (e) => {
     e.target.classList.add('d-none');
     document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
 });
-// Load loại khách hàng
 
 //Nút cập nhật loại khách hàng
 document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) => {
+    console.log(LoaiKhachHangs_P_Update);
     LoaiKhachHangs_P_Add = [];
     let SoLoaiKhachHangUPdate = 0;
     const LoaiKhachHangs_New = document.querySelectorAll('.LoaiKhachHang_New');
@@ -1346,6 +1381,233 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
             body: 'Không có sự thay đổi',
             duration: 5000,
             type: '',
+        });
+    }
+});
+
+//
+//Js in Mochanhly
+//
+// hàm format tien vnd
+function formatVND(string) {
+    if (string.charAt(0) == '0' && string.length > 1) {
+        string = string.replace('0', '');
+    }
+    string = string.replaceAll('.', '');
+    let part = [];
+    let i = 0;
+    if (string.length > 3) {
+        while (string.length > 3) {
+            part[i++] = '.' + string.slice(string.length - 3, string.length);
+            string = string.slice(0, string.length - 3);
+        }
+        for (let j = i - 1; j >= 0; j--) {
+            string = string + part[j];
+        }
+    }
+    return string;
+}
+let MocHanhLys = document.querySelectorAll('.MochanhLy');
+// Nút sửa mốc hành lý
+document.querySelector('.MocHanhLy--Sua').addEventListener('click', (e) => {
+    for (let i = 0; i < MocHanhLys.length; i++) {
+        MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').disabled = false;
+        MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').disabled = false;
+    }
+    e.target.classList.add('d-none');
+    document.querySelector('.MocHanhLy--Them').classList.remove('d-none');
+    document.querySelector('.MocHanhLy--CapNhat').classList.remove('d-none');
+    document.querySelector('.MocHanhLy--Huy').classList.remove('d-none');
+});
+// Nút thêm mốc hành lý
+document.querySelector('.MocHanhLy--Them').addEventListener('click', (e) => {
+    const MocHanhLy = document.querySelector('.MocHanhLy_Cop').cloneNode(true);
+    MocHanhLy.classList.remove('d-none');
+    MocHanhLy.classList.remove('MocHanhLy_Cop');
+    MocHanhLy.classList.add('MocHanhLy_New');
+    document.querySelector('.MocHanhLy_Card').appendChild(MocHanhLy);
+    MocHanhLy.querySelector('.MocHanhLy_SoKgToiDa').focus();
+    MocHanhLy.querySelector('.MocHanhLy_GiaTien').value = 0;
+    MocHanhLy.querySelector('.MocHanhLy_GiaTien').addEventListener('keyup', (e) => {
+        e.target.value = formatVND(e.target.value);
+    });
+    MocHanhLy.querySelector('.MocHanhLy_GiaTien').addEventListener('blur', (e) => {
+        if (e.target.value == '') e.target.value = 0;
+        if (e.target.value.replace('.', '').length >= 20) {
+            showToast({
+                header: 'Thông tin mốc hành lý ',
+                body: 'Số tiền quá lớn',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = 0;
+            e.target.focus();
+        }
+    });
+    MocHanhLy.querySelector('.MocHanhLy_SoKgToiDa').addEventListener('blur', (e) => {
+        if (e.target.value > 1000) {
+            showToast({
+                header: 'Thông tin mốc hành lý ',
+                body: 'Số kg tối đa phải nhỏ hơn 1000Kg',
+                duration: 5000,
+                type: 'warning',
+            });
+            e.target.value = '';
+            e.target.focus();
+        }
+    });
+    //Nút xóa MocHanhLy
+    MocHanhLy.querySelector('.MocHanhLy_Cop--Xoa').addEventListener('click', (e) => {
+        document.querySelector('.MocHanhLy_Card').removeChild(e.target.closest('.MocHanhLy_New'));
+    });
+});
+// Nút hủy cập nhật
+document.querySelector('.MocHanhLy--Huy').addEventListener('click', (e) => {
+    //trả gtr về ban đàu
+    for (let i = 0; i < MocHanhLys.length; i++) {
+        MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').value = Package.MocHanhLys[i].SoKgToiDa;
+        MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').value = Package.MocHanhLys[i].GiaTien;
+        MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').disabled = true;
+        MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').disabled = true;
+    }
+    e.target.classList.add('d-none');
+    document.querySelector('.MocHanhLy--Sua').classList.remove('d-none');
+    document.querySelector('.MocHanhLy--Them').classList.add('d-none');
+    document.querySelector('.MocHanhLy--CapNhat').classList.add('d-none');
+});
+// Nút cập nhật móc hành lý
+document.querySelector('.MocHanhLy--CapNhat').addEventListener('click', (e) => {
+    let MocHanhLys_P_Add = [];
+    let MocHanhLys_P_Update = structuredClone(Package.MocHanhLys);
+    let Flag = 0;
+    // kiểm tra số kg tối da phải lon hơn sokgtoida ben tren
+    for (let i = 1; i < MocHanhLys.length; i++) {
+        let MocHanhLyTren = MocHanhLys[i - 1].querySelector('.MocHanhLy_SoKgToiDa').value;
+        let MocHanhLyDuoi = MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').value;
+        let GiaTien = MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').value.replaceAll('.', '');
+        if (parseInt(MocHanhLyDuoi) <= parseInt(MocHanhLyTren)) {
+            showToast({
+                header: 'Thông tin mốc hành lý',
+                body: 'Số kg tối đa phải theo thứ tự tăng dần',
+                duration: 5000,
+                type: 'warning',
+            });
+            MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').value = Package.MocHanhLys[i].SoKgToiDa;
+            MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').focus();
+            return;
+        }
+        if (MocHanhLyDuoi != Package.MocHanhLys[i].SoKgToiDa || GiaTien != Package.MocHanhLys[i].GiaTien) {
+            MocHanhLys_P_Update[i].ID_Update = 1;
+            MocHanhLys_P_Update[i].SoKgToiDa = MocHanhLyDuoi;
+            MocHanhLys_P_Update[i].GiaTien = GiaTien;
+            Flag++;
+        }
+    }
+    //nếu có them moi
+    const MocHanhLys_New = document.querySelectorAll('.MocHanhLy_New');
+    if (MocHanhLys_New.length > 0) {
+        for (let i = 0; i < MocHanhLys_New.length; i++) {
+            // kiểm tra so kg toi da không trống
+            if (MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').value == '') {
+                showToast({
+                    header: 'Thêm mốc hành lý mới',
+                    body: 'Số kg tối đa không được để trống',
+                    duration: 5000,
+                    type: 'warning',
+                });
+                MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').focus();
+                return;
+            }
+            // kiểm tra số kg tối da phải lon hơn sokgtoida ben tren
+            if (i > 0) {
+                let MocHanhLyTren = MocHanhLys_New[i - 1].querySelector('.MocHanhLy_SoKgToiDa').value;
+                let MocHanhLyDuoi = MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').value;
+                if (parseInt(MocHanhLyDuoi) <= parseInt(MocHanhLyTren)) {
+                    showToast({
+                        header: 'Thêm mốc hành lý mới',
+                        body: 'Số kg tối đa phải theo thứ tự tăng dần',
+                        duration: 5000,
+                        type: 'warning',
+                    });
+                    MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').value = 0;
+                    MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').focus();
+                    return;
+                }
+            } else {
+                if (
+                    parseInt(MocHanhLys_New[0].querySelector('.MocHanhLy_SoKgToiDa').value) <=
+                    parseInt(MocHanhLys[MocHanhLys.length - 1].querySelector('.MocHanhLy_SoKgToiDa').value)
+                ) {
+                    showToast({
+                        header: 'Thêm mốc hành lý mới',
+                        body: 'Số kg tối đa phải theo thứ tự tăng dần',
+                        duration: 5000,
+                        type: 'warning',
+                    });
+                    MocHanhLys_New[0].querySelector('.MocHanhLy_SoKgToiDa').value = 0;
+                    MocHanhLys_New[0].querySelector('.MocHanhLy_SoKgToiDa').focus();
+                    return;
+                }
+            }
+            MocHanhLys_P_Add.push({
+                SoKgToiDa: MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').value,
+                GiaTien: MocHanhLys_New[i].querySelector('.MocHanhLy_GiaTien').value.replace('.', ''),
+            });
+        }
+    }
+    if (MocHanhLys_New.length == 0 && Flag == 0) {
+        showToast({
+            header: 'Thông tin mốc hành lý',
+            body: 'Không có sự thay đổi',
+            duration: 5000,
+            type: '',
+        });
+    } else {
+        let MocHanhLys_P = {};
+        MocHanhLys_P.MocHanhLys_P_Update = structuredClone(MocHanhLys_P_Update);
+        MocHanhLys_P.MocHanhLys_P_Add = structuredClone(MocHanhLys_P_Add);
+        console.log(MocHanhLys_P);
+        // chuyển trạng thái sang sửa
+        MocHanhLys[0].querySelector('.MocHanhLy_SoKgToiDa').focus();
+        for (let i = 0; i < MocHanhLys_New.length; i++) {
+            MocHanhLys_New[i].querySelector('.MocHanhLy_SoKgToiDa').disabled = true;
+            MocHanhLys_New[i].querySelector('.MocHanhLy_GiaTien').disabled = true;
+            MocHanhLys_New[i].classList.remove('MocHanhLy_New');
+            MocHanhLys_New[i].classList.add('MocHanhLy');
+            MocHanhLys_New[i].querySelector('.MocHanhLy_Cop--Xoa').classList.add('d-none');
+        }
+        MocHanhLys = document.querySelectorAll('.MocHanhLy');
+        for (let i = 0; i < MocHanhLys.length; i++) {
+            MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').disabled = true;
+            MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').disabled = true;
+        }
+        document.querySelector('.MocHanhLy--Them').classList.add('d-none');
+        document.querySelector('.MocHanhLy--Huy').classList.add('d-none');
+        e.target.classList.add('d-none');
+        document.querySelector('.MocHanhLy--Sua').classList.remove('d-none');
+        axios({
+            method: 'POST',
+            url: '/staff/UpdateMocHanhLy',
+            data: MocHanhLys_P,
+        }).then((res) => {
+            Package.MocHanhLys = res.data;
+            document.querySelector('.MocHanhLy--CapNhat').focus();
+            if (Flag > 0) {
+                showToast({
+                    header: 'Thông tin mốc hành lý',
+                    body: 'Đã cập nhật thành công ' + Flag + ' mốc hành lý',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            if (MocHanhLys_New.length > 0) {
+                showToast({
+                    header: 'Thông tin mốc hành lý',
+                    body: 'Đã thêm thành công ' + MocHanhLys_New.length + ' mốc hành lý ',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
         });
     }
 });

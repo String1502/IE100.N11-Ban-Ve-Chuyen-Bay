@@ -8,6 +8,8 @@ import {
     today,
     showToast,
     onlyNumber,
+    money_format_input,
+    validateEmail,
 } from '../start.js';
 
 window.onlyNumber = onlyNumber;
@@ -22,11 +24,17 @@ window.addEventListener('pageshow', function (event) {
 });
 
 let Flight_Edit;
+let SanBayTG;
+let HangGhe;
 function GetFlight_Edit() {
     openLoader('Chờ chút');
     Flight_Edit = JSON.parse(document.getElementById('Flight_EditJS').getAttribute('Flight_EditJS'));
 
     console.log(Flight_Edit);
+
+    //Hàm chạy lần đầu để dô đây
+    LoadSBTGLenView();
+    LoadHGLenView();
     // Gán thông tin chuyến bay cố định
     document.getElementById('MaChuyenBay').value = Flight_Edit.MaChuyenBayHienThi;
     document.getElementById('SanBayDi').value = Flight_Edit.SanBayDi.TenSanBay;
@@ -70,9 +78,115 @@ function GetFlight_Edit() {
 }
 if (!Flight_Edit) GetFlight_Edit();
 
+// Mới dô đưa SBTG lên view
 function LoadSBTGLenView() {
-    let SanBayTG = Flight_Edit.SanBayTG;
-    for (let i = 0; i < SanBayTG.length; i++) {}
+    SanBayTG = structuredClone(Flight_Edit.SanBayTG);
+    SanBayTG.sort((a, b) => {
+        return a.ThuTu - b.ThuTu;
+    });
+
+    console.log(SanBayTG);
+    for (let i = 0; i < SanBayTG.length; i++) {
+        var SBTG = structuredClone(SanBayTG[i]);
+        ThemSBTG(SBTG);
+    }
+}
+function Check_SBTG_isAscending() {
+    var NgayDen = Check_NgayDen_isAscending();
+    if (NgayDen != true) {
+        var header = '';
+        var body = '';
+        if (NgayDen == -1) {
+            header = 'Ngày khởi hành';
+            body = 'Ngày khởi hành nhỏ hơn tất cả ngày đến!';
+        } else {
+            header = 'SBTG thứ ' + NgayDen;
+            body = 'Ngày đến lớn hơn ngày đến liền trước và nhỏ hơn ngày đến liền sau!';
+        }
+
+        showToast({
+            header: header,
+            body: body,
+            duration: 5000,
+            type: 'danger',
+        });
+
+        const DiemDung_Item_NgayDens = document.querySelectorAll('.DiemDung_Item_NgayDen');
+        for (let i = 0; i < DiemDung_Item_NgayDens.length; i++) {
+            var ThuTu = DiemDung_Item_NgayDens[i].getAttribute('index');
+            if (parseInt(ThuTu) == NgayDen) {
+                DiemDung_Item_NgayDens[i].focus();
+                break;
+            }
+        }
+        return;
+    }
+}
+function Check_NgayDen_isAscending() {
+    var arr = [];
+
+    if (NgayKhoiHanh.value != '') {
+        var chuoi = NgayKhoiHanh.value.split('-');
+
+        arr.push({
+            ThoiGianDen: {
+                NgayDen: { Nam: parseInt(chuoi[0]), Thang: parseInt(chuoi[1]), Ngay: parseInt(chuoi[2]) },
+                GioDen: { Gio: -1, Phut: -1 },
+            },
+            ThoiGianDung: -1,
+            ThuTu: -1,
+        });
+    }
+    var DiemDung_Items = document.querySelectorAll('.DiemDung_Item');
+    for (let i = 0; i < DiemDung_Items.length; i++) {
+        var DiemDung_Item_NgayDen = DiemDung_Items[i].querySelector('.DiemDung_Item_NgayDen');
+        if (DiemDung_Item_NgayDen.value != '') {
+            var chuoi = DiemDung_Item_NgayDen.value.split('-');
+
+            arr.push({
+                ThoiGianDen: {
+                    NgayDen: { Nam: parseInt(chuoi[0]), Thang: parseInt(chuoi[1]), Ngay: parseInt(chuoi[2]) },
+                    GioDen: { Gio: -1, Phut: -1 },
+                },
+                ThoiGianDung: -1,
+                ThuTu: parseInt(DiemDung_Items[i].querySelector('.DiemDung_Item_ThuTu').value),
+            });
+        }
+    }
+
+    arr.sort((a, b) => {
+        return a.ThuTu - b.ThuTu;
+    });
+
+    for (let i = 1; i < arr.length; i++) {
+        var a = new Date(
+            arr[i].ThoiGianDen.NgayDen.Nam,
+            arr[i].ThoiGianDen.NgayDen.Thang,
+            arr[i].ThoiGianDen.NgayDen.Ngay,
+        );
+        var b = new Date(
+            arr[i - 1].ThoiGianDen.NgayDen.Nam,
+            arr[i - 1].ThoiGianDen.NgayDen.Thang,
+            arr[i - 1].ThoiGianDen.NgayDen.Ngay,
+        );
+        if (a <= b) {
+            console.log(arr[i - 1]);
+            return arr[i - 1].ThuTu;
+        }
+    }
+    return true;
+}
+
+// Mới dô đưa HG lên view
+function LoadHGLenView() {
+    HangGhe = structuredClone(Flight_Edit.HangVe);
+    HangGhe.sort((a, b) => {
+        return a.GiaTien - b.GiaTien;
+    });
+    for (let i = 0; i < HangGhe.length; i++) {
+        var HG = structuredClone(HangGhe[i]);
+        ThemHG(HG);
+    }
 }
 
 // Nút thêm điểm dừng
@@ -83,7 +197,7 @@ if (ThemDiemDung) {
     });
 }
 
-function ThemSBTG() {
+function ThemSBTG(SBTG = null) {
     const node = document.querySelector('.DiemDung_Item').cloneNode(true);
     node.classList.remove('d-none');
 
@@ -174,6 +288,16 @@ function ThemSBTG() {
         });
     }
 
+    // Ngày giờ đến
+    node.querySelector('.DiemDung_Item_NgayDen').addEventListener('change', (e) => {
+        if (e.target.value != '') {
+            Check_SBTG_isAscending();
+        }
+    });
+    node.querySelector('.DiemDung_Item_GioDen').addEventListener('change', (e) => {
+        //
+    });
+
     // Nút xóa
     const DiemDung_Items = document.querySelectorAll('.DiemDung_Item');
     if (DiemDung_Items.length > 1) {
@@ -197,6 +321,17 @@ function ThemSBTG() {
         document.getElementById('DiemDung_Container').removeChild(e.target.closest('.DiemDung_Item'));
     });
 
+    if (SBTG != null) {
+        node.querySelector('.DiemDung_Item_SanBayDung').setAttribute('value', SBTG.TenSanBay);
+        node.querySelector('.DiemDung_Item_SanBayDung').setAttribute('masanbay', SBTG.MaSBTG);
+        node.querySelector('.DiemDung_Item_NgayDen').value =
+            SBTG.ThoiGianDen.NgayDen.Nam + '-' + SBTG.ThoiGianDen.NgayDen.Thang + '-' + SBTG.ThoiGianDen.NgayDen.Ngay;
+        node.querySelector('.DiemDung_Item_GioDen').value =
+            numberSmallerTen(SBTG.ThoiGianDen.GioDen.Gio) + ':' + numberSmallerTen(SBTG.ThoiGianDen.GioDen.Phut);
+        node.querySelector('.DiemDung_Item_ThoiGianDung').value = SBTG.ThoiGianDung;
+        node.querySelector('.DiemDung_Item_GhiChu').value = SBTG.GhiChu != null ? SBTG.GhiChu : '';
+    }
+
     DiemDung_Container.appendChild(node);
 }
 
@@ -204,32 +339,47 @@ function ThemSBTG() {
 const ThemHangGhe = document.getElementById('ThemHangGhe');
 if (ThemHangGhe) {
     ThemHangGhe.addEventListener('click', (e) => {
-        const node = document.querySelector('.HangGhe_Item').cloneNode(true);
-        node.classList.remove('d-none');
-
-        // Nút xóa
-        const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
-        if (HangGhe_Items.length > 1) {
-            const lastitem = HangGhe_Items[HangGhe_Items.length - 1].querySelector('.HangGhe_Item_Xoa');
-            if (!lastitem.classList.contains('d-none')) {
-                lastitem.classList.add('d-none');
-            }
-        }
-        const NutXoa = node.querySelector('.HangGhe_Item_Xoa');
-        if (NutXoa.classList.contains('d-none')) {
-            NutXoa.classList.remove('d-none');
-        }
-        NutXoa.addEventListener('click', (e) => {
-            const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
-            if (HangGhe_Items.length - 1 > 1) {
-                const sublastitem = HangGhe_Items[HangGhe_Items.length - 2].querySelector('.HangGhe_Item_Xoa');
-                if (sublastitem.classList.contains('d-none')) {
-                    sublastitem.classList.remove('d-none');
-                }
-            }
-            document.getElementById('HangGhe_Container').removeChild(e.target.closest('.HangGhe_Item'));
-        });
-
-        HangGhe_Container.appendChild(node);
+        ThemHG();
     });
+}
+
+function ThemHG(HG = null) {
+    const node = document.querySelector('.HangGhe_Item').cloneNode(true);
+    node.classList.remove('d-none');
+
+    // Nút xóa
+    const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
+    if (HangGhe_Items.length > 1) {
+        const lastitem = HangGhe_Items[HangGhe_Items.length - 1].querySelector('.HangGhe_Item_Xoa');
+        if (!lastitem.classList.contains('d-none')) {
+            lastitem.classList.add('d-none');
+        }
+    }
+    const NutXoa = node.querySelector('.HangGhe_Item_Xoa');
+    if (NutXoa.classList.contains('d-none')) {
+        NutXoa.classList.remove('d-none');
+    }
+    NutXoa.addEventListener('click', (e) => {
+        const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
+        if (HangGhe_Items.length - 1 > 1) {
+            const sublastitem = HangGhe_Items[HangGhe_Items.length - 2].querySelector('.HangGhe_Item_Xoa');
+            if (sublastitem.classList.contains('d-none')) {
+                sublastitem.classList.remove('d-none');
+            }
+        }
+        document.getElementById('HangGhe_Container').removeChild(e.target.closest('.HangGhe_Item'));
+    });
+
+    if (HG != null) {
+        node.querySelector('.HangGhe_Item_MaHangVe').setAttribute('value', HG.TenHangVe);
+        node.querySelector('.HangGhe_Item_MaHangVe').setAttribute('mahangve', HG.MaHangVe);
+        node.querySelector('.HangGhe_Item_GiaVe').setAttribute('value', numberWithDot(HG.GiaTien));
+        node.querySelector('.HangGhe_Item_VeDaPhatHanh').setAttribute(
+            'value',
+            numberSmallerTen(HG.TongVe - HG.GheTrong),
+        );
+        node.querySelector('.HangGhe_Item_VeCoSan').setAttribute('value', numberSmallerTen(HG.GheTrong));
+    }
+
+    HangGhe_Container.appendChild(node);
 }

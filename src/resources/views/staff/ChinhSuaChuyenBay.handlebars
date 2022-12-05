@@ -133,6 +133,7 @@
                                 <input
                                     style='height: 36px;'
                                     type='text'
+                                    min='0'
                                     class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                     id='ThoiGianBay'
                                     readonly
@@ -256,6 +257,7 @@
                                 style='height: 36px;'
                                 type='date'
                                 index='0'
+                                value=''
                                 class='DiemDung_Item_NgayDen form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                             />
                         </div>
@@ -274,12 +276,19 @@
                         {{! Thời gian dừng }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Thời gian dừng</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                index='0'
-                                class='DiemDung_Item_ThoiGianDung form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='number'
+                                    index='0'
+                                    min='0'
+                                    class='DiemDung_Item_ThoiGianDung form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px;'
+                                    class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >phút</span>
+                            </div>
                         </div>
 
                         {{! Ghi chú }}
@@ -404,34 +413,53 @@
                         {{! Giá vé }}
                         <div class='col-4'>
                             <label class='form-label custom-font p14-S'>Giá vé</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                placeholder='Giá vé'
-                                disabled
-                                class='HangGhe_Item_GiaVe form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='text'
+                                    placeholder='Giá vé'
+                                    disabled
+                                    class='HangGhe_Item_GiaVe form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; background-color: #e9ecef;'
+                                    class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >VND</span>
+                            </div>
                         </div>
 
                         {{! Vé đã phát hành }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Vé đã phát hành</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                disabled
-                                class='HangGhe_Item_VeDaPhatHanh form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='text'
+                                    disabled
+                                    class='HangGhe_Item_VeDaPhatHanh form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; background-color: #e9ecef;'
+                                    class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >vé</span>
+                            </div>
                         </div>
 
                         {{! Vé có sẵn }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Vé có sẵn</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                class='HangGhe_Item_VeCoSan form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='number'
+                                    min='0'
+                                    class='HangGhe_Item_VeCoSan form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; '
+                                    class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >vé</span>
+                            </div>
                         </div>
 
                         {{! Sửa / Xóa / Lưu }}

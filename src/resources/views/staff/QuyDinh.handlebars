@@ -1,0 +1,657 @@
+<div class='bg-tertiary-light'>
+
+    <div style='height: 88px;' class='w-100 bg-primary'>
+        <div style='height: 88px;' class='container col-10'>
+            <div style='height: 88px;' class='row d-flex flex-row align-items-center'>
+                <div class='custom-font h28-B text-light mb-2'>Thay đổi các quy định</div>
+            </div>
+        </div>
+    </div>
+    <div class='container col-10'>
+        <div class='row'>
+            <div class='col-6'>
+                {{! Quy định về chuyến bay }}
+                <div class='row'>
+                    <div class='custom-font h24-B mt-4 mb-4'>Quy định về chuyến bay</div>
+                </div>
+                <div class='card' id='ThamSo_Card'>
+                    <div class='card-header p16-B custom-font align-items-center'>
+                        Các quy định áp dụng cho tất cả chuyến bay
+                    </div>
+                    <div class='card-body mb-4' style='height: 322px; overflow-y: scroll;'>
+                        <div class='row d-flex mb-4'>
+                            {{#each ThamSos}}
+                                <div class='ThamSo col-6'>
+                                    <label class='TenthamSo p14-S form-label'>{{this.TenThamSo}}</label>
+                                    <div tabindex='1' class='d-flex flex-row RowThamSo'>
+                                        <input
+                                            type='text'
+                                            onkeypress='onlyNumber(event)'
+                                            disabled
+                                            class='disabled ThamSo_GiaTri form-control me-2 custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            value='{{this.GiaTri}}'
+                                        />
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class='row mx-0 justify-content-center'>
+                        <div class='col-6 justify-content-center d-flex'>
+                            <button
+                                style='width: 100%;'
+                                class='d-none mb-3 me-5 ThamSo--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                            >Hủy</button>
+                            <button
+                                style='width: 100%;'
+                                class='mb-3 d-none ThamSo--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                            >Cập nhật</button>
+                        </div>
+                    </div>
+                    <div class='row mx-0 justify-content-center'>
+                        <div class='col-3'>
+                            <button
+                                style='width: 100%;'
+                                class='ThamSo--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B mb-3'
+                            >Sửa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-6'>
+                {{! Thông tin các loại mốc hành lý }}
+                <div class='row'>
+                    <div class='custom-font h24-B my-4'>Thông tin các loại mốc hành lý</div>
+                </div>
+                <div class='card'>
+                    <div class='card-header d-flex justify-content-between align-items-center'>
+                        <div class='p16-B custom-font col-8'>Các loại mốc hành lý sử dụng cho các chuyến bay</div>
+                    </div>
+                    <div class='card-body MocHanhLy_Card mb-4' style='height: 322px; overflow-y: scroll;'>
+                        {{#each MocHanhLys}}
+                            <div class='row mb-3 MocHanhLy' index='{{this.MaMocHanhLy}}'>
+                                <div class='col-6'>
+                                    <label for='' class='p14-S form-label'>Số kg tối đa</label>
+                                    <div class='d-flex'>
+                                        <div class='input-group'>
+                                            <input
+                                                disabled
+                                                type='text'
+                                                value='{{this.SoKgToiDa}}'
+                                                onkeypress='onlyNumber(event)'
+                                                class='MocHanhLy_SoKgToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            />
+                                            <span
+                                                style='height: 36px;'
+                                                class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            >Kg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='col-6'>
+                                    <label for='' class='p14-S form-label'>Giá tiền<i></i></label>
+                                    <div class='d-flex'>
+                                        <div class='input-group me-2'>
+                                            <input
+                                                disabled
+                                                value='{{this.GiaTien}}'
+                                                onkeypress='onlyNumber(event)'
+                                                style='height: 36px;'
+                                                type='text'
+                                                class='MocHanhLy_GiaTien form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                                id='GiaVeCoBan'
+                                            />
+                                            <span
+                                                style='height: 36px;'
+                                                class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            >VND</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                        {{! Mốc hành lý khi được thêm }}
+                        <div class='row mb-3 MocHanhLy_Cop d-none' index='{{this.MaMocHanhLy}}'>
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label'>Số kg tối đa</label>
+                                <div class='d-flex'>
+                                    <div class='input-group'>
+                                        <input
+                                            type='text'
+                                            value='{{this.SoKgToiDa}}'
+                                            onkeypress='onlyNumber(event)'
+                                            class='MocHanhLy_SoKgToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        />
+                                        <span
+                                            style='height: 36px;'
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                        >Kg</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label'>Giá tiền<i></i></label>
+                                <div class='d-flex'>
+                                    <div class='input-group me-2'>
+                                        <input
+                                            value='{{this.GiaTien}}'
+                                            style='height: 36px;'
+                                            onkeypress='onlyNumber(event)'
+                                            type='text'
+                                            class='MocHanhLy_GiaTien form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                            id='GiaVeCoBan'
+                                        />
+                                        <span
+                                            style='height: 36px;'
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                        >VND</span>
+                                    </div>
+                                    <button
+                                        class='MocHanhLy_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
+                                    >Xóa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{! //button chuc nang }}
+                    <div class='row mx-0 justify-content-start mb-3'>
+                        <div class='w-auto'>
+                            <button
+                                type='button'
+                                style='margin-top:-15px ;'
+                                class='MocHanhLy--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                            >
+                                <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                                Thêm mốc hành lý
+                            </button>
+                        </div>
+                    </div>
+                    <div class='row mx-0 justify-content-center mb-3'>
+                        <div class='col-6 justify-content-center d-flex'>
+                            <button
+                                style='width: 100%;'
+                                class='d-none mb-4 me-5 MocHanhLy--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                            >Hủy</button>
+                            <button
+                                style='width: 100%;'
+                                class='d-none mb-4 MocHanhLy--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                            >Cập nhật</button>
+                        </div>
+                    </div>
+                    <div class='row mx-0 justify-content-center' style='margin-top: -32px ;'>
+                        <div class='col-3'>
+                            <button
+                                style='width: 100%;'
+                                class='mb-3 MocHanhLy--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                            >Sửa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{! Thông tin các sân bay }}
+        <div class='row'>
+            <div class='custom-font h24-B mt-4 mb-4'>Thông tin các sân bay</div>
+        </div>
+        <div class='card'>
+            <div class='card-header d-flex justify-content-between align-items-center'>
+                <div class='p16-B custom-font col-8'>Các sân bay sử dụng cho các chuyến bay</div>
+                {{! nut tim kiem san bay }}
+                <div class='input-group'>
+                    <input
+                        type='text'
+                        style='border-right: 0px !important;'
+                        class='SanBay_Input--Search form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-none border border-1 border-dark'
+                        placeholder='Tìm kiếm'
+                    />
+                    <div class='input-group-text bg-light border border-1 border-dark'><i
+                            class='fa-sharp fa-solid fa-magnifying-glass'
+                        ></i></div>
+                </div>
+            </div>
+
+            <div class='card-body SanBay_Card' style='height: 300px; overflow-y: scroll;'>
+                {{#each SanBays}}
+                    <div class='row mb-3 SanBay'>
+                        <div class='col-2'>
+                            <label for='' class='p14-S form-label'>Mã sân bay</label>
+                            <input
+                                value='{{this.MaSanBay}}'
+                                type='text'
+                                disabled
+                                class='SanBay_Ma form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Tên sân bay</label>
+                            <input
+                                type='text'
+                                value='{{this.TenSanBay}}'
+                                disabled
+                                class='SanBay_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Địa chỉ</label>
+                            <select
+                                disabled
+                                name=''
+                                id=''
+                                class='SanBay_DiaChi form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            >
+                                {{#each this.TinhThanhs}}
+                                    <option value='{{this.MaTinhThanh}}'>{{this.TenTinhThanh}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class='col-4'>
+                            <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                            <div class='d-flex'>
+                                <select
+                                    disabled
+                                    name=''
+                                    id=''
+                                    class='SanBay_TrangThai form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
+                                >
+                                    <option class='text-success-light p16-B' value='1'>Hoạt động</option>
+                                    <option class='text-danger p16-B' value='2'>Ngưng hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+
+                {{! Dòng sân bay khi được thêm }}
+                <div class='row mb-3 SanBay_Cop d-none' Index=''>
+                    <div class='col-2'>
+                        <label for='' class='p14-S form-label'>Mã sân bay</label>
+                        <input
+                            type='text'
+                            oninput='let p = this.selectionStart; this.value = this.value.toUpperCase();this.setSelectionRange(p, p);'
+                            class='SanBay_Ma form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Tên sân bay</label>
+                        <input
+                            type='text'
+                            class='SanBay_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Địa chỉ</label>
+                        <select
+                            name=''
+                            id=''
+                            class='SanBay_DiaChi form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        >
+                            <option value='' disabled selected hidden>Chọn tỉnh thành...</option>
+                            {{#each TinhThanhs}}
+                                <option value='{{this.MaTinhThanh}}'>{{this.TenTinhThanh}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class='col-4'>
+                        <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                        <div class='d-flex'>
+                            <select
+                                name=''
+                                id=''
+                                class='SanBay_TrangThai text-success-light form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
+                            >
+                                <option class='text-success-light p16-B' value='1' selected>Hoạt động</option>
+                                <option class='text-danger p16-B' value='2'>Ngưng hoạt động</option>
+                            </select>
+                            <button
+                                class='SanBay_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
+                            >Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{! Nút thêm sân bay }}
+            <div class='row mx-0 mb-3 mt-1 justify-content-start'>
+                <div class='w-auto'>
+                    <button
+                        type='button'
+                        class='SanBay--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                    >
+                        <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                        Thêm sân bay
+                    </button>
+                </div>
+            </div>
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-6 justify-content-center d-flex'>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 me-5 SanBay--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Hủy</button>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 SanBay--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Cập nhật</button>
+                </div>
+            </div>
+
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-3'>
+                    <button
+                        style='width: 100%;'
+                        class='mb-3 SanBay--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Sửa</button>
+                </div>
+            </div>
+        </div>
+
+        {{! Thông tin các hạng ghế }}
+        <div class='row'>
+            <div class='custom-font h24-B mt-4 mb-4'>Thông tin các hạng ghế</div>
+        </div>
+        <div class='card'>
+            <div class='card-header d-flex justify-content-between align-items-center'>
+                <div class='p16-B custom-font col-8'>Các hạng ghế sử dụng cho các chuyến bay</div>
+                {{! nut tim kiem hang ghế }}
+                <div class='input-group'>
+                    <input
+                        type='text'
+                        style='border-right: 0px !important;'
+                        class='HangGhe_Input--Search form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-none border border-1 border-dark'
+                        placeholder='Tìm kiếm'
+                    />
+                    <div class='input-group-text bg-light border border-1 border-dark'><i
+                            class='fa-sharp fa-solid fa-magnifying-glass'
+                        ></i></div>
+                </div>
+            </div>
+
+            <div class='card-body HangGhe_Card' style='height: 325px; overflow-y: scroll;'>
+                {{#each HangGhes}}
+                    <div class='row mb-3 HangGhe'>
+                        <div class='col-2'>
+                            <label for='' class='p14-S form-label'>Mã hạng ghế</label>
+                            <input
+                                value='{{this.MaHangGhe}}'
+                                type='text'
+                                disabled
+                                class='HangGhe_Ma form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Tên hạng ghế</label>
+                            <input
+                                type='text'
+                                value='{{this.TenHangGhe}}'
+                                disabled
+                                class='HangGhe_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Hệ số</label>
+                            <input
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                value='{{this.HeSo}}'
+                                disabled
+                                class='HangGhe_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-4'>
+                            <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                            <div class='d-flex'>
+                                <select
+                                    disabled
+                                    name=''
+                                    id=''
+                                    class='HangGhe_TrangThai form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
+                                >
+                                    <option class='text-success-light p16-B' value='1'>Áp dụng</option>
+                                    <option class='text-danger p16-B' value='2'>Ngưng áp dụng</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+
+                {{! Dòng hạng ghế khi được thêm }}
+                <div class='row mb-3 HangGhe_Cop d-none'>
+                    <div class='col-2'>
+                        <label for='' class='p14-S form-label'>Mã hạng ghế</label>
+                        <input
+                            value='{{this.MaHangGhe}}'
+                            type='text'
+                            class='HangGhe_Ma form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Tên hạng ghế</label>
+                        <input
+                            type='text'
+                            value='{{this.TenHangGhe}}'
+                            class='HangGhe_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Hệ số</label>
+                        <input
+                            type='number'
+                            step='0.1'
+                            min='0'
+                            value='{{this.HeSo}}'
+                            class='HangGhe_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-4'>
+                        <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                        <div class='d-flex'>
+                            <select
+                                name=''
+                                id=''
+                                class='HangGhe_TrangThai form-select text-success-light custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
+                            >
+                                <option value='1' class='p16-B text-success-light' selected>Áp dụng</option>
+                                <option value='2' class='p16-B text-danger'>Ngưng áp dụng</option>
+                            </select>
+                            <button
+                                class='HangGhe_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
+                            >Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{! Nút thêm hạng ghế }}
+            <div class='row mx-0 mb-3 mt-1 justify-content-start'>
+                <div class='w-auto'>
+                    <button
+                        type='button'
+                        class='HangGhe--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                    >
+                        <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                        Thêm hạng ghế
+                    </button>
+                </div>
+            </div>
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-6 justify-content-center d-flex'>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 me-5 HangGhe--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Hủy</button>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 HangGhe--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Cập nhật</button>
+                </div>
+            </div>
+
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-3'>
+                    <button
+                        style='width: 100%;'
+                        class='mb-3 HangGhe--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Sửa</button>
+                </div>
+            </div>
+        </div>
+
+        {{! Thông tin các loại hành khách }}
+        <div class='row'>
+            <div class='custom-font h24-B mt-4 mb-4'>Thông tin các loại hành khách</div>
+        </div>
+        <div class='card'>
+            <div class='card-header d-flex justify-content-between align-items-center'>
+                <div class='p16-B custom-font col-8'>Các loại hành khách sử dụng cho các chuyến bay</div>
+                {{! nut tim kiem hang ghế }}
+                <div class='input-group'>
+                    <input
+                        type='text'
+                        style='border-right: 0px !important;'
+                        class='LoaiKhachHang_Input--Search form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-none border border-1 border-dark'
+                        placeholder='Tìm kiếm'
+                    />
+                    <div class='input-group-text bg-light border border-1 border-dark'><i
+                            class='fa-sharp fa-solid fa-magnifying-glass'
+                        ></i></div>
+                </div>
+            </div>
+
+            <div class='card-body LoaiKhachHang_Card pe-4' style='height: 251px; overflow-y: scroll;'>
+                {{#each LoaiKhachHangs}}
+                    <div class='row mb-3 LoaiKhachHang' index='{{this.MaLoaiKhachHang}}'>
+                        <div class='col-2'>
+                            <label for='' class='p14-S form-label'>Tên loại hành khách</label>
+                            <input
+                                value='{{this.TenLoaiKhachHang}}'
+                                type='text'
+                                disabled
+                                class='LoaiKhachHang_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
+                            <input
+                                type='text'
+                                value='{{this.SoTuoiToiThieu}}'
+                                disabled
+                                class='LoaiKhachHang_SoTuoiToiThieu form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-3'>
+                            <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
+                            <input
+                                type='number'
+                                max='20'
+                                min='1'
+                                onkeypress='onlyNumber(event)'
+                                value='{{this.SoTuoiToiDa}}'
+                                disabled
+                                class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                        <div class='col-4'>
+                            <label for='' class='p14-S form-label'>Hệ số</label>
+                            <input
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                value='{{this.HeSo}}'
+                                disabled
+                                class='LoaiKhachHang_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                            />
+                        </div>
+                    </div>
+                {{/each}}
+
+                {{! Dòng loại hành khách khi được thêm }}
+                <div class='row mb-3 LoaiKhachHang_Cop d-none'>
+                    <div class='col-2'>
+                        <label for='' class='p14-S form-label'>Tên loại hành khách</label>
+                        <input
+                            value='{{this.TenLoaiKhachHang}}'
+                            type='text'
+                            class='LoaiKhachHang_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
+                        <input
+                            type='text'
+                            value='{{this.SoTuoiToiThieu}}'
+                            disabled
+                            class='LoaiKhachHang_SoTuoiToiThieu form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-3'>
+                        <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
+                        <input
+                            type='text'
+                            onkeypress='onlyNumber(event)'
+                            value='{{this.SoTuoiToiDa}}'
+                            class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                        />
+                    </div>
+                    <div class='col-4'>
+                        <label for='' class='p14-S form-label'>Hệ số</label>
+                        <div class='d-flex'>
+                            <input
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                value='{{this.HeSo}}'
+                                class='LoaiKhachHang_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary me-2'
+                            />
+                            <button
+                                class='LoaiKhachHang_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm'
+                            >Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{! Nút thêm loại hành khách }}
+            <div class='row mx-0 mb-3 mt-1 justify-content-start'>
+                <div class='w-auto'>
+                    <button
+                        type='button'
+                        class='LoaiKhachHang--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                    >
+                        <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                        Thêm loại hành khách
+                    </button>
+                </div>
+            </div>
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-6 justify-content-center d-flex'>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 me-5 LoaiKhachHang--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Hủy</button>
+                    <button
+                        style='width: 100%;'
+                        class='d-none mb-3 LoaiKhachHang--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Cập nhật</button>
+                </div>
+            </div>
+
+            <div class='row mx-0 justify-content-center'>
+                <div class='col-3'>
+                    <button
+                        style='width: 100%;'
+                        class='mb-3 LoaiKhachHang--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                    >Sửa</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{! form }}
+<form name='form-update' method='POST' style='display: none;'>
+    <input id='package' name='Package' />
+</form>
+
+{{! Our JS }}
+
+<script type='module' src='/javascript/staff/QuyDinhChuyenBay.js'></script>

@@ -75,6 +75,7 @@ class StaffController {
             console.log(error);
         }
     }
+
     // 'staff/QuyDinh'
     async Regulations(req, res) {
         try {
@@ -340,6 +341,7 @@ class StaffController {
             console.log(error);
         }
     }
+
 }
 
 module.exports = new StaffController();

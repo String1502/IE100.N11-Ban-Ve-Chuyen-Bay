@@ -24,7 +24,7 @@
 
 // Form-control
 .form-control[readonly] {
-    background-color: white !important;
+    background-color: white;
     opacity: 1;
 }
 
@@ -61,4 +61,12 @@ input[type='time'] {
     display: flex;
     flex-flow: row-reverse;
     column-gap: 0.75rem;
+}
+
+/* Button disabled */
+button:disabled,
+button[disabled] {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    opacity: 0.3;
 }

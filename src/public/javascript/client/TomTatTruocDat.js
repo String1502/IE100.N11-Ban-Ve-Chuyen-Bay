@@ -10,22 +10,35 @@ import {
 //Lấy gói đặt từ Chọn chuyến bay
 let PackageBooking;
 function GetPackageBooing_fromSV() {
-    openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/pre-booking',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/pre-booking',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
 
-        if (PackageBooking) {
-            formatNumber();
-            Add_ChuyenBay_Item_ChiTiet_Click();
-            AddTomTat_KhachHang_Item();
-        }
-        console.log(PackageBooking);
-    });
+    //     if (PackageBooking) {
+    //         formatNumber();
+    //         Add_ChuyenBay_Item_ChiTiet_Click();
+    //         AddTomTat_KhachHang_Item();
+    //     }
+    //     console.log(PackageBooking);
+    // });
+    //#endregion
+
+    openLoader('Chờ chút');
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
+
+    if (PackageBooking) {
+        formatNumber();
+        Add_ChuyenBay_Item_ChiTiet_Click();
+        AddTomTat_KhachHang_Item();
+    }
+    console.log(PackageBooking);
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 
@@ -71,7 +84,12 @@ function Add_ChuyenBay_Item_ChiTiet_Click() {
                 (item) => item.ChuyenBayDaChon.MaChuyenBay == MaChuyenBay,
             ).ChuyenBayDaChon;
             const Modal = document.getElementById('Modal');
-            Modal.querySelector('.Modal_MaChuyenBay').innerText = MaChuyenBay.toString();
+            Modal.querySelector('.Modal_MaChuyenBay').innerText =
+                ChuyenBayDaChon.SanBayDi.MaSanBay +
+                '-' +
+                ChuyenBayDaChon.SanBayDen.MaSanBay +
+                '-' +
+                ChuyenBayDaChon.MaChuyenBay;
             Modal.querySelector('.Modal_GiaVe').innerText = numberWithDot(ChuyenBayDaChon.GiaVe);
             const Model_TrungGian_Container = document.getElementById('Model_TrungGian_Container');
 

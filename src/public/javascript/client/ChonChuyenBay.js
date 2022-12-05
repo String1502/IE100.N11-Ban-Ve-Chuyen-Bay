@@ -314,38 +314,53 @@ function KhoiTaoCacRange_BoLoc() {
     document.getElementById('BoLoc_ThoiGianBay_ThoiGianBay').innerText = ThoiGianBay_Max + ' h';
 }
 
-const ThayDoiTimKiem = document.getElementById('ThayDoiTimKiem');
-const TomTat_Container = document.getElementById('TomTat_Container');
 const ChuyenBay_Container = document.getElementById('ChuyenBay_Container');
 
 //Lấy các tiêu chuẩn tra cứu từ Tra cứu chuyến bay
 let PackageBooking;
 let ChuyenBayDangChon = 0;
 function GetPackageBooing_fromSV() {
-    openLoader('Chờ chút');
-    axios({
-        method: 'post',
-        url: '/choose_flight',
-        data: { GetPackageBooing_fromSV: true },
-    }).then((res) => {
-        PackageBooking = res.data;
-        closeLoader();
-        TomTat_Item_Detail_ChiTiet_HienThi();
-        DoiMauChuyenBayDangChon();
+    //#region Ngây thơ
+    // openLoader('Chờ chút');
+    // axios({
+    //     method: 'post',
+    //     url: '/choose_flight',
+    //     data: { GetPackageBooing_fromSV: true },
+    // }).then((res) => {
+    //     PackageBooking = res.data;
+    //     closeLoader();
+    //     TomTat_Item_Detail_ChiTiet_HienThi();
+    //     DoiMauChuyenBayDangChon();
 
-        console.log(PackageBooking);
-        // Chuyến bay số 1
-        if (PackageBooking.MangChuyenBayTimKiem.length > 0)
-            LayChuyenBay_fromDB(
-                PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
-                PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
-                PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
-            );
-    });
+    //     console.log(PackageBooking);
+    //     // Chuyến bay số 1
+    //     if (PackageBooking.MangChuyenBayTimKiem.length > 0)
+    //         LayChuyenBay_fromDB(
+    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
+    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
+    //             PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
+    //         );
+    // });
+    //#endregion
+
+    openLoader('Chờ chút');
+    PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
+    closeLoader();
+    TomTat_Item_Detail_ChiTiet_HienThi();
+    DoiMauChuyenBayDangChon();
+
+    console.log(PackageBooking);
+    // Chuyến bay số 1
+    if (PackageBooking.MangChuyenBayTimKiem.length > 0)
+        LayChuyenBay_fromDB(
+            PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
+            PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
+            PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
+        );
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
 
-// Nhấn chi tiết trong tóm tắt
+// Nhấn chi tiết trong tóm tắt - modal
 function TomTat_Item_Detail_ChiTiet_HienThi() {
     const TomTat_Item_Detail_ChiTiets = document.querySelectorAll('.TomTat_Item_Detail_ChiTiet');
     const TomTat_Item_Detail_Modal = document.getElementById('TomTat_Item_Detail_Modal');
@@ -356,6 +371,10 @@ function TomTat_Item_Detail_ChiTiet_HienThi() {
                 parseInt(e.target.closest('.TomTat_Item').querySelector('.TomTat_Item_Title_ThuTu').innerText) - 1;
             const ChuyenBayDaChon = PackageBooking.MangChuyenBayTimKiem[index].ChuyenBayDaChon;
             TomTat_Item_Detail_Modal.querySelector('.TomTat_Item_Detail_Modal_MaChuyenBay').innerText =
+                ChuyenBayDaChon.SanBayDi.MaSanBay +
+                '-' +
+                ChuyenBayDaChon.SanBayDen.MaSanBay +
+                '-' +
                 ChuyenBayDaChon.MaChuyenBay;
             TomTat_Item_Detail_Modal.querySelector('.TomTat_Item_Detail_Modal_GiaVe').innerText = numberWithDot(
                 ChuyenBayDaChon.GiaVe,
@@ -474,6 +493,10 @@ function HienThiChuyenBay_fromDB() {
                 ChuyenBay_Item.classList.remove('d-none');
 
                 ChuyenBay_Item.querySelector('.ChuyenBay_Item_MaChuyenBay').innerText =
+                    ChuyenBay_Items_fromDB[i].SanBayDi.MaSanBay +
+                    '-' +
+                    ChuyenBay_Items_fromDB[i].SanBayDen.MaSanBay +
+                    '-' +
                     ChuyenBay_Items_fromDB[i].MaChuyenBay;
                 ChuyenBay_Item.querySelector('.ChuyenBay_Item_GioDi').innerText =
                     numberSmallerTen(ChuyenBay_Items_fromDB[i].ThoiGianDi.GioDi.Gio) +
@@ -499,6 +522,10 @@ function HienThiChuyenBay_fromDB() {
                 );
 
                 ChuyenBay_Item.querySelector('.ChuyenBay_Item_Detail_MaChuyenBay').innerText =
+                    ChuyenBay_Items_fromDB[i].SanBayDi.MaSanBay +
+                    '-' +
+                    ChuyenBay_Items_fromDB[i].SanBayDen.MaSanBay +
+                    '-' +
                     ChuyenBay_Items_fromDB[i].MaChuyenBay;
                 ChuyenBay_Item.querySelector('.ChuyenBay_Item_Detail_GiaVe ').innerText = numberWithDot(
                     ChuyenBay_Items_fromDB[i].GiaVe,
@@ -679,7 +706,8 @@ function addEventListener_ChuyenBay_Items() {
             }
 
             TomTatItem.querySelector('.TomTat_Item_Detail').classList.remove('d-none');
-            TomTatItem.querySelector('.TomTat_Item_Detail_MaChuyenBay').innerText = ChuyenBay.MaChuyenBay;
+            TomTatItem.querySelector('.TomTat_Item_Detail_MaChuyenBay').innerText =
+                ChuyenBay.SanBayDi.MaSanBay + '-' + ChuyenBay.SanBayDen.MaSanBay + '-' + ChuyenBay.MaChuyenBay;
             TomTatItem.querySelector('.TomTat_Item_Detail_GioDi').innerText =
                 numberSmallerTen(ChuyenBay.ThoiGianDi.GioDi.Gio) +
                 ':' +

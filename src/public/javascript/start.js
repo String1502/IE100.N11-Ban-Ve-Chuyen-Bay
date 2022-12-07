@@ -1,5 +1,14 @@
 export let today = new Date();
 
+export function getToday() {
+    let homnay = new Date();
+    var dd = String(homnay.getDate()).padStart(2, '0');
+    var mm = String(homnay.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = homnay.getFullYear();
+
+    return { yyyy: yyyy, mm: mm, dd: dd };
+}
+
 export function numberWithDot(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }

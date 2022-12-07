@@ -79,7 +79,7 @@ class StaffController {
     // 'staff/QuyDinh'
     async Regulations(req, res) {
         try {
-            let ThamSos = await db.sequelize.query('select TenThamSo , GiaTri from thamso', {
+            let ThamSos = await db.sequelize.query('select TenThamSo, TenHIenThi, NgayHieuLuc , GiaTri from thamso', {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
@@ -127,7 +127,7 @@ class StaffController {
     async LoadRegulation(req, res) {
         try {
             let Package = {};
-            let ThamSos = await db.sequelize.query('select TenThamSo , GiaTri from thamso', {
+            let ThamSos = await db.sequelize.query('select TenThamSo, TenHIenThi, NgayHieuLuc , GiaTri from thamso', {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
@@ -341,7 +341,6 @@ class StaffController {
             console.log(error);
         }
     }
-
 }
 
 module.exports = new StaffController();

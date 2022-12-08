@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
             GiaVeCoBan: DataTypes.BIGINT,
             DoanhThu: DataTypes.BIGINT,
             TrangThai: DataTypes.STRING,
+            ThoiGianBayToiThieu: DataTypes.INTEGER,
+            ThoiGianDungToiThieu: DataTypes.INTEGER,
+            SBTG_Max: DataTypes.INTEGER,
+            GiaVeCoBan_Min: DataTypes.INTEGER,
         },
         {
             sequelize,

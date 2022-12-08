@@ -341,6 +341,105 @@ class StaffController {
             console.log(error);
         }
     }
+
+    //staff/Authorization
+    async Authorization(req, res) {
+        try {
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let Users = await db.sequelize.query(
+                'select MaUser, Email, MatKhau, CCCD, GioiTinh, NgaySinh, MaChucVu, HinhAnh, TrangThai from user ',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            for (let i = 0; i < ChucVus.length; i++) {
+                let U = [];
+                let t = 0;
+                for (let j = 0; j < Users.length; j++) {
+                    if (Users[j].MaChucVu == ChucVus[i].MaChucVu) {
+                        U[t] = Users[j];
+                        t++;
+                    }
+                }
+                ChucVus[i].Users = structuredClone(U);
+                ChucVus[i].SoLuong = U.length;
+            }
+            return res.render('staff/PhanQuyenChuyenBay', {
+                layout: 'staff.handlebars',
+                ChucVus: ChucVus,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //staff/AddPosition
+    async AddPosition(req, res) {
+        try {
+            let Quyens = await db.sequelize.query('select MaQuyen, TenQuyen, TenManHinhDuocLoad from quyen', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            return res.render('staff/ThemChucVu', {
+                layout: 'staff.handlebars',
+                Quyens: Quyens,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //staff//EditPosition
+    async EditPosition(req, res) {
+        try {
+            return res.render('staff/SuaChucVu', {
+                layout: 'staff.handlebars',
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //staff//ThemChucVu
+    async ThemChucVu(req, res) {
+        try {
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let Users = await db.sequelize.query(
+                'select MaUser, Email, MatKhau, CCCD, GioiTinh, NgaySinh, MaChucVu, HinhAnh, TrangThai from user ',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            for (let i = 0; i < ChucVus.length; i++) {
+                let U = [];
+                let t = 0;
+                for (let j = 0; j < Users.length; j++) {
+                    if (Users[j].MaChucVu == ChucVus[i].MaChucVu) {
+                        U[t] = Users[j];
+                        t++;
+                    }
+                }
+                ChucVus[i].Users = structuredClone(U);
+                ChucVus[i].SoLuong = U.length;
+            }
+            return res.render('staff/PhanQuyenChuyenBay', {
+                layout: 'staff.handlebars',
+                ChucVus: ChucVus,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new StaffController();

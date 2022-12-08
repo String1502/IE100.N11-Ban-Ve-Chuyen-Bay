@@ -12,6 +12,10 @@ router.post('/UpdateHangGhe', staffController.UpdateHangGhe);
 router.post('/UpdateLoaiKhachHang', staffController.UpdateLoaiKhachHang);
 router.post('/UpdateMocHanhLy', staffController.UpdateMocHanhLy);
 router.post('/LoadRegulation', staffController.LoadRegulation);
+router.get('/Authorization', staffController.Authorization);
+router.post('/AddPosition', staffController.AddPosition);
+router.post('/ThemChucVu', staffController.ThemChucVu);
+router.post('/EditPosition', staffController.EditPosition);
 router.post('/', staffController.index);
 
 module.exports = router;

@@ -14,6 +14,9 @@ module.exports = {
             MatKhau: {
                 type: Sequelize.STRING,
             },
+            HoTen: {
+                type: Sequelize.STRING,
+            },
             CCCD: {
                 type: Sequelize.STRING,
             },

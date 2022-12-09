@@ -20,7 +20,7 @@
                     <label for='' class='p14-S form-label'>Tên nhóm người dùng</label>
                     <input
                         type='text'
-                        class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary ChucVu_Ten'
+                        class='form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary ChucVu_Ten'
                     />
                 </div>
             </div>
@@ -34,7 +34,13 @@
                     {{#each Quyens}}
                         <div class='form-check d-flex justify-content-between align-items-center'>
                             <label class='p16-B form-check-label Quyen_Ten'>{{this.TenQuyen}}</label>
-                            <input type='checkbox' class='form-checl-input' style='height: 19px; width:19px;' checked />
+                            <input
+                                type='checkbox'
+                                class='form-checl-input Quyen'
+                                index='{{this.MaQuyen}}'
+                                style='height: 19px; width:19px;'
+                                checked
+                            />
                         </div>
                     {{/each}}
                 </div>
@@ -51,4 +57,5 @@
     </div>
 
 </div>
+<div class='d-none ChucVus' value='{{ChucVus}}'></div>
 <script type='module' src='/javascript/staff/ThemChucVu.js'></script>

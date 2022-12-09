@@ -381,6 +381,10 @@ class StaffController {
     //staff/AddPosition
     async AddPosition(req, res) {
         try {
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
             let Quyens = await db.sequelize.query('select MaQuyen, TenQuyen, TenManHinhDuocLoad from quyen', {
                 type: QueryTypes.SELECT,
                 raw: true,
@@ -388,6 +392,7 @@ class StaffController {
             return res.render('staff/ThemChucVu', {
                 layout: 'staff.handlebars',
                 Quyens: Quyens,
+                ChucVus: JSON.stringify(ChucVus),
             });
         } catch (error) {
             console.log(error);
@@ -408,34 +413,18 @@ class StaffController {
     //staff//ThemChucVu
     async ThemChucVu(req, res) {
         try {
-            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
-                type: QueryTypes.SELECT,
-                raw: true,
+            let ChucVu_P = req.body;
+            await db.ChucVu.create({
+                MaChucVu: ChucVu_P.MaChucVu,
+                TenChucVu: ChucVu_P.TenChucVu,
             });
-            let Users = await db.sequelize.query(
-                'select MaUser, Email, MatKhau, CCCD, GioiTinh, NgaySinh, MaChucVu, HinhAnh, TrangThai from user ',
-                {
-                    type: QueryTypes.SELECT,
-                    raw: true,
-                },
-            );
-
-            for (let i = 0; i < ChucVus.length; i++) {
-                let U = [];
-                let t = 0;
-                for (let j = 0; j < Users.length; j++) {
-                    if (Users[j].MaChucVu == ChucVus[i].MaChucVu) {
-                        U[t] = Users[j];
-                        t++;
-                    }
-                }
-                ChucVus[i].Users = structuredClone(U);
-                ChucVus[i].SoLuong = U.length;
+            for (let i = 0; i < ChucVu_P.Quyens.length; i++) {
+                await db.PhanQuyen.create({
+                    MaChucVu: ChucVu_P.MaChucVu,
+                    MaQuyen: ChucVu_P.Quyens[i],
+                });
             }
-            return res.render('staff/PhanQuyenChuyenBay', {
-                layout: 'staff.handlebars',
-                ChucVus: ChucVus,
-            });
+            return res.send('tc');
         } catch (error) {
             console.log(error);
         }

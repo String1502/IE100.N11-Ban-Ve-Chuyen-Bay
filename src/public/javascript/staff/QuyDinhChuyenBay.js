@@ -27,7 +27,6 @@ function LoadInformation() {
         url: '/staff/LoadRegulation',
     }).then((res) => {
         Package = res.data;
-        console.log(Package);
         SanBays_P_Update = structuredClone(Package.SanBays);
         HangGhes_P_Update = structuredClone(Package.HangGhes);
         LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
@@ -93,6 +92,29 @@ function LoadInformation() {
                 }
             });
         }
+        let temp = {};
+        temp = Package.ThamSos[0];
+        Package.ThamSos[0] = Package.ThamSos[4];
+        Package.ThamSos[4] = temp;
+        temp = Package.ThamSos[1];
+        Package.ThamSos[1] = Package.ThamSos[6];
+        Package.ThamSos[6] = temp;
+        let ThamSos = document.querySelectorAll('.ThamSo');
+        for (let i = 0; i < ThamSos.length; i++) {
+            if (i == 0 || i == 1) {
+                let NgayHieuLuc = new Date(Package.ThamSos[i].NgayHieuLuc);
+                let a = NgayHieuLuc.getMonth();
+                NgayHieuLuc =
+                    NgayHieuLuc.getFullYear() +
+                    '-' +
+                    ('0' + (NgayHieuLuc.getMonth() + 1)).slice(-2) +
+                    '-' +
+                    ('0' + NgayHieuLuc.getDate()).slice(-2);
+                ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').value = NgayHieuLuc;
+            }
+            ThamSos[i].querySelector('.ThamSo_TenHienThi').innerText = Package.ThamSos[i].TenHienThi;
+            ThamSos[i].querySelector('.ThamSo_GiaTri').value = Package.ThamSos[i].GiaTri;
+        }
     });
 }
 window.onlyNumber = onlyNumber;
@@ -103,10 +125,24 @@ const ThamSo_CapNhat = document.querySelector('.ThamSo--CapNhat');
 const ThamSo_Huy = document.querySelector('.ThamSo--Huy');
 const ThamSo_Sua = document.querySelector('.ThamSo--Sua');
 const ThamSo_GiaTri = document.querySelectorAll('.ThamSo_GiaTri');
+const ThamSos = document.querySelectorAll('.ThamSo');
+
 //button ThamSo--Huy
 ThamSo_Huy.addEventListener('click', (e) => {
     //trả gtr về ban đàu
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
+        if (i == 0 || i == 1) {
+            let NgayHieuLuc = new Date(Package.ThamSos[i].NgayHieuLuc);
+            let a = NgayHieuLuc.getMonth();
+            NgayHieuLuc =
+                NgayHieuLuc.getFullYear() +
+                '-' +
+                ('0' + (NgayHieuLuc.getMonth() + 1)).slice(-2) +
+                '-' +
+                ('0' + NgayHieuLuc.getDate()).slice(-2);
+            ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').value = NgayHieuLuc;
+            ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').disabled = true;
+        }
         ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
         ThamSo_GiaTri[i].disabled = true;
     }
@@ -118,6 +154,9 @@ ThamSo_Huy.addEventListener('click', (e) => {
 //Button_ThamSo--Sua
 ThamSo_Sua.addEventListener('click', (e) => {
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
+        if (i == 0 || i == 1) {
+            ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').disabled = false;
+        }
         ThamSo_GiaTri[i].disabled = false;
     }
     ThamSo_Sua.classList.add('d-none');
@@ -126,7 +165,7 @@ ThamSo_Sua.addEventListener('click', (e) => {
 });
 
 // kiểm tra thông tin trước khi cập nhật
-function CheckChangeThamSo(P_ThamSo) {
+function CheckChangeGiaTriThamSo(P_ThamSo) {
     let F = false;
     for (let i = 0; i < P_ThamSo.length; i++) {
         if (P_ThamSo[i] == '') {
@@ -198,7 +237,13 @@ function CapNhat_ThamSo() {
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
         P_ThamSo[i] = ThamSo_GiaTri[i].value;
     }
-    if (CheckChangeThamSo(P_ThamSo) == false) return;
+    if (CheckChangeGiaTriThamSo(P_ThamSo) == false) return;
+    let temp = P_ThamSo[0];
+    P_ThamSo[0] = P_ThamSo[4];
+    P_ThamSo[4] = temp;
+    temp = P_ThamSo[1];
+    P_ThamSo[1] = P_ThamSo[6];
+    P_ThamSo[6] = temp;
     //sửa thành sendform
     axios({
         method: 'POST',

@@ -42,13 +42,28 @@ let ThoiGianDungToiThieu = 15;
 let GiaVeCoBan_Min = 300000;
 let ThoiGianKhoiHanh_ChinhSua_ToiThieu = 180;
 let BatDauChinhSua = Date.now();
+let GioiHanThoiGianChinhSua = 15;
 
 let HangGhe;
 function GetFlight_Edit() {
     openLoader('Chờ chút');
     Flight_Edit = JSON.parse(document.getElementById('Flight_EditJS').getAttribute('Flight_EditJS'));
 
+    for (let i = 0; i < Flight_Edit.HangVe.length; i++) {
+        var hangve = Flight_Edit.HangGhes.find((item) => item.MaHangGhe == Flight_Edit.HangVe[i].MaHangVe);
+        Flight_Edit.HangVe[i].HeSo = hangve.HeSo;
+    }
+
     console.log(Flight_Edit);
+
+    SBTG_Max_DB = Flight_Edit.SBTG_Max;
+    SBTG_Max_Cur = Flight_Edit.SBTG_Max;
+
+    ThoiGianBayToiThieu = Flight_Edit.ThoiGianBayToiThieu;
+    ThoiGianBayCur = Flight_Edit.ThoiGianBay;
+
+    ThoiGianDungToiThieu = Flight_Edit.ThoiGianDungToiThieu;
+    GiaVeCoBan_Min = Flight_Edit.GiaVeCoBan_Min;
 
     // Gán thông tin chuyến bay cố định
     document.getElementById('MaChuyenBay').value = Flight_Edit.MaChuyenBayHienThi;
@@ -81,7 +96,7 @@ function GetFlight_Edit() {
         );
 
     document.getElementById('ThoiGianBay').value = Flight_Edit.ThoiGianBay;
-    ThoiGianBayCur = Flight_Edit.ThoiGianBay;
+
     document.getElementById('ThoiGianBay').setAttribute('min', ThoiGianBayToiThieu);
 
     document.getElementById('GiaVeCoBan').value = numberWithDot(Flight_Edit.GiaVeCoBan);
@@ -297,6 +312,126 @@ if (ThoiGianBay) {
     });
 }
 
+// Giá vé cơ bản
+if (GiaVeCoBan) {
+    GiaVeCoBan.addEventListener('focus', (e) => {
+        e.target.value = numberWithoutDot(e.target.value);
+    });
+    GiaVeCoBan.addEventListener('blur', (e) => {
+        if (e.target.value == '') {
+            e.target.value = numberWithDot(GiaVeCoBan_Min);
+            return;
+        }
+        var GiaVe = parseInt(numberWithoutDot(e.target.value));
+        if (GiaVe < GiaVeCoBan_Min) {
+            e.target.value = numberWithDot(GiaVeCoBan_Min);
+        } else e.target.value = numberWithDot(e.target.value);
+    });
+    GiaVeCoBan.addEventListener('keyup', (e) => {
+        var GiaVe = 0;
+        if (e.target.value == '') {
+            GiaVe = GiaVeCoBan_Min;
+        } else {
+            GiaVe = parseInt(numberWithoutDot(e.target.value));
+            if (GiaVe < GiaVeCoBan_Min) {
+                GiaVe = GiaVeCoBan_Min;
+            }
+        }
+        var HangGhe_Item_GiaVes = document.querySelectorAll('.HangGhe_Item_GiaVe');
+        for (let i = 1; i < HangGhe_Item_GiaVes.length; i++) {
+            var HeSo = parseFloat(HangGhe_Item_GiaVes[i].getAttribute('heso'));
+            HangGhe_Item_GiaVes[i].value = numberWithDot(GiaVe * HeSo);
+        }
+    });
+}
+
+// Đếm ngược
+function KhoiTaoCountDown() {
+    // đếm ngược khởi hành
+    setInterval(function () {
+        var now = new Date().getTime();
+
+        if (
+            Mang_Update_SBTG.length < 1 ||
+            Mang_Update_SBTG[0].GiaTri == null ||
+            NgayKhoiHanh === document.activeElement ||
+            GioKhoiHanh === document.activeElement
+        ) {
+            Timer_Ngay.innerText = '00';
+            Timer_Gio.innerText = '00';
+            Timer_Phut.innerText = '00';
+            Timer_Giay.innerText = '00';
+            if (Timer_Card.classList.contains('bg-primary-gradient')) {
+                Timer_Card.classList.remove('bg-primary-gradient');
+            }
+            if (Timer_Card.classList.contains('bg-secondary-gradient')) {
+                Timer_Card.classList.remove('bg-secondary-gradient');
+            }
+            if (!Timer_Card.classList.contains('bg-tertiary')) {
+                Timer_Card.classList.add('bg-tertiary');
+            }
+            return;
+        }
+
+        var distance = Mang_Update_SBTG[0].GiaTri.getTime() - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (ThoiGianKhoiHanh_ChinhSua_ToiThieu * 60 * 1000 >= distance) {
+            if (Timer_Card.classList.contains('bg-primary-gradient')) {
+                Timer_Card.classList.remove('bg-primary-gradient');
+            }
+            if (Timer_Card.classList.contains('bg-tertiary')) {
+                Timer_Card.classList.remove('bg-tertiary');
+            }
+            if (!Timer_Card.classList.contains('bg-secondary-gradient')) {
+                Timer_Card.classList.add('bg-secondary-gradient');
+            }
+        } else {
+            if (Timer_Card.classList.contains('bg-secondary-gradient')) {
+                Timer_Card.classList.remove('bg-secondary-gradient');
+            }
+            if (Timer_Card.classList.contains('bg-tertiary')) {
+                Timer_Card.classList.remove('bg-tertiary');
+            }
+            if (!Timer_Card.classList.contains('bg-primary-gradient')) {
+                Timer_Card.classList.add('bg-primary-gradient');
+            }
+        }
+
+        Timer_Ngay.innerText = numberSmallerTen(days);
+        Timer_Gio.innerText = numberSmallerTen(hours);
+        Timer_Phut.innerText = numberSmallerTen(minutes);
+        Timer_Giay.innerText = numberSmallerTen(seconds);
+
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            Timer_Head.innerHTML = 'Đã khởi hành';
+        }
+    }, 1000);
+
+    // đếm ngược thời gian chỉnh sửa còn lại
+    setInterval(function () {
+        var now = new Date().getTime();
+
+        var distance = BatDauChinhSua + GioiHanThoiGianChinhSua * 1000 * 60 - now;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        TimerRemain_Phut.innerText = numberSmallerTen(minutes);
+        TimerRemain_Giay.innerText = numberSmallerTen(seconds);
+
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            alert('Hết giờ!');
+        }
+    }, 1000);
+}
+
 // --------------------SBTG-----------------------
 // Mới dô đưa SBTG lên view
 function LoadSBTGLenView() {
@@ -305,10 +440,29 @@ function LoadSBTGLenView() {
         return a.ThuTu - b.ThuTu;
     });
 
+    var GiaTri;
+    var ThoiGianDung;
+    var TGBayToiThieu;
+    // Thêm Khởi hành
+    ThoiGianDung = 0;
+    TGBayToiThieu = ThoiGianBayToiThieu;
+    GiaTri = new Date(
+        Flight_Edit.ThoiGianDi.NgayDi.Nam,
+        Flight_Edit.ThoiGianDi.NgayDi.Thang - 1,
+        Flight_Edit.ThoiGianDi.NgayDi.Ngay,
+        Flight_Edit.ThoiGianDi.GioDi.Gio,
+        Flight_Edit.ThoiGianDi.GioDi.Phut,
+        0,
+        0,
+    );
+
+    Mang_Update_SBTG.push({
+        index: 0,
+        GiaTri: GiaTri,
+        ThoiGianDung: ThoiGianDung,
+        TGBayToiThieu: TGBayToiThieu,
+    });
     for (let i = 0; i < SanBayTG.length; i++) {
-        var GiaTri;
-        var ThoiGianDung;
-        var TGBayToiThieu;
         ThoiGianDung = SanBayTG[i].ThoiGianDung;
         TGBayToiThieu = ThoiGianBayToiThieu;
         GiaTri = new Date(
@@ -320,41 +474,6 @@ function LoadSBTGLenView() {
             0,
             0,
         );
-        if (i == 0) {
-            // Thêm Khởi hành
-            ThoiGianDung = 0;
-            TGBayToiThieu = ThoiGianBayToiThieu;
-            GiaTri = new Date(
-                Flight_Edit.ThoiGianDi.NgayDi.Nam,
-                Flight_Edit.ThoiGianDi.NgayDi.Thang - 1,
-                Flight_Edit.ThoiGianDi.NgayDi.Ngay,
-                Flight_Edit.ThoiGianDi.GioDi.Gio,
-                Flight_Edit.ThoiGianDi.GioDi.Phut,
-                0,
-                0,
-            );
-
-            Mang_Update_SBTG.push({
-                index: 0,
-                GiaTri: GiaTri,
-                ThoiGianDung: ThoiGianDung,
-                TGBayToiThieu: TGBayToiThieu,
-            });
-
-            // Thêm SBTG đầu
-            ThoiGianDung = SanBayTG[i].ThoiGianDung;
-            TGBayToiThieu = ThoiGianBayToiThieu;
-            GiaTri = new Date(
-                SanBayTG[i].ThoiGianDen.NgayDen.Nam,
-                SanBayTG[i].ThoiGianDen.NgayDen.Thang - 1,
-                SanBayTG[i].ThoiGianDen.NgayDen.Ngay,
-                SanBayTG[i].ThoiGianDen.GioDen.Gio,
-                SanBayTG[i].ThoiGianDen.GioDen.Phut,
-                0,
-                0,
-            );
-        }
-
         Mang_Update_SBTG.push({
             index: SanBayTG[i].ThuTu,
             GiaTri: GiaTri,
@@ -366,6 +485,7 @@ function LoadSBTGLenView() {
         ThemSBTG(SBTG);
     }
     console.log(Mang_Update_SBTG);
+    KhoiTaoCountDown();
     On_Off_NutThem();
 }
 
@@ -961,50 +1081,96 @@ function LoadHGLenView() {
 }
 
 // Nút thêm hạng ghế
-const ThemHangGhe = document.getElementById('ThemHangGhe');
 if (ThemHangGhe) {
     ThemHangGhe.addEventListener('click', (e) => {
         ThemHG();
     });
 }
 
+// Thêm hạng ghế
 function ThemHG(HG = null) {
     const node = document.querySelector('.HangGhe_Item').cloneNode(true);
     node.classList.remove('d-none');
 
+    // Hạng vé
+    const HangGhe_Item_MaHangVe_ul = node.querySelector('.HangGhe_Item_MaHangVe_ul');
+    const HangGhe_Item_MaHangVe_lis = HangGhe_Item_MaHangVe_ul.querySelectorAll('.HangGhe_Item_MaHangVe_li');
+    for (let i = 0; i < HangGhe_Item_MaHangVe_lis.length; i++) {
+        HangGhe_Item_MaHangVe_lis[i].addEventListener('click', (e) => {
+            var MaHangGhe = e.target.querySelector('.HangGhe_Item_MaHangVe_li_Ma').innerText;
+            var TenHangGhe = e.target.querySelector('.HangGhe_Item_MaHangVe_li_Ten').innerText;
+
+            var HangGhe_Item_MaHangVes = document.querySelectorAll('.HangGhe_Item_MaHangVe');
+            for (let j = 1; j < HangGhe_Item_MaHangVes.length; j++) {
+                if (HangGhe_Item_MaHangVes[j].getAttribute('mahangve') == MaHangGhe) {
+                    showToast({
+                        header: TenHangGhe,
+                        body: 'Hạng ghế đã tồn tại.',
+                        duration: 5000,
+                        type: 'warning',
+                    });
+                    return;
+                }
+            }
+            var input = e.target.closest('.HangGhe_Item').querySelector('.HangGhe_Item_MaHangVe');
+            var heso = parseFloat(e.target.querySelector('.HangGhe_Item_MaHangVe_li_HeSo').innerText);
+            input.value = TenHangGhe;
+            input.setAttribute('mahangve', MaHangGhe);
+            input.setAttribute('heso', heso);
+            var GiaTien = e.target.closest('.HangGhe_Item').querySelector('.HangGhe_Item_GiaVe');
+            GiaTien.value = numberWithDot(parseInt(numberWithoutDot(GiaVeCoBan.value)) * heso);
+            GiaTien.setAttribute('heso', heso);
+        });
+    }
+
+    // Vé có sẵn
+    node.querySelector('.HangGhe_Item_VeCoSan').setAttribute('value', 0);
+    node.querySelector('.HangGhe_Item_VeCoSan').setAttribute('min', 0);
+
+    // Vé đã phát hành
+    node.querySelector('.HangGhe_Item_VeDaPhatHanh').setAttribute('value', 0);
+    node.querySelector('.HangGhe_Item_VeDaPhatHanh').setAttribute('min', 0);
+
     // Nút xóa
     const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
-    if (HangGhe_Items.length > 1) {
-        const lastitem = HangGhe_Items[HangGhe_Items.length - 1].querySelector('.HangGhe_Item_Xoa');
-        if (!lastitem.classList.contains('d-none')) {
-            lastitem.classList.add('d-none');
-        }
-    }
     const NutXoa = node.querySelector('.HangGhe_Item_Xoa');
     if (NutXoa.classList.contains('d-none')) {
         NutXoa.classList.remove('d-none');
     }
     NutXoa.addEventListener('click', (e) => {
-        const HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
-        if (HangGhe_Items.length - 1 > 1) {
-            const sublastitem = HangGhe_Items[HangGhe_Items.length - 2].querySelector('.HangGhe_Item_Xoa');
-            if (sublastitem.classList.contains('d-none')) {
-                sublastitem.classList.remove('d-none');
-            }
-        }
         document.getElementById('HangGhe_Container').removeChild(e.target.closest('.HangGhe_Item'));
+        On_Off_NutThemHG();
     });
 
+    // -----
     if (HG != null) {
         node.querySelector('.HangGhe_Item_MaHangVe').setAttribute('value', HG.TenHangVe);
         node.querySelector('.HangGhe_Item_MaHangVe').setAttribute('mahangve', HG.MaHangVe);
+        node.querySelector('.HangGhe_Item_MaHangVe').disabled = true;
+
         node.querySelector('.HangGhe_Item_GiaVe').setAttribute('value', numberWithDot(HG.GiaTien));
-        node.querySelector('.HangGhe_Item_VeDaPhatHanh').setAttribute(
-            'value',
-            numberSmallerTen(HG.TongVe - HG.GheTrong),
-        );
+        node.querySelector('.HangGhe_Item_GiaVe').setAttribute('heso', HG.HeSo);
+        node.querySelector('.HangGhe_Item_VeDaPhatHanh').setAttribute('value', HG.TongVe - HG.GheTrong);
         node.querySelector('.HangGhe_Item_VeCoSan').setAttribute('value', numberSmallerTen(HG.GheTrong));
+
+        node.querySelector('.HangGhe_Item_Xoa').disabled = true;
     }
 
     HangGhe_Container.appendChild(node);
+    On_Off_NutThemHG();
 }
+
+// Bật tắt nút thêm
+function On_Off_NutThemHG() {
+    var HangGhe_Item_MaHangVes = document.querySelectorAll('.HangGhe_Item_MaHangVe');
+    if (HangGhe_Item_MaHangVes.length - 1 >= Flight_Edit.HangGhes.length) {
+        ThemHangGhe.disabled = true;
+    } else {
+        ThemHangGhe.disabled = false;
+    }
+}
+
+// Hàm kiểm mọi thứ đã thay đổi hay chưa
+// hàm on_off nút lưu thay đổi
+// Xử lý các modal
+// chuyển trang hoặc gửi gói dữ liệu

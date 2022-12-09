@@ -422,8 +422,6 @@ function CapNhatNguoiLienHeHienTai() {
 
 document.getElementById('XacNhan_btn').addEventListener('click', (e) => {
     const _Flight_fromDB = structuredClone(Flight_fromDB);
-    // delete _Flight_fromDB.GheTrong;
-    // delete _Flight_fromDB.VeDaDat;
     SendForm(_Flight_fromDB);
 });
 

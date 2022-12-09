@@ -55,12 +55,15 @@ class StaffController {
             );
 
             let HangGhes = await db.sequelize.query(
-                `select MaHangGhe , TenHangGhe from hangghe where hangghe.TrangThai = 'apdung' `,
+                `select MaHangGhe , TenHangGhe, HeSo from hangghe where hangghe.TrangThai = 'apdung' `,
                 {
                     type: QueryTypes.SELECT,
                     raw: true,
                 },
             );
+            HangGhes.map((item) => {
+                item.HeSo = parseFloat(item.HeSo);
+            });
 
             let Flight_Edit = JSON.parse(req.body.Flight_Edit);
             Flight_Edit['SanBays'] = structuredClone(SanBays);

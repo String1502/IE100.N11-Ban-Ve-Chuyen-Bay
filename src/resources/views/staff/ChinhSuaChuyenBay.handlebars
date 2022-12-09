@@ -1,12 +1,13 @@
 <div class='bg-tertiary-light'>
 
-    <div style='height: 88px;' class='w-100 bg-primary'>
+    <div style='height: 88px;' class='w-100 bg-primary-gradient'>
         <div class='container h-100'>
             <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
                 <div class='d-flex flex-column'>
                     <span class='custom-font h28-B text-light mb-2'>Chỉnh sửa chuyến bay</span>
                     <span class='custom-font p16-R text-light'>Chỉnh sửa các thông tin về chuyến bay</span>
                 </div>
+
             </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
                 <div class='row px-3 mb-3'>
                     {{! Mã chuyến bay }}
                     <div class='col-12'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='MaChuyenBay' class='form-label custom-font p14-S'>Số hiệu chuyến bay</label>
                             <input
                                 style='height: 36px;'
@@ -48,7 +49,7 @@
 
                     {{! Sân bay đi }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDi' class='form-label custom-font p14-S'>Sân bay đi</label>
                             <input
                                 style='height: 36px;'
@@ -64,7 +65,7 @@
 
                     {{! Sân bay đến }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDen' class='form-label custom-font p14-S'>Sân bay đến</label>
                             <input
                                 style='height: 36px;'
@@ -80,7 +81,7 @@
 
                     {{! Trạng thái }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDen' class='form-label custom-font p14-S'>Trạng thái</label>
                             <input
                                 style='height: 36px;'
@@ -101,7 +102,7 @@
 
                     {{! Ngày khởi hành }}
                     <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='NgayKhoiHanh' class='form-label custom-font p14-S'>Ngày khởi hành</label>
                             <input
                                 style='height: 36px;'
@@ -114,7 +115,7 @@
 
                     {{! Giờ khởi hành }}
                     <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='GioKhoiHanh' class='form-label custom-font p14-S'>Giờ khởi hành</label>
                             <input
                                 style='height: 36px;'
@@ -127,7 +128,7 @@
 
                     {{! Thời gian bay }}
                     <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='ThoiGianBay' class='form-label custom-font p14-S'>Thời gian bay</label>
                             <div class='input-group'>
                                 <input
@@ -147,7 +148,7 @@
 
                     {{! Giá vé }}
                     <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='GiaVeCoBan' class='form-label custom-font p14-S'>Giá vé cơ bản</label>
                             <div class='input-group mb-3'>
                                 <input
@@ -163,6 +164,28 @@
                                 >VND</span>
                             </div>
                         </div>
+                    </div>
+
+                </div>
+
+                {{! Đếm ngược }}
+                <div class='row px-3 mb-3 align-items-center justify-content-center'>
+
+                    <div
+                        id='Timer_Card'
+                        style='border-radius: 15px;'
+                        class='col-11 col-lg-6 custom-font h32-B text-light text-center bg-primary-gradient py-5 mb-3 position-relative'
+                    >
+                        <div id='Timer_Head' class='p16-B py-3 position-absolute top-0 start-50 translate-middle-x'>Đếm
+                            ngược thời gian khởi hành</div>
+                        <span id='Timer_Ngay'>00</span>
+                        <span class='p16-S'>ngày</span>
+                        <span id='Timer_Gio'>00</span>
+                        <span class='p16-S'>giờ</span>
+                        <span id='Timer_Phut'>00</span>
+                        <span class='p16-S'>phút</span>
+                        <span id='Timer_Giay'>00</span>
+                        <span class='p16-S'>giây</span>
                     </div>
 
                 </div>
@@ -381,25 +404,25 @@
                                     aria-expanded='false'
                                     placeholder='Hạng vé'
                                     mahangve=''
+                                    heso=''
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 350px; height: 400px;'
-                                    class='HangGhe_Item_MaHangVe_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
+                                    style='width: 350px;'
+                                    class='h-auto HangGhe_Item_MaHangVe_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
                                 >
                                     {{! Dropdown items }}
-                                    {{#each Flight_Edit.HangVes}}
-                                        <li
-                                            class='HangGhe_Item_MaHangVe_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
-                                        >
+                                    {{#each Flight_Edit.HangGhes}}
+                                        <li class='HangGhe_Item_MaHangVe_li dropdown-item custom-active py-2'>
                                             <div style='pointer-events:none;' class='d-flex flex-row'>
                                                 <span
-                                                    class='HangGhe_Item_MaHangVe_li_Ma custom-font p14-R text-dark me-1'
+                                                    class='HangGhe_Item_MaHangVe_li_Ma custom-font p14-B text-dark me-1'
                                                 >{{this.MaHangGhe}}</span>
-                                                <span class='custom-font p14-S text-dark me-1'> - </span>
+                                                <span class='custom-font p14-B text-dark me-1'> - </span>
                                                 <span
-                                                    class='HangGhe_Item_MaHangVe_li_Ten custom-font p14-R text-dark'
+                                                    class='HangGhe_Item_MaHangVe_li_Ten custom-font p14-B text-dark'
                                                 >{{this.TenHangGhe}}</span>
+                                                <span class='HangGhe_Item_MaHangVe_li_HeSo d-none'>{{this.HeSo}}</span>
                                             </div>
                                         </li>
                                     {{/each}}
@@ -415,6 +438,7 @@
                                     style='height: 36px;'
                                     type='text'
                                     placeholder='Giá vé'
+                                    heso=''
                                     disabled
                                     class='HangGhe_Item_GiaVe form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                 />
@@ -510,20 +534,107 @@
 
         </div>
 
-        {{! Lưu thay đổi }}
-        <div class='mb-5'>
-            <div class='d-flex flex-row justify-content-end align-items-center'>
+        {{! Modal thông báo }}
+        <div class='modal fade' id='Modal'>
+            <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark' id='Modal_Header'>Thông báo</span>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body custom-font p20-B text-dark' id='Modal_Body'>
+                        Bạn có muốn lưu thay đổi?
+                    </div>
+                    <div class='modal-footer'>
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            data-bs-dismiss='modal'
+                        >Đóng</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='Modal_Luu'
+                        >Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button
-                    class='btn border-0 bg-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary px-5 py-2'
-                >
-                    <span class='text-light custom-font h28-B'>Lưu thay đổi</span>
-                </button>
-
+        {{! Modal static thông báo }}
+        <div class='modal fade' data-bs-backdrop='static' data-bs-keyboard='false' id='ModalStatic'>
+            <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark' id='ModalStatic_Header'>Thông báo</span>
+                    </div>
+                    <div class='modal-body custom-font p20-B text-dark' id='ModalStatic_Body'>
+                        Thời gian chỉnh sửa đã hết.
+                        <br />
+                        <span>Bạn có muốn lưu thay đổi?</span>
+                    </div>
+                    <div class='modal-footer'>
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            id='ModalStatic_Huy'
+                        >Hủy</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStatic_Luu'
+                        >Lưu</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStatic_Thoat'
+                        >Thoat</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+</div>
+
+{{! Đếm ngược thời gian chỉnh sửa }}
+
+<div
+    style='box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+    class='position-fixed bottom-0 start-0 w-100 bg-light text-light custom-font p16-B h-auto'
+>
+    <div class='d-flex flex-row justify-content-between align-items-center py-2 mx-2'>
+
+        <div class='py-2 px-2 bg-secondary-gradient shadow text-end rounded text-light custom-font p16-B'>
+            <span class='p12-R pb-1'>Thời gian chỉnh sửa còn</span>
+            <span id='TimerRemain_Phut'>00</span>
+            <span class='p12-R'>phút</span>
+            <span id='TimerRemain_Giay'>00</span>
+            <span class='p12-R'>giây</span>
+        </div>
+
+        <div class='d-flex flex-row justify-content-end'>
+            <div class='me-2'>
+                <a
+                    id='ThoatChinhSuaChuyenBay'
+                    type='button'
+                    class='btn btn-primary bg-danger border-0 px-4 py-2 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                >
+                    Thoát
+                </a>
+            </div>
+            {{! Lưu thay đổi }}
+            <button
+                class='btn border-0 bg-success custom-boxshadow-focus-none custom-boxshadow-hover-primary px-4 py-2'
+                data-bs-toggle='modal'
+                data-bs-target='#Modal'
+                disabled
+            >
+                <span class='text-light custom-font p20-B'>Lưu thay đổi</span>
+            </button>
+        </div>
+
+    </div>
 </div>
 
 <div id='Flight_EditJS' Flight_EditJS='{{this.Flight_EditJS}}' class='d-none'></div>

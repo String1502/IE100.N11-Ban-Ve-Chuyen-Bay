@@ -402,8 +402,35 @@ class StaffController {
     //staff//EditPosition
     async EditPosition(req, res) {
         try {
+            let ChucVu = {};
+            ChucVu.TenChucVu = req.body.Package;
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            for (let i = 0; i < ChucVus.length; i++) {
+                if (ChucVus[i].TenChucVu == ChucVu.TenChucVu) {
+                    ChucVu.MaChucVu = ChucVus[i].MaChucVu;
+                    break;
+                }
+            }
+            let PhanQuyens = await db.PhanQuyen.findAll();
+            let P = [];
+            for (let i = 0; i < PhanQuyens.length; i++) {
+                if (PhanQuyens[i].MaChucVu == ChucVu.MaChucVu) {
+                    P[PhanQuyens[i].MaQuyen] = 1;
+                }
+            }
+            ChucVu.Quyens = structuredClone(P);
+            let Quyens = await db.sequelize.query('select MaQuyen, TenQuyen, TenManHinhDuocLoad from quyen', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
             return res.render('staff/SuaChucVu', {
                 layout: 'staff.handlebars',
+                ChucVus: JSON.stringify(ChucVus),
+                ChucVu: JSON.stringify(ChucVu),
+                Quyens: Quyens,
             });
         } catch (error) {
             console.log(error);
@@ -418,6 +445,33 @@ class StaffController {
                 MaChucVu: ChucVu_P.MaChucVu,
                 TenChucVu: ChucVu_P.TenChucVu,
             });
+            for (let i = 0; i < ChucVu_P.Quyens.length; i++) {
+                await db.PhanQuyen.create({
+                    MaChucVu: ChucVu_P.MaChucVu,
+                    MaQuyen: ChucVu_P.Quyens[i],
+                });
+            }
+            return res.send('tc');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //staff//SuaChucVu
+    async SuaChucVu(req, res) {
+        try {
+            let ChucVu_P = req.body;
+            let ChucVu = await db.ChucVu.findAll();
+            for (let i = 0; i < ChucVu.length; i++) {
+                if (ChucVu[i].MaChucVu == ChucVu_P.MaChucVu) {
+                    ChucVu[i].set({
+                        TenChucVu: ChucVu_P.TenChucVu,
+                    });
+                    await ChucVu[i].save();
+                }
+            }
+
+            await db.sequelize.query("Delete from phanquyen where MaChucVu = '" + ChucVu_P.MaChucVu + "'");
             for (let i = 0; i < ChucVu_P.Quyens.length; i++) {
                 await db.PhanQuyen.create({
                     MaChucVu: ChucVu_P.MaChucVu,

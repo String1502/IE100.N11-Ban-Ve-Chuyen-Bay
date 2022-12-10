@@ -88,11 +88,9 @@ document.querySelector('.ChucVu--CapNhat').addEventListener('click', (e) => {
         url: '/staff/SuaChucVu',
         data: ChucVu_P,
     }).then((res) => {
-        showToast({
-            header: 'Cập nhật nhóm người dùng',
-            body: 'Cập nhật thành công',
-            duration: 5000,
-            type: 'success',
-        });
+        alert('Cập nhật thành công');
+        var Form = document.forms['Form'];
+        Form.action = '/staff/Authorization';
+        Form.submit();
     });
 });

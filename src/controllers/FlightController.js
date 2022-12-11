@@ -868,6 +868,146 @@ let filterFlight = async (req, res) => {
 
 //#endregion
 
+//#region Update chuyến bay
+// var data_send = {
+//     MaChuyenBay: 1,
+//     NgayKhoiHanh: { Ngay: 31, Thang: 12, Nam: 2022 },
+//     GioKhoiHanh: { Gio: 6, Phut: 30 },
+//     ThoiGianBay: 180,
+//     GiaVeCoBan: 500000,
+//     TrangThai: 'ChuaKhoiHanh',
+//     ThoiGianBayToiThieu: 30,
+//     ThoiGianDungToiThieu: 15,
+//     SBTG_Max: 5,
+//     GiaVeCoBan_Min: 300000,
+//     SBTG: [
+//         {
+//             ThuTu: 1,
+//             MaSanBay: 'PXU',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 0 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//         {
+//             ThuTu: 2,
+//             MaSanBay: 'DAD',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 45 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//         {
+//             ThuTu: 3,
+//             MaSanBay: 'PXU',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 8, Phut: 10 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//     ],
+//     HangVe: [
+//         {
+//             MaHangGhe: 'Deluxe',
+//             TongVe: 20,
+//         },
+//     ],
+// };
+
+let updateChuyenBay = async (req, res) => {
+    try {
+        const chuyenbay = await db.ChuyenBay.findOne({
+            where: {
+                MaChuyenBay: req.body.MaChuyenBay,
+            },
+        });
+
+        chuyenbay.NgayKhoiHanh = new Date(
+            req.body.NgayKhoiHanh.Nam,
+            req.body.NgayKhoiHanh.Thang,
+            req.body.NgayKhoiHanh.Ngay,
+            req.body.GioKhoiHanh.Gio,
+            req.body.GioKhoiHanh.Phut,
+        );
+        chuyenbay.ThoiGianBay = req.body.ThoiGianBay;
+        chuyenbay.GiaVeCoBan = req.body.GiaVeCoBan;
+        chuyenbay.TrangThai = req.body.TrangThai;
+        chuyenbay.ThoiGianBayToiThieu = req.body.ThoiGianBayToiThieu;
+        chuyenbay.ThoiGianDungToiThieu = req.body.ThoiGianDungToiThieu;
+        chuyenbay.SBTG_Max = req.body.SBTG_Max;
+        chuyenbay.GiaVeCoBan_Min = req.body.GiaVeCoBan_Min;
+        await chuyenbay.save();
+
+        for (var i in req.body.SBTG) {
+            let trunggian = await db.ChiTietChuyenBay.findOne({
+                where: {
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaSBTG: req.body.SBTG[i].MaSanBay,
+                    ThuTu: req.body.SBTG[i].ThuTu,
+                },
+            });
+            const date = new Date();
+            const offset = date.getTimezoneOffset() / 60;
+
+            let ngaygio = new Date(
+                req.body.SBTG[i].NgayDen.Nam,
+                req.body.SBTG[i].NgayDen.Thang - 1,
+                req.body.SBTG[i].NgayDen.Ngay,
+                req.body.SBTG[i].GioDen.Gio - offset,
+                req.body.SBTG[i].GioDen.Phut,
+            );
+
+            if (trunggian) {
+                trunggian.ThuTu = req.body.SBTG[i].ThuTu;
+                trunggian.NgayGioDen = ngaygio;
+                trunggian.ThoiGianDung = req.body.SBTG[i].ThoiGianDung;
+                trunggian.GhiChu = req.body.SBTG[i].GhiChu;
+                console.log('chay 1');
+                trunggian.save();
+            } else {
+                let trunggian = await db.ChiTietChuyenBay.create({
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaSBTG: req.body.SBTG[i].MaSanBay,
+                    ThuTu: req.body.SBTG[i].ThuTu,
+                    NgayGioDen: ngaygio,
+                    ThoiGianDung: req.body.SBTG[i].ThoiGianDung,
+                    GhiChu: req.body.SBTG[i].GhiChu,
+                });
+                console.log('chay 2');
+                trunggian.save();
+            }
+        }
+
+        for (var i in req.body.HangVe) {
+            let hangghe = await db.ChiTietHangVe.findOne({
+                where: {
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaHangGhe: req.body.HangVe[i].MaHangGhe,
+                },
+            });
+
+            if (!hangghe) {
+                hangghe.TongVe = req.body.HangVe[i].TongVe;
+                await hangghe.save();
+            } else {
+                let hangghe = await db.ChiTietHangVe.create({
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaHangGhe: req.body.HangVe[i].MaHangGhe,
+                    TongGhe: req.body.HangVe[i].TongVe,
+                    VeDaBan: 0,
+                });
+                await hangghe.save();
+            }
+        }
+
+        return res.send('success');
+    } catch (error) {
+        console.log(error);
+        return res.send('fail');
+    }
+};
+//#endregion
+
 //#region func util
 Date.prototype.yyyymmdd = function () {
     var mm = this.getMonth() + 1; // getMonth() is zero-based
@@ -924,4 +1064,5 @@ module.exports = {
     GetInfoAllFlights: GetInfoAllFlights,
     filterFlight: filterFlight,
     getFlight: getFlight,
+    updateChuyenBay: updateChuyenBay,
 };

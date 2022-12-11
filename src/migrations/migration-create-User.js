@@ -35,6 +35,9 @@ module.exports = {
             TrangThai: {
                 type: Sequelize.STRING,
             },
+            SDT: {
+                type: Sequelize.STRING,
+            },
 
             createdAt: {
                 allowNull: false,

@@ -73,15 +73,9 @@ document.querySelector('.ChucVu--Them').addEventListener('click', (e) => {
         url: '/staff/ThemChucVu',
         data: ChucVu_P,
     }).then((res) => {
-        showToast({
-            header: 'Thêm nhóm người dùng',
-            body: 'Tên nhóm người dùng "' + ChucVu_Ten.value + '" thành công',
-            duration: 5000,
-            type: 'success',
-        });
-        document.querySelector('.ChucVu_Ten').value = '';
-        for (let i = 0; i < Quyens.length; i++) {
-            Quyens[i].checked = true;
-        }
+        alert('Thêm nhóm người dùng mới thành công');
+        var Form = document.forms['Form'];
+        Form.action = '/staff/Authorization';
+        Form.submit();
     });
 });

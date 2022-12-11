@@ -498,7 +498,7 @@ class StaffController {
             return res.render('staff/ThemUser', {
                 layout: 'staff.handlebars',
                 Quyens: Quyens,
-                ChucVus: JSON.stringify(ChucVus),
+                ChucVus: ChucVus,
             });
         } catch (error) {
             console.log(error);

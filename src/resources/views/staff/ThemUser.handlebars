@@ -6,26 +6,38 @@
             </div>
         </div>
     </div>
-    <div class='container col-8'>
+    <div class='container col-10'>
         <div class='row mt-4 mb-2'>
-            <div class='col-3'><select type='text' class='form-select p20-B'></select>
+            <div class='col-2 offset-1 ps-5'><select
+                    type='text'
+                    class='form-select p16-B custom-boxshadow-focus-primary'
+                >
+                    {{#each ChucVus}}
+                        <option value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
+                    {{/each}}
+                </select>
             </div>
         </div>
         <div class='row'>
             <div class='col-3'>
-
             </div>
-            <div class='col-9'>
+            <div class='col-7'>
                 {{! card tài khoản }}
                 <div class='card mb-5'>
                     <div class='card-header p16-B'>Tài khoản</div>
                     <div class='card-body'>
                         <label for='' class='form-label p14-S'>Tên tài khoản</label>
-                        <input type='text' class='form-control p14-S mb-3' />
+                        <input type='text' class='form-control p14-S mb-3 custom-boxshadow-focus-primary User_MaUser' />
                         <label for='' class='form-label p14-S'>Mật khẩu</label>
-                        <input type='password' class='form-control p14-S mb-3' />
+                        <input
+                            type='password'
+                            class='form-control p14-S mb-3 custom-boxshadow-focus-primary User_MatKhau'
+                        />
                         <label for='' class='form-label p14-S'>Nhập lại mật khẩu</label>
-                        <input type='password' class='form-control p14-S' />
+                        <input
+                            type='password'
+                            class='form-control p14-S custom-boxshadow-focus-primary User_MatKhauR'
+                        />
                     </div>
                 </div>
                 {{! card dữ liệu cá nhân}}
@@ -33,11 +45,14 @@
                     <div class='card-header p16-B'>Dữ liệu cá nhân</div>
                     <div class='card-body'>
                         <label for='' class='form-label p14-S'>Tên đầy đủ</label>
-                        <input type='text' class='form-control p14-S mb-3' />
+                        <input type='text' class='form-control p14-S mb-3 custom-boxshadow-focus-primary User_HoTen' />
                         <div class='row'>
                             <div class='col-6'>
                                 <label for='' class='form-label p14-S'>Giới tính</label>
-                                <select type='text' class='form-select p14-S mb-3'>
+                                <select
+                                    type='text'
+                                    class='form-select p14-S mb-3 custom-boxshadow-focus-primary User_GioiTinh'
+                                >
                                     <option value='1' selected>Nam</option>
                                     <option value='2'>Nữ</option>
                                 </select>
@@ -46,18 +61,28 @@
                                 <label for='' class='form-label p14-S'> Ngày sinh</label>
                                 <div class='row'>
                                     <div class='col-3 pe-0'>
-                                        <select name='' id='' class='form-select p14-S mb-3'>
-                                            <option value='1'>12</option>
+                                        <select
+                                            name=''
+                                            id=''
+                                            style='max-height: 50px;'
+                                            class='form-select p14-S mb-3 custom-boxshadow-focus-primary User_Ngay'
+                                        >
                                         </select>
                                     </div>
                                     <div class='col-5'>
-                                        <select name='' id='' class='form-select p14-S mb-3'>
-                                            <option value='1'>Tháng 12</option>
+                                        <select
+                                            name=''
+                                            id=''
+                                            class='form-select p14-S mb-3 custom-boxshadow-focus-primary User_Thang'
+                                        >
                                         </select>
                                     </div>
                                     <div class='col-4 ps-0'>
-                                        <select name='' id='' class='form-select p14-S mb-3 ms-0'>
-                                            <option value='1'>2022</option>
+                                        <select
+                                            name=''
+                                            id=''
+                                            class='form-select p14-S mb-3 ms-0 custom-boxshadow-focus-primary User_Nam'
+                                        >
                                         </select>
                                     </div>
                                 </div>
@@ -66,11 +91,17 @@
                         <div class='row'>
                             <div class='col-6'>
                                 <label for='' class='form-label p14-S'>Số điện thoại</label>
-                                <input type='text' class='form-control p14-S' />
+                                <input
+                                    type='text'
+                                    class='form-control p14-S custom-boxshadow-focus-primary User_SoDienThoai'
+                                />
                             </div>
                             <div class='col-6'>
                                 <label for='' class='form-label p14-S'>Căn cước công dân</label>
-                                <input type='text' class='form-control p14-S' />
+                                <input
+                                    type='text'
+                                    class='form-control p14-S custom-boxshadow-focus-primary User_CCCD'
+                                />
                             </div>
                         </div>
                     </div>
@@ -80,7 +111,7 @@
                     <div class='card-header p16-B'>Bảo mật</div>
                     <div class='card-body'>
                         <label for='' class='form-label p14-S'>Email</label>
-                        <input type='text' class='form-control p14-S mb-3' />
+                        <input type='text' class='form-control p14-S mb-3 custom-boxshadow-focus-primary User_Email' />
                     </div>
                 </div>
                 <div class='col-auto mb-5' align='right'>
@@ -93,3 +124,4 @@
         </div>
     </div>
 </div>
+<script type='module' src='/javascript/staff/ThemUser.js'></script>

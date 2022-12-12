@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             GiaTri: DataTypes.INTEGER,
             TenHienThi: DataTypes.STRING,
+            NgayHieuLuc: DataTypes.DATE,
         },
         {
             sequelize,

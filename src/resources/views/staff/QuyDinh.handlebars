@@ -19,21 +19,147 @@
                         Các quy định áp dụng cho tất cả chuyến bay
                     </div>
                     <div class='card-body mb-4' style='height: 322px; overflow-y: scroll;'>
-                        <div class='row d-flex mb-4'>
-                            {{#each ThamSos}}
-                                <div class='ThamSo col-6'>
-                                    <label class='TenthamSo p14-S form-label'>{{this.TenThamSo}}</label>
-                                    <div tabindex='1' class='d-flex flex-row RowThamSo'>
+                        {{! Dòng ThoiGianBayToiThieu }}
+                        <div class='row mb-3 ThamSo'>
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                                <div class='d-flex'>
+                                    <div class='input-group'>
                                         <input
-                                            type='text'
-                                            onkeypress='onlyNumber(event)'
                                             disabled
-                                            class='disabled ThamSo_GiaTri form-control me-2 custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                            value='{{this.GiaTri}}'
+                                            type='text'
+                                            class='align-items-center ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        />
+                                        <span
+                                            style='height: 36px;'
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                        >Phút</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6 pe-1'>
+                                <label for='' class='p14-S form-label'>Ngày hiệu lực<i></i></label>
+                                <div class='d-flex'>
+                                    <div class='input-group me-2'>
+                                        <input
+                                            disabled
+                                            style='height: 36px;'
+                                            type='date'
+                                            class='ThamSo_NgayHieuLuc form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                         />
                                     </div>
                                 </div>
-                            {{/each}}
+                            </div>
+                        </div>
+                        {{! Dòng ThoiGianDungToiThieu }}
+                        <div class='row mb-3 ThamSo'>
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                                <div class='d-flex'>
+                                    <div class='input-group'>
+                                        <input
+                                            disabled
+                                            type='text'
+                                            class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        />
+                                        <span
+                                            style='height: 36px;'
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                        >Phút</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6 pe-1'>
+                                <label for='' class='p14-S form-label'>Ngày hiệu lực<i></i></label>
+                                <div class='d-flex'>
+                                    <div class='input-group me-2'>
+                                        <input
+                                            disabled
+                                            style='height: 36px;'
+                                            type='date'
+                                            class='ThamSo_NgayHieuLuc form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 3 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 4 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 5 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 6 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 7 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 8 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class='row mx-0 justify-content-center'>
@@ -64,8 +190,8 @@
                     <div class='custom-font h24-B my-4'>Thông tin các loại mốc hành lý</div>
                 </div>
                 <div class='card'>
-                    <div class='card-header d-flex justify-content-between align-items-center'>
-                        <div class='p16-B custom-font col-8'>Các loại mốc hành lý sử dụng cho các chuyến bay</div>
+                    <div class='card-header row'>
+                        <div class='p16-B custom-font'>Các loại mốc hành lý sử dụng cho các chuyến bay</div>
                     </div>
                     <div class='card-body MocHanhLy_Card mb-4' style='height: 322px; overflow-y: scroll;'>
                         {{#each MocHanhLys}}

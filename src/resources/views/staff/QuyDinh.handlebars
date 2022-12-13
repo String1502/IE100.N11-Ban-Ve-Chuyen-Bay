@@ -18,32 +18,33 @@
                     <div class='card-header p16-B custom-font align-items-center'>
                         Các quy định áp dụng cho tất cả chuyến bay
                     </div>
-                    <div class='card-body mb-4' style='height: 322px; overflow-y: scroll;'>
+                    <div class='card-body mb-4' style='height: 395px; overflow-y: scroll;'>
                         {{! Dòng ThoiGianBayToiThieu }}
                         <div class='row mb-3 ThamSo'>
                             <div class='col-6'>
-                                <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                                <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                                 <div class='d-flex'>
                                     <div class='input-group'>
                                         <input
                                             disabled
                                             type='text'
+                                            onkeypress='onlyNumber(event)'
                                             class='align-items-center ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                         />
                                         <span
-                                            style='height: 36px;'
-                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            style='width: 65px; '
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
                                         >Phút</span>
                                     </div>
                                 </div>
                             </div>
                             <div class='col-6 pe-1'>
-                                <label for='' class='p14-S form-label'>Ngày hiệu lực<i></i></label>
+                                <label for='' class='p14-S form-label custom-font'>Ngày hiệu lực<i></i></label>
                                 <div class='d-flex'>
                                     <div class='input-group me-2'>
                                         <input
                                             disabled
-                                            style='height: 36px;'
+                                            style='height: 36px; '
                                             type='date'
                                             class='ThamSo_NgayHieuLuc form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                         />
@@ -54,23 +55,24 @@
                         {{! Dòng ThoiGianDungToiThieu }}
                         <div class='row mb-3 ThamSo'>
                             <div class='col-6'>
-                                <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                                <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                                 <div class='d-flex'>
                                     <div class='input-group'>
                                         <input
                                             disabled
                                             type='text'
-                                            class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            onkeypress='onlyNumber(event)'
+                                            class='align-items-center ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                         />
                                         <span
-                                            style='height: 36px;'
-                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            style='width: 65px; '
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
                                         >Phút</span>
                                     </div>
                                 </div>
                             </div>
                             <div class='col-6 pe-1'>
-                                <label for='' class='p14-S form-label'>Ngày hiệu lực<i></i></label>
+                                <label for='' class='p14-S form-label custom-font'>Ngày hiệu lực<i></i></label>
                                 <div class='d-flex'>
                                     <div class='input-group me-2'>
                                         <input
@@ -83,53 +85,98 @@
                                 </div>
                             </div>
                         </div>
-                        {{! Dòng 3 }}
+                        {{! Dòng Số điểm dừng tối đa }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
-                            <div class='d-flex'>
-                                <div class='input-group'>
-                                    <input
-                                        disabled
-                                        type='text'
-                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    />
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
+                                <div class='d-flex'>
+                                    <div class='input-group'>
+                                        <input
+                                            disabled
+                                            type='text'
+                                            onkeypress='onlyNumber(event)'
+                                            class='align-items-center ThamSo_GiaTri form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        />
+                                        <span
+                                            style='width: 65px; '
+                                            class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                        >VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6 pe-1'>
+                                <label for='' class='p14-S form-label custom-font'>Ngày hiệu lực<i></i></label>
+                                <div class='d-flex'>
+                                    <div class='input-group me-2'>
+                                        <input
+                                            disabled
+                                            style='height: 36px;'
+                                            type='date'
+                                            class='ThamSo_NgayHieuLuc form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        {{! Dòng 4 }}
+
+                        {{! Dòng Giá vé cơ bản tối thiểu }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
-                            <div class='d-flex'>
-                                <div class='input-group'>
-                                    <input
-                                        disabled
-                                        type='text'
-                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    />
+                            <div class='col-6'>
+                                <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
+                                <div class='d-flex'>
+                                    <div class='input-group'>
+                                        <input
+                                            disabled
+                                            onkeypress='onlyNumber(event)'
+                                            type='text'
+                                            class='align-items-center ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6 pe-1'>
+                                <label for='' class='p14-S form-label custom-font'>Ngày hiệu lực<i></i></label>
+                                <div class='d-flex'>
+                                    <div class='input-group me-2'>
+                                        <input
+                                            disabled
+                                            style='height: 36px;'
+                                            type='date'
+                                            class='ThamSo_NgayHieuLuc form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {{! line }}
+                        <div style=' border-bottom: 1px solid black;' class='mt-2 mb-3'></div>
                         {{! Dòng 5 }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                             <div class='d-flex'>
                                 <div class='input-group'>
                                     <input
                                         disabled
                                         type='text'
-                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        onkeypress='onlyNumber(event)'
+                                        class='ThamSo_GiaTri form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
                                     />
+                                    <span
+                                        style='width: 65px; '
+                                        class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                    >VND</span>
                                 </div>
                             </div>
                         </div>
                         {{! Dòng 6 }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                             <div class='d-flex'>
                                 <div class='input-group'>
                                     <input
                                         disabled
                                         type='text'
+                                        onkeypress='onlyNumber(event)'
                                         class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     />
                                 </div>
@@ -137,27 +184,87 @@
                         </div>
                         {{! Dòng 7 }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                             <div class='d-flex'>
                                 <div class='input-group'>
                                     <input
                                         disabled
                                         type='text'
+                                        onkeypress='onlyNumber(event)'
                                         class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     />
+                                    <span
+                                        style='width: 65px; '
+                                        class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                    >Phút</span>
                                 </div>
                             </div>
                         </div>
                         {{! Dòng 8 }}
                         <div class='row mb-3 ThamSo'>
-                            <label for='' class='p14-S form-label ThamSo_TenHienThi'></label>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
                             <div class='d-flex'>
                                 <div class='input-group'>
                                     <input
                                         disabled
                                         type='text'
+                                        onkeypress='onlyNumber(event)'
                                         class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     />
+                                    <span
+                                        style='width: 65px'
+                                        class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                    >Giờ</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 9 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        type='text'
+                                        onkeypress='onlyNumber(event)'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 10 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        disabled
+                                        onkeypress='onlyNumber(event)'
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                    <span
+                                        style='width: 65px; '
+                                        class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                    >Giờ</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{! Dòng 11 }}
+                        <div class='row mb-3 ThamSo'>
+                            <label for='' class='p14-S form-label custom-font ThamSo_TenHienThi'></label>
+                            <div class='d-flex'>
+                                <div class='input-group'>
+                                    <input
+                                        onkeypress='onlyNumber(event)'
+                                        disabled
+                                        type='text'
+                                        class='ThamSo_GiaTri form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    />
+                                    <span
+                                        style='width: 65px; '
+                                        class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary justify-content-center'
+                                    >Ngày</span>
                                 </div>
                             </div>
                         </div>
@@ -166,11 +273,11 @@
                         <div class='col-6 justify-content-center d-flex'>
                             <button
                                 style='width: 100%;'
-                                class='d-none mb-3 me-5 ThamSo--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                                class='custom-font d-none mb-3 me-5 ThamSo--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                             >Hủy</button>
                             <button
                                 style='width: 100%;'
-                                class='mb-3 d-none ThamSo--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                                class='custom-font mb-3 d-none ThamSo--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
                             >Cập nhật</button>
                         </div>
                     </div>
@@ -178,7 +285,7 @@
                         <div class='col-3'>
                             <button
                                 style='width: 100%;'
-                                class='ThamSo--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B mb-3'
+                                class='custom-font ThamSo--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B mb-3'
                             >Sửa</button>
                         </div>
                     </div>
@@ -190,14 +297,14 @@
                     <div class='custom-font h24-B my-4'>Thông tin các loại mốc hành lý</div>
                 </div>
                 <div class='card'>
-                    <div class='card-header row'>
+                    <div class='card-header'>
                         <div class='p16-B custom-font'>Các loại mốc hành lý sử dụng cho các chuyến bay</div>
                     </div>
-                    <div class='card-body MocHanhLy_Card mb-4' style='height: 322px; overflow-y: scroll;'>
+                    <div class='card-body MocHanhLy_Card mb-4' style='height: 395px; overflow-y: scroll;'>
                         {{#each MocHanhLys}}
                             <div class='row mb-3 MocHanhLy' index='{{this.MaMocHanhLy}}'>
                                 <div class='col-6'>
-                                    <label for='' class='p14-S form-label'>Số kg tối đa</label>
+                                    <label for='' class='p14-S form-label custom-font'>Số kg tối đa</label>
                                     <div class='d-flex'>
                                         <div class='input-group'>
                                             <input
@@ -215,7 +322,7 @@
                                     </div>
                                 </div>
                                 <div class='col-6'>
-                                    <label for='' class='p14-S form-label'>Giá tiền<i></i></label>
+                                    <label for='' class='p14-S form-label custom-font'>Giá tiền<i></i></label>
                                     <div class='d-flex'>
                                         <div class='input-group me-2'>
                                             <input
@@ -224,7 +331,7 @@
                                                 onkeypress='onlyNumber(event)'
                                                 style='height: 36px;'
                                                 type='text'
-                                                class='MocHanhLy_GiaTien form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                                class='custom-font MocHanhLy_GiaTien form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                                 id='GiaVeCoBan'
                                             />
                                             <span
@@ -239,7 +346,7 @@
                         {{! Mốc hành lý khi được thêm }}
                         <div class='row mb-3 MocHanhLy_Cop d-none' index='{{this.MaMocHanhLy}}'>
                             <div class='col-6'>
-                                <label for='' class='p14-S form-label'>Số kg tối đa</label>
+                                <label for='' class='p14-S form-label custom-font'>Số kg tối đa</label>
                                 <div class='d-flex'>
                                     <div class='input-group'>
                                         <input
@@ -256,7 +363,7 @@
                                 </div>
                             </div>
                             <div class='col-6'>
-                                <label for='' class='p14-S form-label'>Giá tiền<i></i></label>
+                                <label for='' class='p14-S form-label custom-font'>Giá tiền<i></i></label>
                                 <div class='d-flex'>
                                     <div class='input-group me-2'>
                                         <input
@@ -285,7 +392,7 @@
                             <button
                                 type='button'
                                 style='margin-top:-15px ;'
-                                class='MocHanhLy--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                                class='custom-font MocHanhLy--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
                             >
                                 <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
                                 Thêm mốc hành lý
@@ -296,11 +403,11 @@
                         <div class='col-6 justify-content-center d-flex'>
                             <button
                                 style='width: 100%;'
-                                class='d-none mb-4 me-5 MocHanhLy--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                                class='custom-font d-none mb-4 me-5 MocHanhLy--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                             >Hủy</button>
                             <button
                                 style='width: 100%;'
-                                class='d-none mb-4 MocHanhLy--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                                class='custom-font d-none mb-4 MocHanhLy--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
                             >Cập nhật</button>
                         </div>
                     </div>
@@ -308,7 +415,7 @@
                         <div class='col-3'>
                             <button
                                 style='width: 100%;'
-                                class='mb-3 MocHanhLy--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                                class='custom-font mb-3 MocHanhLy--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                             >Sửa</button>
                         </div>
                     </div>
@@ -341,7 +448,7 @@
                 {{#each SanBays}}
                     <div class='row mb-3 SanBay'>
                         <div class='col-2'>
-                            <label for='' class='p14-S form-label'>Mã sân bay</label>
+                            <label for='' class='p14-S form-label custom-font'>Mã sân bay</label>
                             <input
                                 value='{{this.MaSanBay}}'
                                 type='text'
@@ -350,7 +457,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Tên sân bay</label>
+                            <label for='' class='p14-S form-label custom-font'>Tên sân bay</label>
                             <input
                                 type='text'
                                 value='{{this.TenSanBay}}'
@@ -359,7 +466,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Địa chỉ</label>
+                            <label for='' class='p14-S form-label custom-font'>Địa chỉ</label>
                             <select
                                 disabled
                                 name=''
@@ -367,12 +474,15 @@
                                 class='SanBay_DiaChi form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                             >
                                 {{#each this.TinhThanhs}}
-                                    <option value='{{this.MaTinhThanh}}'>{{this.TenTinhThanh}}</option>
+                                    <option
+                                        class='custom-font p14-R'
+                                        value='{{this.MaTinhThanh}}'
+                                    >{{this.TenTinhThanh}}</option>
                                 {{/each}}
                             </select>
                         </div>
                         <div class='col-4'>
-                            <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                            <label for='' class='p14-S form-label custom-font'>Trạng thái<i></i></label>
                             <div class='d-flex'>
                                 <select
                                     disabled
@@ -380,8 +490,8 @@
                                     id=''
                                     class='SanBay_TrangThai form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
                                 >
-                                    <option class='text-success-light p16-B' value='1'>Hoạt động</option>
-                                    <option class='text-danger p16-B' value='2'>Ngưng hoạt động</option>
+                                    <option class='text-success-light p16-B custom-font' value='1'>Hoạt động</option>
+                                    <option class='text-danger p16-B custom-font' value='2'>Ngưng hoạt động</option>
                                 </select>
                             </div>
                         </div>
@@ -391,7 +501,7 @@
                 {{! Dòng sân bay khi được thêm }}
                 <div class='row mb-3 SanBay_Cop d-none' Index=''>
                     <div class='col-2'>
-                        <label for='' class='p14-S form-label'>Mã sân bay</label>
+                        <label for='' class='p14-S form-label custom-font'>Mã sân bay</label>
                         <input
                             type='text'
                             oninput='let p = this.selectionStart; this.value = this.value.toUpperCase();this.setSelectionRange(p, p);'
@@ -399,14 +509,14 @@
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Tên sân bay</label>
+                        <label for='' class='p14-S form-label custom-font'>Tên sân bay</label>
                         <input
                             type='text'
                             class='SanBay_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Địa chỉ</label>
+                        <label for='' class='p14-S form-label custom-font'>Địa chỉ</label>
                         <select
                             name=''
                             id=''
@@ -414,23 +524,23 @@
                         >
                             <option value='' disabled selected hidden>Chọn tỉnh thành...</option>
                             {{#each TinhThanhs}}
-                                <option value='{{this.MaTinhThanh}}'>{{this.TenTinhThanh}}</option>
+                                <option class='custom-font' value='{{this.MaTinhThanh}}'>{{this.TenTinhThanh}}</option>
                             {{/each}}
                         </select>
                     </div>
                     <div class='col-4'>
-                        <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                        <label for='' class='p14-R form-label'>Trạng thái<i></i></label>
                         <div class='d-flex'>
                             <select
                                 name=''
                                 id=''
-                                class='SanBay_TrangThai text-success-light form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
+                                class='SanBay_TrangThai custom-font text-success-light form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
                             >
-                                <option class='text-success-light p16-B' value='1' selected>Hoạt động</option>
-                                <option class='text-danger p16-B' value='2'>Ngưng hoạt động</option>
+                                <option class='text-success-light p16-B custom-font' value='1' selected>Hoạt động</option>
+                                <option class='text-danger p16-B custom-font' value='2'>Ngưng hoạt động</option>
                             </select>
                             <button
-                                class='SanBay_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
+                                class='custom-font SanBay_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
                             >Xóa</button>
                         </div>
                     </div>
@@ -441,7 +551,7 @@
                 <div class='w-auto'>
                     <button
                         type='button'
-                        class='SanBay--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                        class='custom-font SanBay--Them d-none btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
                     >
                         <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
                         Thêm sân bay
@@ -452,11 +562,11 @@
                 <div class='col-6 justify-content-center d-flex'>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 me-5 SanBay--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 me-5 SanBay--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Hủy</button>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 SanBay--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 SanBay--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
                     >Cập nhật</button>
                 </div>
             </div>
@@ -465,7 +575,7 @@
                 <div class='col-3'>
                     <button
                         style='width: 100%;'
-                        class='mb-3 SanBay--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font mb-3 SanBay--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Sửa</button>
                 </div>
             </div>
@@ -496,7 +606,7 @@
                 {{#each HangGhes}}
                     <div class='row mb-3 HangGhe'>
                         <div class='col-2'>
-                            <label for='' class='p14-S form-label'>Mã hạng ghế</label>
+                            <label for='' class='p14-S form-label custom-font'>Mã hạng ghế</label>
                             <input
                                 value='{{this.MaHangGhe}}'
                                 type='text'
@@ -505,7 +615,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Tên hạng ghế</label>
+                            <label for='' class='p14-S form-label custom-font'>Tên hạng ghế</label>
                             <input
                                 type='text'
                                 value='{{this.TenHangGhe}}'
@@ -514,7 +624,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Hệ số</label>
+                            <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                             <input
                                 type='number'
                                 step='0.1'
@@ -525,7 +635,7 @@
                             />
                         </div>
                         <div class='col-4'>
-                            <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                            <label for='' class='p14-S form-label custom-font'>Trạng thái<i></i></label>
                             <div class='d-flex'>
                                 <select
                                     disabled
@@ -533,8 +643,8 @@
                                     id=''
                                     class='HangGhe_TrangThai form-select custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
                                 >
-                                    <option class='text-success-light p16-B' value='1'>Áp dụng</option>
-                                    <option class='text-danger p16-B' value='2'>Ngưng áp dụng</option>
+                                    <option class='text-success-light p16-B custom-font' value='1'>Áp dụng</option>
+                                    <option class='text-danger p16-B custom-font' value='2'>Ngưng áp dụng</option>
                                 </select>
                             </div>
                         </div>
@@ -544,7 +654,7 @@
                 {{! Dòng hạng ghế khi được thêm }}
                 <div class='row mb-3 HangGhe_Cop d-none'>
                     <div class='col-2'>
-                        <label for='' class='p14-S form-label'>Mã hạng ghế</label>
+                        <label for='' class='p14-S form-label custom-font'>Mã hạng ghế</label>
                         <input
                             value='{{this.MaHangGhe}}'
                             type='text'
@@ -552,7 +662,7 @@
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Tên hạng ghế</label>
+                        <label for='' class='p14-S form-label custom-font'>Tên hạng ghế</label>
                         <input
                             type='text'
                             value='{{this.TenHangGhe}}'
@@ -560,7 +670,7 @@
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Hệ số</label>
+                        <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                         <input
                             type='number'
                             step='0.1'
@@ -570,18 +680,18 @@
                         />
                     </div>
                     <div class='col-4'>
-                        <label for='' class='p14-S form-label'>Trạng thái<i></i></label>
+                        <label for='' class='p14-S form-label custom-font'>Trạng thái<i></i></label>
                         <div class='d-flex'>
                             <select
                                 name=''
                                 id=''
                                 class='HangGhe_TrangThai form-select text-success-light custom-font p16-B border-tertiary custom-boxshadow-focus-primary me-2'
                             >
-                                <option value='1' class='p16-B text-success-light' selected>Áp dụng</option>
-                                <option value='2' class='p16-B text-danger'>Ngưng áp dụng</option>
+                                <option value='1' class='p16-B text-success-light custom-font' selected>Áp dụng</option>
+                                <option value='2' class='p16-B text-danger custom-font'>Ngưng áp dụng</option>
                             </select>
                             <button
-                                class='HangGhe_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
+                                class='custom-font HangGhe_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm me-2'
                             >Xóa</button>
                         </div>
                     </div>
@@ -603,11 +713,11 @@
                 <div class='col-6 justify-content-center d-flex'>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 me-5 HangGhe--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 me-5 HangGhe--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Hủy</button>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 HangGhe--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 HangGhe--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
                     >Cập nhật</button>
                 </div>
             </div>
@@ -616,7 +726,7 @@
                 <div class='col-3'>
                     <button
                         style='width: 100%;'
-                        class='mb-3 HangGhe--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font mb-3 HangGhe--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Sửa</button>
                 </div>
             </div>
@@ -647,7 +757,7 @@
                 {{#each LoaiKhachHangs}}
                     <div class='row mb-3 LoaiKhachHang' index='{{this.MaLoaiKhachHang}}'>
                         <div class='col-2'>
-                            <label for='' class='p14-S form-label'>Tên loại hành khách</label>
+                            <label for='' class='p14-S form-label custom-font'>Tên loại hành khách</label>
                             <input
                                 value='{{this.TenLoaiKhachHang}}'
                                 type='text'
@@ -656,7 +766,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
+                            <label for='' class='p14-S form-label custom-font'>Số tuổi tối thiểu</label>
                             <input
                                 type='text'
                                 value='{{this.SoTuoiToiThieu}}'
@@ -665,7 +775,7 @@
                             />
                         </div>
                         <div class='col-3'>
-                            <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
+                            <label for='' class='p14-S form-label custom-font'>Số tuổi tối đa</label>
                             <input
                                 type='number'
                                 max='20'
@@ -677,7 +787,7 @@
                             />
                         </div>
                         <div class='col-4'>
-                            <label for='' class='p14-S form-label'>Hệ số</label>
+                            <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                             <input
                                 type='number'
                                 step='0.1'
@@ -693,7 +803,7 @@
                 {{! Dòng loại hành khách khi được thêm }}
                 <div class='row mb-3 LoaiKhachHang_Cop d-none'>
                     <div class='col-2'>
-                        <label for='' class='p14-S form-label'>Tên loại hành khách</label>
+                        <label for='' class='p14-S form-label custom-font'>Tên loại hành khách</label>
                         <input
                             value='{{this.TenLoaiKhachHang}}'
                             type='text'
@@ -701,7 +811,7 @@
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Số tuổi tối thiểu</label>
+                        <label for='' class='p14-S form-label custom-font'>Số tuổi tối thiểu</label>
                         <input
                             type='text'
                             value='{{this.SoTuoiToiThieu}}'
@@ -710,7 +820,7 @@
                         />
                     </div>
                     <div class='col-3'>
-                        <label for='' class='p14-S form-label'>Số tuổi tối đa</label>
+                        <label for='' class='p14-S form-label custom-font'>Số tuổi tối đa</label>
                         <input
                             type='text'
                             onkeypress='onlyNumber(event)'
@@ -719,7 +829,7 @@
                         />
                     </div>
                     <div class='col-4'>
-                        <label for='' class='p14-S form-label'>Hệ số</label>
+                        <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                         <div class='d-flex'>
                             <input
                                 type='number'
@@ -729,7 +839,7 @@
                                 class='LoaiKhachHang_HeSo form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary me-2'
                             />
                             <button
-                                class='LoaiKhachHang_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm'
+                                class='custom-font LoaiKhachHang_Cop--Xoa btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary p14-S shadow-sm'
                             >Xóa</button>
                         </div>
                     </div>
@@ -751,11 +861,11 @@
                 <div class='col-6 justify-content-center d-flex'>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 me-5 LoaiKhachHang--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 me-5 LoaiKhachHang--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Hủy</button>
                     <button
                         style='width: 100%;'
-                        class='d-none mb-3 LoaiKhachHang--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                        class='custom-font d-none mb-3 LoaiKhachHang--CapNhat btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
                     >Cập nhật</button>
                 </div>
             </div>
@@ -764,13 +874,14 @@
                 <div class='col-3'>
                     <button
                         style='width: 100%;'
-                        class='mb-3 LoaiKhachHang--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
+                        class='custom-font mb-3 LoaiKhachHang--Sua btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
                     >Sửa</button>
                 </div>
             </div>
         </div>
 
     </div>
+    <div style='height: 50px;'></div>
 </div>
 
 {{! form }}

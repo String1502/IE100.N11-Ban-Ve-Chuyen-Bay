@@ -1,5 +1,14 @@
 export let today = new Date();
 
+export function getToday() {
+    let homnay = new Date();
+    var dd = String(homnay.getDate()).padStart(2, '0');
+    var mm = String(homnay.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = homnay.getFullYear();
+
+    return { yyyy: yyyy, mm: mm, dd: dd };
+}
+
 export function numberWithDot(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
@@ -79,12 +88,13 @@ export function dateIsValid(date) {
     return false;
 }
 
+// key press
 export function onlyNumber(evt) {
     var theEvent = evt || window.event;
 
     // Handle paste
     if (theEvent.type === 'paste') {
-        key = event.clipboardData.getData('text/plain');
+        key = window.event.clipboardData.getData('text/plain');
     } else {
         // Handle key press
         var key = theEvent.keyCode || theEvent.which;
@@ -95,6 +105,24 @@ export function onlyNumber(evt) {
     if (!regex.test(key)) {
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
+    }
+}
+
+// key up đang xài dấu ,
+export function money_format_input(e) {
+    let val = e.value;
+    val = val.replace(/,/g, '');
+    if (val.length > 3) {
+        let noCommas = Math.ceil(val.length / 3) - 1;
+        let remain = val.length - noCommas * 3;
+        let newVal = [];
+        for (let i = 0; i < noCommas; i++) {
+            newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
+        }
+        newVal.unshift(val.substr(0, remain));
+        e.value = newVal;
+    } else {
+        e.value = val;
     }
 }
 

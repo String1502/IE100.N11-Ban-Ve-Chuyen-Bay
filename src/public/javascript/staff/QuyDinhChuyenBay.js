@@ -25,7 +25,7 @@ if (!Package) {
 function LoadInformation() {
     axios({
         method: 'POST',
-        url: '/staff/LoadRegulation',
+        url: '/staff/quydinh/LoadRegulation',
     }).then((res) => {
         Package = res.data;
         ThamSos_P_Update = structuredClone(Package.ThamSos);
@@ -289,7 +289,7 @@ function CapNhat_ThamSo() {
     //sửa thành sendform
     axios({
         method: 'POST',
-        url: '/staff/UpdateThamSo',
+        url: '/staff/quydinh/UpdateThamSo',
         data: P_ThamSo,
     }).then((res) => {
         Package.ThamSos = structuredClone(res.data);
@@ -624,7 +624,7 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
             document.querySelector('.SanBay--Sua').classList.remove('d-none');
             axios({
                 method: 'POST',
-                url: '/staff/UpdateSanBay',
+                url: '/staff/quydinh/UpdateSanBay',
                 data: SanBays_P,
             }).then((res) => {
                 Package.SanBays = res.data;
@@ -999,7 +999,7 @@ document.querySelector('.HangGhe--CapNhat').addEventListener('click', (e) => {
             document.querySelector('.HangGhe--Sua').classList.remove('d-none');
             axios({
                 method: 'POST',
-                url: '/staff/UpdateHangGhe',
+                url: '/staff/quydinh/UpdateHangGhe',
                 data: HangGhes_P,
             }).then((res) => {
                 Package.HangGhes = res.data;
@@ -1439,7 +1439,7 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
             document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
             axios({
                 method: 'POST',
-                url: '/staff/UpdateLoaiKhachHang',
+                url: '/staff/quydinh/UpdateLoaiKhachHang',
                 data: LoaiKhachHangs_P,
             }).then((res) => {
                 Package.LoaiKhachHangs = res.data;
@@ -1691,7 +1691,7 @@ document.querySelector('.MocHanhLy--CapNhat').addEventListener('click', (e) => {
         document.querySelector('.MocHanhLy--Sua').classList.remove('d-none');
         axios({
             method: 'POST',
-            url: '/staff/UpdateMocHanhLy',
+            url: '/staff/quydinh/UpdateMocHanhLy',
             data: MocHanhLys_P,
         }).then((res) => {
             Package.MocHanhLys = res.data;

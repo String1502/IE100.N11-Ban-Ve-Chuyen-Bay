@@ -10,6 +10,12 @@
     background-color: $primary !important;
 }
 
+.bg-primary-gradient {
+    background: #007991;
+    background: -webkit-linear-gradient(to right, #007991, #66d8b6);
+    background: linear-gradient(to right, #007991, #66d8b6);
+}
+
 .bg-primary-hover {
     background-color: rgba(4, 191, 174, 0.25) !important;
 }
@@ -33,6 +39,12 @@
 
 .bg-secondary {
     background-color: $secondary !important;
+}
+
+.bg-secondary-gradient {
+    background: $secondary;
+    background: -webkit-linear-gradient(to right, $secondary, #dc3545);
+    background: linear-gradient(to right, $secondary, #dc3545);
 }
 
 .border-secondary {
@@ -113,6 +125,8 @@
 .border-dark {
     border-color: $dark !important;
 }
+
+// --success-light
 .text-success-light {
     color: #00c03c !important;
 }

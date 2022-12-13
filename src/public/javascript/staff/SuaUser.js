@@ -245,12 +245,12 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
     console.log(User_P);
     axios({
         method: 'POST',
-        url: '/staff/SuaUser',
+        url: '/staff/phanquyen/SuaUser',
         data: User_P,
     }).then((res) => {
         alert('Cập nhật thông tin người dùng thành công');
         var Form = document.forms['Form'];
-        Form.action = '/staff/Authorization';
+        Form.action = '/staff/phanquyen/Authorization';
         Form.submit();
     });
 });

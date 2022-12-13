@@ -1,6 +1,6 @@
 <div class='bg-tertiary-light'>
 
-    <div style='height: 88px;' class='w-100 bg-primary'>
+    <div style='height: 88px;' class='w-100 bg-primary-gradient'>
         <div class='container h-100'>
             <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
                 <div class='d-flex flex-column'>
@@ -360,9 +360,10 @@
                                         style='height: 46px;'
                                         class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
                                     >
-                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-1'>
                                             <span
                                                 GiaTri=''
+                                                TextColor='text-dark'
                                                 class='TrangThai_li_value custom-font p14-R text-dark me-1'
                                             ></span>
                                         </div>
@@ -372,10 +373,11 @@
                                     <li
                                         class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
                                     >
-                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-1'>
                                             <span
                                                 GiaTri='ChuaKhoiHanh'
-                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                                TextColor='text-success-light'
+                                                class='TrangThai_li_value custom-font p14-B text-success-light me-1'
                                             >Chưa khởi hành</span>
                                         </div>
                                     </li>
@@ -384,11 +386,25 @@
                                     <li
                                         class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
                                     >
-                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-1'>
                                             <span
                                                 GiaTri='DaKhoiHanh'
-                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                                TextColor='text-success'
+                                                class='TrangThai_li_value custom-font p14-B text-success me-1'
                                             >Đã khởi hành</span>
+                                        </div>
+                                    </li>
+
+                                    {{! Vi phạm qui định }}
+                                    <li
+                                        class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
+                                    >
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-1'>
+                                            <span
+                                                GiaTri='ViPhamQuiDinh'
+                                                TextColor='text-secondary'
+                                                class='TrangThai_li_value custom-font p14-B text-secondary me-1'
+                                            >Vi phạm qui định</span>
                                         </div>
                                     </li>
 
@@ -396,10 +412,11 @@
                                     <li
                                         class='TrangThai_li dropdown-item custom-active border border-1 border-top-0 border-end-0 border-start-0'
                                     >
-                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-1'>
                                             <span
                                                 GiaTri='DaHuy'
-                                                class='TrangThai_li_value custom-font p14-R text-dark me-1'
+                                                TextColor='text-danger'
+                                                class='TrangThai_li_value custom-font p14-B text-danger me-1'
                                             >Đã hủy</span>
                                         </div>
                                     </li>
@@ -449,9 +466,10 @@
                                     <th scope='col'>Sân bay đi</th>
                                     <th scope='col'>Sân bay đến</th>
                                     <th scope='col'>Khởi hành</th>
-                                    <th scope='col'>Điểm dừng</th>
+
                                     <th scope='col'>Giá vé cơ bản</th>
                                     <th scope='col'>Ghế trống</th>
+                                    <th scope='col'>Trạng thái</th>
                                     <th scope='col'>Chi tiết</th>
 
                                 </tr>
@@ -465,9 +483,10 @@
                                     <td class='TenSanBayDi'>TSN</td>
                                     <td class='TenSanBayDen'>DAD</td>
                                     <td class='KhoiHanh'>11:11 11/11/2022</td>
-                                    <td class='DiemDung'>11</td>
+
                                     <td class='GiaVeCoBan'>100.000</td>
                                     <td class='GheTrong'>20</td>
+                                    <td class='TrangThai p16-B'>Vi phạm qui định</td>
                                     <td style='width: 12.5%;'>
                                         <a
                                             type='button'

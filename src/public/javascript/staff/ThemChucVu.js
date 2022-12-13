@@ -70,12 +70,12 @@ document.querySelector('.ChucVu--Them').addEventListener('click', (e) => {
     console.log(ChucVu_P);
     axios({
         method: 'POST',
-        url: '/staff/ThemChucVu',
+        url: '/staff/phanquyen/ThemChucVu',
         data: ChucVu_P,
     }).then((res) => {
         alert('Thêm nhóm người dùng mới thành công');
         var Form = document.forms['Form'];
-        Form.action = '/staff/Authorization';
+        Form.action = '/staff/phanquyen/Authorization';
         Form.submit();
     });
 });

@@ -167,8 +167,15 @@ function AddEventCacTieuChuanTraCuu() {
         TrangThai_lis[i].addEventListener('click', (e) => {
             let hienthi = e.target.querySelector('.TrangThai_li_value').innerText;
             let giatri = e.target.querySelector('.TrangThai_li_value').getAttribute('GiaTri');
+            let mauchu = e.target.querySelector('.TrangThai_li_value').getAttribute('TextColor');
             document.getElementById('TrangThai').value = hienthi;
             document.getElementById('TrangThai').setAttribute('GiaTri', giatri);
+            for (let j = 0; j < TrangThai_lis.length; j++) {
+                var temp = TrangThai_lis[j].querySelector('.TrangThai_li_value').getAttribute('TextColor');
+                TrangThai.classList.remove(temp);
+            }
+            document.getElementById('TrangThai').classList.add(mauchu);
+
             GetFilterFlight_fromSV();
         });
     }
@@ -274,9 +281,23 @@ function LoadChuyenBayLenView() {
             numberSmallerTen(ChuyenBays[i].KhoiHanh.NgayDi.Thang) +
             '-' +
             ChuyenBays[i].KhoiHanh.NgayDi.Nam;
-        node.querySelector('.DiemDung').innerText = ChuyenBays[i].SoDiemDung;
         node.querySelector('.GiaVeCoBan').innerText = numberWithDot(ChuyenBays[i].GiaVeCoBan);
         node.querySelector('.GheTrong').innerText = ChuyenBays[i].GheTrong;
+
+        if (ChuyenBays[i].TrangThai == 'ChuaKhoiHanh') {
+            node.querySelector('.TrangThai').innerText = 'Chưa khởi hành';
+            node.querySelector('.TrangThai').classList.add('text-success-light');
+        } else if (ChuyenBays[i].TrangThai == 'ViPhamQuiDinh') {
+            node.querySelector('.TrangThai').innerText = 'Vi phạm qui định';
+            node.querySelector('.TrangThai').classList.add('text-secondary');
+        } else if (ChuyenBays[i].TrangThai == 'DaKhoiHanh') {
+            node.querySelector('.TrangThai').innerText = 'Đã khởi hành';
+            node.querySelector('.TrangThai').classList.add('text-success');
+        } else if (ChuyenBays[i].TrangThai == 'DaHuy') {
+            node.querySelector('.TrangThai').innerText = 'Đã hủy';
+            node.querySelector('.TrangThai').classList.add('text-danger');
+        }
+
         node.querySelector('.ChiTiet').addEventListener('click', (e) => {
             let index = parseInt(e.target.closest('.ChuyenBay_Item').getAttribute('aria-valuetext'));
             SendForm({

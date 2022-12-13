@@ -85,12 +85,12 @@ document.querySelector('.ChucVu--CapNhat').addEventListener('click', (e) => {
     console.log(ChucVu_P);
     axios({
         method: 'POST',
-        url: '/staff/SuaChucVu',
+        url: '/staff/phanquyen/SuaChucVu',
         data: ChucVu_P,
     }).then((res) => {
         alert('Cập nhật thành công');
         var Form = document.forms['Form'];
-        Form.action = '/staff/Authorization';
+        Form.action = '/staff/phanquyen/Authorization';
         Form.submit();
     });
 });

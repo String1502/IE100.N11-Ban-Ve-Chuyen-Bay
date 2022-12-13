@@ -74,9 +74,16 @@ function LoadDataLenView() {
 
     if (Flight_fromDB.TrangThai == 'ChuaKhoiHanh') {
         document.getElementById('TrangThai').value = 'Chưa khởi hành';
-    } else {
-        document.getElementById('TrangThai').value =
-            Flight_fromDB.TrangThai == 'DaKhoiHanh' ? 'Đã khởi hành' : 'Đã hủy';
+        document.getElementById('TrangThai').classList.add('text-success-light');
+    } else if (Flight_fromDB.TrangThai == 'DaKhoiHanh') {
+        document.getElementById('TrangThai').value = 'Đã khởi hành';
+        document.getElementById('TrangThai').classList.add('text-success');
+    } else if (Flight_fromDB.TrangThai == 'DaHuy') {
+        document.getElementById('TrangThai').value = 'Đã hủy';
+        document.getElementById('TrangThai').classList.add('text-danger');
+    } else if (Flight_fromDB.TrangThai == 'ViPhamQuiDinh') {
+        document.getElementById('TrangThai').value = 'Vi phạm qui định';
+        document.getElementById('TrangThai').classList.add('text-secondary');
     }
 
     document.getElementById('GiaVeCoBan').value = numberWithDot(Flight_fromDB.GiaVeCoBan);

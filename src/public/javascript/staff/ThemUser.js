@@ -254,12 +254,12 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
     console.log(User_P);
     axios({
         method: 'POST',
-        url: '/staff/ThemUser',
+        url: '/staff/phanquyen/ThemUser',
         data: User_P,
     }).then((res) => {
         alert('Thêm người dùng thành công');
         var Form = document.forms['Form'];
-        Form.action = '/staff/Authorization';
+        Form.action = '/staff/phanquyen/Authorization';
         Form.submit();
     });
 });

@@ -17,6 +17,7 @@ let HangGhes_P_Update = [];
 let HangGhes_P_Add = [];
 let LoaiKhachHangs_P_Update = [];
 let LoaiKhachHangs_P_Add = [];
+let ThamSos_P_Update = [];
 // Load dữ liệu cho màn hình
 if (!Package) {
     LoadInformation();
@@ -27,6 +28,7 @@ function LoadInformation() {
         url: '/staff/LoadRegulation',
     }).then((res) => {
         Package = res.data;
+        ThamSos_P_Update = structuredClone(Package.ThamSos);
         SanBays_P_Update = structuredClone(Package.SanBays);
         HangGhes_P_Update = structuredClone(Package.HangGhes);
         LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
@@ -93,27 +95,64 @@ function LoadInformation() {
             });
         }
         let temp = {};
-        temp = Package.ThamSos[0];
-        Package.ThamSos[0] = Package.ThamSos[4];
-        Package.ThamSos[4] = temp;
+        //1<>2
         temp = Package.ThamSos[1];
-        Package.ThamSos[1] = Package.ThamSos[6];
-        Package.ThamSos[6] = temp;
+        Package.ThamSos[1] = Package.ThamSos[2];
+        Package.ThamSos[2] = temp;
+        //5<>0
+        temp = Package.ThamSos[5];
+        Package.ThamSos[5] = Package.ThamSos[0];
+        Package.ThamSos[0] = temp;
+        //1<>8
+        temp = Package.ThamSos[1];
+        Package.ThamSos[1] = Package.ThamSos[8];
+        Package.ThamSos[8] = temp;
+        //4<>3
+        temp = Package.ThamSos[4];
+        Package.ThamSos[4] = Package.ThamSos[3];
+        Package.ThamSos[3] = temp;
         let ThamSos = document.querySelectorAll('.ThamSo');
+        //Load thông tin bảng tham số
         for (let i = 0; i < ThamSos.length; i++) {
-            if (i == 0 || i == 1) {
+            if (i == 0 || i == 1 || i == 2 || i == 3) {
+                let Currentday = new Date();
                 let NgayHieuLuc = new Date(Package.ThamSos[i].NgayHieuLuc);
-                let a = NgayHieuLuc.getMonth();
+                let NgayMin = new Date(Currentday.getTime() + 2 * (24 * 60 * 60 * 1000));
+                let NgayMax = new Date(Currentday.getTime() + Package.ThamSos[10].GiaTri * (24 * 60 * 60 * 1000));
+                let Ngay = ThamSos[i].querySelector('.ThamSo_NgayHieuLuc');
+
                 NgayHieuLuc =
                     NgayHieuLuc.getFullYear() +
                     '-' +
                     ('0' + (NgayHieuLuc.getMonth() + 1)).slice(-2) +
                     '-' +
                     ('0' + NgayHieuLuc.getDate()).slice(-2);
+                NgayMin =
+                    NgayMin.getFullYear() +
+                    '-' +
+                    ('0' + (NgayMin.getMonth() + 1)).slice(-2) +
+                    '-' +
+                    ('0' + NgayMin.getDate()).slice(-2);
+                NgayMax =
+                    NgayMax.getFullYear() +
+                    '-' +
+                    ('0' + (NgayMax.getMonth() + 1)).slice(-2) +
+                    '-' +
+                    ('0' + NgayMax.getDate()).slice(-2);
+                Ngay.setAttribute('min', NgayMin);
+                Ngay.setAttribute('max', NgayMax);
                 ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').value = NgayHieuLuc;
             }
-            ThamSos[i].querySelector('.ThamSo_TenHienThi').innerText = Package.ThamSos[i].TenHienThi;
-            ThamSos[i].querySelector('.ThamSo_GiaTri').value = Package.ThamSos[i].GiaTri;
+            if (i == 2 || i == 4) {
+                ThamSos[i].querySelector('.ThamSo_TenHienThi').innerText = Package.ThamSos[i].TenHienThi;
+                ThamSos[i].querySelector('.ThamSo_GiaTri').value = formatVND(Package.ThamSos[i].GiaTri.toString());
+                ThamSos[i].querySelector('.ThamSo_GiaTri').addEventListener('keyup', (e) => {
+                    e.target.value = formatVND(e.target.value);
+                });
+            } else {
+                ThamSos[i].querySelector('.ThamSo_TenHienThi').innerText = Package.ThamSos[i].TenHienThi;
+                ThamSos[i].querySelector('.ThamSo_GiaTri').value = Package.ThamSos[i].GiaTri;
+            }
         }
     });
 }
@@ -126,12 +165,13 @@ const ThamSo_Huy = document.querySelector('.ThamSo--Huy');
 const ThamSo_Sua = document.querySelector('.ThamSo--Sua');
 const ThamSo_GiaTri = document.querySelectorAll('.ThamSo_GiaTri');
 const ThamSos = document.querySelectorAll('.ThamSo');
+const ThamSo_NgayHieuLuc = document.querySelectorAll('.ThamSo_NgayHieuLuc');
 
 //button ThamSo--Huy
 ThamSo_Huy.addEventListener('click', (e) => {
     //trả gtr về ban đàu
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-        if (i == 0 || i == 1) {
+        if (i == 0 || i == 1 || i == 3 || i == 2) {
             let NgayHieuLuc = new Date(Package.ThamSos[i].NgayHieuLuc);
             let a = NgayHieuLuc.getMonth();
             NgayHieuLuc =
@@ -143,8 +183,13 @@ ThamSo_Huy.addEventListener('click', (e) => {
             ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').value = NgayHieuLuc;
             ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').disabled = true;
         }
-        ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
-        ThamSo_GiaTri[i].disabled = true;
+        if (i == 2 || i == 4) {
+            ThamSo_GiaTri[i].value = formatVND(Package.ThamSos[i].GiaTri.toString());
+            ThamSo_GiaTri[i].disabled = true;
+        } else {
+            ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
+            ThamSo_GiaTri[i].disabled = true;
+        }
     }
     ThamSo_Sua.classList.remove('d-none');
     ThamSo_CapNhat.classList.add('d-none');
@@ -154,7 +199,7 @@ ThamSo_Huy.addEventListener('click', (e) => {
 //Button_ThamSo--Sua
 ThamSo_Sua.addEventListener('click', (e) => {
     for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-        if (i == 0 || i == 1) {
+        if (i == 0 || i == 1 || i == 2 || i == 3) {
             ThamSos[i].querySelector('.ThamSo_NgayHieuLuc').disabled = false;
         }
         ThamSo_GiaTri[i].disabled = false;
@@ -164,71 +209,68 @@ ThamSo_Sua.addEventListener('click', (e) => {
     ThamSo_Huy.classList.remove('d-none');
 });
 
-// kiểm tra thông tin trước khi cập nhật
-function CheckChangeGiaTriThamSo(P_ThamSo) {
-    let F = false;
-    for (let i = 0; i < P_ThamSo.length; i++) {
-        if (P_ThamSo[i] == '') {
+let FlagGT = false;
+let FlagNHL = false;
+//Kiểm tra tham số sự thay đổi
+for (let i = 0; i < ThamSos.length; i++) {
+    ThamSo_GiaTri[i].addEventListener('blur', (e) => {
+        if (e.target.value == '') {
             showToast({
                 header: 'Quy định chuyến bay',
-                body: 'Giá trị không được để trống',
+                body: Package.ThamSos[i].TenHienThi + ' không được để trống',
                 duration: 5000,
                 type: 'warning',
             });
-            for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-                ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
-            }
-
-            return false;
+            e.target.value = Package.ThamSos[i].GiaTri;
+            e.target.focus();
+            return;
         }
-        if (P_ThamSo[i] == 0) {
+        if (e.target.value == '0') {
             showToast({
                 header: 'Quy định chuyến bay',
-                body: 'Giá trị phải khác 0',
+                body: Package.ThamSos[i].TenHienThi + ' phải khác 0',
                 duration: 5000,
                 type: 'warning',
             });
-            for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-                ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
-            }
-
-            return false;
+            e.target.value = Package.ThamSos[i].GiaTri;
+            e.target.focus();
+            return;
         }
-        if (P_ThamSo[i].length > 9) {
+        if (e.target.length > 9) {
+            e.target.value = Package.ThamSos[i].GiaTri;
+            e.target.focus();
+            return;
+        }
+        //giá trị thứ 10 thay đổi thì cập nhật lại ngày hiển thị
+        if (e.target.value != Package.ThamSos[i].GiaTri) {
+            ThamSos_P_Update[i].ID_Update = 1;
+            FlagGT = true;
+            ThamSos_P_Update[i].GiaTri = e.target.value;
+        }
+    });
+    ThamSo_NgayHieuLuc[i].addEventListener('change', (e) => {
+        if (e.target.value == '') {
             showToast({
                 header: 'Quy định chuyến bay',
-                body: 'Giá trị ít hơn 10 chữ số',
+                body: 'Ngày hiệu lực của' + Package.ThamSos[i].TenHienThi + ' không được để trống',
                 duration: 5000,
                 type: 'warning',
             });
-            for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-                ThamSo_GiaTri[i].value = Package.ThamSos[i].GiaTri;
-            }
-
-            return false;
+            let NgayHieuLuc = new Date(Package.ThamSos[i].NgayHieuLuc);
+            NgayHieuLuc =
+                NgayHieuLuc.getFullYear() +
+                '-' +
+                ('0' + (NgayHieuLuc.getMonth() + 1)).slice(-2) +
+                '-' +
+                ('0' + NgayHieuLuc.getDate()).slice(-2);
+            e.target.value = NgayHieuLuc;
+            e.target.focus();
+            return;
         }
-        if (P_ThamSo[i] != Package.ThamSos[i].GiaTri) {
-            F = true;
-        }
-    }
-    if (F == true) {
-        return true;
-    } else {
-        // Chuyển trạng thái sang Sưa TH: khong co sự thay đổi
-        for (let i = 0; i < ThamSo_GiaTri.length; i++) {
-            ThamSo_GiaTri[i].disabled = true;
-        }
-        ThamSo_Sua.classList.remove('d-none');
-        ThamSo_CapNhat.classList.add('d-none');
-        ThamSo_Huy.classList.add('d-none');
-        showToast({
-            header: 'Quy định chuyến bay',
-            body: 'Không có sự thay đổi',
-            duration: 5000,
-            type: '',
-        });
-        return false;
-    }
+        ThamSos_P_Update[i].ID_Update = 1;
+        FlagNHL = true;
+        ThamSos_P_Update[i].NgayHieuLuc = e.target.value;
+    });
 }
 
 //Cập nhật thông tin
@@ -269,7 +311,24 @@ function CapNhat_ThamSo() {
 
 // button_ThamSo_CapNhat
 ThamSo_CapNhat.addEventListener('click', (e) => {
-    CapNhat_ThamSo();
+    if (FlagGT == false && FlagNHL == false) {
+        showToast({
+            header: 'Quy định chuyến bay',
+            body: 'Không có sự thay đổi',
+            duration: 5000,
+            type: '',
+        });
+        for (let i = 0; i < ThamSo_GiaTri.length; i++) {
+            ThamSo_GiaTri[i].disabled = true;
+            if (i == 0 || i == 1 || i == 2 || i == 3) {
+                ThamSo_NgayHieuLuc[i].disabled = true;
+            }
+        }
+        ThamSo_Sua.classList.remove('d-none');
+        ThamSo_CapNhat.classList.add('d-none');
+        ThamSo_Huy.classList.add('d-none');
+        return;
+    }
 });
 
 //

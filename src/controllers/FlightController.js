@@ -1018,6 +1018,25 @@ let updateChuyenBay = async (req, res) => {
 };
 //#endregion
 
+//#region
+// let data_send = { MaChuyenBay: -1 };
+let CancelChuyenBay = async (req, res) => {
+    try {
+        let chuyenbay = await db.ChuyenBay.findOne({
+            where: {
+                MaChuyenBay: req.body.MaChuyenBay,
+            },
+        });
+        chuyenbay.TrangThai = 'DaHuy';
+        await chuyenbay.save();
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
+    }
+};
+//#endregion
+
 //#region func util
 Date.prototype.yyyymmdd = function () {
     var mm = this.getMonth() + 1; // getMonth() is zero-based
@@ -1075,4 +1094,5 @@ module.exports = {
     filterFlight: filterFlight,
     getFlight: getFlight,
     updateChuyenBay: updateChuyenBay,
+    CancelChuyenBay: CancelChuyenBay,
 };

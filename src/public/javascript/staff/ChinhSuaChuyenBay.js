@@ -45,8 +45,6 @@ let ThoiGianKhoiHanh_ChinhSua_ToiThieu = 180;
 let BatDauChinhSua = Date.now();
 let GioiHanThoiGianChinhSua = 15;
 
-let ViPhamQuiDinh = false;
-
 let HangGhe;
 function GetFlight_Edit() {
     openLoader('Chờ chút');
@@ -81,8 +79,7 @@ function GetFlight_Edit() {
 
             console.log(Flight_Edit);
 
-            if (Flight_Edit.TrangThai == 'ViPhamQuiDinh') {
-                ViPhamQuiDinh = true;
+            if (Flight_Edit.TrangThai == 'ViPhamQuyDinh') {
                 closeLoader();
                 KhoiTao_ModalChinhSua();
                 var Modal = new bootstrap.Modal(document.getElementById('ModalStaticChinhSua'), true);
@@ -116,8 +113,8 @@ function GetFlight_Edit() {
                 } else if (Flight_Edit.TrangThai == 'DaHuy') {
                     document.getElementById('TrangThai').value = 'Đã hủy';
                     document.getElementById('TrangThai').classList.add('text-danger');
-                } else if (Flight_Edit.TrangThai == 'ViPhamQuiDinh') {
-                    document.getElementById('TrangThai').value = 'Vi phạm qui định';
+                } else if (Flight_Edit.TrangThai == 'ViPhamQuyDinh') {
+                    document.getElementById('TrangThai').value = 'Vi phạm quy định';
                     document.getElementById('TrangThai').classList.add('text-secondary');
                 }
 
@@ -149,7 +146,7 @@ function GetFlight_Edit() {
                     if (a.ThuTu > b.ThuTu) return 1;
                 });
 
-                //Hàm chạy lần đầu để dô đây
+                //Hàm chạy lần đầu để dô
                 LoadSBTGLenView();
                 LoadHGLenView();
                 closeLoader();
@@ -1379,6 +1376,8 @@ function CheckThayDoi(isshowtoast) {
     var GVCB_cur = parseInt(numberWithoutDot(GiaVeCoBan.value));
     var TrangThai_cur = TrangThai.value;
 
+    data_send.MaChuyenBay = Flight_Edit.MaChuyenBay;
+
     if (
         NgayKhoiHanh_cur.Ngay != Flight_Edit.ThoiGianDi.NgayDi.Ngay ||
         NgayKhoiHanh_cur.Thang != Flight_Edit.ThoiGianDi.NgayDi.Thang ||
@@ -1386,6 +1385,8 @@ function CheckThayDoi(isshowtoast) {
     ) {
         data_send.NgayKhoiHanh = structuredClone(NgayKhoiHanh_cur);
         check = true;
+    } else {
+        data_send.NgayKhoiHanh = structuredClone(Flight_Edit.ThoiGianDi.NgayDi);
     }
 
     if (
@@ -1394,20 +1395,26 @@ function CheckThayDoi(isshowtoast) {
     ) {
         data_send.GioKhoiHanh = structuredClone(GioKhoiHanh_cur);
         check = true;
+    } else {
+        data_send.GioKhoiHanh = structuredClone(Flight_Edit.ThoiGianDi.GioDi);
     }
 
     if (ThoiGianBay_Cur != Flight_Edit.ThoiGianBay) {
         data_send.ThoiGianBay = ThoiGianBay_Cur;
         check = true;
+    } else {
+        data_send.ThoiGianBay = Flight_Edit.ThoiGianBay;
     }
 
     if (GVCB_cur != Flight_Edit.GiaVeCoBan) {
         data_send.GiaVeCoBan = GVCB_cur;
         check = true;
+    } else {
+        data_send.GiaVeCoBan = Flight_Edit.GiaVeCoBan;
     }
 
     // Trạng thái
-    if (TrangThai_cur == 'ViPhamQuiDinh') {
+    if (TrangThai_cur == 'ViPhamQuyDinh') {
         data_send.ThoiGianBayToiThieu = Flight_Edit.ThamSos.find(
             (item) => item.TenThamSo == 'ThoiGianBayToiThieu',
         ).GiaTri;
@@ -1417,6 +1424,11 @@ function CheckThayDoi(isshowtoast) {
         data_send.SBTG_Max = Flight_Edit.ThamSos.find((item) => item.TenThamSo == 'SBTG_Max').GiaTri;
         data_send.GiaVeCoBan_Min = Flight_Edit.ThamSos.find((item) => item.TenThamSo == 'GiaVeCoBan_Min').GiaTri;
         check = true;
+    } else {
+        data_send.ThoiGianBayToiThieu = Flight_Edit.ThoiGianBayToiThieu;
+        data_send.ThoiGianDungToiThieu = Flight_Edit.ThoiGianDungToiThieu;
+        data_send.SBTG_Max = Flight_Edit.SBTG_Max;
+        data_send.GiaVeCoBan_Min = Flight_Edit.GiaVeCoBan_Min;
     }
     data_send.TrangThai = 'ChuaKhoiHanh';
 
@@ -1534,8 +1546,40 @@ function SendForm_Huy() {
 }
 // Gửi gói lưu
 function SendForm_Luu() {
-    alert(':<');
-    // Trí
+    openLoader('Chờ chút');
+    var data_send;
+    if (Flight_Edit.TrangThai == 'ViPhamQuyDinh') {
+        data_send = Check_ThayDoi_Modal_ChinhSua();
+    } else if (Flight_Edit.TrangThai == 'ChuaKhoiHanh') {
+        data_send = CheckThayDoi(false);
+    }
+    console.log(data_send);
+    axios({
+        method: 'post',
+        url: '/flight/update',
+        data: data_send,
+    }).then((res) => {
+        closeLoader();
+        var body = '';
+        var type = '';
+        if (res.data == true) {
+            body = 'Thành công';
+            type = 'success';
+        } else if (res.data == false) {
+            body = 'Thất bại';
+            type = 'danger';
+        }
+        showToast({
+            header: 'Cập nhật chuyến bay',
+            body: body,
+            duration: 5000,
+            type: type,
+        });
+        setTimeout(() => {
+            // Đưa hàm hủy dô đây
+            window.location.reload();
+        }, 1500);
+    });
 }
 
 // nút thoát trong modal static thông báo

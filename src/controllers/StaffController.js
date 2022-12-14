@@ -21,7 +21,7 @@ class StaffController {
                 },
             );
 
-            return res.render('staff/TraCuuChuyenBay', {
+            return res.render('staff/TraCuu/TraCuuChuyenBay', {
                 layout: 'staff.handlebars',
                 SanBays: SanBays,
                 HangGhes: HangGhes,
@@ -35,7 +35,7 @@ class StaffController {
         try {
             let Package = JSON.parse(req.body.Package);
             console.log(Package);
-            return res.render('staff/ChiTietChuyenBay', {
+            return res.render('staff/TraCuu/ChiTietChuyenBay', {
                 layout: 'staff.handlebars',
                 Package: Package,
             });
@@ -79,7 +79,7 @@ class StaffController {
             Flight_Edit['HangGhes'] = structuredClone(HangGhes);
             Flight_Edit['ThamSos'] = structuredClone(ThamSos);
 
-            return res.render('staff/ChinhSuaChuyenBay', {
+            return res.render('staff/TraCuu/ChinhSuaChuyenBay', {
                 layout: 'staff.handlebars',
                 Flight_Edit: Flight_Edit,
                 Flight_EditJS: JSON.stringify(Flight_Edit),

@@ -287,8 +287,8 @@ function LoadChuyenBayLenView() {
         if (ChuyenBays[i].TrangThai == 'ChuaKhoiHanh') {
             node.querySelector('.TrangThai').innerText = 'Chưa khởi hành';
             node.querySelector('.TrangThai').classList.add('text-success-light');
-        } else if (ChuyenBays[i].TrangThai == 'ViPhamQuiDinh') {
-            node.querySelector('.TrangThai').innerText = 'Vi phạm qui định';
+        } else if (ChuyenBays[i].TrangThai == 'ViPhamQuyDinh') {
+            node.querySelector('.TrangThai').innerText = 'Vi phạm quy định';
             node.querySelector('.TrangThai').classList.add('text-secondary');
         } else if (ChuyenBays[i].TrangThai == 'DaKhoiHanh') {
             node.querySelector('.TrangThai').innerText = 'Đã khởi hành';

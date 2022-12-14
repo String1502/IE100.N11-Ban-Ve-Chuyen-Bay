@@ -81,8 +81,8 @@ function LoadDataLenView() {
     } else if (Flight_fromDB.TrangThai == 'DaHuy') {
         document.getElementById('TrangThai').value = 'Đã hủy';
         document.getElementById('TrangThai').classList.add('text-danger');
-    } else if (Flight_fromDB.TrangThai == 'ViPhamQuiDinh') {
-        document.getElementById('TrangThai').value = 'Vi phạm qui định';
+    } else if (Flight_fromDB.TrangThai == 'ViPhamQuyDinh') {
+        document.getElementById('TrangThai').value = 'Vi phạm quy định';
         document.getElementById('TrangThai').classList.add('text-secondary');
     }
 

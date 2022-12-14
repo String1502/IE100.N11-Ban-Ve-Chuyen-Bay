@@ -921,8 +921,8 @@ let updateChuyenBay = async (req, res) => {
             req.body.NgayKhoiHanh.Nam,
             req.body.NgayKhoiHanh.Thang - 1,
             req.body.NgayKhoiHanh.Ngay,
-            req.body.GioKhoiHanh.Gio,
-            req.body.GioKhoiHanh.Phut - offset,
+            req.body.GioKhoiHanh.Gio - offset,
+            req.body.GioKhoiHanh.Phut,
         );
 
         chuyenbay.NgayGio = ngaygio;
@@ -963,7 +963,7 @@ let updateChuyenBay = async (req, res) => {
                 sbtg.NgayGioDen = ngaygio;
                 sbtg.ThoiGianDung = req.body.SBTG[i].ThoiGianDung;
                 sbtg.GhiChu = req.body.SBTG[i].GhiChu;
-                sbtg.save();
+                await sbtg.save();
             } else {
                 let trunggian = await db.ChiTietChuyenBay.create({
                     MaChuyenBay: req.body.MaChuyenBay,
@@ -973,7 +973,7 @@ let updateChuyenBay = async (req, res) => {
                     ThoiGianDung: req.body.SBTG[i].ThoiGianDung,
                     GhiChu: req.body.SBTG[i].GhiChu,
                 });
-                trunggian.save();
+                await trunggian.save();
             }
 
             trunggian.splice(temp, 1);

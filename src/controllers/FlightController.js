@@ -916,6 +916,9 @@ let filterFlight = async (req, res) => {
 
 let updateChuyenBay = async (req, res) => {
     try {
+        const date = new Date();
+        const offset = date.getTimezoneOffset() / 60;
+
         const chuyenbay = await db.ChuyenBay.findOne({
             where: {
                 MaChuyenBay: req.body.MaChuyenBay,
@@ -924,9 +927,9 @@ let updateChuyenBay = async (req, res) => {
 
         chuyenbay.NgayKhoiHanh = new Date(
             req.body.NgayKhoiHanh.Nam,
-            req.body.NgayKhoiHanh.Thang,
+            req.body.NgayKhoiHanh.Thang - 1,
             req.body.NgayKhoiHanh.Ngay,
-            req.body.GioKhoiHanh.Gio,
+            req.body.GioKhoiHanh.Gio - offset,
             req.body.GioKhoiHanh.Phut,
         );
         chuyenbay.ThoiGianBay = req.body.ThoiGianBay;
@@ -942,12 +945,9 @@ let updateChuyenBay = async (req, res) => {
             let trunggian = await db.ChiTietChuyenBay.findOne({
                 where: {
                     MaChuyenBay: req.body.MaChuyenBay,
-                    MaSBTG: req.body.SBTG[i].MaSanBay,
                     ThuTu: req.body.SBTG[i].ThuTu,
                 },
             });
-            const date = new Date();
-            const offset = date.getTimezoneOffset() / 60;
 
             let ngaygio = new Date(
                 req.body.SBTG[i].NgayDen.Nam,
@@ -959,10 +959,10 @@ let updateChuyenBay = async (req, res) => {
 
             if (trunggian) {
                 trunggian.ThuTu = req.body.SBTG[i].ThuTu;
+                trunggian.MaSBTG = req.body.SBTG[i].MaSanBay;
                 trunggian.NgayGioDen = ngaygio;
                 trunggian.ThoiGianDung = req.body.SBTG[i].ThoiGianDung;
                 trunggian.GhiChu = req.body.SBTG[i].GhiChu;
-                console.log('chay 1');
                 trunggian.save();
             } else {
                 let trunggian = await db.ChiTietChuyenBay.create({
@@ -973,7 +973,6 @@ let updateChuyenBay = async (req, res) => {
                     ThoiGianDung: req.body.SBTG[i].ThoiGianDung,
                     GhiChu: req.body.SBTG[i].GhiChu,
                 });
-                console.log('chay 2');
                 trunggian.save();
             }
         }

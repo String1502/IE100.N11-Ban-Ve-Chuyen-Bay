@@ -869,47 +869,45 @@ let filterFlight = async (req, res) => {
 //#endregion
 
 //#region Update chuyến bay
-var data_send = {
-    MaChuyenBay: 1,
-    NgayKhoiHanh: { Ngay: 31, Thang: 12, Nam: 2022 },
-    GioKhoiHanh: { Gio: 7, Phut: 30 },
-    ThoiGianBay: 180,
-    GiaVeCoBan: 500000,
-    TrangThai: 'ChuaKhoiHanh',
-    ThoiGianBayToiThieu: 30,
-    ThoiGianDungToiThieu: 15,
-    SBTG_Max: 5,
-    GiaVeCoBan_Min: 300000,
-    SBTG: [
-        {
-            ThuTu: 1,
-            MaSanBay: 'PXU',
-            NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
-            GioDen: { Gio: 7, Phut: 0 },
-            ThoiGianDung: 15,
-            GhiChu: '',
-        },
-        {
-            ThuTu: 2,
-            MaSanBay: 'DAD',
-            NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
-            GioDen: { Gio: 7, Phut: 45 },
-            ThoiGianDung: 15,
-            GhiChu: '',
-        },
-    ],
-    HangVe: [
-        {
-            MaHangGhe: 'Deluxe',
-            TongVe: 50,
-        },
-    ],
-};
+// var data_send = {
+//     MaChuyenBay: 1,
+//     NgayKhoiHanh: { Ngay: 31, Thang: 12, Nam: 2022 },
+//     GioKhoiHanh: { Gio: 7, Phut: 30 },
+//     ThoiGianBay: 180,
+//     GiaVeCoBan: 500000,
+//     TrangThai: 'ChuaKhoiHanh',
+//     ThoiGianBayToiThieu: 30,
+//     ThoiGianDungToiThieu: 15,
+//     SBTG_Max: 5,
+//     GiaVeCoBan_Min: 300000,
+//     SBTG: [
+//         {
+//             ThuTu: 1,
+//             MaSanBay: 'PXU',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 0 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//         {
+//             ThuTu: 2,
+//             MaSanBay: 'DAD',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 45 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//     ],
+//     HangVe: [
+//         {
+//             MaHangGhe: 'Deluxe',
+//             TongVe: 50,
+//         },
+//     ],
+// };
 
 let updateChuyenBay = async (req, res) => {
     try {
-        req.body = data_send;
-
         const date = new Date();
         const offset = date.getTimezoneOffset() / 60;
 

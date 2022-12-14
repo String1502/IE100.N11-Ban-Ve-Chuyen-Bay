@@ -909,7 +909,7 @@ let filterFlight = async (req, res) => {
 //     HangVe: [
 //         {
 //             MaHangGhe: 'Deluxe',
-//             TongVe: 20,
+//             TongVe: 50,
 //         },
 //     ],
 // };
@@ -985,7 +985,7 @@ let updateChuyenBay = async (req, res) => {
                 },
             });
 
-            if (!hangghe) {
+            if (hangghe) {
                 hangghe.TongVe = req.body.HangVe[i].TongVe;
                 await hangghe.save();
             } else {
@@ -999,10 +999,10 @@ let updateChuyenBay = async (req, res) => {
             }
         }
 
-        return res.send('success');
+        return res.send('true');
     } catch (error) {
         console.log(error);
-        return res.send('fail');
+        return res.send('false');
     }
 };
 //#endregion

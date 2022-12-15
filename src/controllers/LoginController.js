@@ -5,7 +5,7 @@ class LoginController {
     // "/login"
     async login(req, res) {
         try {
-            return res.render('DangNhap', {
+            return res.render('login/DangNhap', {
                 layout: 'client.handlebars',
             });
         } catch (error) {

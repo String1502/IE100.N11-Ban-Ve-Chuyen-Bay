@@ -11,6 +11,12 @@ module.exports = {
             GiaTri: {
                 type: Sequelize.INTEGER,
             },
+            TenHienThi: {
+                type: Sequelize.STRING,
+            },
+            NgayHieuLuc: {
+                type: Sequelize.DATE,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

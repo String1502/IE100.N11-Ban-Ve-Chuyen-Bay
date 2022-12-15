@@ -114,8 +114,13 @@ let search_flight = async (form_data) => {
 
         //convert thoigiandi + thoigianden
         thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
-        console.log(thoigiandi_chuyenbay);
+
         thoigianden_chuyenbay = add_minutes(thoigiandi_chuyenbay, list_ChuyenBaySuit[i].ThoiGianBay);
+        list_ChuyenBaySuit[i].thoigiandi_chuyenbay = new Date(list_ChuyenBaySuit[i].ThoiGianDi);
+        list_ChuyenBaySuit[i].thoigianden_chuyenbay = add_minutes(
+            thoigiandi_chuyenbay,
+            list_ChuyenBaySuit[i].ThoiGianBay,
+        );
         //thoigian di
         list_ChuyenBaySuit[i].ThoiGianDi = {
             GioDi: {
@@ -128,6 +133,7 @@ let search_flight = async (form_data) => {
                 Nam: thoigiandi_chuyenbay.getFullYear(),
             },
         };
+
         //thoiganden
         list_ChuyenBaySuit[i].ThoiGianDen = {
             GioDen: {
@@ -174,7 +180,6 @@ let search_flight = async (form_data) => {
                     raw: true,
                 },
             );
-
             //sort thoi gian dung max
 
             //get so diem dung
@@ -183,11 +188,13 @@ let search_flight = async (form_data) => {
             for (var j = 0; j < sbtg.length; j++) {
                 if (j == 0) {
                     //san bay dau -> tram dung dau
-                    thoigiandi = new Date(thoigiandi_chuyenbay);
+
+                    thoigiandi = list_ChuyenBaySuit[i].thoigiandi_chuyenbay;
 
                     thoigianden = new Date(sbtg[j].NgayGioDen);
 
                     thoigianbay = getMinDiff(thoigiandi, thoigianden);
+
                     thoigiandung = parseInt(sbtg[j].ThoiGianDung);
                     chanbay = {
                         SanBayDi: list_ChuyenBaySuit[i].SanBayDi,
@@ -242,7 +249,9 @@ let search_flight = async (form_data) => {
                     //san bay truoc -> san bay trung gian
                     chanbays = chanbays.slice(0, -1);
                     thoigiandi = add_minutes(thoigianden, sbtg[j - 1].ThoiGianDung);
+                    console.log(sbtg);
                     thoigianden = new Date(sbtg[j].NgayGioDen);
+
                     thoigianbay = getMinDiff(thoigiandi, thoigianden);
 
                     chanbay = {
@@ -281,7 +290,7 @@ let search_flight = async (form_data) => {
 
                     //san bay trung gian -> san bay cuoi
                     thoigiandi = add_minutes(thoigianden, sbtg[j].ThoiGianDung);
-                    thoigianbay = getMinDiff(thoigiandi, Date.parse(thoigianden_chuyenbay));
+                    thoigianbay = getMinDiff(thoigiandi, list_ChuyenBaySuit[i].thoigianden_chuyenbay);
 
                     chanbay = {
                         SanBayDi: {
@@ -322,7 +331,6 @@ let search_flight = async (form_data) => {
             list_ChuyenBaySuit[i].GiaVe = list_ChuyenBaySuit[i].GiaVe * parseFloat(heso_hangghe.HeSo);
         }
     }
-    console.log(list_ChuyenBaySuit[0].ThoiGianDen);
     return list_ChuyenBaySuit;
 };
 
@@ -400,8 +408,6 @@ let GetInfoAllFlights = async (req, res) => {
             Chuyenbays[i].SanBayDen = await getInfoSanBay(Chuyenbays[i].MaSanBayDen);
 
             //tinh so ghe trong+ tong ghe
-
-            console.log(Chuyenbays[i].MaChuyenBay);
             let soghe = await db.sequelize.query(
                 ' SELECT SUM(TongVe) as TongGhe, SUM(VeDaBan) as TongVeBan FROM `chitiethangve` WHERE MaChuyenBay = :machuyenbay GROUP BY MaChuyenBay ',
                 {
@@ -412,7 +418,6 @@ let GetInfoAllFlights = async (req, res) => {
                     raw: true,
                 },
             );
-            console.log(soghe);
             if (soghe.length === 0) {
                 Chuyenbays[i].TongGhe = 0;
                 Chuyenbays[i].GheTrong = 0;
@@ -474,10 +479,11 @@ let GetInfoAllFlights = async (req, res) => {
 //         GhiChu
 //     }],
 //     HangVe: [{
-//         MaHangVe,
 //         TenHangVe,
 //         GiaTien,
 //         GheTrong,
+//         MaHangVe,
+//         TongVe,
 //     }]
 //     VeDaDat: [{
 //         MaVe,
@@ -537,6 +543,8 @@ let getFlight = async (req, res) => {
         Chuyenbay.HangVe = [];
         for (var i in HangVes) {
             let hangve = {
+                MaHangVe: HangVes[i].MaHangGhe,
+                TongVe: HangVes[i].TongVe,
                 TenHangVe: HangVes[i].TenHangGhe,
                 GiaTien: HangVes[i].HeSo * Chuyenbay.GiaVeCoBan, // = giavecoban*heso
                 GheTrong: HangVes[i].TongVe - HangVes[i].VeDaBan,
@@ -589,7 +597,6 @@ let getFlight = async (req, res) => {
                 delete NguoiLienHe.NgayGioThanhToan;
 
                 vedadat[j].NguoiLienHe = NguoiLienHe;
-                console.log();
 
                 if (ngaygioThanhToan) {
                     let ngaydat = formatDateTime(ngaygioThanhToan);
@@ -649,7 +656,6 @@ let getFlight = async (req, res) => {
         delete Chuyenbay.MaSanBayDi;
         delete Chuyenbay.MaSanBayDen;
 
-        console.log(Chuyenbay);
         return res.send(JSON.stringify(Chuyenbay));
     } catch (error) {
         console.log(error);
@@ -664,7 +670,7 @@ let getFlight = async (req, res) => {
 //     MaSanBayDi: '',
 //     MaSanBayDen: '',
 //     MaHangGhe: '',
-//     GheTrong: '',
+//     GheTrong: -1,
 //     NgayKhoiHanh: {Ngay: , Thang: , Nam:},
 //     GioKhoiHanh: {Gio: , Phut:},
 //     GiaVeCoBan: -1,
@@ -702,8 +708,6 @@ let getFlight = async (req, res) => {
 let filterFlight = async (req, res) => {
     try {
         let form_data = { ...req.body };
-
-        form_data.GioKhoiHanh = JSON.parse(form_data.GioKhoiHanh);
         let chuyenbays;
         if (typeof form_data.GioKhoiHanh.Gio !== 'undefined' && parseInt(form_data.GioKhoiHanh.Gio) !== -1) {
             //
@@ -770,11 +774,10 @@ let filterFlight = async (req, res) => {
 
         if (typeof form_data.GheTrong !== 'undefined' && parseInt(form_data.GheTrong) !== -1) {
             chuyenbays = chuyenbays.filter((item, index) => {
-                return item.GheTrong <= parseInt(form_data.GheTrong);
+                return item.GheTrong >= parseInt(form_data.GheTrong);
             });
         }
 
-        form_data.NgayKhoiHanh = JSON.parse(form_data.NgayKhoiHanh);
         if (typeof form_data.NgayKhoiHanh.Ngay !== 'undefined' && parseInt(form_data.NgayKhoiHanh.Ngay) !== -1) {
             let strDate =
                 form_data.NgayKhoiHanh.Nam + '-' + form_data.NgayKhoiHanh.Thang + '-' + form_data.NgayKhoiHanh.Ngay;
@@ -800,10 +803,10 @@ let filterFlight = async (req, res) => {
                 } else {
                     chuyenbays[i].MaHangGhe = '';
                 }
-                chuyenbays = chuyenbays.filter((item, index) => {
-                    return item.MaHangGhe !== '';
-                });
             }
+            chuyenbays = chuyenbays.filter((item, index) => {
+                return item.MaHangGhe !== '';
+            });
         }
         //#endregion
 
@@ -856,7 +859,6 @@ let filterFlight = async (req, res) => {
             delete chuyenbays[i].ThoiGianBay;
         }
         //#endregion
-        // console.log(chuyenbays);
         return res.send(JSON.stringify(chuyenbays));
     } catch (error) {
         console.log(error);
@@ -864,6 +866,175 @@ let filterFlight = async (req, res) => {
     }
 };
 
+//#endregion
+
+//#region Update chuyến bay
+// var data_send = {
+//     MaChuyenBay: 1,
+//     NgayKhoiHanh: { Ngay: 31, Thang: 12, Nam: 2022 },
+//     GioKhoiHanh: { Gio: 7, Phut: 30 },
+//     ThoiGianBay: 180,
+//     GiaVeCoBan: 500000,
+//     TrangThai: 'ChuaKhoiHanh',
+//     ThoiGianBayToiThieu: 30,
+//     ThoiGianDungToiThieu: 15,
+//     SBTG_Max: 5,
+//     GiaVeCoBan_Min: 300000,
+//     SBTG: [
+//         {
+//             ThuTu: 1,
+//             MaSanBay: 'PXU',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 0 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//         {
+//             ThuTu: 2,
+//             MaSanBay: 'DAD',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 7, Phut: 45 },
+//             ThoiGianDung: 15,
+//             GhiChu: '',
+//         },
+//     ],
+//     HangVe: [
+//         {
+//             MaHangGhe: 'Deluxe',
+//             TongVe: 50,
+//         },
+//     ],
+// };
+
+let updateChuyenBay = async (req, res) => {
+    try {
+        const date = new Date();
+        const offset = date.getTimezoneOffset() / 60;
+
+        const chuyenbay = await db.ChuyenBay.findOne({
+            where: {
+                MaChuyenBay: req.body.MaChuyenBay,
+            },
+        });
+
+        let ngaygio = new Date(
+            req.body.NgayKhoiHanh.Nam,
+            req.body.NgayKhoiHanh.Thang - 1,
+            req.body.NgayKhoiHanh.Ngay,
+            req.body.GioKhoiHanh.Gio - offset,
+            req.body.GioKhoiHanh.Phut,
+        );
+
+        chuyenbay.NgayGio = ngaygio;
+        chuyenbay.ThoiGianBay = req.body.ThoiGianBay;
+        chuyenbay.GiaVeCoBan = req.body.GiaVeCoBan;
+        chuyenbay.TrangThai = req.body.TrangThai;
+        chuyenbay.ThoiGianBayToiThieu = req.body.ThoiGianBayToiThieu;
+        chuyenbay.ThoiGianDungToiThieu = req.body.ThoiGianDungToiThieu;
+        chuyenbay.SBTG_Max = req.body.SBTG_Max;
+        chuyenbay.GiaVeCoBan_Min = req.body.GiaVeCoBan_Min;
+        await chuyenbay.save();
+
+        let trunggian = await db.ChiTietChuyenBay.findAll({
+            where: {
+                MaChuyenBay: req.body.MaChuyenBay,
+            },
+            order: [['ThuTu', 'ASC']],
+        });
+
+        for (var i in req.body.SBTG) {
+            let temp = -1;
+            let sbtg = trunggian.find((element, index) => {
+                return element.ThuTu === req.body.SBTG[i].ThuTu;
+            });
+            temp = trunggian.findIndex((element) => element === sbtg);
+
+            let ngaygio = new Date(
+                req.body.SBTG[i].NgayDen.Nam,
+                req.body.SBTG[i].NgayDen.Thang - 1,
+                req.body.SBTG[i].NgayDen.Ngay,
+                req.body.SBTG[i].GioDen.Gio - offset,
+                req.body.SBTG[i].GioDen.Phut,
+            );
+
+            if (sbtg) {
+                sbtg.ThuTu = req.body.SBTG[i].ThuTu;
+                sbtg.MaSBTG = req.body.SBTG[i].MaSanBay;
+                sbtg.NgayGioDen = ngaygio;
+                sbtg.ThoiGianDung = req.body.SBTG[i].ThoiGianDung;
+                sbtg.GhiChu = req.body.SBTG[i].GhiChu;
+                await sbtg.save();
+            } else {
+                let trunggian = await db.ChiTietChuyenBay.create({
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaSBTG: req.body.SBTG[i].MaSanBay,
+                    ThuTu: req.body.SBTG[i].ThuTu,
+                    NgayGioDen: ngaygio,
+                    ThoiGianDung: req.body.SBTG[i].ThoiGianDung,
+                    GhiChu: req.body.SBTG[i].GhiChu,
+                });
+                await trunggian.save();
+            }
+
+            trunggian.splice(temp, 1);
+        }
+
+        for (var i in trunggian) {
+            await db.ChiTietChuyenBay.destroy({
+                where: {
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    ThuTu: trunggian[i].ThuTu,
+                },
+            });
+        }
+
+        for (var i in req.body.HangVe) {
+            let hangghe = await db.ChiTietHangVe.findOne({
+                where: {
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaHangGhe: req.body.HangVe[i].MaHangGhe,
+                },
+            });
+
+            if (hangghe) {
+                hangghe.TongVe = req.body.HangVe[i].TongVe;
+                await hangghe.save();
+            } else {
+                let hangghe = await db.ChiTietHangVe.create({
+                    MaChuyenBay: req.body.MaChuyenBay,
+                    MaHangGhe: req.body.HangVe[i].MaHangGhe,
+                    TongVe: req.body.HangVe[i].TongVe,
+                    VeDaBan: 0,
+                });
+                await hangghe.save();
+            }
+        }
+
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
+    }
+};
+//#endregion
+
+//#region
+// let data_send = { MaChuyenBay: -1 };
+let CancelChuyenBay = async (req, res) => {
+    try {
+        let chuyenbay = await db.ChuyenBay.findOne({
+            where: {
+                MaChuyenBay: req.body.MaChuyenBay,
+            },
+        });
+        chuyenbay.TrangThai = 'DaHuy';
+        await chuyenbay.save();
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
+    }
+};
 //#endregion
 
 //#region func util
@@ -922,4 +1093,6 @@ module.exports = {
     GetInfoAllFlights: GetInfoAllFlights,
     filterFlight: filterFlight,
     getFlight: getFlight,
+    updateChuyenBay: updateChuyenBay,
+    CancelChuyenBay: CancelChuyenBay,
 };

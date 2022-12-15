@@ -1,0 +1,145 @@
+<div class='bg-tertiary-light'>
+    <div style='height: 88px;' class='w-100 bg-primary'>
+        <div style='height: 88px;' class='container col-10'>
+            <div style='height: 88px;' class='row d-flex flex-row align-items-center'>
+                <div class='custom-font h28-B text-light mb-2'>Thêm người dùng</div>
+            </div>
+        </div>
+    </div>
+    <div class='container col-10'>
+        <div class='row mt-4 mb-2'>
+            <div class='col-2 offset-1 ps-5'><select
+                    type='text'
+                    class='form-select p16-B custom-boxshadow-focus-primary User_MaChucVu'
+                >
+                    {{#each ChucVus}}
+                        <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-3'>
+            </div>
+            <div class='col-7'>
+                {{! card tài khoản }}
+                <div class='card mb-5'>
+                    <div class='card-header p16-B custom-font'>Tài khoản</div>
+                    <div class='card-body'>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'>Tên tài khoản</label>
+                                <input type='text' class='form-control p16-S mb-3 custom-font User_MaUser' disabled />
+                            </div>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'>Trạng thái</label>
+                                <select
+                                    name=''
+                                    id=''
+                                    class='form-select p16-S mb-3 custom-font custom-boxshadow-focus-primary User_TrangThai'
+                                >
+                                    <option value='1' class='p16-S text-success-light custom-font' selected>Hiệu lực</option>
+                                    <option value='2' class='p16-S text-danger custom-font'>Vô hiệu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{! card dữ liệu cá nhân}}
+                <div class='card mb-5'>
+                    <div class='card-header p16-B custom-font'>Dữ liệu cá nhân</div>
+                    <div class='card-body'>
+                        <label for='' class='form-label p16-S custom-font'>Tên đầy đủ</label>
+                        <input
+                            type='text'
+                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_HoTen custom-font'
+                        />
+                        <div class='row'>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'>Giới tính</label>
+                                <select
+                                    type='text'
+                                    class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_GioiTinh custom-font'
+                                >
+                                    <option value='1' selected>Nam</option>
+                                    <option value='2'>Nữ</option>
+                                </select>
+                            </div>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'> Ngày sinh</label>
+                                <div class='row'>
+                                    <div class='col-3 pe-0'>
+                                        <select
+                                            name=''
+                                            id=''
+                                            style='max-height: 50px;'
+                                            class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_Ngay custom-font'
+                                        >
+                                        </select>
+                                    </div>
+                                    <div class='col-5'>
+                                        <select
+                                            name=''
+                                            id=''
+                                            class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_Thang custom-font'
+                                        >
+                                        </select>
+                                    </div>
+                                    <div class='col-4 ps-0'>
+                                        <select
+                                            name=''
+                                            id=''
+                                            class='form-select p16-S mb-3 ms-0 custom-boxshadow-focus-primary User_Nam custom-font'
+                                        >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'>Số điện thoại</label>
+                                <input
+                                    type='text'
+                                    onkeypress='onlyNumber(event)'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_SDT custom-font'
+                                />
+                            </div>
+                            <div class='col-6'>
+                                <label for='' class='form-label p16-S custom-font'>Căn cước công dân</label>
+                                <input
+                                    type='text'
+                                    onkeypress='onlyNumber(event)'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_CCCD custom-font'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{! card bảo mật }}
+                <div class='card mb-3'>
+                    <div class='card-header p16-B custom-font'>Bảo mật</div>
+                    <div class='card-body'>
+                        <label for='' class='form-label p16-S custom-font'>Email</label>
+                        <input
+                            type='text'
+                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_Email custom-font'
+                        />
+                    </div>
+                </div>
+                <div class='col-auto mb-5' align='right'>
+                    <button
+                        type='button'
+                        class='custom-font User--Sua btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Cập nhật </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method='POST' class='d-none' name='Form'>
+    <input id='Package' name='Package' />
+</form>
+<div value='{{MaUser}}' class='MaUser'></div>
+<div value='{{Users}}' class='Users'></div>
+<script type='module' src='/javascript/staff/SuaUser.js'></script>

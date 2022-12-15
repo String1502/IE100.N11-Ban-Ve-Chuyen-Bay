@@ -4,6 +4,8 @@ import configViewEngine from './config/viewEngine';
 import initWebRoutes from './routes/index';
 import connectDB from './config/connectDB';
 const methodOverride = require('method-override');
+const session = require('express-session');
+
 require('dotenv').config();
 
 const path = require('path');

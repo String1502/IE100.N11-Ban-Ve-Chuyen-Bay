@@ -1,3 +1,96 @@
-<div class='container'>
-    <p>Hello world</p>
+<div class='bg-tertiary-light'>
+
+    <div style='height: 88px;' class='w-100 bg-primary'>
+        <div class='container h-100'>
+            <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
+                <div class='d-flex flex-column'>
+                    <span class='custom-font h28-B text-light mb-2'>Báo cáo doanh thu</span>
+                    <span class='custom-font p16-R text-light'>Xem doanh thu theo mốc thời gian</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tiêu chuẩn tra cứu -->
+    <div class='d-flex justify-content-evenly mt-5'>
+        <div class='card p-4 shadow' style='width: 60%;'>
+            <p class='form-label custom-font p16-S'>Tiêu chuẩn báo cáo</p>
+
+            <div class='card-body d-flex justify-content-between'>
+                <!-- Năm -->
+                <select class='form-select' aria-label='Chọn năm'>
+                    <option selected>Chọn năm</option>
+                    <option value='2022'>2022</option>
+                    <option value='2021'>2021</option>
+                    <option value='2020'>2020</option>
+                </select>
+
+                <!-- Tháng -->
+                <select class='form-select' aria-label='Chọn tháng'>
+                    <option selected>Chọn tháng</option>
+                    <option value='1'>Tháng 01</option>
+                    <option value='2'>Tháng 02</option>
+                    <option value='3'>Tháng 03</option>
+                    <option value='4'>Tháng 04</option>
+                    <option value='5'>Tháng 05</option>
+                    <option value='6'>Tháng 06</option>
+                    <option value='7'>Tháng 07</option>
+                    <option value='8'>Tháng 08</option>
+                    <option value='9'>Tháng 09</option>
+                    <option value='10'>Tháng 10</option>
+                    <option value='11'>Tháng 11</option>
+                    <option value='12'>Tháng 12</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class='d-flex justify-content-center'>
+        <div class='row bg-primary justify-content-center rounded-2 text-light px-5 py-3 mt-5 mx-auto'>
+            <div class='col-3'>
+                <p class='custom-font p20-R'>Tổng doanh thu</p>
+            </div>
+
+            <div class='col-3'>
+                <p class='custom-font p20-B'>600.00 VNĐ</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <div class='my-5 container'>
+        <div class='bg-light shadow rounded-2'>
+            <div class='px-2 py-4 h-auto'>
+
+                <table class='table'>
+
+                    <thead>
+                        <tr class='custom-font p16-S text-center'>
+                            <th scope='col'>Mã chuyến bay</th>
+                            <th scope='col'>Khởi hành</th>
+                            <th scope='col'>Vé đã bán</th>
+                            <th scope='col'>Doanh thu</th>
+                            <th scope='col'>Tỉ lệ</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id='ChuyenBay_Container'>
+                        <tr aria-valuetext='' class='ChuyenBay_Item custom-font p16-R align-middle text-center d-none'>
+                            <th class='MaChuyenBayHienThi'>1</th>
+                            <td class='KhoiHanh'>11:11 11/11/2022</td>
+                            <td class='VeDaBan'>20</td>
+                            <td class='DoanhThu'>100.000</td>
+                            <td class='TiLe'>25%</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
 </div>

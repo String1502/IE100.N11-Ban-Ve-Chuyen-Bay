@@ -1,12 +1,13 @@
 <div class='bg-tertiary-light'>
 
-    <div style='height: 88px;' class='w-100 bg-primary'>
+    <div style='height: 88px;' class='w-100 bg-primary-gradient'>
         <div class='container h-100'>
             <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
                 <div class='d-flex flex-column'>
                     <span class='custom-font h28-B text-light mb-2'>Chỉnh sửa chuyến bay</span>
                     <span class='custom-font p16-R text-light'>Chỉnh sửa các thông tin về chuyến bay</span>
                 </div>
+
             </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
                 <div class='row px-3 mb-3'>
                     {{! Mã chuyến bay }}
                     <div class='col-12'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='MaChuyenBay' class='form-label custom-font p14-S'>Số hiệu chuyến bay</label>
                             <input
                                 style='height: 36px;'
@@ -48,7 +49,7 @@
 
                     {{! Sân bay đi }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDi' class='form-label custom-font p14-S'>Sân bay đi</label>
                             <input
                                 style='height: 36px;'
@@ -64,7 +65,7 @@
 
                     {{! Sân bay đến }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDen' class='form-label custom-font p14-S'>Sân bay đến</label>
                             <input
                                 style='height: 36px;'
@@ -80,7 +81,7 @@
 
                     {{! Trạng thái }}
                     <div class='col-4 col-md-4'>
-                        <div class='mb-3'>
+                        <div class=''>
                             <label for='SanBayDen' class='form-label custom-font p14-S'>Trạng thái</label>
                             <input
                                 style='height: 36px;'
@@ -97,7 +98,7 @@
                 </div>
 
                 {{! Dòng 3 }}
-                <div class='row px-3 mb-3'>
+                <div class='row px-3'>
 
                     {{! Ngày khởi hành }}
                     <div class='col-6 col-md-3'>
@@ -132,10 +133,9 @@
                             <div class='input-group'>
                                 <input
                                     style='height: 36px;'
-                                    type='text'
+                                    type='number'
                                     class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                                     id='ThoiGianBay'
-                                    readonly
                                 />
                                 <span
                                     style='height: 36px;'
@@ -150,7 +150,7 @@
                     <div class='col-6 col-md-3'>
                         <div class='mb-3'>
                             <label for='GiaVeCoBan' class='form-label custom-font p14-S'>Giá vé cơ bản</label>
-                            <div class='input-group mb-3'>
+                            <div class='input-group'>
                                 <input
                                     style='height: 36px;'
                                     type='text'
@@ -164,6 +164,28 @@
                                 >VND</span>
                             </div>
                         </div>
+                    </div>
+
+                </div>
+
+                {{! Đếm ngược }}
+                <div class='row px-3 mb-3 align-items-center justify-content-center'>
+
+                    <div
+                        id='Timer_Card'
+                        style='border-radius: 15px;'
+                        class='col-11 col-lg-6 custom-font h32-B text-light text-center bg-primary-gradient py-5 mb-3 position-relative'
+                    >
+                        <div id='Timer_Head' class='p16-B py-3 position-absolute top-0 start-50 translate-middle-x'>Đếm
+                            ngược thời gian khởi hành</div>
+                        <span id='Timer_Ngay'>00</span>
+                        <span class='p16-S'>ngày</span>
+                        <span id='Timer_Gio'>00</span>
+                        <span class='p16-S'>giờ</span>
+                        <span id='Timer_Phut'>00</span>
+                        <span class='p16-S'>phút</span>
+                        <span id='Timer_Giay'>00</span>
+                        <span class='p16-S'>giây</span>
                     </div>
 
                 </div>
@@ -186,7 +208,7 @@
                 <div id='DiemDung_Container' class='px-3'>
 
                     {{! Điểm dừng item }}
-                    <div class='DiemDung_Item row mb-3 align-items-center d-none' index='0'>
+                    <div class='DiemDung_Item row mb-3 align-items-center d-none' index='-1'>
 
                         {{! Thứ tự }}
                         <div class='col-1'>
@@ -213,7 +235,7 @@
                                     aria-expanded='false'
                                     placeholder='Sân bay dừng'
                                     masanbay=''
-                                    index='0'
+                                    index='-1'
                                 />
                                 {{! Drop down }}
                                 <ul
@@ -255,7 +277,8 @@
                             <input
                                 style='height: 36px;'
                                 type='date'
-                                index='0'
+                                index='-1'
+                                value=''
                                 class='DiemDung_Item_NgayDen form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                             />
                         </div>
@@ -266,7 +289,7 @@
                             <input
                                 style='height: 36px;'
                                 type='time'
-                                index='0'
+                                index='-1'
                                 class='DiemDung_Item_GioDen form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                             />
                         </div>
@@ -274,12 +297,19 @@
                         {{! Thời gian dừng }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Thời gian dừng</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                index='0'
-                                class='DiemDung_Item_ThoiGianDung form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='number'
+                                    index='-1'
+                                    min='0'
+                                    class='DiemDung_Item_ThoiGianDung form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px;'
+                                    class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >phút</span>
+                            </div>
                         </div>
 
                         {{! Ghi chú }}
@@ -288,7 +318,7 @@
                             <input
                                 style='height: 36px;'
                                 type='text'
-                                index='0'
+                                index='-1'
                                 placeholder='Ghi chú'
                                 class='DiemDung_Item_GhiChu form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
                             />
@@ -298,7 +328,7 @@
                         <div class='col-1 px-0 text-center'>
                             <button
                                 style='margin-top:26px;'
-                                index='0'
+                                index='-1'
                                 class='DiemDung_Item_Xoa btn border-0 bg-danger custom-boxshadow-focus-none custom-boxshadow-hover-secondary px-2 py-2 d-none'
                             >
                                 <span class='text-light custom-font p14-S'>Xóa</span>
@@ -306,7 +336,7 @@
 
                             <button
                                 style='margin-top:26px;'
-                                index='0'
+                                index='-1'
                                 class='DiemDung_Item_Luu btn border-0 custom-boxshadow-focus-none custom-boxshadow-hover-primary d-none p-0'
                             >
                                 <i
@@ -317,7 +347,7 @@
 
                             <button
                                 style='margin-top:26px;'
-                                index='0'
+                                index='-1'
                                 class='DiemDung_Item_Huy btn border-0 custom-boxshadow-focus-none custom-boxshadow-hover-secondary p-0 d-none'
                             >
                                 <i
@@ -341,7 +371,6 @@
                         Thêm
                     </button>
                 </div>
-
             </div>
 
         </div>
@@ -375,25 +404,25 @@
                                     aria-expanded='false'
                                     placeholder='Hạng vé'
                                     mahangve=''
+                                    heso=''
                                 />
                                 {{! Drop down }}
                                 <ul
-                                    style='width: 350px; height: 400px;'
-                                    class='HangGhe_Item_MaHangVe_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
+                                    style='width: 350px;'
+                                    class='h-auto HangGhe_Item_MaHangVe_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
                                 >
                                     {{! Dropdown items }}
-                                    {{#each Flight_Edit.HangVes}}
-                                        <li
-                                            class='HangGhe_Item_MaHangVe_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
-                                        >
+                                    {{#each Flight_Edit.HangGhes}}
+                                        <li class='HangGhe_Item_MaHangVe_li dropdown-item custom-active py-2'>
                                             <div style='pointer-events:none;' class='d-flex flex-row'>
                                                 <span
-                                                    class='HangGhe_Item_MaHangVe_li_Ma custom-font p14-R text-dark me-1'
+                                                    class='HangGhe_Item_MaHangVe_li_Ma custom-font p14-B text-dark me-1'
                                                 >{{this.MaHangGhe}}</span>
-                                                <span class='custom-font p14-S text-dark me-1'> - </span>
+                                                <span class='custom-font p14-B text-dark me-1'> - </span>
                                                 <span
-                                                    class='HangGhe_Item_MaHangVe_li_Ten custom-font p14-R text-dark'
+                                                    class='HangGhe_Item_MaHangVe_li_Ten custom-font p14-B text-dark'
                                                 >{{this.TenHangGhe}}</span>
+                                                <span class='HangGhe_Item_MaHangVe_li_HeSo d-none'>{{this.HeSo}}</span>
                                             </div>
                                         </li>
                                     {{/each}}
@@ -404,34 +433,54 @@
                         {{! Giá vé }}
                         <div class='col-4'>
                             <label class='form-label custom-font p14-S'>Giá vé</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                placeholder='Giá vé'
-                                disabled
-                                class='HangGhe_Item_GiaVe form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='text'
+                                    placeholder='Giá vé'
+                                    heso=''
+                                    disabled
+                                    class='HangGhe_Item_GiaVe form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; background-color: #e9ecef;'
+                                    class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >VND</span>
+                            </div>
                         </div>
 
                         {{! Vé đã phát hành }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Vé đã phát hành</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                disabled
-                                class='HangGhe_Item_VeDaPhatHanh form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='text'
+                                    disabled
+                                    class='HangGhe_Item_VeDaPhatHanh form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; background-color: #e9ecef;'
+                                    class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >vé</span>
+                            </div>
                         </div>
 
                         {{! Vé có sẵn }}
                         <div class='col-2'>
                             <label class='form-label custom-font p14-S'>Vé có sẵn</label>
-                            <input
-                                style='height: 36px;'
-                                type='number'
-                                class='HangGhe_Item_VeCoSan form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    style='height: 36px;'
+                                    type='number'
+                                    min='0'
+                                    class='HangGhe_Item_VeCoSan form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                />
+                                <span
+                                    style='height: 36px; '
+                                    class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                >vé</span>
+                            </div>
                         </div>
 
                         {{! Sửa / Xóa / Lưu }}
@@ -485,23 +534,343 @@
 
         </div>
 
-        {{! Lưu thay đổi }}
-        <div class='mb-5'>
-            <div class='d-flex flex-row justify-content-end align-items-center'>
+        {{! Modal thông báo }}
+        <div class='modal fade' id='Modal'>
+            <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark' id='Modal_Header'>Thông báo</span>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body custom-font p20-R text-dark' id='Modal_Body'>
+                        Bạn có muốn lưu thay đổi?
+                    </div>
+                    <div class='modal-footer'>
 
-                <button
-                    class='btn border-0 bg-primary custom-boxshadow-focus-none custom-boxshadow-hover-primary px-5 py-2'
-                >
-                    <span class='text-light custom-font h28-B'>Lưu thay đổi</span>
-                </button>
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-secondary border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            data-bs-dismiss='modal'
+                        >Đóng</button>
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            id='Modal_Thoat'
+                        >Thoát</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='Modal_Luu'
+                        >Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        {{! Modal static thông báo }}
+        <div class='modal fade' data-bs-backdrop='static' data-bs-keyboard='false' id='ModalStatic'>
+            <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark' id='ModalStatic_Header'>Thông báo</span>
+                    </div>
+                    <div class='modal-body custom-font p20-R text-dark' id='ModalStatic_Body'>
+                        Thời gian chỉnh sửa đã hết.
+                        <br />
+                        <span id='ModalStatic_ThayDoi' class='d-none'>Bạn có muốn lưu thay đổi?</span>
+                    </div>
+                    <div class='modal-footer'>
+                        <button
+                            type='button'
+                            class='d-none btn btn-secondary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            id='ModalStatic_Huy'
+                        >Hủy</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStatic_Thoat'
+                        >Thoát</button>
+                        <button
+                            type='button'
+                            class='d-none btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStatic_Luu'
+                        >Lưu</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{! Modal static chỉnh sửa }}
+        <div class='modal fade' id='ModalStaticChinhSua' data-bs-backdrop='static' data-bs-keyboard='false'>
+            <div class='modal-dialog modal-dialog-centered modal-xl'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <div class='d-flex flex-column'>
+
+                            <span class='modal-title custom-font h24-B text-dark' id='ModalStaticChinhSua_Header'>CHUYẾN
+                                BAY VI PHẠM VI ĐỊNH</span>
+                            <span class='modal-title custom-font p16-R text-dark'>Điều chỉnh vi phạm trước khi chỉnh sửa</span>
+                        </div>
+                    </div>
+                    <div class='modal-body' id='ModalStaticChinhSua_Body'>
+                        <div class='d-flex flex-column h-auto'>
+
+                            {{! Tiêu đề }}
+                            <div id='ThongTinDiemDung_ViPham' class='custom-font p20-S text-tertiary py-3'>
+                                THÔNG TIN ĐIỂM DỪNG
+                            </div>
+
+                            <div class='row mb-3'>
+                                {{! Điểm dừng container }}
+                                <div id='DiemDungViPham_Container' class=''>
+
+                                    {{! Điểm dừng item }}
+                                    <div
+                                        class='DiemDungViPham_Item row mb-4 align-items-start d-none'
+                                        index='-1'
+                                        status=''
+                                    >
+
+                                        {{! Thứ tự }}
+                                        <div class='col-1'>
+                                            <label class='form-label custom-font p14-S'>Thứ tự</label>
+                                            <input
+                                                style='height: 36px;'
+                                                type='text'
+                                                class='DiemDungViPham_Item_ThuTu form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary text-center'
+                                                value='0'
+                                                disabled
+                                            />
+                                        </div>
+
+                                        {{! Sân bay }}
+                                        <div class='col-2'>
+                                            <label class='form-label custom-font p14-S'>Sân bay dừng</label>
+                                            <div class='input-group dropdown'>
+
+                                                <input
+                                                    style='height: 36px;'
+                                                    type='text'
+                                                    class='DiemDungViPham_Item_SanBayDung form-control dropdown-toggle custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary form-select'
+                                                    data-bs-toggle='dropdown'
+                                                    aria-expanded='false'
+                                                    placeholder='Sân bay dừng'
+                                                    masanbay=''
+                                                    index='-1'
+                                                    disabled
+                                                />
+
+                                            </div>
+                                        </div>
+
+                                        {{! Ngày đến }}
+                                        <div class='col-3'>
+                                            <label class='form-label custom-font p14-S'>Ngày đến</label>
+                                            <input
+                                                style='height: 36px;'
+                                                type='date'
+                                                index='-1'
+                                                value=''
+                                                disabled
+                                                class='DiemDungViPham_Item_NgayDen form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                            />
+                                        </div>
+
+                                        {{! Giờ đến }}
+                                        <div class='col-3'>
+                                            <label class='form-label custom-font p14-S'>Giờ đến</label>
+                                            <input
+                                                style='height: 36px;'
+                                                type='time'
+                                                index='-1'
+                                                disabled
+                                                class='DiemDungViPham_Item_GioDen form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                            />
+                                        </div>
+
+                                        {{! Thời gian dừng }}
+                                        <div class='col-3'>
+                                            <label class='form-label custom-font p14-S'>Thời gian dừng</label>
+                                            <div class='input-group'>
+                                                <input
+                                                    style='height: 36px;'
+                                                    type='number'
+                                                    index='-1'
+                                                    min='0'
+                                                    disabled
+                                                    class='DiemDungViPham_Item_ThoiGianDung form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                                />
+                                                <span
+                                                    style='height: 36px; background-color: #e9ecef;'
+                                                    class='DiemDungViPham_Item_ThoiGianDung_DonVi bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                                >phút</span>
+                                            </div>
+                                        </div>
+
+                                        {{! Nút xóa }}
+                                        <div class='col-1 px-0 text-center d-none'>
+                                            <button
+                                                style='margin-top:26px;'
+                                                index='-1'
+                                                class='DiemDungViPham_Item_Xoa btn border-0 bg-danger custom-boxshadow-focus-none custom-boxshadow-hover-secondary px-2 py-2'
+                                            >
+                                                <span class='text-light custom-font p14-S'>Xóa</span>
+                                            </button>
+                                        </div>
+
+                                        {{! Trống }}
+                                        <div class='col-3 blank'>
+
+                                        </div>
+
+                                        {{! Đề xuất chỉnh sửa cho ngày giờ đến }}
+                                        <div
+                                            class='col-6 custom-font p12-S mt-2 DiemDungViPham_Item_NgayGioDen_DeXuat_div'
+                                        >
+                                            <div class='text-tertiary'>
+                                                <span class='DiemDungViPham_Item_NgayGioDen_DeXuat d-none'>
+                                                    123
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        {{! Đề xuất chỉnh sửa cho thời gian dừng }}
+                                        <div class='col-3 custom-font p12-S mt-2'>
+                                            <div class='text-tertiary'>
+                                                <span class='DiemDungViPham_Item_ThoiGianDung_DeXuat d-none'>
+                                                    123
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {{! Tiêu đề }}
+                            <div id='ThongTinChuyenBay_ViPham' class='d-none custom-font p20-S text-tertiary py-3'>
+                                THÔNG TIN CHUYẾN BAY
+                            </div>
+
+                            <div class='row mb-3'>
+
+                                {{! Thời gian bay }}
+                                <div id='ThoiGianBay_ViPham_div' class='col d-none'>
+                                    <div class='mb-3'>
+                                        <label for='ThoiGianBay' class='form-label custom-font p14-S'>Thời gian bay</label>
+                                        <div class='input-group'>
+                                            <input
+                                                style='height: 36px;'
+                                                type='number'
+                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                                id='ThoiGianBay_ViPham'
+                                            />
+                                            <span
+                                                style='height: 36px;'
+                                                class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            >phút</span>
+                                        </div>
+                                        <div class='custom-font p12-S text-tertiary mt-2'>
+                                            <span id='ThoiGianBay_ViPham_DeXuat'>123</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{! Giá vé }}
+                                <div id='GiaVeCoBan_ViPham_div' class='col d-none'>
+                                    <div class='mb-3'>
+                                        <label for='GiaVeCoBan' class='form-label custom-font p14-S'>Giá vé cơ bản</label>
+                                        <div class='input-group'>
+                                            <input
+                                                style='height: 36px;'
+                                                type='text'
+                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                                id='GiaVeCoBan_ViPham'
+                                                onkeypress='onlyNumber(event)'
+                                            />
+                                            <span
+                                                style='height: 36px;'
+                                                class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
+                                            >VND</span>
+                                        </div>
+                                        <div class='custom-font p12-S text-tertiary mt-2'>
+                                            <span id='GiaVeCoBan_ViPham_DeXuat'>123</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStaticChinhSua_Thoat'
+                        >Thoát</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
+                            id='ModalStaticChinhSua_Luu'
+                            disabled
+                        >Lưu</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
 
+{{! Đếm ngược thời gian chỉnh sửa }}
+
+<div
+    style='box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+    class='position-fixed bottom-0 start-0 w-100 bg-light text-light custom-font p16-B h-auto'
+>
+    <div class='d-flex flex-row justify-content-between align-items-center py-2 mx-2'>
+
+        <div class='py-2 px-2 bg-secondary-gradient shadow text-end rounded text-light custom-font p16-B'>
+            <span class='p12-R pb-1'>Thời gian chỉnh sửa còn</span>
+            <span id='TimerRemain_Phut'>00</span>
+            <span class='p12-R'>phút</span>
+            <span id='TimerRemain_Giay'>00</span>
+            <span class='p12-R'>giây</span>
+        </div>
+
+        <div class='d-flex flex-row justify-content-end'>
+            {{! Thoát chỉnh sửa }}
+            <div class='me-2'>
+                <a
+                    id='ThoatChinhSuaChuyenBay'
+                    type='button'
+                    class='btn btn-primary bg-danger border-0 px-4 py-2 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                >
+                    Thoát
+                </a>
+            </div>
+            {{! Lưu thay đổi }}
+            <button
+                class='btn border-0 bg-success custom-boxshadow-focus-none custom-boxshadow-hover-primary px-4 py-2'
+                id='LuuThayDoi'
+                disabled
+            >
+                <span class='text-light custom-font p20-B'>Lưu thay đổi</span>
+            </button>
+        </div>
+
+    </div>
+</div>
+
 <div id='Flight_EditJS' Flight_EditJS='{{this.Flight_EditJS}}' class='d-none'></div>
+
+{{! Form }}
+<form name='staff-form' method='POST'>
+    <input id='package' name='Package' class='d-none' type='text' />
+</form>
 
 {{! Our js }}
 <script type='module' src='/javascript/staff/ChinhSuaChuyenBay.js'>

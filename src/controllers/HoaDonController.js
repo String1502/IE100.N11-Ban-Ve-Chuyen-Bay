@@ -106,8 +106,6 @@ let CreateHoaDon = async (req_body) => {
 
         //create hoa don
         let giodat = new Date(req_body.NgayGioDat);
-        console.log(giodat.getUTCHours() + 7);
-        console.log(giodat.getUTCMinutes());
 
         giodat = new Date(
             giodat.getFullYear(),

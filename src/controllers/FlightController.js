@@ -1018,7 +1018,7 @@ let updateChuyenBay = async (req, res) => {
 };
 //#endregion
 
-//#region
+//#region   Hủy chuyến bay
 // let data_send = { MaChuyenBay: -1 };
 let CancelChuyenBay = async (req, res) => {
     try {

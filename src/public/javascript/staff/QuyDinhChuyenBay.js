@@ -321,11 +321,15 @@ for (let i = 0; i < ThamSos.length; i++) {
             }
             ThamSos_P_Update[i].ID_Update = 1;
             ThamSos_P_Update[i].GiaTri = e.target.value.replaceAll('.', '');
-            ThamSos_P_Update[i].NgayHieuLuc = ThamSo_NgayHieuLuc[i].getAttribute('min');
+            if (i < 4) {
+                ThamSos_P_Update[i].NgayHieuLuc = ThamSo_NgayHieuLuc[i].getAttribute('min');
+            }
         } else {
             ThamSos_P_Update[i].ID_Update = 0;
             ThamSos_P_Update[i].GiaTri = Package.ThamSos[i].GiaTri;
-            ThamSos_P_Update[i].NgayHieuLuc = formatDate(Package.ThamSos[i].NgayHieuLuc);
+            if (i < 4) {
+                ThamSos_P_Update[i].NgayHieuLuc = formatDate(Package.ThamSos[i].NgayHieuLuc);
+            }
         }
     });
     if (i <= 3) {
@@ -446,6 +450,20 @@ ThamSo_CapNhat.addEventListener('click', (e) => {
                     duration: 5000,
                     type: 'success',
                 });
+                //Cập nhật lại min max của ngày hiệu lực
+                for (let j = 0; j <= 3; j++) {
+                    let Currentday = new Date();
+                    let NgayMax = new Date(
+                        Currentday.getTime() + parseInt(Package.ThamSos[10].GiaTri) * (24 * 60 * 60 * 1000),
+                    );
+                    NgayMax =
+                        NgayMax.getFullYear() +
+                        '-' +
+                        ('0' + (NgayMax.getMonth() + 1)).slice(-2) +
+                        '-' +
+                        ('0' + NgayMax.getDate()).slice(-2);
+                    ThamSo_NgayHieuLuc[j].setAttribute('max', NgayMax);
+                }
                 if (o >= 1) {
                     showToast({
                         header: 'Có ' + o + ' chuyến bay vi phạm về quy định',

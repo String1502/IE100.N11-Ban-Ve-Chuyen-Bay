@@ -238,6 +238,7 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
             return;
         }
     }
+    // new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
     let User_NgaySinh =
         User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
     let User_P = {

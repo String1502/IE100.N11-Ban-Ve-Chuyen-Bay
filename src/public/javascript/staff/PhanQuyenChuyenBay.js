@@ -4,6 +4,15 @@ function LoadGioiTinh() {
         if (GioiTinh[i].innerText == '1') GioiTinh[i].innerText = 'Nam';
         else GioiTinh[i].innerText = 'Nữ';
     }
+    let ChucVus = document.querySelectorAll('.ChucVu');
+    for (let i = 0; i < ChucVus.length; i++) {
+        if (ChucVus[i].querySelector('.ChucVu_Ten').innerText == 'Khách hàng') {
+            let dele = ChucVus[i].querySelector('.button');
+            let de = ChucVus[i].querySelector('.ChucVu--Sua');
+            dele.removeChild(de);
+            return;
+        }
+    }
 }
 LoadGioiTinh();
 document.querySelector('.ChucVu--Them').addEventListener('click', (e) => {
@@ -13,12 +22,14 @@ document.querySelector('.ChucVu--Them').addEventListener('click', (e) => {
 });
 let ChucVus = document.querySelectorAll('.ChucVu');
 for (let i = 0; i < ChucVus.length; i++) {
-    ChucVus[i].querySelector('.ChucVu--Sua').addEventListener('click', (e) => {
-        var Form = document.forms['Form'];
-        document.getElementById('Package').value = e.target.getAttribute('index');
-        Form.action = '/staff/phanquyen/EditPosition';
-        Form.submit();
-    });
+    if (ChucVus[i].querySelector('.ChucVu--Sua') != undefined) {
+        ChucVus[i].querySelector('.ChucVu--Sua').addEventListener('click', (e) => {
+            var Form = document.forms['Form'];
+            document.getElementById('Package').value = e.target.getAttribute('index');
+            Form.action = '/staff/phanquyen/EditPosition';
+            Form.submit();
+        });
+    }
 }
 let User_Them = document.querySelectorAll('.User--Them');
 for (let i = 0; i < User_Them.length; i++) {

@@ -134,7 +134,6 @@ class QuyDinhController {
             Package.LoaiKhachHangs = structuredClone(LoaiKhachHangs);
             Package.MocHanhLys = structuredClone(MocHanhLys);
             Package.ChuyenBays = structuredClone(ChuyenBays);
-            console.log(ChuyenBays);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -155,11 +154,8 @@ class QuyDinhController {
             let CBVP = req.body.CBVP;
             let o = 0;
             let ChuyenBay = await db.ChuyenBay.findAll();
-            console.log(CBVP);
             for (let i = 0; i < ChuyenBay.length; i++) {
                 if (ChuyenBay[i]._previousDataValues.MaChuyenBay == CBVP[o]) {
-                    console.log(ChuyenBay[i]._previousDataValues.MaChuyenBay);
-
                     await ChuyenBay[i].set({
                         TrangThai: 'ViPhamQuyDinh',
                     });
@@ -262,7 +258,6 @@ class QuyDinhController {
                     await HangGhe[i].save();
                 }
             }
-            console.log(HangGhe_A);
             for (let i = 0; i < HangGhe_A.length; i++) {
                 await db.HangGhe.create({
                     MaHangGhe: HangGhe_A[i].MaHangGhe,
@@ -279,7 +274,6 @@ class QuyDinhController {
             });
 
             Package = structuredClone(HangGhes);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -304,7 +298,6 @@ class QuyDinhController {
                     await LoaiKhachHang[i].save();
                 }
             }
-            console.log(LoaiKhachHang_A);
             for (let i = 0; i < LoaiKhachHang_A.length; i++) {
                 await db.LoaiKhachHang.create({
                     TenLoai: LoaiKhachHang_A[i].TenLoaiKhachHang,
@@ -323,7 +316,6 @@ class QuyDinhController {
                 },
             );
             Package = structuredClone(LoaiKhachHangs);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -346,7 +338,6 @@ class QuyDinhController {
                     await MocHanhLy[i].save();
                 }
             }
-            console.log(MocHanhLy_A);
             for (let i = 0; i < MocHanhLy_A.length; i++) {
                 await db.MocHanhLy.create({
                     SoKgToiDa: MocHanhLy_A[i].SoKgToiDa,
@@ -360,7 +351,6 @@ class QuyDinhController {
                 raw: true,
             });
             Package = structuredClone(MocHanhLys);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);

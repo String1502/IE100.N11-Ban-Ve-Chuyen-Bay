@@ -542,7 +542,6 @@ document.querySelector('.SanBay--Huy').addEventListener('click', (e) => {
         }
     }
     SanBays_P_Update = structuredClone(Package.SanBays);
-    F_SanBay_Updated = false;
     for (let i = 0; i < SanBays.length; i++) {
         SanBays[i].querySelector('.SanBay_Ten').disabled = true;
         SanBays[i].querySelector('.SanBay_Ma').disabled = true;
@@ -615,22 +614,48 @@ document.querySelector('.SanBay_input--Search').addEventListener('keyup', (e) =>
     }
 });
 
-let F_SanBay_Updated = false; // biến kiểm tra cập nhật của sân bay
 // kiểm tra sự thay đổi
 for (let i = 0; i < SanBays.length; i++) {
     SanBays[i].querySelector('.SanBay_TrangThai').addEventListener('change', (e) => {
         if (e.target.selectedIndex == 0) {
             e.target.classList.remove('text-danger');
             e.target.classList.add('text-success-light');
-            SanBays_P_Update[i].ID_Update = 1;
-            SanBays_P_Update[i].TrangThai = 'HoatDong';
-            F_SanBay_Updated = true;
+            if (SanBays_P_Update[i].ID_Update == undefined || SanBays_P_Update[i].ID_Update == 0) {
+                SanBays_P_Update[i].ID_Update = 1;
+                SanBays_P_Update[i].TrangThai = 'HoatDong';
+            } else {
+                SanBays_P_Update[i].ID_Update = 0;
+                SanBays_P_Update[i].TrangThai = 'HoatDong';
+            }
         } else {
+            for (let i = 0; i < Package.ChuyenBays.length; i++) {
+                if (
+                    Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
+                    Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
+                ) {
+                    let SB = e.target.closest('.SanBay');
+                    let Ma = SB.querySelector('.SanBay_Ma').value;
+                    if (Package.ChuyenBays[i].MaSanBayDi == Ma || Package.ChuyenBays[i].MaSanBayDen == Ma) {
+                        showToast({
+                            header: 'Sân bay có mã: ' + Package.SanBays[i].MaSanBay,
+                            body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng sân bay này',
+                            duration: 5000,
+                            type: 'warning',
+                        });
+                        e.target.selectedIndex = 0;
+                        return;
+                    }
+                }
+            }
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
-            SanBays_P_Update[i].ID_Update = 1;
-            SanBays_P_Update[i].TrangThai = 'NgungHoatDong';
-            F_SanBay_Updated = true;
+            if (SanBays_P_Update[i].ID_Update == undefined || SanBays_P_Update[i].ID_Update == 0) {
+                SanBays_P_Update[i].ID_Update = 1;
+                SanBays_P_Update[i].TrangThai = 'NgungHoatDong';
+            } else {
+                SanBays_P_Update[i].ID_Update = 0;
+                SanBays_P_Update[i].TrangThai = 'NgungHoatDong';
+            }
         }
     });
     SanBays[i].querySelector('.SanBay_Ten').addEventListener('blur', (e) => {
@@ -647,15 +672,21 @@ for (let i = 0; i < SanBays.length; i++) {
         }
         if (e.target.value != Package.SanBays[i].TenSanBay) {
             SanBays_P_Update[i].ID_Update = 1;
-            SanBays_P_Update[i].TenSanBay = e.target.value;
-            F_SanBay_Updated = true;
+            SanBays_P_Update[i].TrangThai = e.target.value;
+        }
+        if (e.target.value == Package.SanBays[i].TenSanBay) {
+            SanBays_P_Update[i].ID_Update = 0;
+            SanBays_P_Update[i].TrangThai = Package.SanBays[i].TenSanBay;
         }
     });
     SanBays[i].querySelector('.SanBay_DiaChi').addEventListener('blur', (e) => {
         if (e.target.value != Package.SanBays[i].MaTinhThanh) {
             SanBays_P_Update[i].ID_Update = 1;
             SanBays_P_Update[i].MaTinhThanh = e.target.value;
-            F_SanBay_Updated = true;
+        }
+        if (e.target.value == Package.SanBays[i].MaTinhThanh) {
+            SanBays_P_Update[i].ID_Update = 0;
+            SanBays_P_Update[i].MaTinhThanh = Package.SanBays[i].MaTinhThanh;
         }
     });
 }
@@ -763,63 +794,60 @@ document.querySelector('.SanBay--CapNhat').addEventListener('click', (e) => {
     for (let i = 0; i < SanBays_P_Update.length; i++) {
         if (SanBays_P_Update[i].ID_Update == 1) SoSanBayUPdate++;
     }
-    if (F_SanBay_Updated == true || SanBays_New.length > 0) {
-        if (F_SanBay_Updated == true || SanBays_New.length > 0) {
-            let SanBays_P = {};
-            SanBays_P.SanBays_P_Update = structuredClone(SanBays_P_Update);
-            SanBays_P.SanBays_P_Add = structuredClone(SanBays_P_Add);
-            console.log(SanBays_P);
-            // chuyển trạng thái sang sửa
-            SanBays[0].querySelector('.SanBay_Ten').focus();
-            for (let i = 0; i < SanBays_New.length; i++) {
-                SanBays_New[i].querySelector('.SanBay_Ma').disabled = true;
-                SanBays_New[i].querySelector('.SanBay_Ten').disabled = true;
-                SanBays_New[i].querySelector('.SanBay_DiaChi').disabled = true;
-                SanBays_New[i].querySelector('.SanBay_TrangThai').disabled = true;
-                SanBays_New[i].querySelector('.SanBay_Cop--Xoa').classList.add('d-none');
-                SanBays_New[i].classList.remove('SanBay_New');
-                SanBays_New[i].classList.add('SanBay');
-            }
-            SanBays = document.querySelectorAll('.SanBay');
-            for (let i = 0; i < SanBays.length; i++) {
-                SanBays[i].querySelector('.SanBay_Ten').disabled = true;
-                SanBays[i].querySelector('.SanBay_Ma').disabled = true;
-                SanBays[i].querySelector('.SanBay_DiaChi').disabled = true;
-                SanBays[i].querySelector('.SanBay_TrangThai').disabled = true;
-            }
-            document.querySelector('.SanBay--Them').classList.add('d-none');
-            document.querySelector('.SanBay--Huy').classList.add('d-none');
-            e.target.classList.add('d-none');
-            document.querySelector('.SanBay--Sua').classList.remove('d-none');
-            axios({
-                method: 'POST',
-                url: '/staff/quydinh/UpdateSanBay',
-                data: SanBays_P,
-            }).then((res) => {
-                Package.SanBays = res.data;
-                LoadSanBay();
-                //    hiển thị thông báo cập nhật thành công
-                document.querySelector('.SanBay--CapNhat').focus();
-                if (F_SanBay_Updated == true) {
-                    showToast({
-                        header: 'Thông tin sân bay',
-                        body: 'Đã cập nhật thành công ' + SoSanBayUPdate + ' sân bay',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                if (SanBays_New.length > 0) {
-                    showToast({
-                        header: 'Thông tin sân bay',
-                        body: 'Đã thêm thành công ' + SanBays_New.length + ' sân bay',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                SanBays_P_Update = structuredClone(Package.SanBays);
-                F_SanBay_Updated = false;
-            });
+    if (SoSanBayUPdate > 0 || SanBays_New.length > 0) {
+        let SanBays_P = {};
+        SanBays_P.SanBays_P_Update = structuredClone(SanBays_P_Update);
+        SanBays_P.SanBays_P_Add = structuredClone(SanBays_P_Add);
+        console.log(SanBays_P);
+        // chuyển trạng thái sang sửa
+        SanBays[0].querySelector('.SanBay_Ten').focus();
+        for (let i = 0; i < SanBays_New.length; i++) {
+            SanBays_New[i].querySelector('.SanBay_Ma').disabled = true;
+            SanBays_New[i].querySelector('.SanBay_Ten').disabled = true;
+            SanBays_New[i].querySelector('.SanBay_DiaChi').disabled = true;
+            SanBays_New[i].querySelector('.SanBay_TrangThai').disabled = true;
+            SanBays_New[i].querySelector('.SanBay_Cop--Xoa').classList.add('d-none');
+            SanBays_New[i].classList.remove('SanBay_New');
+            SanBays_New[i].classList.add('SanBay');
         }
+        SanBays = document.querySelectorAll('.SanBay');
+        for (let i = 0; i < SanBays.length; i++) {
+            SanBays[i].querySelector('.SanBay_Ten').disabled = true;
+            SanBays[i].querySelector('.SanBay_Ma').disabled = true;
+            SanBays[i].querySelector('.SanBay_DiaChi').disabled = true;
+            SanBays[i].querySelector('.SanBay_TrangThai').disabled = true;
+        }
+        document.querySelector('.SanBay--Them').classList.add('d-none');
+        document.querySelector('.SanBay--Huy').classList.add('d-none');
+        e.target.classList.add('d-none');
+        document.querySelector('.SanBay--Sua').classList.remove('d-none');
+        axios({
+            method: 'POST',
+            url: '/staff/quydinh/UpdateSanBay',
+            data: SanBays_P,
+        }).then((res) => {
+            Package.SanBays = res.data;
+            LoadSanBay();
+            //    hiển thị thông báo cập nhật thành công
+            document.querySelector('.SanBay--CapNhat').focus();
+            if (SoSanBayUPdate > 0) {
+                showToast({
+                    header: 'Thông tin sân bay',
+                    body: 'Đã cập nhật thành công ' + SoSanBayUPdate + ' sân bay',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            if (SanBays_New.length > 0) {
+                showToast({
+                    header: 'Thông tin sân bay',
+                    body: 'Đã thêm thành công ' + SanBays_New.length + ' sân bay',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            SanBays_P_Update = structuredClone(Package.SanBays);
+        });
     } else {
         for (let i = 0; i < SanBays.length; i++) {
             SanBays[i].querySelector('.SanBay_Ten').disabled = true;
@@ -929,21 +957,28 @@ document.querySelector('.HangGhe_input--Search').addEventListener('keyup', (e) =
 });
 
 // kiểm tra sự thay đổi
-let F_HangGhe_Updated = false;
 for (let i = 0; i < HangGhes.length; i++) {
     HangGhes[i].querySelector('.HangGhe_TrangThai').addEventListener('change', (e) => {
-        if (e.target.selectedIndex === 0) {
+        if (e.target.selectedIndex == 0) {
             e.target.classList.remove('text-danger');
             e.target.classList.add('text-success-light');
-            HangGhes_P_Update[i].ID_Update = 1;
-            HangGhes_P_Update[i].TrangThai = 'ApDung';
-            F_HangGhe_Updated = true;
+            if (HangGhes_P_Update[i].ID_Update == undefined || HangGhes_P_Update[i].ID_Update == 0) {
+                HangGhes_P_Update[i].ID_Update = 1;
+                HangGhes_P_Update[i].TrangThai = 'ApDung';
+            } else {
+                HangGhes_P_Update[i].ID_Update = 0;
+                HangGhes_P_Update[i].TrangThai = 'ApDung';
+            }
         } else {
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
-            HangGhes_P_Update[i].ID_Update = 1;
-            HangGhes_P_Update[i].TrangThai = 'NgungApDung';
-            F_HangGhe_Updated = true;
+            if (HangGhes_P_Update[i].ID_Update == undefined || HangGhes_P_Update[i].ID_Update == 0) {
+                HangGhes_P_Update[i].ID_Update = 1;
+                HangGhes_P_Update[i].TrangThai = 'NgungApDung';
+            } else {
+                HangGhes_P_Update[i].ID_Update = 0;
+                HangGhes_P_Update[i].TrangThai = 'NgungApDung';
+            }
         }
     });
     HangGhes[i].querySelector('.HangGhe_Ten').addEventListener('blur', (e) => {
@@ -961,7 +996,10 @@ for (let i = 0; i < HangGhes.length; i++) {
         if (e.target.value != Package.HangGhes[i].TenHangGhe) {
             HangGhes_P_Update[i].ID_Update = 1;
             HangGhes_P_Update[i].TenHangGhe = e.target.value;
-            F_HangGhe_Updated = true;
+        }
+        if (e.target.value == Package.HangGhes[i].TenHangGhe) {
+            HangGhes_P_Update[i].ID_Update = 0;
+            HangGhes_P_Update[i].TenHangGhe = Package.HangGhes[i].TenHangGhe;
         }
     });
     HangGhes[i].querySelector('.HangGhe_HeSo').addEventListener('blur', (e) => {
@@ -999,7 +1037,10 @@ for (let i = 0; i < HangGhes.length; i++) {
         if (e.target.value != Package.HangGhes[i].HeSo) {
             HangGhes_P_Update[i].ID_Update = 1;
             HangGhes_P_Update[i].HeSo = e.target.value;
-            F_HangGhe_Updated = true;
+        }
+        if (e.target.value == Package.HangGhes[i].HeSo) {
+            HangGhes_P_Update[i].ID_Update = 0;
+            HangGhes_P_Update[i].HeSo = Package.HangGhes[i].HeSo;
         }
     });
 }
@@ -1028,7 +1069,6 @@ document.querySelector('.HangGhe--Huy').addEventListener('click', (e) => {
         }
     }
     HangGhes_P_Update = structuredClone(Package.HangGhes);
-    F_HangGhe_Updated = false;
     for (let i = 0; i < HangGhes.length; i++) {
         HangGhes[i].querySelector('.HangGhe_Ten').disabled = true;
         HangGhes[i].querySelector('.HangGhe_Ma').disabled = true;
@@ -1138,63 +1178,59 @@ document.querySelector('.HangGhe--CapNhat').addEventListener('click', (e) => {
     for (let i = 0; i < HangGhes_P_Update.length; i++) {
         if (HangGhes_P_Update[i].ID_Update == 1) SoHangGheUPdate++;
     }
-    if (F_HangGhe_Updated == true || HangGhes_New.length > 0) {
-        if (F_HangGhe_Updated == true || HangGhes_New.length > 0) {
-            let HangGhes_P = {};
-            HangGhes_P.HangGhes_P_Update = structuredClone(HangGhes_P_Update);
-            HangGhes_P.HangGhes_P_Add = structuredClone(HangGhes_P_Add);
-            console.log(HangGhes_P);
-            // chuyển trạng thái sang sửa
-            HangGhes[0].querySelector('.HangGhe_Ten').focus();
-            for (let i = 0; i < HangGhes_New.length; i++) {
-                HangGhes_New[i].querySelector('.HangGhe_Ma').disabled = true;
-                HangGhes_New[i].querySelector('.HangGhe_Ten').disabled = true;
-                HangGhes_New[i].querySelector('.HangGhe_HeSo').disabled = true;
-                HangGhes_New[i].querySelector('.HangGhe_TrangThai').disabled = true;
-                HangGhes_New[i].querySelector('.HangGhe_Cop--Xoa').classList.add('d-none');
-                HangGhes_New[i].classList.remove('HangGhe_New');
-                HangGhes_New[i].classList.add('HangGhe');
-            }
-            HangGhes = document.querySelectorAll('.HangGhe');
-            for (let i = 0; i < HangGhes.length; i++) {
-                HangGhes[i].querySelector('.HangGhe_Ten').disabled = true;
-                HangGhes[i].querySelector('.HangGhe_Ma').disabled = true;
-                HangGhes[i].querySelector('.HangGhe_HeSo').disabled = true;
-                HangGhes[i].querySelector('.HangGhe_TrangThai').disabled = true;
-            }
-            document.querySelector('.HangGhe--Them').classList.add('d-none');
-            document.querySelector('.HangGhe--Huy').classList.add('d-none');
-            e.target.classList.add('d-none');
-            document.querySelector('.HangGhe--Sua').classList.remove('d-none');
-            axios({
-                method: 'POST',
-                url: '/staff/quydinh/UpdateHangGhe',
-                data: HangGhes_P,
-            }).then((res) => {
-                Package.HangGhes = res.data;
-                LoadHangGhe();
-                //    hiển thị thông báo cập nhật thành công
-                document.querySelector('.HangGhe--CapNhat').focus();
-                if (F_HangGhe_Updated == true) {
-                    showToast({
-                        header: 'Thông tin hạng ghế',
-                        body: 'Đã cập nhật thành công ' + SoHangGheUPdate + ' hạng ghế',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                if (HangGhes_New.length > 0) {
-                    showToast({
-                        header: 'Thông tin hạng ghế',
-                        body: 'Đã thêm thành công ' + HangGhes_New.length + ' hạng ghế',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                HangGhes_P_Update = structuredClone(Package.HangGhes);
-                F_HangGhe_Updated = false;
-            });
+    if (SoHangGheUPdate > 0 || HangGhes_New.length > 0) {
+        let HangGhes_P = {};
+        HangGhes_P.HangGhes_P_Update = structuredClone(HangGhes_P_Update);
+        HangGhes_P.HangGhes_P_Add = structuredClone(HangGhes_P_Add);
+        // chuyển trạng thái sang sửa
+        HangGhes[0].querySelector('.HangGhe_Ten').focus();
+        for (let i = 0; i < HangGhes_New.length; i++) {
+            HangGhes_New[i].querySelector('.HangGhe_Ma').disabled = true;
+            HangGhes_New[i].querySelector('.HangGhe_Ten').disabled = true;
+            HangGhes_New[i].querySelector('.HangGhe_HeSo').disabled = true;
+            HangGhes_New[i].querySelector('.HangGhe_TrangThai').disabled = true;
+            HangGhes_New[i].querySelector('.HangGhe_Cop--Xoa').classList.add('d-none');
+            HangGhes_New[i].classList.remove('HangGhe_New');
+            HangGhes_New[i].classList.add('HangGhe');
         }
+        HangGhes = document.querySelectorAll('.HangGhe');
+        for (let i = 0; i < HangGhes.length; i++) {
+            HangGhes[i].querySelector('.HangGhe_Ten').disabled = true;
+            HangGhes[i].querySelector('.HangGhe_Ma').disabled = true;
+            HangGhes[i].querySelector('.HangGhe_HeSo').disabled = true;
+            HangGhes[i].querySelector('.HangGhe_TrangThai').disabled = true;
+        }
+        document.querySelector('.HangGhe--Them').classList.add('d-none');
+        document.querySelector('.HangGhe--Huy').classList.add('d-none');
+        e.target.classList.add('d-none');
+        document.querySelector('.HangGhe--Sua').classList.remove('d-none');
+        axios({
+            method: 'POST',
+            url: '/staff/quydinh/UpdateHangGhe',
+            data: HangGhes_P,
+        }).then((res) => {
+            Package.HangGhes = res.data;
+            LoadHangGhe();
+            //    hiển thị thông báo cập nhật thành công
+            document.querySelector('.HangGhe--CapNhat').focus();
+            if (SoHangGheUPdate > 0) {
+                showToast({
+                    header: 'Thông tin hạng ghế',
+                    body: 'Đã cập nhật thành công ' + SoHangGheUPdate + ' hạng ghế',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            if (HangGhes_New.length > 0) {
+                showToast({
+                    header: 'Thông tin hạng ghế',
+                    body: 'Đã thêm thành công ' + HangGhes_New.length + ' hạng ghế',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            HangGhes_P_Update = structuredClone(Package.HangGhes);
+        });
     } else {
         for (let i = 0; i < HangGhes.length; i++) {
             HangGhes[i].querySelector('.HangGhe_Ten').disabled = true;
@@ -1291,7 +1327,6 @@ document.querySelector('.LoaiKhachHang_input--Search').addEventListener('keyup',
 });
 
 // Kiểm tra sự thay đổi
-let F_LoaiKhachHang_Updated = false;
 for (let i = 0; i < LoaiKhachHangs.length; i++) {
     LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').addEventListener('blur', (e) => {
         if (e.target.value == '') {
@@ -1308,7 +1343,10 @@ for (let i = 0; i < LoaiKhachHangs.length; i++) {
         if (e.target.value != Package.LoaiKhachHangs[i].TenLoaiKhachHang) {
             LoaiKhachHangs_P_Update[i].ID_Update = 1;
             LoaiKhachHangs_P_Update[i].TenLoaiKhachHang = e.target.value;
-            F_LoaiKhachHang_Updated = true;
+        }
+        if (e.target.value == Package.LoaiKhachHangs[i].TenLoaiKhachHang) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 0;
+            LoaiKhachHangs_P_Update[i].TenLoaiKhachHang = Package.LoaiKhachHangs[i].TenLoaiKhachHang;
         }
     });
     //cập nhật số tuổi tuối thiệu của hàng dưới
@@ -1376,10 +1414,19 @@ for (let i = 0; i < LoaiKhachHangs.length; i++) {
         }
         if (e.target.value != Package.LoaiKhachHangs[i].SoTuoiToiDa) {
             LoaiKhachHangs_P_Update[i].ID_Update = 1;
-            LoaiKhachHangs_P_Update[i + 1].ID_Update = 1;
             LoaiKhachHangs_P_Update[i].SoTuoiToiDa = e.target.value;
-            LoaiKhachHangs_P_Update[i + 1].SoTuoiToiThieu = e.target.value;
-            F_LoaiKhachHang_Updated = true;
+            if (i != LoaiKhachHangs.length - 1) {
+                LoaiKhachHangs_P_Update[i + 1].ID_Update = 1;
+                LoaiKhachHangs_P_Update[i + 1].SoTuoiToiThieu = e.target.value;
+            }
+        }
+        if (e.target.value == Package.LoaiKhachHangs[i].SoTuoiToiDa) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 0;
+            LoaiKhachHangs_P_Update[i].SoTuoiToiDa = Package.LoaiKhachHangs[i].SoTuoiToiDa;
+            if (i != LoaiKhachHangs.length - 1) {
+                LoaiKhachHangs_P_Update[i + 1].ID_Update = 0;
+                LoaiKhachHangs_P_Update[i + 1].SoTuoiToiThieu = Package.LoaiKhachHangs[i].SoTuoiToiDa;
+            }
         }
     });
     LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').addEventListener('blur', (e) => {
@@ -1417,7 +1464,10 @@ for (let i = 0; i < LoaiKhachHangs.length; i++) {
         if (e.target.value != Package.LoaiKhachHangs[i].HeSo) {
             LoaiKhachHangs_P_Update[i].ID_Update = 1;
             LoaiKhachHangs_P_Update[i].HeSo = e.target.value;
-            F_LoaiKhachHang_Updated = true;
+        }
+        if (e.target.value == Package.LoaiKhachHangs[i].HeSo) {
+            LoaiKhachHangs_P_Update[i].ID_Update = 0;
+            LoaiKhachHangs_P_Update[i].HeSo = Package.LoaiKhachHangs[i].HeSo;
         }
     });
 }
@@ -1436,7 +1486,6 @@ document.querySelector('.LoaiKhachHang--Huy').addEventListener('click', (e) => {
         }
     }
     LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
-    F_LoaiKhachHang_Updated = false;
     for (let i = 0; i < LoaiKhachHangs.length; i++) {
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
@@ -1454,6 +1503,25 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
     console.log(LoaiKhachHangs_P_Update);
     LoaiKhachHangs_P_Add = [];
     let SoLoaiKhachHangUPdate = 0;
+    //Kiểm tra logic của số tuổi tối thiểu và tối đa
+    for (let i = 0; i < LoaiKhachHangs.length; i++) {
+        let SoTuoiToiDa = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value;
+        let SoTuoiToiThieu = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value;
+        if (parseInt(SoTuoiToiThieu) > parseInt(SoTuoiToiDa)) {
+            showToast({
+                header: 'Thông tin loại khách hàng',
+                body:
+                    'Số tuổi tối đa của "' +
+                    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').value +
+                    '" không được nhỏ hơn số tuổi tối thiểu',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value = '';
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
+    }
     const LoaiKhachHangs_New = document.querySelectorAll('.LoaiKhachHang_New');
     // kiểm tra thông tin vào
     for (let i = 0; i < LoaiKhachHangs_New.length; i++) {
@@ -1506,6 +1574,19 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
             LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
             return;
         }
+        if (
+            parseInt(LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value) <
+            parseInt(LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value)
+        ) {
+            showToast({
+                header: 'Thêm loại khách hàng mới',
+                body: 'Số tuổi tối đa phải lớn hơn tuổi tối thiểu',
+                duration: 5000,
+                type: 'warning',
+            });
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
+            return;
+        }
         // kiểm tra Hệ số ( không trống, khac 0)
         if (LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value == '') {
             showToast({
@@ -1536,25 +1617,7 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
             HeSo: LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').value,
         });
     }
-    //Kiểm tra logic của số tuổi tối thiểu và tối đa
-    for (let i = 0; i < LoaiKhachHangs.length; i++) {
-        let SoTuoiToiDa = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value;
-        let SoTuoiToiThieu = LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').value;
-        if (parseInt(SoTuoiToiThieu) > parseInt(SoTuoiToiDa)) {
-            showToast({
-                header: 'Thông tin loại khách hàng',
-                body:
-                    'Số tuổi tối đa của "' +
-                    LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').value +
-                    '" không được nhỏ hơn số tuổi tối thiểu',
-                duration: 5000,
-                type: 'warning',
-            });
-            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').value = '';
-            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').focus();
-            return;
-        }
-    }
+
     if (LoaiKhachHangs_New.length > 0) {
         if (
             LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_SoTuoiToiDa').value <
@@ -1578,66 +1641,63 @@ document.querySelector('.LoaiKhachHang--CapNhat').addEventListener('click', (e) 
     for (let i = 0; i < LoaiKhachHangs_P_Update.length; i++) {
         if (LoaiKhachHangs_P_Update[i].ID_Update == 1) SoLoaiKhachHangUPdate++;
     }
-    if (F_LoaiKhachHang_Updated == true || LoaiKhachHangs_New.length > 0) {
-        if (F_LoaiKhachHang_Updated == true || LoaiKhachHangs_New.length > 0) {
-            let LoaiKhachHangs_P = {};
-            LoaiKhachHangs_P.LoaiKhachHangs_P_Update = structuredClone(LoaiKhachHangs_P_Update);
-            LoaiKhachHangs_P.LoaiKhachHangs_P_Add = structuredClone(LoaiKhachHangs_P_Add);
-            console.log(LoaiKhachHangs_P);
-            // chuyển trạng thái sang sửa
-            LoaiKhachHangs[0].querySelector('.LoaiKhachHang_Ten').focus();
-            for (let i = 0; i < LoaiKhachHangs_New.length; i++) {
-                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
-                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
-                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
-                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
-                LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Cop--Xoa').classList.add('d-none');
-                LoaiKhachHangs_New[i].classList.remove('LoaiKhachHang_New');
-                LoaiKhachHangs_New[i].classList.add('LoaiKhachHang');
-            }
-            LoaiKhachHangs = document.querySelectorAll('.LoaiKhachHang');
-            for (let i = 0; i < LoaiKhachHangs.length; i++) {
-                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
-                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
-                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
-                LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
-            }
-            document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
-            document.querySelector('.LoaiKhachHang--Huy').classList.add('d-none');
-            e.target.classList.add('d-none');
-            document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
-            axios({
-                method: 'POST',
-                url: '/staff/quydinh/UpdateLoaiKhachHang',
-                data: LoaiKhachHangs_P,
-            }).then((res) => {
-                Package.LoaiKhachHangs = res.data;
-                // LoadLoaiKhachHang();
-                //    hiển thị thông báo cập nhật thành công
-                document.querySelector('.LoaiKhachHang--CapNhat').focus();
-                if (F_LoaiKhachHang_Updated == true) {
-                    showToast({
-                        header: 'Thông tin loại khách hàng',
-                        body: 'Đã cập nhật thành công ' + SoLoaiKhachHangUPdate + ' loại khách hàng',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                if (LoaiKhachHangs_New.length > 0) {
-                    showToast({
-                        header: 'Thông tin loại khách hàng',
-                        body:
-                            'Đã thêm thành công loại khách hàng "' +
-                            LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_Ten').value +
-                            '"',
-                        duration: 5000,
-                        type: 'success',
-                    });
-                }
-                LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
-                F_LoaiKhachHang_Updated = false;
-            });
+    if (SoLoaiKhachHangUPdate > 0 || LoaiKhachHangs_New.length > 0) {
+        let LoaiKhachHangs_P = {};
+        LoaiKhachHangs_P.LoaiKhachHangs_P_Update = structuredClone(LoaiKhachHangs_P_Update);
+        LoaiKhachHangs_P.LoaiKhachHangs_P_Add = structuredClone(LoaiKhachHangs_P_Add);
+        console.log(LoaiKhachHangs_P);
+        // chuyển trạng thái sang sửa
+        LoaiKhachHangs[0].querySelector('.LoaiKhachHang_Ten').focus();
+        for (let i = 0; i < LoaiKhachHangs_New.length; i++) {
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+            LoaiKhachHangs_New[i].querySelector('.LoaiKhachHang_Cop--Xoa').classList.add('d-none');
+            LoaiKhachHangs_New[i].classList.remove('LoaiKhachHang_New');
+            LoaiKhachHangs_New[i].classList.add('LoaiKhachHang');
         }
+        LoaiKhachHangs = document.querySelectorAll('.LoaiKhachHang');
+        for (let i = 0; i < LoaiKhachHangs.length; i++) {
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiThieu').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = true;
+            LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = true;
+        }
+        document.querySelector('.LoaiKhachHang--Them').classList.add('d-none');
+        document.querySelector('.LoaiKhachHang--Huy').classList.add('d-none');
+        e.target.classList.add('d-none');
+        document.querySelector('.LoaiKhachHang--Sua').classList.remove('d-none');
+        axios({
+            method: 'POST',
+            url: '/staff/quydinh/UpdateLoaiKhachHang',
+            data: LoaiKhachHangs_P,
+        }).then((res) => {
+            Package.LoaiKhachHangs = res.data;
+            // LoadLoaiKhachHang();
+            //    hiển thị thông báo cập nhật thành công
+            document.querySelector('.LoaiKhachHang--CapNhat').focus();
+            if (SoLoaiKhachHangUPdate > 0) {
+                showToast({
+                    header: 'Thông tin loại khách hàng',
+                    body: 'Đã cập nhật thành công ' + SoLoaiKhachHangUPdate + ' loại khách hàng',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            if (LoaiKhachHangs_New.length > 0) {
+                showToast({
+                    header: 'Thông tin loại khách hàng',
+                    body:
+                        'Đã thêm thành công loại khách hàng "' +
+                        LoaiKhachHangs_New[0].querySelector('.LoaiKhachHang_Ten').value +
+                        '"',
+                    duration: 5000,
+                    type: 'success',
+                });
+            }
+            LoaiKhachHangs_P_Update = structuredClone(Package.LoaiKhachHangs);
+        });
     } else {
         for (let i = 0; i < LoaiKhachHangs.length; i++) {
             LoaiKhachHangs[i].querySelector('.LoaiKhachHang_Ten').disabled = true;
@@ -1683,7 +1743,7 @@ function formatVND(string) {
 let MocHanhLys = document.querySelectorAll('.MochanhLy');
 // Nút sửa mốc hành lý
 document.querySelector('.MocHanhLy--Sua').addEventListener('click', (e) => {
-    for (let i = 0; i < MocHanhLys.length; i++) {
+    for (let i = 1; i < MocHanhLys.length; i++) {
         MocHanhLys[i].querySelector('.MocHanhLy_GiaTien').disabled = false;
         MocHanhLys[i].querySelector('.MocHanhLy_SoKgToiDa').disabled = false;
     }

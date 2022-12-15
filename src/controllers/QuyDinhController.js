@@ -161,7 +161,7 @@ class QuyDinhController {
                     console.log(ChuyenBay[i]._previousDataValues.MaChuyenBay);
 
                     await ChuyenBay[i].set({
-                        TrangThai: 'ViPhamQuiDinh',
+                        TrangThai: 'ViPhamQuyDinh',
                     });
                     await ChuyenBay[i].save();
                     o++;

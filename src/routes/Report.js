@@ -3,6 +3,6 @@ const router = express.Router();
 
 import ReportController from '../controllers/ReportController';
 
-router.get('/', ReportController.index);
+router.post('/', ReportController.index);
 
 module.exports = router;

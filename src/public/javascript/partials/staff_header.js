@@ -32,3 +32,9 @@ PhanQuyen.addEventListener('click', (e) => {
     staff_form.action = '/staff/phanquyen/Authorization';
     staff_form.submit();
 });
+
+NhanLich.addEventListener('click', (e) => {
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/staff/nhanlich';
+    staff_form.submit();
+});

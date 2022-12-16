@@ -2,12 +2,22 @@
 
     <div style='height: 88px;' class='w-100 bg-primary-gradient'>
         <div class='container h-100'>
-            <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
+            <div class='d-flex flex-row h-100 justify-content-between align-items-center'>
                 <div class='d-flex flex-column'>
                     <span class='custom-font h28-B text-light mb-2'>Chỉnh sửa chuyến bay</span>
                     <span class='custom-font p16-R text-light'>Chỉnh sửa các thông tin về chuyến bay</span>
                 </div>
-
+                <div class='w-auto'>
+                    <a
+                        id='HuyChuyenBay'
+                        type='button'
+                        data-bs-toggle='modal'
+                        data-bs-target='#Modal_HuyChuyenBay'
+                        class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                    >
+                        Hủy chuyến bay
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -551,6 +561,7 @@
                             type='button'
                             class='btn btn-secondary custom-font p20-B text-light bg-secondary border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
                             data-bs-dismiss='modal'
+                            id='Modal_Dong'
                         >Đóng</button>
                         <button
                             type='button'
@@ -562,6 +573,34 @@
                             class='btn btn-primary custom-font p20-B text-light bg-primary border-0 custom-boxshadow-hover-primary custom-boxshadow-focus-none'
                             id='Modal_Luu'
                         >Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{! Modal hủy chuyến bay }}
+        <div class='modal fade' id='Modal_HuyChuyenBay'>
+            <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark' id='Modal_Header'>Thông báo</span>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body custom-font p20-R text-dark' id='Modal_HuyChuyenBay_Body'>
+                        Bạn muốn hủy chuyến bay?
+                    </div>
+                    <div class='modal-footer'>
+
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-secondary border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            data-bs-dismiss='modal'
+                        >Đóng</button>
+                        <button
+                            type='button'
+                            class='btn btn-secondary custom-font p20-B text-light bg-danger border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
+                            id='Modal_HuyChuyenBay_Thoat'
+                        >Hủy</button>
                     </div>
                 </div>
             </div>
@@ -826,7 +865,6 @@
 </div>
 
 {{! Đếm ngược thời gian chỉnh sửa }}
-
 <div
     style='box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
     class='position-fixed bottom-0 start-0 w-100 bg-light text-light custom-font p16-B h-auto'
@@ -847,7 +885,7 @@
                 <a
                     id='ThoatChinhSuaChuyenBay'
                     type='button'
-                    class='btn btn-primary bg-danger border-0 px-4 py-2 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                    class='btn btn-primary bg-secondary border-0 px-4 py-2 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
                 >
                     Thoát
                 </a>

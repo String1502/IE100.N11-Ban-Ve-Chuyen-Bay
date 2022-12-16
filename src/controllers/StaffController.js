@@ -34,6 +34,14 @@ class StaffController {
     async flightdetail(req, res) {
         try {
             let Package = JSON.parse(req.body.Package);
+            let ThamSos = await db.sequelize.query(
+                `select TenThamSo, GiaTri from thamso where thamso.TenThamSo='ThoiGianChinhSua_Min'`,
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            Package['ThamSos'] = structuredClone(ThamSos[0]);
             console.log(Package);
             return res.render('staff/TraCuu/ChiTietChuyenBay', {
                 layout: 'staff.handlebars',

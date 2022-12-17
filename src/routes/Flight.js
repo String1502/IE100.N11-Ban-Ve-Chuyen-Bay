@@ -10,6 +10,6 @@ router.post('/filter', FlightController.filterFlight);
 router.post('/get-flight', FlightController.getFlight);
 router.post('/update', FlightController.updateChuyenBay);
 router.post('/cancel', FlightController.CancelChuyenBay);
-router.post('/addFromexcel', fileController.readExcel);
+router.post('/addFromexcel', fileController.addByExcel);
 
 module.exports = router;

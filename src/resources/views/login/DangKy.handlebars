@@ -1,8 +1,8 @@
 <div class='bg-tertiary-light'>
-    <div style='height: 88px;' class='w-100 bg-primary'>
-        <div style='height: 88px;' class='container col-10'>
-            <div style='height: 88px;' class='row d-flex flex-row align-items-center'>
-                <div class='custom-font h28-B text-light mb-2'>Thêm người dùng</div>
+    <div style='height: 180px;' class='w-100 bg-primary-gradient'>
+        <div style='height: 180px;' class='container col-10'>
+            <div style='height: 180px;' class='row d-flex flex-row align-items-center'>
+                <div class='custom-font h64-B text-light'>Đăng kí tài khoản</div>
             </div>
         </div>
     </div>
@@ -11,10 +11,9 @@
             <div class='col-2 offset-1 ps-5'><select
                     type='text'
                     class='form-select p16-B custom-boxshadow-focus-primary User_MaChucVu'
+                    disabled
                 >
-                    {{#each ChucVus}}
-                        <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
-                    {{/each}}
+                    <option class='custom-font MaChucVu' value='{{MaChucVu}}'>Khách hàng</option>
                 </select>
             </div>
         </div>
@@ -26,23 +25,21 @@
                 <div class='card mb-5'>
                     <div class='card-header p16-B custom-font'>Tài khoản</div>
                     <div class='card-body'>
-                        <div class='row'>
-                            <div class='col-6'>
-                                <label for='' class='form-label p16-S custom-font'>Tên tài khoản</label>
-                                <input type='text' class='form-control p16-S mb-3 custom-font User_MaUser' disabled />
-                            </div>
-                            <div class='col-6'>
-                                <label for='' class='form-label p16-S custom-font'>Trạng thái</label>
-                                <select
-                                    name=''
-                                    id=''
-                                    class='form-select p16-S mb-3 custom-font custom-boxshadow-focus-primary User_TrangThai'
-                                >
-                                    <option value='1' class='p16-S text-success-light custom-font' selected>Hiệu lực</option>
-                                    <option value='2' class='p16-S text-danger custom-font'>Vô hiệu</option>
-                                </select>
-                            </div>
-                        </div>
+                        <label for='' class='form-label p16-S custom-font'>Tên tài khoản</label>
+                        <input
+                            type='text'
+                            class='form-control p16-S custom-font mb-3 custom-boxshadow-focus-primary User_MaUser custom-font'
+                        />
+                        <label for='' class='form-label p16-S custom-font'>Mật khẩu</label>
+                        <input
+                            type='password'
+                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_MatKhau custom-font'
+                        />
+                        <label for='' class='form-label p16-S custom-font'>Nhập lại mật khẩu</label>
+                        <input
+                            type='password'
+                            class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauR custom-font'
+                        />
                     </div>
                 </div>
                 {{! card dữ liệu cá nhân}}
@@ -130,88 +127,90 @@
                 <div class='col-auto mb-5' align='right'>
                     <button
                         type='button'
-                        class='custom-font User--Sua btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
-                    >Cập nhật </button>
+                        class='custom-font User--Them btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
+                    >Tiếp tục </button>
                 </div>
-            </div>
-        </div>
-        {{! Modal: Xác nhận email }}
-        <div
-            class='modal fade'
-            id='staticBackdrop'
-            data-bs-backdrop='static'
-            data-bs-keyboard='false'
-            tabindex='-1'
-            aria-hidden='true'
-        >
-            <div class='modal-dialog modal-dialog-centered'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <span class='modal-title custom-font h24-B text-dark'>Xác nhận Email</span>
-                    </div>
-                    <div class='modal-body'>
-
-                        <div class='d-flex flex-column'>
-
-                            <div class='mx-5 mb-3'>
-                                <img
-                                    src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
-                                    alt=''
-                                    class='img-fluid'
-                                />
+                {{! Modal: Xác nhận email }}
+                <div
+                    class='modal fade'
+                    id='staticBackdrop'
+                    data-bs-backdrop='static'
+                    data-bs-keyboard='false'
+                    tabindex='-1'
+                    aria-hidden='true'
+                >
+                    <div class='modal-dialog modal-dialog-centered'>
+                        <div class='modal-content'>
+                            <div class='modal-header'>
+                                <span class='modal-title custom-font h24-B text-dark'>Xác nhận Email</span>
                             </div>
+                            <div class='modal-body'>
 
-                            <div class='custom-font p20-S text-dark mb-3'>
-                                Xác nhận Email
-                            </div>
-                            <div class='custom-font p16-R text-tertiary mb-3'>
-                                Vui lòng nhập chuỗi kí tự đã gửi đến
-                                <span id='XacNhan_Email'>phantruonghuy0701@gmail.com</span>
-                            </div>
+                                <div class='d-flex flex-column'>
 
-                            <div class='mb-3'>
-                                <input
-                                    type='text'
-                                    id='MaXacNhan_input'
-                                    style='border: 2px solid;'
-                                    class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center'
-                                />
-                                <div id='NhacNhapCode' class='custom-font p14-R text-danger d-none text-center mt-2'>
-                                    Bạn chưa nhập mã code!
+                                    <div class='mx-5 mb-3'>
+                                        <img
+                                            src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
+                                            alt=''
+                                            class='img-fluid'
+                                        />
+                                    </div>
+
+                                    <div class='custom-font p20-S text-dark mb-3'>
+                                        Xác nhận Email
+                                    </div>
+                                    <div class='custom-font p16-R text-tertiary mb-3'>
+                                        Vui lòng nhập chuỗi kí tự đã gửi đến
+                                        <span id='XacNhan_Email'>phantruonghuy0701@gmail.com</span>
+                                    </div>
+
+                                    <div class='mb-3'>
+                                        <input
+                                            type='text'
+                                            id='MaXacNhan_input'
+                                            style='border: 2px solid;'
+                                            class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center'
+                                        />
+                                        <div
+                                            id='NhacNhapCode'
+                                            class='custom-font p14-R text-danger d-none text-center mt-2'
+                                        >
+                                            Bạn chưa nhập mã code!
+                                        </div>
+                                    </div>
+
+                                    <div class='text-center'>
+                                        <a
+                                            class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'
+                                        >Gửi lại mã xác nhận</a>
+                                    </div>
+
                                 </div>
-                            </div>
 
-                            <div class='text-center'>
-                                <a
-                                    class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'
-                                >Gửi lại mã xác nhận</a>
                             </div>
-
+                            <div class='modal-footer justify-content-center'>
+                                <button
+                                    id='DoiEmail_XacNhan'
+                                    style='margin-right: 48px;'
+                                    type='button'
+                                    class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                    data-bs-dismiss='modal'
+                                >Đổi Email</button>
+                                <button
+                                    id='XacNhan'
+                                    type='button'
+                                    class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                                >Xác nhận</button>
+                            </div>
                         </div>
-
-                    </div>
-                    <div class='modal-footer justify-content-center'>
-                        <button
-                            id='DoiEmail_XacNhan'
-                            style='margin-right: 48px;'
-                            type='button'
-                            class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                            data-bs-dismiss='modal'
-                        >Đổi Email</button>
-                        <button
-                            id='XacNhan'
-                            type='button'
-                            class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                        >Xác nhận</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<form method='POST' class='d-none' name='Form'>
+<form method='get' class='d-none' name='Form'>
     <input id='Package' name='Package' />
 </form>
-<div value='{{MaUser}}' class='MaUser'></div>
 <div value='{{Users}}' class='Users'></div>
-<script type='module' src='/javascript/staff/SuaUser.js'></script>
+<script type='module' src='/javascript/login/DangKy.js'></script>

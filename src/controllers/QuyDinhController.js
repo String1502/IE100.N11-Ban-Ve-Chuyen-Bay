@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db, { sequelize } from '../models/index';
 const { QueryTypes } = require('sequelize');
 
 class QuyDinhController {
@@ -80,12 +80,60 @@ class QuyDinhController {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
+
+            let ChuyenBays = await sequelize.query(
+                'select MaChuyenBay, MaSanBayDi,	MaSanBayDen	, NgayGio	, ThoiGianBay , GiaVeCoBan , DoanhThu,TrangThai, ThoiGianBayToiThieu, ThoiGianDungToiThieu, SBTG_Max, GiaVeCoBan_Min from chuyenbay',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            for (let i = 0; i < ChuyenBays.length; i++) {
+                let ChiTietChuyenBays = await sequelize.query(
+                    "select MaCTCB,	MaChuyenBay,	MaSBTG	,ThuTu	,NgayGioDen ,ThoiGianDung from chitietchuyenbay where MaChuyenBay = '" +
+                        ChuyenBays[i].MaChuyenBay +
+                        "'",
+                    {
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
+                ChuyenBays[i].SBTG_Max_check = ChiTietChuyenBays.length;
+                if (ChiTietChuyenBays.length == 0) {
+                    ChuyenBays[i].ThoiGianBay_check = ChuyenBays[i].ThoiGianBay;
+                    continue;
+                }
+                ChuyenBays[i].ThoiGianDung_check = ChiTietChuyenBays[0].ThoiGianDung;
+                for (let j = 0; j < ChiTietChuyenBays.length; j++) {
+                    ChuyenBays[i].ThoiGianDung_check = Math.min(
+                        ChuyenBays[i].ThoiGianDung_check,
+                        ChiTietChuyenBays[j].ThoiGianDung,
+                    );
+                    if (j == 0) {
+                        ChuyenBays[i].ThoiGianBay_check = parseFloat(
+                            (ChiTietChuyenBays[j].NgayGioDen.getTime() - ChuyenBays[i].NgayGio.getTime()) / 60000,
+                        );
+                    } else {
+                        ChuyenBays[i].ThoiGianBay_check = Math.min(
+                            ChuyenBays[i].ThoiGianBay_check,
+                            parseFloat(
+                                (ChiTietChuyenBays[j].NgayGioDen.getTime() -
+                                    ChiTietChuyenBays[j - 1].NgayGioDen.getTime()) /
+                                    60000 -
+                                    ChiTietChuyenBays[j - 1].ThoiGianDung,
+                            ),
+                        );
+                    }
+                }
+            }
             Package.ThamSos = structuredClone(ThamSos);
             Package.SanBays = structuredClone(SanBays);
             Package.TinhThanhs = structuredClone(TinhThanhs);
             Package.HangGhes = structuredClone(HangGhes);
             Package.LoaiKhachHangs = structuredClone(LoaiKhachHangs);
             Package.MocHanhLys = structuredClone(MocHanhLys);
+            Package.ChuyenBays = structuredClone(ChuyenBays);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -94,13 +142,60 @@ class QuyDinhController {
     // cập nhật tham số
     async UpdateThamSo(req, res) {
         try {
-            let P_ThamSo = req.body;
+            let P_ThamSo = req.body.P_ThamSo;
             let U_ThamSo = await db.ThamSo.findAll({});
             for (let i = 0; i < U_ThamSo.length; i++) {
                 await U_ThamSo[i].set({
-                    GiaTri: parseInt(P_ThamSo[i]),
+                    GiaTri: parseInt(P_ThamSo[i].GiaTri),
+                    NgayHieuLuc: P_ThamSo[i].NgayHieuLuc,
                 });
                 await U_ThamSo[i].save();
+            }
+            let CBVP = req.body.CBVP;
+            let o = 0;
+            let ChuyenBay = await db.ChuyenBay.findAll();
+            for (let i = 0; i < ChuyenBay.length; i++) {
+                if (ChuyenBay[i]._previousDataValues.MaChuyenBay == CBVP[o]) {
+                    await ChuyenBay[i].set({
+                        TrangThai: 'ViPhamQuyDinh',
+                    });
+                    await ChuyenBay[i].save();
+                    o++;
+                } else {
+                    let dateThoiGianBayToiThieu = new Date(P_ThamSo[5].NgayHieuLuc);
+                    let dateThoiGianDungToiThieu = new Date(P_ThamSo[8].NgayHieuLuc);
+                    let dateSBTG = new Date(P_ThamSo[4].NgayHieuLuc);
+                    let dateGiaVeCoBan = new Date(P_ThamSo[1].NgayHieuLuc);
+                    let date = new Date(ChuyenBay[i]._previousDataValues.NgayGio);
+                    if (date.getTime() > dateThoiGianBayToiThieu.getTime()) {
+                        await ChuyenBay[i].set({
+                            TrangThai: 'ChuaKhoiHanh',
+                            ThoiGianBayToiThieu: P_ThamSo[5].GiaTri,
+                        });
+                        await ChuyenBay[i].save();
+                    }
+                    if (date.getTime() > dateGiaVeCoBan.getTime()) {
+                        await ChuyenBay[i].set({
+                            TrangThai: 'ChuaKhoiHanh',
+                            GiaVeCoBan_Min: P_ThamSo[1].GiaTri,
+                        });
+                        await ChuyenBay[i].save();
+                    }
+                    if (date.getTime() > dateSBTG.getTime()) {
+                        await ChuyenBay[i].set({
+                            TrangThai: 'ChuaKhoiHanh',
+                            SBTG_Max: P_ThamSo[4].GiaTri,
+                        });
+                        await ChuyenBay[i].save();
+                    }
+                    if (date.getTime() > dateThoiGianDungToiThieu.getTime()) {
+                        await ChuyenBay[i].set({
+                            TrangThai: 'ChuaKhoiHanh',
+                            ThoiGianDungToiThieu: P_ThamSo[8].GiaTri,
+                        });
+                        await ChuyenBay[i].save();
+                    }
+                }
             }
             return res.send(U_ThamSo);
         } catch (error) {
@@ -163,7 +258,6 @@ class QuyDinhController {
                     await HangGhe[i].save();
                 }
             }
-            console.log(HangGhe_A);
             for (let i = 0; i < HangGhe_A.length; i++) {
                 await db.HangGhe.create({
                     MaHangGhe: HangGhe_A[i].MaHangGhe,
@@ -180,7 +274,6 @@ class QuyDinhController {
             });
 
             Package = structuredClone(HangGhes);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -205,7 +298,6 @@ class QuyDinhController {
                     await LoaiKhachHang[i].save();
                 }
             }
-            console.log(LoaiKhachHang_A);
             for (let i = 0; i < LoaiKhachHang_A.length; i++) {
                 await db.LoaiKhachHang.create({
                     TenLoai: LoaiKhachHang_A[i].TenLoaiKhachHang,
@@ -224,7 +316,6 @@ class QuyDinhController {
                 },
             );
             Package = structuredClone(LoaiKhachHangs);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);
@@ -247,7 +338,6 @@ class QuyDinhController {
                     await MocHanhLy[i].save();
                 }
             }
-            console.log(MocHanhLy_A);
             for (let i = 0; i < MocHanhLy_A.length; i++) {
                 await db.MocHanhLy.create({
                     SoKgToiDa: MocHanhLy_A[i].SoKgToiDa,
@@ -261,7 +351,6 @@ class QuyDinhController {
                 raw: true,
             });
             Package = structuredClone(MocHanhLys);
-            console.log(Package);
             return res.send(Package);
         } catch (error) {
             console.log(error);

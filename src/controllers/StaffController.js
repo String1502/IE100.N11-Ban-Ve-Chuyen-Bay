@@ -74,13 +74,10 @@ class StaffController {
                 item.HeSo = parseFloat(item.HeSo);
             });
 
-            let ThamSos = await db.sequelize.query(
-                `select TenThamSo, GiaTri, TenHienThi, NgayHieuLuc from thamso where thamso.TenThamSo='ThoiGianBayToiThieu' OR thamso.TenThamSo='ThoiGianDungToiThieu' OR thamso.TenThamSo='SBTG_Max' OR thamso.TenThamSo='GiaVeCoBan_Min'`,
-                {
-                    type: QueryTypes.SELECT,
-                    raw: true,
-                },
-            );
+            let ThamSos = await db.sequelize.query(`select * from thamso `, {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
 
             let Flight_Edit = JSON.parse(req.body.Flight_Edit);
             Flight_Edit['SanBays'] = structuredClone(SanBays);

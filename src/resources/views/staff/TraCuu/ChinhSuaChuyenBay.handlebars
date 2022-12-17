@@ -110,29 +110,41 @@
                 {{! Dòng 3 }}
                 <div class='row px-3'>
 
-                    {{! Ngày khởi hành }}
-                    <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
-                            <label for='NgayKhoiHanh' class='form-label custom-font p14-S'>Ngày khởi hành</label>
-                            <input
-                                style='height: 36px;'
-                                type='date'
-                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                id='NgayKhoiHanh'
-                            />
-                        </div>
-                    </div>
+                    {{! Thời gian đến }}
+                    <div class='col-12 col-md-6'>
+                        <div class='row mb-3'>
+                            {{! Ngày khởi hành }}
+                            <div class='col-6'>
+                                <div class=''>
+                                    <label for='NgayKhoiHanh' class='form-label custom-font p14-S'>Ngày khởi hành</label>
+                                    <input
+                                        style='height: 36px;'
+                                        type='date'
+                                        class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                        id='NgayKhoiHanh'
+                                    />
 
-                    {{! Giờ khởi hành }}
-                    <div class='col-6 col-md-3'>
-                        <div class='mb-3'>
-                            <label for='GioKhoiHanh' class='form-label custom-font p14-S'>Giờ khởi hành</label>
-                            <input
-                                style='height: 36px;'
-                                type='time'
-                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                id='GioKhoiHanh'
-                            />
+                                </div>
+                            </div>
+
+                            {{! Giờ khởi hành }}
+                            <div class='col-6'>
+                                <div class=''>
+                                    <label for='GioKhoiHanh' class='form-label custom-font p14-S'>Giờ khởi hành</label>
+                                    <input
+                                        style='height: 36px;'
+                                        type='time'
+                                        class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                        id='GioKhoiHanh'
+                                    />
+                                </div>
+                            </div>
+
+                            {{! Thông báo khởi hành }}
+                            <div class='col-12 custom-font p12-S text-tertiary mt-2'>
+                                <span id='ThoiGianKhoiHanh_ThongBao' class=''>Yêu cầu tối thiểu</span>
+                            </div>
+
                         </div>
                     </div>
 
@@ -152,7 +164,10 @@
                                     class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
                                 >phút</span>
                             </div>
-
+                            {{! Thông báo thời gian bay }}
+                            <div class='custom-font p12-S text-tertiary mt-2'>
+                                <span id='ThoiGianBay_ThongBao' class=''>Yêu cầu tối thiểu</span>
+                            </div>
                         </div>
                     </div>
 
@@ -172,6 +187,10 @@
                                     style='height: 36px;'
                                     class='bg-light border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
                                 >VND</span>
+                            </div>
+                            {{! Thông báo giá vé }}
+                            <div class='custom-font p12-S text-tertiary mt-2'>
+                                <span id='GiaVeCoBan_ThongBao' class=''>Yêu cầu tối thiểu</span>
                             </div>
                         </div>
                     </div>
@@ -367,6 +386,18 @@
                             </button>
                         </div>
 
+                        {{! Thông báo ngày giờ }}
+                        <div class='col-7'>
+                            <div class='custom-font p12-S text-tertiary mt-2'>
+                                <span class='NgayGioDen_ThongBao'>Yêu cầu thời gian đến tối thiểu: 11/11/2022 11:11</span>
+                            </div>
+                        </div>
+                        {{! Thông báo thời gian dừng }}
+                        <div class='col-5'>
+                            <div class='custom-font p12-S text-tertiary mt-2'>
+                                <span class='ThoiGianDung_ThongBao'>Tối thiểu 300 phút</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

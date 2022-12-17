@@ -8,9 +8,11 @@ import {
     getToday,
     showToast,
     onlyNumber,
-    money_format_input,
     validateEmail,
 } from '../start.js';
+
+openLoader('Chờ chút');
+closeLoader();
 
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =

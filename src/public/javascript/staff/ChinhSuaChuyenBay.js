@@ -8,8 +8,8 @@ import {
     getToday,
     showToast,
     onlyNumber,
-    money_format_input,
     validateEmail,
+    formatVND,
 } from '../start.js';
 
 window.onlyNumber = onlyNumber;
@@ -115,7 +115,7 @@ let SBTG_Max_Cur = 5;
 let BatDauChinhSua = Date.now();
 let ThoiGianKhoiHanh_ChinhSua_ToiThieu = 180;
 
-let GioiHanThoiGianChinhSua = 1; // ko doi
+let GioiHanThoiGianChinhSua = 15; // ko doi
 let GioiHanChinhSuaNgayKhoiHanh = 7; // ko doi, 7 ngày
 
 // Tạo gói gửi đi
@@ -523,25 +523,25 @@ function Start() {
         GiaVeCoBan_ThongBao.classList.remove('d-none');
         GiaVeCoBan_ThongBao.innerText = 'Tối thiểu ' + numberWithDot(data_send.GiaVeCoBan_Min) + ' VND';
         GiaVeCoBan.addEventListener('focus', (e) => {
-            e.target.value = numberWithoutDot(e.target.value);
             GiaVeCoBan_ThongBao.classList.add('text-danger');
         });
         GiaVeCoBan.addEventListener('blur', (e) => {
+            GiaVeCoBan_ThongBao.classList.remove('text-danger');
             if (e.target.value == '') {
                 e.target.value = numberWithDot(data_send.GiaVeCoBan);
             } else {
-                if (parseInt(e.target.value) < data_send.GiaVeCoBan_Min) {
+                if (parseInt(numberWithoutDot(e.target.value)) < data_send.GiaVeCoBan_Min) {
                     e.target.value = numberWithDot(data_send.GiaVeCoBan);
                 } else {
                     e.target.value = numberWithDot(e.target.value);
                 }
             }
-            data.GiaVeCoBan = parseInt(numberWithoutDot(e.target.value));
-            GiaVeCoBan_ThongBao.classList.remove('text-danger');
-            On_off_ThemHangGhe();
+            data_send.GiaVeCoBan = parseInt(numberWithoutDot(e.target.value));
+
             On_Off_LuuThayDoi(false);
         });
         GiaVeCoBan.addEventListener('keyup', (e) => {
+            e.target.value = formatVND(e.target.value);
             var GiaVe = 0;
             if (e.target.value == '') {
                 GiaVe = data_send.GiaVeCoBan;

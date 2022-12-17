@@ -8,6 +8,7 @@ import {
     today,
     showToast,
     onlyNumber,
+    formatVND,
 } from '../start.js';
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {
@@ -152,13 +153,8 @@ function AddEventCacTieuChuanTraCuu() {
         e.target.value = numberWithDot(e.target.value);
         GetFilterFlight_fromSV();
     });
-    // Giá vé cơ bản khi focus
-    document.getElementById('GiaVeCoBan').addEventListener('focus', (e) => {
-        e.target.value = numberWithoutDot(e.target.value);
-    });
-    // Giá vé cơ bản khi hết focus
-    document.getElementById('GiaVeCoBan').addEventListener('blur', (e) => {
-        if (e.target.value != '') e.target.value = numberWithDot(parseInt(numberWithoutDot(e.target.value)).toString());
+    document.getElementById('GiaVeCoBan').addEventListener('keyup', (e) => {
+        e.target.value = formatVND(e.target.value);
     });
 
     // Trạng thái

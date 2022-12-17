@@ -8,7 +8,6 @@ import {
     getToday,
     showToast,
     onlyNumber,
-    money_format_input,
     validateEmail,
 } from '../start.js';
 

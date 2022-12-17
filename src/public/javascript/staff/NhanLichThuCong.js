@@ -8,10 +8,13 @@ import {
     getToday,
     showToast,
     onlyNumber,
-    money_format_input,
     validateEmail,
     dateIsValid,
+    formatVND,
 } from '../start.js';
+
+openLoader('Chờ chút');
+closeLoader();
 
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {
@@ -457,14 +460,13 @@ function KhoiTao() {
         GiaVeCoBan_ThongBao.classList.remove('d-none');
         GiaVeCoBan_ThongBao.innerText = 'Tối thiểu ' + numberWithDot(GiaVeCoBan_Min) + ' VND';
         GiaVeCoBan.addEventListener('focus', (e) => {
-            e.target.value = numberWithoutDot(e.target.value);
             GiaVeCoBan_ThongBao.classList.add('text-danger');
         });
         GiaVeCoBan.addEventListener('blur', (e) => {
             if (e.target.value == '') {
                 e.target.value = numberWithDot(GiaVeCoBan_Min);
             } else {
-                if (parseInt(e.target.value) < GiaVeCoBan_Min) {
+                if (parseInt(numberWithoutDot(e.target.value)) < GiaVeCoBan_Min) {
                     e.target.value = numberWithDot(GiaVeCoBan_Min);
                 } else {
                     e.target.value = numberWithDot(e.target.value);
@@ -474,6 +476,23 @@ function KhoiTao() {
             On_off_ThemHangGhe();
             On_off_NutNhanLich();
             GiaVeCoBan_ThongBao.classList.remove('text-danger');
+        });
+        GiaVeCoBan.addEventListener('keyup', (e) => {
+            e.target.value = formatVND(e.target.value);
+            var GiaVe = 0;
+            if (e.target.value == '') {
+                GiaVe = GiaVeCoBan_Min;
+            } else {
+                GiaVe = parseInt(numberWithoutDot(e.target.value));
+                if (GiaVe < GiaVeCoBan_Min) {
+                    GiaVe = GiaVeCoBan_Min;
+                }
+            }
+            var HangGhe_Item_GiaVes = document.querySelectorAll('.HangGhe_Item_GiaVe');
+            for (let i = 1; i < HangGhe_Item_GiaVes.length; i++) {
+                var HeSo = parseFloat(HangGhe_Item_GiaVes[i].getAttribute('heso'));
+                HangGhe_Item_GiaVes[i].value = numberWithDot(GiaVe * HeSo);
+            }
         });
     }
 

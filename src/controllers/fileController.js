@@ -4,12 +4,16 @@ const reader = require('xlsx');
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+const date = new Date();
+const offset = date.getTimezoneOffset() / 60;
+
 let addByExcel = async (req, res) => {
     let data = [];
 
     try {
         //Doc lay data tu excel
-        const file = reader.readFile('src/public/temp/Demo.xlsx');
+        // const file = reader.readFile('src/public/temp/Demo.xlsx');
+        const file = reader.readFile(req.files);
         const worksheet = file.Sheets[file.SheetNames[0]];
         const arr = reader.utils.sheet_to_json(worksheet);
         let data = [];
@@ -25,7 +29,7 @@ let addByExcel = async (req, res) => {
             let dataTemp = Object.values(data[i]);
             let Ngay = dataTemp[2].split('_');
             let Gio = dataTemp[3].split('_');
-            let NgayBay = new Date(Ngay[2], Ngay[1] - 1, Ngay[0], Gio[0], Gio[1]);
+            let NgayBay = new Date(Ngay[2], Ngay[1] - 1, Ngay[0], Gio[0] - offset, Gio[1]);
             let hangghe = getHangGhe(dataTemp[6]);
             let sbtg = getSBTG(dataTemp[7]);
 
@@ -62,8 +66,78 @@ let addByExcel = async (req, res) => {
     }
 };
 
-let addByCom = async (req, res) => {
+//
+
+// var data_demo = {
+//     NgayKhoiHanh: { Ngay: 31, Thang: 12, Nam: 2022 },
+//     GioKhoiHanh: { Gio: 7, Phut: 30 },
+//     MaSanBayDi: 'SG',
+//     MaSanBayDen: 'HA',
+//     ThoiGianBay: 180,
+//     GiaVeCoBan: 1000000,
+//     ThoiGianBayToiThieu: -1,
+//     ThoiGianDungToiThieu: -1,
+//     SBTG_Max: -1,
+//     GiaVeCoBan_Min: -1,
+//     SBTG: [
+//         {
+//             ThuTu: 1,
+//             MaSanBay: 'PXU',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 8, Phut: 0 },
+//             ThoiGianDung: 15,
+//             GhiChu: 'asdasdsa',
+//         },
+//         {
+//             ThuTu: 2,
+//             MaSanBay: 'DAD',
+//             NgayDen: { Ngay: 31, Thang: 12, Nam: 2022 },
+//             GioDen: { Gio: 8, Phut: 45 },
+//             ThoiGianDung: 15,
+//             GhiChu: '123zxc sdasd',
+//         },
+//     ],
+//     HangVe: [
+//         {
+//             MaHangGhe: 'Deluxe',
+//             TongVe: 50,
+//         },
+//     ],
+// };
+let addByTay = async (req, res) => {
     //format
+    // let data_send = data_demo;
+    let data_send = req.body;
+
+    const date = new Date();
+    const offset = date.getTimezoneOffset() / 60;
+
+    data_send.NgayGio = new Date(
+        data_send.NgayKhoiHanh.Nam,
+        data_send.NgayKhoiHanh.Thang - 1,
+        data_send.NgayKhoiHanh.Ngay,
+        data_send.GioKhoiHanh.Gio - offset,
+        data_send.GioKhoiHanh.Phut,
+    );
+
+    for (var i in data_send.SBTG) {
+        data_send.SBTG[i].NgayGioDen = new Date(
+            data_send.SBTG[i].NgayDen.Nam,
+            data_send.SBTG[i].NgayDen.Thang - 1,
+            data_send.SBTG[i].NgayDen.Ngay,
+            data_send.SBTG[i].GioDen.Gio - offset,
+            data_send.SBTG[i].GioDen.Phut,
+        );
+    }
+    data_send.HangGhe = data_send.HangVe;
+
+    //add
+    let checkValid = await checkChuyenBayValid(data_send);
+    if (checkValid.errNum === 0) {
+        let check = await AddChuyenBay(data_send);
+        if (check) return res.send('true');
+        else return res.send('false');
+    } else return res.send('false');
 };
 // let Chuyenbay = {
 //     MaChuyenBayDi: '',
@@ -274,35 +348,26 @@ let checkChuyenBayValid = async (ChuyenBay) => {
 //     errNum: 0,
 // };
 
-// var data_send = {
-//     NgayKhoiHanh: { Ngay: -1, Thang: -1, Nam: -1 },
-//     GioKhoiHanh: { Gio: -1, Phut: -1 },
-//     ThoiGianBay: -1,
-//     GiaVeCoBan: -1,
-//     ThoiGianBayToiThieu: -1,
-//     ThoiGianDungToiThieu: -1,
-//     SBTG_Max: -1,
-//     GiaVeCoBan_Min: -1,
-//     SBTG: [
-//         {
-//             ThuTu: -1,
-//             MaSanBay: '',
-//             NgayDen: { Ngay: -1, Thang: -1, Nam: -1 },
-//             GioDen: { Gio: -1, Phut: -1 },
-//             ThoiGianDung: -1,
-//             GhiChu: '',
-//         },
-//     ],
-//     HangVe: [
-//         {
-//             MaHangGhe: '',
-//             TongVe: -1,
-//         },
-//     ],
-// };
 let AddChuyenBay = async (item) => {
     try {
         let thamso = await db.ThamSo.findAll({ raw: true });
+
+        // ThoiGianBayToiThieu: -1,
+        //     ThoiGianDungToiThieu: -1,
+        //     SBTG_Max: -1,
+        //     GiaVeCoBan_Min: -1,
+        let Sbtg_Max = thamso.find((item) => {
+            return item.TenThamSo === 'GiaVeCoBan_Min';
+        });
+        let ThoiGianBayToiThieu = thamso.find((item) => {
+            return item.TenThamSo === 'GiaVeCoBan_Min';
+        });
+        let ThoiGianDungToiThieu = thamso.find((item) => {
+            return item.TenThamSo === 'GiaVeCoBan_Min';
+        });
+        let GiaVeCoBan_Min = thamso.find((item) => {
+            return item.TenThamSo === 'GiaVeCoBan_Min';
+        });
 
         //save chuyenbay
         let ChuyenBay = await db.ChuyenBay.create({
@@ -313,6 +378,10 @@ let AddChuyenBay = async (item) => {
             GiaVeCoBan: item.GiaVeCoBan,
             DoanhThu: 0,
             TrangThai: 'ChuaKhoiHanh',
+            ThoiGianBayToiThieu: ThoiGianBayToiThieu,
+            ThoiGianDungToiThieu: ThoiGianDungToiThieu,
+            SBTG_Max: Sbtg_Max,
+            GiaVeCoBan_Min: GiaVeCoBan_Min,
         });
         await ChuyenBay.save();
 
@@ -351,13 +420,16 @@ let convertToDate = (stringNgay, stringGio) => {};
 
 let getSBTG = (stringSBTG) => {
     let sbtg = [];
+    const day = new Date();
+    const offset = day.getTimezoneOffset() / 60;
+
     if (stringSBTG) {
         let array = stringSBTG.split('-');
         for (var i in array) {
             let trunggian = array[i].split('_');
             var ngay = trunggian[2].split('/');
             var gio = trunggian[3].split(':');
-            var date = new Date(ngay[2], ngay[1] - 1, ngay[0], gio[0], gio[1]);
+            var date = new Date(ngay[2], ngay[1] - 1, ngay[0], gio[0] - offset, gio[1]);
             let sanbay = {
                 MaSanBay: trunggian[0],
                 ThuTu: Number(i) + 1,
@@ -413,4 +485,5 @@ let getMinDiff = function (startDate, endDate) {
 
 module.exports = {
     addByExcel: addByExcel,
+    addByTay: addByTay,
 };

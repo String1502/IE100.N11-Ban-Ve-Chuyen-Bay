@@ -11,8 +11,8 @@ const BaoCaoRouter = require('./BaoCao');
 const route = (app) => {
     app.use('/staff/quydinh', QuyDinhRouter);
     app.use('/staff/phanquyen', PhanQuyenRouter);
+    app.use('/staff/baocao', BaoCaoRouter);
     app.use('/hoadon', HoaDonRouter);
-    app.use('/baocao', BaoCaoRouter);
     app.use('/flight', FlightRouter);
     app.use('/staff', StaffRouter);
     app.use('/login', LoginRouter);

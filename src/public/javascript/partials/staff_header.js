@@ -19,6 +19,13 @@ TraCuu.addEventListener('click', (e) => {
     staff_form.submit();
 });
 
+DoanhThu.addEventListener('click', (e) => {
+    //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/staff/baocao';
+    staff_form.submit();
+});
+
 QuyDinh.addEventListener('click', (e) => {
     //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
     var staff_form = document.forms['staffheader-form'];

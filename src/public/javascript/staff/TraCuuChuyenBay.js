@@ -9,6 +9,7 @@ import {
     showToast,
     onlyNumber,
 } from '../start.js';
+
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =

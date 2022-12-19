@@ -27,6 +27,8 @@ const { QueryTypes, where } = require('sequelize');
 // };
 
 class BaoCaoController {
+    // POST
+    // "/get"
     async DoanhThuNam(req, res) {
         let Nam = req.body.Nam;
 
@@ -96,12 +98,11 @@ class BaoCaoController {
     // "/"
     async index(req, res) {
         try {
+            // Load year combobox
             const years = await db.sequelize.query(' SELECT nam FROM doanhthunam', {
                 type: QueryTypes.SELECT,
                 raw: true,
             });
-
-            console.log(years);
 
             return res.render('staff/BaoCaoDoanhThu', {
                 layout: 'staff.handlebars',
@@ -111,6 +112,8 @@ class BaoCaoController {
             console.log(error);
         }
     }
+
+    async LoadReportToView() {}
 }
 
 module.exports = new BaoCaoController();

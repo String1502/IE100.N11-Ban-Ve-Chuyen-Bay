@@ -1662,12 +1662,12 @@ function SendForm_Luu() {
         data_send.TrangThai = 'ChuaKhoiHanh';
     }
     console.log(data_send);
+    //return;
     axios({
         method: 'post',
         url: '/flight/update',
         data: data_send,
     }).then((res) => {
-        closeLoader();
         var body = '';
         var type = '';
         if (res.data == true) {
@@ -1683,6 +1683,8 @@ function SendForm_Luu() {
             duration: 5000,
             type: type,
         });
+        openLoader(body);
+        closeLoader();
         setTimeout(() => {
             SendForm_HuyChinhSua();
         }, 1500);
@@ -1757,7 +1759,8 @@ if (LuuThayDoi) {
 
 var GiaVeCoBan_Min_Check = false;
 var SBTG_Max_Check = false;
-var ThoiGianBay_Dung_Min_Check = false;
+var ThoiGianBay_Min_Check = false;
+var ThoiGianDung_Min_Check = false;
 function KhoiTao_ModalChinhSua() {
     // Giá vé cơ bản
     var GiaVeCoBan_Min_TS = Flight_Edit.ThamSos.find((item) => item.TenThamSo == 'GiaVeCoBan_Min').GiaTri;
@@ -1783,20 +1786,27 @@ function KhoiTao_ModalChinhSua() {
         GiaVeCoBan_ViPham.value = numberWithDot(Flight_Edit.GiaVeCoBan);
         GiaVeCoBan_ViPham_DeXuat.innerText = 'Yêu cầu tối thiểu ' + numberWithDot(GiaVeCoBan_Min_TS) + ' VND.';
 
-        GiaVeCoBan_ViPham.addEventListener('focus', (e) => {
-            e.target.value = numberWithoutDot(e.target.value);
+        GiaVeCoBan_ViPham.addEventListener('keyup', (e) => {
+            e.target.value = formatVND(e.target.value);
         });
         GiaVeCoBan_ViPham.addEventListener('blur', (e) => {
             if (e.target.value == '') {
-                e.target.value = numberWithDot(GiaVeCoBan_Min_TS);
-                On_Off_NutLuu_Modal_ChinhSua();
-                return;
-            }
-            var GiaVe = parseInt(numberWithoutDot(e.target.value));
-            if (GiaVe < GiaVeCoBan_Min_TS) {
-                e.target.value = numberWithDot(GiaVeCoBan_Min_TS);
+                if (GiaVeCoBan_Min_TS > Flight_Edit.GiaVeCoBan) {
+                    e.target.value = numberWithDot(GiaVeCoBan_Min_TS);
+                } else {
+                    e.target.value = numberWithDot(Flight_Edit.GiaVeCoBan);
+                }
             } else {
-                e.target.value = numberWithDot(e.target.value);
+                var GiaVe = parseInt(numberWithoutDot(e.target.value));
+                if (GiaVe < GiaVeCoBan_Min_TS) {
+                    if (GiaVeCoBan_Min_TS > Flight_Edit.GiaVeCoBan) {
+                        e.target.value = numberWithDot(GiaVeCoBan_Min_TS);
+                    } else {
+                        e.target.value = numberWithDot(Flight_Edit.GiaVeCoBan);
+                    }
+                } else {
+                    e.target.value = numberWithDot(e.target.value);
+                }
             }
             On_Off_NutLuu_Modal_ChinhSua();
         });
@@ -1844,17 +1854,9 @@ function KhoiTao_ModalChinhSua() {
                         var ChanTruoc;
                         var GiaTri = new Date(e.target.value + ' ' + GioDen.value + ':00');
                         if (index == 1) {
-                            ChanTruoc = new Date(
-                                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                                    ' ' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                                    ':' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                                    ':00',
+                            ChanTruoc = CreateDateFromObject(
+                                Flight_Edit.ThoiGianDi.NgayDi,
+                                Flight_Edit.ThoiGianDi.GioDi,
                             );
                             ChanTruoc = new Date(ChanTruoc.getTime() + 60000 * ThoiGianBay_Min_TS);
                         } else {
@@ -1863,23 +1865,10 @@ function KhoiTao_ModalChinhSua() {
                             var GioDen_Truoc = Item_Truoc.querySelector('.DiemDungViPham_Item_GioDen');
                             var ThoiGianDung_Truoc = Item_Truoc.querySelector('.DiemDungViPham_Item_ThoiGianDung');
 
-                            if (
-                                NgayDen_Truoc.value == '' ||
-                                GioDen_Truoc.value == '' ||
-                                ThoiGianDung_Truoc.value == ''
-                            ) {
-                                e.target.value = '';
-                                GioDen.value = '';
-                                NgayDen_Truoc.focus();
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            } else {
-                                ChanTruoc = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
-                                ChanTruoc = new Date(
-                                    ChanTruoc.getTime() +
-                                        60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
-                                );
-                            }
+                            ChanTruoc = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
+                            ChanTruoc = new Date(
+                                ChanTruoc.getTime() + 60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
+                            );
                         }
 
                         var ThongBao = e.target
@@ -1900,150 +1889,94 @@ function KhoiTao_ModalChinhSua() {
 
                         ThongBao.classList.remove('text-danger');
 
+                        if (parseInt(ThoiGianDung.value) < ThoiGianDung_Min_TS) {
+                            ThoiGianDung.focus();
+                            On_Off_NutLuu_Modal_ChinhSua();
+                            return;
+                        }
+
                         if (lastitem == false) {
-                            var ChanTruoc_Sau = new Date(
-                                GiaTri.getTime() + 60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung.value)),
-                            );
+                            var Item_Saus = document.querySelectorAll('.DiemDungViPham_Item');
+                            var ChanTruoc_Sau;
                             var GiaTri_Sau;
-                            var Item_Sau = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove('d-none');
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
-                                'Thời gian đến tối thiểu: ' +
-                                numberSmallerTen(ChanTruoc_Sau.getDate()) +
-                                '/' +
-                                numberSmallerTen(ChanTruoc_Sau.getMonth() + 1) +
-                                '/' +
-                                ChanTruoc_Sau.getFullYear() +
-                                ' ' +
-                                numberSmallerTen(ChanTruoc_Sau.getHours()) +
-                                ':' +
-                                numberSmallerTen(ChanTruoc_Sau.getMinutes());
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
-                                'min',
-                                ChanTruoc_Sau.yyyymmdd(),
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
-                                'd-none',
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
-                                'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
-                                'min',
-                                ThoiGianDung_Min_TS,
-                            );
-
-                            var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
-                            var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
-                            var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
-                            if (NgayDen_Sau.value == '' || GioDen_Sau.value == '' || ThoiGianDung_Sau.value == '') {
-                                NgayDen_Sau.disabled = false;
-                                GioDen_Sau.disabled = false;
-                                ThoiGianDung_Sau.disabled = false;
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                            for (let i = index + 1; i < Item_Saus.length; i++) {
+                                var NgayDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Truoc = Item_Saus[i - 1].querySelector(
+                                    '.DiemDungViPham_Item_ThoiGianDung',
                                 );
-                                console.log('Hah');
-                                NgayDen_Sau.focus();
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            } else {
-                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
-                            }
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
-
-                            if (ChanTruoc_Sau > GiaTri_Sau) {
-                                NgayDen_Sau.value = '';
-                                GioDen_Sau.value = '';
-
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                                ChanTruoc_Sau = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
+                                ChanTruoc_Sau = new Date(
+                                    ChanTruoc_Sau.getTime() +
+                                        60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
                                 );
 
-                                var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                                for (let i = index + 2; i < DiemDungViPham_Items.length; i++) {
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
-                                        '';
+                                var Item_Sau = Item_Saus[i];
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'd-none',
+                                );
 
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_NgayDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_GioDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_ThoiGianDung',
-                                    ).disabled = false;
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
+                                    'Thời gian đến tối thiểu: ' + ChanTruoc_Sau.display();
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.remove('text-danger');
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
+                                    'min',
+                                    ChanTruoc_Sau.yyyymmdd(),
+                                );
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.remove('text-danger');
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
+                                    'd-none',
+                                );
+
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
+                                    'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
+
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
+                                    'min',
+                                    ThoiGianDung_Min_TS,
+                                );
+
+                                if (
+                                    parseInt(Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value) <
+                                    ThoiGianDung_Min_TS
+                                ) {
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
+                                        ThoiGianDung_Min_TS;
                                 }
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                NgayDen_Sau.focus();
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
+
+                                var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
+
+                                NgayDen_Sau.setAttribute('vipham', true);
+                                ThoiGianDung_Sau.setAttribute('vipham', true);
+
+                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
+
+                                if (ChanTruoc_Sau > GiaTri_Sau) {
+                                    NgayDen_Sau.value = '';
+                                    GioDen_Sau.value = '';
+
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
+                                        'text-danger',
+                                    );
+
+                                    ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+                                    ThoiGianBay_ViPham.disabled = true;
+                                    NgayDen_Sau.disabled = false;
+                                    NgayDen_Sau.focus();
+                                    On_Off_NutLuu_Modal_ChinhSua();
+                                    return;
+                                }
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'text-danger',
+                                );
                             }
 
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
-
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
-                            ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-                            ThoiGianBay_ViPham.disabled = false;
+                            CapNhatMinThoiGianBayViPham();
                         } else {
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
-                            ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-                            ThoiGianBay_ViPham.disabled = false;
-
-                            ChanTruoc = new Date(
-                                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                                    ' ' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                                    ':' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                                    ':00',
-                            );
-                            var ChanSau = new Date(
-                                GiaTri.getTime() + 60000 * (parseInt(ThoiGianDung.value) + ThoiGianBay_Min_TS),
-                            );
-
-                            var distance = (ChanSau.getTime() - ChanTruoc.getTime()) / 60000;
-
-                            if (parseInt(ThoiGianBay_ViPham.value) < distance) {
-                                ThoiGianBay_ViPham.setAttribute('value', distance);
-                            }
-                            ThoiGianBay_ViPham.setAttribute('min', distance);
+                            CapNhatMinThoiGianBayViPham();
                             ThoiGianBay_ViPham.focus();
-                            ThoiGianBay_ViPham_DeXuat.innerText = 'Yêu cầu tối thiểu: ' + distance + ' phút.';
-
-                            ThoiGianBay_ViPham_DeXuat.classList.add('text-danger');
                         }
                         On_Off_NutLuu_Modal_ChinhSua();
                     }
@@ -2059,14 +1992,20 @@ function KhoiTao_ModalChinhSua() {
             if (e.target.value != '') {
                 if (GioDen.value == '') {
                     GioDen.focus();
-                } else if (ThoiGianDung.value == '') {
+                } else if (ThoiGianDung.value == '' || parseInt(ThoiGianDung.value) < ThoiGianDung_Min_TS) {
                     ThoiGianDung.focus();
+                } else {
+                    UnDisableAllViPham_Blur();
                 }
             } else {
                 if (GioDen.value != '' || ThoiGianDung.value != '') {
                     e.target.focus();
                 }
             }
+        });
+        node.querySelector('.DiemDungViPham_Item_NgayDen').addEventListener('focus', (e) => {
+            var index = e.target.getAttribute('index');
+            DisableAllViPham_Focus(index);
         });
 
         // Giờ đến
@@ -2093,17 +2032,9 @@ function KhoiTao_ModalChinhSua() {
                         var ChanTruoc;
                         var GiaTri = new Date(NgayDen.value + ' ' + e.target.value + ':00');
                         if (index == 1) {
-                            ChanTruoc = new Date(
-                                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                                    ' ' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                                    ':' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                                    ':00',
+                            ChanTruoc = CreateDateFromObject(
+                                Flight_Edit.ThoiGianDi.NgayDi,
+                                Flight_Edit.ThoiGianDi.GioDi,
                             );
                             ChanTruoc = new Date(ChanTruoc.getTime() + 60000 * ThoiGianBay_Min_TS);
                         } else {
@@ -2112,25 +2043,10 @@ function KhoiTao_ModalChinhSua() {
                             var GioDen_Truoc = Item_Truoc.querySelector('.DiemDungViPham_Item_GioDen');
                             var ThoiGianDung_Truoc = Item_Truoc.querySelector('.DiemDungViPham_Item_ThoiGianDung');
 
-                            if (
-                                NgayDen_Truoc.value == '' ||
-                                GioDen_Truoc.value == '' ||
-                                ThoiGianDung_Truoc.value == ''
-                            ) {
-                                e.target.value = '';
-                                NgayDen.value = '';
-                                NgayDen_Truoc.focus();
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            } else {
-                                ChanTruoc = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
-                                ChanTruoc = new Date(
-                                    ChanTruoc.getTime() +
-                                        60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
-                                );
-                            }
+                            ChanTruoc = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
+                            ChanTruoc = new Date(
+                                ChanTruoc.getTime() + 60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
+                            );
                         }
 
                         var ThongBao = e.target
@@ -2150,150 +2066,94 @@ function KhoiTao_ModalChinhSua() {
 
                         ThongBao.classList.remove('text-danger');
 
+                        if (parseInt(ThoiGianDung.value) < ThoiGianDung_Min_TS) {
+                            ThoiGianDung.focus();
+                            On_Off_NutLuu_Modal_ChinhSua();
+                            return;
+                        }
+
                         if (lastitem == false) {
-                            var ChanTruoc_Sau = new Date(
-                                GiaTri.getTime() + 60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung.value)),
-                            );
+                            var Item_Saus = document.querySelectorAll('.DiemDungViPham_Item');
+                            var ChanTruoc_Sau;
                             var GiaTri_Sau;
-                            var Item_Sau = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove('d-none');
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
-                                'Thời gian đến tối thiểu: ' +
-                                numberSmallerTen(ChanTruoc_Sau.getDate()) +
-                                '/' +
-                                numberSmallerTen(ChanTruoc_Sau.getMonth() + 1) +
-                                '/' +
-                                ChanTruoc_Sau.getFullYear() +
-                                ' ' +
-                                numberSmallerTen(ChanTruoc_Sau.getHours()) +
-                                ':' +
-                                numberSmallerTen(ChanTruoc_Sau.getMinutes());
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
-                                'min',
-                                ChanTruoc_Sau.yyyymmdd(),
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
-                                'd-none',
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
-                                'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
-                                'min',
-                                ThoiGianDung_Min_TS,
-                            );
-
-                            var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
-                            var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
-                            var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
-                            if (NgayDen_Sau.value == '' || GioDen_Sau.value == '' || ThoiGianDung_Sau.value == '') {
-                                NgayDen_Sau.disabled = false;
-                                GioDen_Sau.disabled = false;
-                                ThoiGianDung_Sau.disabled = false;
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                            for (let i = index + 1; i < Item_Saus.length; i++) {
+                                var NgayDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Truoc = Item_Saus[i - 1].querySelector(
+                                    '.DiemDungViPham_Item_ThoiGianDung',
                                 );
-                                NgayDen_Sau.focus();
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            } else {
-                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
-                            }
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
-
-                            if (ChanTruoc_Sau > GiaTri_Sau) {
-                                NgayDen_Sau.value = '';
-                                GioDen_Sau.value = '';
-
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                                ChanTruoc_Sau = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
+                                ChanTruoc_Sau = new Date(
+                                    ChanTruoc_Sau.getTime() +
+                                        60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
                                 );
 
-                                var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                                for (let i = index + 2; i < DiemDungViPham_Items.length; i++) {
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
-                                        '';
+                                var Item_Sau = Item_Saus[i];
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'd-none',
+                                );
 
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_NgayDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_GioDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_ThoiGianDung',
-                                    ).disabled = false;
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
+                                    'Thời gian đến tối thiểu: ' + ChanTruoc_Sau.display();
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.remove('text-danger');
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
+                                    'min',
+                                    ChanTruoc_Sau.yyyymmdd(),
+                                );
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.remove('text-danger');
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
+                                    'd-none',
+                                );
+
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
+                                    'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
+
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
+                                    'min',
+                                    ThoiGianDung_Min_TS,
+                                );
+
+                                if (
+                                    parseInt(Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value) <
+                                    ThoiGianDung_Min_TS
+                                ) {
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
+                                        ThoiGianDung_Min_TS;
                                 }
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                NgayDen_Sau.focus();
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
+
+                                var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
+
+                                NgayDen_Sau.setAttribute('vipham', true);
+                                ThoiGianDung_Sau.setAttribute('vipham', true);
+
+                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
+
+                                if (ChanTruoc_Sau > GiaTri_Sau) {
+                                    NgayDen_Sau.value = '';
+                                    GioDen_Sau.value = '';
+
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
+                                        'text-danger',
+                                    );
+
+                                    ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+                                    ThoiGianBay_ViPham.disabled = true;
+                                    NgayDen_Sau.disabled = false;
+                                    NgayDen_Sau.focus();
+                                    On_Off_NutLuu_Modal_ChinhSua();
+                                    return;
+                                }
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'text-danger',
+                                );
                             }
 
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
-
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
-                            ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-                            ThoiGianBay_ViPham.disabled = false;
+                            CapNhatMinThoiGianBayViPham();
                         } else {
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
-                            ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-
-                            ThoiGianBay_ViPham.disabled = false;
-
-                            ChanTruoc = new Date(
-                                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                                    ' ' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                                    ':' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                                    ':00',
-                            );
-
-                            var ChanSau = new Date(
-                                GiaTri.getTime() + 60000 * (parseInt(ThoiGianDung.value) + ThoiGianBay_Min_TS),
-                            );
-
-                            var distance = (ChanSau.getTime() - ChanTruoc.getTime()) / 60000;
-                            if (parseInt(ThoiGianBay_ViPham.value) < distance) {
-                                ThoiGianBay_ViPham.setAttribute('value', distance);
-                            }
-                            ThoiGianBay_ViPham.setAttribute('min', distance);
+                            CapNhatMinThoiGianBayViPham();
                             ThoiGianBay_ViPham.focus();
-                            ThoiGianBay_ViPham_DeXuat.innerText = 'Yêu cầu tối thiểu: ' + distance + ' phút.';
-
-                            ThoiGianBay_ViPham_DeXuat.classList.add('text-danger');
                         }
                         On_Off_NutLuu_Modal_ChinhSua();
                     }
@@ -2311,6 +2171,8 @@ function KhoiTao_ModalChinhSua() {
                     NgayDen.focus();
                 } else if (ThoiGianDung.value == '') {
                     ThoiGianDung.focus();
+                } else {
+                    UnDisableAllViPham_Blur();
                 }
             } else {
                 if (NgayDen.value == '') {
@@ -2331,6 +2193,8 @@ function KhoiTao_ModalChinhSua() {
                     NgayDen.focus();
                 } else if (ThoiGianDung.value == '') {
                     ThoiGianDung.focus();
+                } else {
+                    DisableAllViPham_Focus(index);
                 }
             } else {
                 if (NgayDen.value == '') {
@@ -2342,9 +2206,7 @@ function KhoiTao_ModalChinhSua() {
         });
 
         // Thời gian dừng
-        if (ThoiGianDung_Min_TS < item.ThoiGianDung) {
-            node.querySelector('.DiemDungViPham_Item_ThoiGianDung').value = ThoiGianDung_Min_TS;
-        } else node.querySelector('.DiemDungViPham_Item_ThoiGianDung').value = item.ThoiGianDung;
+        node.querySelector('.DiemDungViPham_Item_ThoiGianDung').value = item.ThoiGianDung;
         node.querySelector('.DiemDungViPham_Item_ThoiGianDung').addEventListener('change', (e) => {
             var index = parseInt(e.target.getAttribute('index'));
             if (e.target.value != '') {
@@ -2373,163 +2235,87 @@ function KhoiTao_ModalChinhSua() {
                         var GiaTri = new Date(NgayDen.value + ' ' + GioDen.value + ':00');
 
                         if (lastitem == false) {
-                            var ChanTruoc_Sau = new Date(
-                                GiaTri.getTime() + 60000 * (ThoiGianBay_Min_TS + parseInt(e.target.value)),
-                            );
+                            var Item_Saus = document.querySelectorAll('.DiemDungViPham_Item');
+                            var ChanTruoc_Sau;
                             var GiaTri_Sau;
-                            var Item_Sau = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove('d-none');
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
-                                'Thời gian đến tối thiểu: ' +
-                                numberSmallerTen(ChanTruoc_Sau.getDate()) +
-                                '/' +
-                                numberSmallerTen(ChanTruoc_Sau.getMonth() + 1) +
-                                '/' +
-                                ChanTruoc_Sau.getFullYear() +
-                                ' ' +
-                                numberSmallerTen(ChanTruoc_Sau.getHours()) +
-                                ':' +
-                                numberSmallerTen(ChanTruoc_Sau.getMinutes());
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
-                                'min',
-                                ChanTruoc_Sau.yyyymmdd(),
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
-                                'd-none',
-                            );
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
-                                'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
-
-                            Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
-                                'min',
-                                ThoiGianDung_Min_TS,
-                            );
-
-                            var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
-                            var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
-                            var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
-                            if (NgayDen_Sau.value == '' || GioDen_Sau.value == '' || ThoiGianDung_Sau.value == '') {
-                                NgayDen_Sau.disabled = false;
-                                GioDen_Sau.disabled = false;
-                                ThoiGianDung_Sau.disabled = false;
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                            for (let i = index + 1; i < Item_Saus.length; i++) {
+                                var NgayDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Truoc = Item_Saus[i - 1].querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Truoc = Item_Saus[i - 1].querySelector(
+                                    '.DiemDungViPham_Item_ThoiGianDung',
                                 );
-                                NgayDen_Sau.focus();
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            } else {
-                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
-                            }
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
-
-                            if (ChanTruoc_Sau > GiaTri_Sau) {
-                                NgayDen_Sau.value = '';
-                                GioDen_Sau.value = '';
-
-                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
-                                    'text-danger',
+                                ChanTruoc_Sau = new Date(NgayDen_Truoc.value + ' ' + GioDen_Truoc.value + ':00');
+                                ChanTruoc_Sau = new Date(
+                                    ChanTruoc_Sau.getTime() +
+                                        60000 * (ThoiGianBay_Min_TS + parseInt(ThoiGianDung_Truoc.value)),
                                 );
 
-                                var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item')[index + 1];
-                                for (let i = index + 2; i < DiemDungViPham_Items.length; i++) {
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
-                                        '';
+                                var Item_Sau = Item_Saus[i];
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'd-none',
+                                );
 
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_NgayDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_GioDen',
-                                    ).disabled = false;
-                                    DiemDungViPham_Items[i].querySelector(
-                                        '.DiemDungViPham_Item_ThoiGianDung',
-                                    ).disabled = false;
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
+                                    'Thời gian đến tối thiểu: ' + ChanTruoc_Sau.display();
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                                        .classList.remove('text-danger');
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen').setAttribute(
+                                    'min',
+                                    ChanTruoc_Sau.yyyymmdd(),
+                                );
 
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.add('d-none');
-                                    DiemDungViPham_Items[i]
-                                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                                        .classList.remove('text-danger');
-                                }
-                                ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-                                ThoiGianBay_ViPham.disabled = true;
-                                NgayDen_Sau.focus();
-                                On_Off_NutLuu_Modal_ChinhSua();
-                                return;
-                            }
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').classList.remove(
+                                    'd-none',
+                                );
 
-                            Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
-                                'text-danger',
-                            );
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
+                                    'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
 
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
-                            ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-                            ThoiGianBay_ViPham.disabled = false;
-                        } else {
-                            var NgayGioChuaFill = true;
-                            var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
-                            for (let i = 1; i < DiemDungViPham_Items.length; i++) {
+                                Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute(
+                                    'min',
+                                    ThoiGianDung_Min_TS,
+                                );
+
                                 if (
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value == '' ||
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value == '' ||
-                                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value ==
-                                        ''
+                                    parseInt(Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value) <
+                                    ThoiGianDung_Min_TS
                                 ) {
-                                    NgayGioChuaFill = false;
-                                    break;
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
+                                        ThoiGianDung_Min_TS;
                                 }
-                            }
-                            if (NgayGioChuaFill == true) {
-                                ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
-                                ThoiGianBay_ViPham.disabled = false;
-                            }
-                            ThoiGianBay_ViPham_div.classList.remove('d-none');
 
-                            ChanTruoc = new Date(
-                                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                                    '-' +
-                                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                                    ' ' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                                    ':' +
-                                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                                    ':00',
-                            );
+                                var NgayDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_NgayDen');
+                                var GioDen_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_GioDen');
+                                var ThoiGianDung_Sau = Item_Sau.querySelector('.DiemDungViPham_Item_ThoiGianDung');
 
-                            var ChanSau = new Date(
-                                GiaTri.getTime() + 60000 * (parseInt(e.target.value) + ThoiGianBay_Min_TS),
-                            );
+                                NgayDen_Sau.setAttribute('vipham', true);
+                                ThoiGianDung_Sau.setAttribute('vipham', true);
 
-                            var distance = (ChanSau.getTime() - ChanTruoc.getTime()) / 60000;
-                            if (parseInt(ThoiGianBay_ViPham.value) < distance) {
-                                ThoiGianBay_ViPham.setAttribute('value', distance);
+                                GiaTri_Sau = new Date(NgayDen_Sau.value + ' ' + GioDen_Sau.value + ':00');
+
+                                if (ChanTruoc_Sau > GiaTri_Sau) {
+                                    NgayDen_Sau.value = '';
+                                    GioDen_Sau.value = '';
+
+                                    Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.add(
+                                        'text-danger',
+                                    );
+
+                                    ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+                                    ThoiGianBay_ViPham.disabled = true;
+                                    NgayDen_Sau.disabled = false;
+                                    NgayDen_Sau.focus();
+                                    On_Off_NutLuu_Modal_ChinhSua();
+                                    return;
+                                }
+                                Item_Sau.querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove(
+                                    'text-danger',
+                                );
                             }
-                            ThoiGianBay_ViPham.setAttribute('min', distance);
+
+                            CapNhatMinThoiGianBayViPham();
+                        } else {
+                            CapNhatMinThoiGianBayViPham();
                             ThoiGianBay_ViPham.focus();
-                            ThoiGianBay_ViPham_DeXuat.innerText = 'Yêu cầu tối thiểu: ' + distance + ' phút.';
-
-                            ThoiGianBay_ViPham_DeXuat.classList.add('text-danger');
                         }
                         On_Off_NutLuu_Modal_ChinhSua();
                     }
@@ -2561,10 +2347,13 @@ function KhoiTao_ModalChinhSua() {
             }
         });
         node.querySelector('.DiemDungViPham_Item_ThoiGianDung').addEventListener('blur', (e) => {
-            e.target
-                .closest('.DiemDungViPham_Item')
-                .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                .classList.remove('text-danger');
+            if (parseInt(e.target.value) >= parseInt(e.target.getAttribute('min'))) {
+                e.target
+                    .closest('.DiemDungViPham_Item')
+                    .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
+                    .classList.remove('text-danger');
+            }
+            UnDisableAllViPham_Blur();
         });
         DiemDungViPham_Container.appendChild(node);
     });
@@ -2598,124 +2387,36 @@ function KhoiTao_ModalChinhSua() {
         }
     }
 
+    // Thời gian bay vi phạm
+    ThoiGianBay_ViPham.value = Flight_Edit.ThoiGianBay;
+    ThoiGianBay_ViPham.setAttribute('min', 0);
+    ThoiGianBay_ViPham.addEventListener('blur', (e) => {
+        if (e.target.value == '') {
+            if (Flight_Edit.ThoiGianBay < parseInt(e.target.getAttribute('min'))) {
+                e.target.value = e.target.getAttribute('min');
+            } else {
+                e.target.value = Flight_Edit.ThoiGianBay;
+            }
+        } else {
+            if (parseInt(e.target.value) < parseInt(e.target.getAttribute('min'))) {
+                if (Flight_Edit.ThoiGianBay < parseInt(e.target.getAttribute('min'))) {
+                    e.target.value = e.target.getAttribute('min');
+                } else {
+                    e.target.value = Flight_Edit.ThoiGianBay;
+                }
+            }
+        }
+        On_Off_NutLuu_Modal_ChinhSua();
+    });
+
     //--Thời gian dừng tối thiểu && Thoi gian bay toi thieu
     const DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
-    for (let i = 1; i < DiemDungViPham_Items.length; i++) {
-        if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') {
-            continue;
-        }
-
-        if (ThoiGianBay_Dung_Min_Check == true) {
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
-
-            if (ThoiGianDung_Min_TS < Flight_Edit.SanBayTG[i - 1].ThoiGianDung) {
-                DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value = ThoiGianDung_Min_TS;
-            } else
-                DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value =
-                    Flight_Edit.SanBayTG[i - 1].ThoiGianDung;
-            continue;
-        }
-
-        var ChanTruoc;
-        var GiaTri = new Date(
-            Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Nam +
-                '-' +
-                Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Thang +
-                '-' +
-                Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Ngay +
-                ' ' +
-                Flight_Edit.SanBayTG[i - 1].ThoiGianDen.GioDen.Gio +
-                ':' +
-                Flight_Edit.SanBayTG[i - 1].ThoiGianDen.GioDen.Phut +
-                ':00',
-        );
-        if (i == 1) {
-            ChanTruoc = new Date(
-                Flight_Edit.ThoiGianDi.NgayDi.Nam +
-                    '-' +
-                    Flight_Edit.ThoiGianDi.NgayDi.Thang +
-                    '-' +
-                    Flight_Edit.ThoiGianDi.NgayDi.Ngay +
-                    ' ' +
-                    Flight_Edit.ThoiGianDi.GioDi.Gio +
-                    ':' +
-                    Flight_Edit.ThoiGianDi.GioDi.Phut +
-                    ':00',
-            );
-            ChanTruoc = new Date(ChanTruoc.getTime() + 60000 * ThoiGianBay_Min_TS);
-        } else {
-            ChanTruoc = new Date(
-                Flight_Edit.SanBayTG[i - 2].ThoiGianDen.NgayDen.Nam +
-                    '-' +
-                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.NgayDen.Thang +
-                    '-' +
-                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.NgayDen.Ngay +
-                    ' ' +
-                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.GioDen.Gio +
-                    ':' +
-                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.GioDen.Phut +
-                    ':00',
-            );
-            ChanTruoc = new Date(ChanTruoc.getTime() + 60000 * (ThoiGianBay_Min_TS + ThoiGianDung_Min_TS));
-        }
-
-        if (ChanTruoc > GiaTri) {
-            ThoiGianBay_Dung_Min_Check = true;
-            ThongTinChuyenBay_ViPham.classList.remove('d-none');
-            ThoiGianBay_ViPham_div.classList.remove('d-none');
-            ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
-            ThoiGianBay_ViPham.disabled = true;
-
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').disabled = false;
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').disabled = false;
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').disabled = false;
-
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
-
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove('d-none');
-
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
-                'Thời gian đến tối thiểu: ' +
-                numberSmallerTen(ChanTruoc.getDate()) +
-                '/' +
-                numberSmallerTen(ChanTruoc.getMonth() + 1) +
-                '/' +
-                ChanTruoc.getFullYear() +
-                ' ' +
-                numberSmallerTen(ChanTruoc.getHours()) +
-                ':' +
-                numberSmallerTen(ChanTruoc.getMinutes());
-
-            DiemDungViPham_Items[i]
-                .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
-                .classList.add('text-danger');
-
-            DiemDungViPham_Items[i]
-                .querySelector('.DiemDungViPham_Item_NgayDen')
-                .setAttribute('min', ChanTruoc.yyyymmdd());
-
-            DiemDungViPham_Items[i]
-                .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
-                .classList.remove('d-none');
-
-            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
-                'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
-
-            DiemDungViPham_Items[i]
-                .querySelector('.DiemDungViPham_Item_ThoiGianDung')
-                .setAttribute('min', ThoiGianDung_Min_TS);
-        }
-    }
-
-    if (ThoiGianBay_Dung_Min_Check == false) {
-        if (SBTG_Max_Check == false) {
-            ThongTinDiemDung_ViPham.classList.add('d-none');
-            DiemDungViPham_Container.classList.add('d-none');
-        }
-
-        if (Flight_Edit.ThoiGianBay < ThoiGianBay_Min_TS) {
+    if (DiemDungViPham_Items.length == 1) {
+        // Ko có SBTG
+        ThongTinDiemDung_ViPham.classList.add('d-none');
+        DiemDungViPham_Container.classList.add('d-none');
+        if (ThoiGianBay_Min_TS > Flight_Edit.ThoiGianBay) {
+            ThoiGianBay_Min_Check = true;
             ThoiGianBay_ViPham_div.classList.remove('d-none');
             ThongTinChuyenBay_ViPham.classList.remove('d-none');
 
@@ -2728,19 +2429,148 @@ function KhoiTao_ModalChinhSua() {
 
             ThoiGianBay_ViPham.focus();
         }
-    }
+    } else if (DiemDungViPham_Items.length > 1 && DiemDungViPham_Items[1].getAttribute('status') != 'KhongSuDung') {
+        // Có SBTG
+        var ChanTruoc = CreateDateFromObject(Flight_Edit.ThoiGianDi.NgayDi, Flight_Edit.ThoiGianDi.GioDi);
+        ChanTruoc = new Date(ChanTruoc.getTime() + 60000 * ThoiGianBay_Min_TS);
+        var GiaTri = CreateDateFromObject(
+            Flight_Edit.SanBayTG[0].ThoiGianDen.NgayDen,
+            Flight_Edit.SanBayTG[0].ThoiGianDen.GioDen,
+        );
+        var i = 1;
+        if (ChanTruoc > GiaTri) {
+            ThoiGianBay_Min_Check = true;
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').setAttribute('vipham', true);
+            ThongTinChuyenBay_ViPham.classList.remove('d-none');
+            ThoiGianBay_ViPham_div.classList.remove('d-none');
+            ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+            ThoiGianBay_ViPham.disabled = true;
 
-    ThoiGianBay_ViPham.addEventListener('blur', (e) => {
-        if (e.target.value == '') {
-            e.target.value = e.target.getAttribute('min');
-            On_Off_NutLuu_Modal_ChinhSua();
-        } else {
-            if (parseInt(e.target.value) < parseInt(e.target.getAttribute('min'))) {
-                e.target.value = e.target.getAttribute('min');
-                On_Off_NutLuu_Modal_ChinhSua();
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').disabled = false;
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').disabled = false;
+
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
+
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').classList.remove('d-none');
+
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
+                'Thời gian đến tối thiểu: ' + ChanTruoc.display();
+
+            DiemDungViPham_Items[i]
+                .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
+                .classList.add('text-danger');
+
+            DiemDungViPham_Items[i]
+                .querySelector('.DiemDungViPham_Item_NgayDen')
+                .setAttribute('min', ChanTruoc.yyyymmdd());
+        }
+
+        if (ThoiGianDung_Min_TS > Flight_Edit.SanBayTG[0].ThoiGianDung) {
+            ThoiGianDung_Min_Check = true;
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').setAttribute('vipham', true);
+            ThongTinChuyenBay_ViPham.classList.remove('d-none');
+            ThoiGianBay_ViPham_div.classList.remove('d-none');
+            ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+            ThoiGianBay_ViPham.disabled = true;
+
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').disabled = false;
+            DiemDungViPham_Items[i]
+                .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
+                .classList.remove('d-none');
+            DiemDungViPham_Items[i]
+                .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
+                .classList.add('text-danger');
+
+            DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
+                'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
+            DiemDungViPham_Items[i]
+                .querySelector('.DiemDungViPham_Item_ThoiGianDung')
+                .setAttribute('min', ThoiGianDung_Min_TS);
+        }
+
+        if (ThoiGianBay_Min_Check == false && ThoiGianDung_Min_Check == false) {
+            for (i = 2; i < DiemDungViPham_Items.length; i++) {
+                if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') {
+                    break;
+                }
+                if (ThoiGianDung_Min_TS > Flight_Edit.SanBayTG[i - 1].ThoiGianDung) {
+                    ThoiGianDung_Min_Check = true;
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_ThoiGianDung')
+                        .setAttribute('vipham', true);
+                    ThongTinChuyenBay_ViPham.classList.remove('d-none');
+                    ThoiGianBay_ViPham_div.classList.remove('d-none');
+                    ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+                    ThoiGianBay_ViPham.disabled = true;
+
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').disabled = false;
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
+                        .classList.remove('d-none');
+
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat').innerText =
+                        'Thời gian dừng tối thiểu: ' + numberSmallerTen(ThoiGianDung_Min_TS) + ' phút.';
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_ThoiGianDung_DeXuat')
+                        .classList.add('text-danger');
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_ThoiGianDung')
+                        .setAttribute('min', ThoiGianDung_Min_TS);
+                }
+
+                GiaTri = CreateDateFromObject(
+                    Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen,
+                    Flight_Edit.SanBayTG[i - 1].ThoiGianDen.GioDen,
+                );
+                ChanTruoc = CreateDateFromObject(
+                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.NgayDen,
+                    Flight_Edit.SanBayTG[i - 2].ThoiGianDen.GioDen,
+                );
+                ChanTruoc = new Date(
+                    ChanTruoc.getTime() + 60000 * (ThoiGianBay_Min_TS + Flight_Edit.SanBayTG[i - 2].ThoiGianDung),
+                );
+
+                if (ChanTruoc > GiaTri) {
+                    ThoiGianBay_Min_Check = true;
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').setAttribute('vipham', true);
+                    ThongTinChuyenBay_ViPham.classList.remove('d-none');
+                    ThoiGianBay_ViPham_div.classList.remove('d-none');
+                    ThoiGianBay_ViPham_DeXuat.classList.add('d-none');
+                    ThoiGianBay_ViPham.disabled = true;
+
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').disabled = false;
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').disabled = false;
+
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value = '';
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_GioDen').value = '';
+
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
+                        .classList.remove('d-none');
+
+                    DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat').innerText =
+                        'Thời gian đến tối thiểu: ' + ChanTruoc.display();
+
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_NgayGioDen_DeXuat')
+                        .classList.add('text-danger');
+
+                    DiemDungViPham_Items[i]
+                        .querySelector('.DiemDungViPham_Item_NgayDen')
+                        .setAttribute('min', ChanTruoc.yyyymmdd());
+                }
+                if (ThoiGianBay_Min_Check == true || ThoiGianDung_Min_Check == true) break;
             }
         }
-    });
+
+        if (ThoiGianBay_Min_Check == false && ThoiGianDung_Min_Check == false) {
+            if (SBTG_Max_Check == false) {
+                ThongTinDiemDung_ViPham.classList.add('d-none');
+                DiemDungViPham_Container.classList.add('d-none');
+            }
+        }
+    }
 
     On_Off_NutLuu_Modal_ChinhSua();
 }
@@ -2758,7 +2588,7 @@ function Check_ThayDoi_Modal_ChinhSua() {
             return check;
         }
     }
-    if (ThoiGianBay_Dung_Min_Check == true) {
+    if (ThoiGianBay_Min_Check == true || ThoiGianDung_Min_Check == true) {
         if (ThoiGianBay_ViPham.value == '') {
             return check;
         } else if (parseInt(ThoiGianBay_ViPham.value) < parseInt(ThoiGianBay_ViPham.getAttribute('min'))) {
@@ -2768,7 +2598,7 @@ function Check_ThayDoi_Modal_ChinhSua() {
         var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
         for (let i = 1; i < DiemDungViPham_Items.length; i++) {
             if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') {
-                continue;
+                break;
             }
 
             if (DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_NgayDen').value == '') {
@@ -2779,7 +2609,13 @@ function Check_ThayDoi_Modal_ChinhSua() {
                 return check;
             }
 
-            if (DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value == '') {
+            if (
+                DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value == '' ||
+                parseInt(DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value) <
+                    parseInt(
+                        DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').getAttribute('min'),
+                    )
+            ) {
                 return check;
             }
         }
@@ -2833,15 +2669,15 @@ function Check_ThayDoi_Modal_ChinhSua() {
     });
 
     // Thay đổi
-    if (GiaVeCoBan_Min_Check == true && parseInt(numberWithoutDot(GiaVeCoBan_ViPham.value)) != Flight_Edit.GiaVeCoBan) {
+    if (GiaVeCoBan_Min_Check == true && parseInt(numberWithoutDot(GiaVeCoBan_ViPham.value)) >= GiaVeCoBan_Min_TS) {
         data_send.GiaVeCoBan = parseInt(numberWithoutDot(GiaVeCoBan_ViPham.value));
         check = true;
     } else {
         data_send.GiaVeCoBan = Flight_Edit.GiaVeCoBan;
     }
 
-    if (ThoiGianBay_Dung_Min_Check == true) {
-        if (parseInt(ThoiGianBay_ViPham.value) != Flight_Edit.ThoiGianBay) {
+    if (ThoiGianBay_Min_Check == true || ThoiGianDung_Min_Check == true) {
+        if (parseInt(ThoiGianBay_ViPham.value) >= parseInt(ThoiGianBay_ViPham.getAttribute('min'))) {
             data_send.ThoiGianBay = parseInt(ThoiGianBay_ViPham.value);
             check = true;
         }
@@ -2849,7 +2685,7 @@ function Check_ThayDoi_Modal_ChinhSua() {
         var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
         for (let i = 1; i < DiemDungViPham_Items.length; i++) {
             if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') {
-                continue;
+                break;
             }
 
             var NgayDen = new Date(
@@ -2862,43 +2698,36 @@ function Check_ThayDoi_Modal_ChinhSua() {
             var ThoiGianDung = parseInt(
                 DiemDungViPham_Items[i].querySelector('.DiemDungViPham_Item_ThoiGianDung').value,
             );
-            if (
-                NgayDen.getDate() != Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Ngay ||
-                NgayDen.getMonth() + 1 != Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Thang ||
-                NgayDen.getFullYear() != Flight_Edit.SanBayTG[i - 1].ThoiGianDen.NgayDen.Nam ||
-                NgayDen.getHours() != Flight_Edit.SanBayTG[i - 1].ThoiGianDen.GioDen.Gio ||
-                NgayDen.getMinutes() != Flight_Edit.SanBayTG[i - 1].ThoiGianDen.GioDen.Phut
-            ) {
-                data_send.SBTG.push({
-                    ThuTu: Flight_Edit.SanBayTG[i - 1].ThuTu,
-                    MaSanBay: Flight_Edit.SanBayTG[i - 1].MaSBTG,
-                    NgayDen: { Ngay: NgayDen.getDate(), Thang: NgayDen.getMonth() + 1, Nam: NgayDen.getFullYear() },
-                    GioDen: { Gio: NgayDen.getHours(), Phut: NgayDen.getMinutes() },
-                    ThoiGianDung: ThoiGianDung,
-                    GhiChu: Flight_Edit.SanBayTG[i - 1].GhiChu,
-                });
-                check = true;
-            }
+
+            data_send.SBTG.push({
+                ThuTu: Flight_Edit.SanBayTG[i - 1].ThuTu,
+                MaSanBay: Flight_Edit.SanBayTG[i - 1].MaSBTG,
+                NgayDen: { Ngay: NgayDen.getDate(), Thang: NgayDen.getMonth() + 1, Nam: NgayDen.getFullYear() },
+                GioDen: { Gio: NgayDen.getHours(), Phut: NgayDen.getMinutes() },
+                ThoiGianDung: ThoiGianDung,
+                GhiChu: Flight_Edit.SanBayTG[i - 1].GhiChu,
+            });
+            check = true;
         }
     } else {
         Flight_Edit.SanBayTG.forEach((item) => {
-            data_send.SBTG,
-                push({
-                    ThuTu: item.ThuTu,
-                    MaSanBay: item.MaSBTG,
-                    NgayDen: structuredClone(item.ThoiGianDen.NgayDen),
-                    GioDen: structuredClone(item.ThoiGianDen.GioDen),
-                    ThoiGianDung: item.ThoiGianDung,
-                    GhiChu: item.GhiChu,
-                });
+            data_send.SBTG.push({
+                ThuTu: item.ThuTu,
+                MaSanBay: item.MaSBTG,
+                NgayDen: structuredClone(item.ThoiGianDen.NgayDen),
+                GioDen: structuredClone(item.ThoiGianDen.GioDen),
+                ThoiGianDung: item.ThoiGianDung,
+                GhiChu: item.GhiChu,
+            });
         });
         if (SBTG_Max_Check == true) {
             check = true;
             var SBTG_Max_TS = Flight_Edit.ThamSos.find((item) => item.TenThamSo == 'SBTG_Max').GiaTri;
-            for (let i = 0; i < SBTG_Max_TS; i++) {
+            for (let i = 0; i < Flight_Edit.SanBayTG.length - SBTG_Max_TS; i++) {
                 data_send.SBTG.pop();
             }
         }
+        data_send.ThoiGianBay = Flight_Edit.ThoiGianBay;
     }
 
     if (check == true) {
@@ -2913,6 +2742,90 @@ function On_Off_NutLuu_Modal_ChinhSua() {
     } else {
         ModalStaticChinhSua_Luu.disabled = true;
     }
+}
+
+function DisableAllViPham_Focus(ThuTu) {
+    var index = parseInt(ThuTu.toString());
+
+    var DiemDung_Item_NgayDens = document.querySelectorAll('.DiemDungViPham_Item_NgayDen ');
+    var DiemDung_Item_GioDens = document.querySelectorAll('.DiemDungViPham_Item_GioDen');
+    var DiemDung_Item_ThoiGianDungs = document.querySelectorAll('.DiemDungViPham_Item_ThoiGianDung');
+    for (let i = 1; i < DiemDung_Item_NgayDens.length; i++) {
+        DiemDung_Item_NgayDens[i].disabled = true;
+        DiemDung_Item_GioDens[i].disabled = true;
+        DiemDung_Item_ThoiGianDungs[i].disabled = true;
+    }
+
+    if (DiemDung_Item_NgayDens[index].getAttribute('vipham') == 'true') {
+        DiemDung_Item_NgayDens[index].disabled = false;
+        DiemDung_Item_GioDens[index].disabled = false;
+    }
+    if (DiemDung_Item_ThoiGianDungs[index].getAttribute('vipham') == 'true') {
+        DiemDung_Item_ThoiGianDungs[index].disabled = false;
+    }
+}
+
+function UnDisableAllViPham_Blur() {
+    //đây
+    var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
+    var DiemDung_Item_NgayDens = document.querySelectorAll('.DiemDungViPham_Item_NgayDen');
+    var DiemDung_Item_GioDens = document.querySelectorAll('.DiemDungViPham_Item_GioDen');
+    var DiemDung_Item_ThoiGianDungs = document.querySelectorAll('.DiemDungViPham_Item_ThoiGianDung');
+
+    for (let i = 1; i < DiemDung_Item_NgayDens.length; i++) {
+        if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') break;
+
+        if (DiemDung_Item_NgayDens[i].getAttribute('vipham') == 'true') {
+            DiemDung_Item_NgayDens[i].disabled = false;
+            DiemDung_Item_GioDens[i].disabled = false;
+        }
+        if (DiemDung_Item_ThoiGianDungs[i].getAttribute('vipham') == 'true') {
+            DiemDung_Item_ThoiGianDungs[i].disabled = false;
+        }
+    }
+}
+
+function CapNhatMinThoiGianBayViPham() {
+    ThoiGianBay_ViPham_DeXuat.classList.remove('d-none');
+    ThoiGianBay_ViPham.disabled = false;
+    ThoiGianBay_ViPham_div.classList.remove('d-none');
+
+    var ChanTruoc = CreateDateFromObject(Flight_Edit.ThoiGianDi.NgayDi, Flight_Edit.ThoiGianDi.GioDi);
+    var ThoiGianBay_Min_TS = Flight_Edit.ThamSos.find((item) => item.TenThamSo == 'ThoiGianBayToiThieu').GiaTri;
+    var ChanSau = null;
+    var DiemDungViPham_Items = document.querySelectorAll('.DiemDungViPham_Item');
+    var DiemDung_Item_NgayDens = document.querySelectorAll('.DiemDungViPham_Item_NgayDen');
+    var DiemDung_Item_GioDens = document.querySelectorAll('.DiemDungViPham_Item_GioDen');
+    var DiemDung_Item_ThoiGianDungs = document.querySelectorAll('.DiemDungViPham_Item_ThoiGianDung');
+
+    for (let i = DiemDung_Item_NgayDens.length - 1; i > 0; i--) {
+        if (DiemDungViPham_Items[i].getAttribute('status') == 'KhongSuDung') continue;
+
+        if (
+            DiemDung_Item_NgayDens[i].value != '' &&
+            DiemDung_Item_GioDens[i].value != '' &&
+            DiemDung_Item_ThoiGianDungs[i].value != ''
+        ) {
+            ChanSau = new Date(DiemDung_Item_NgayDens[i].value + ' ' + DiemDung_Item_GioDens[i].value + ':00');
+            ChanSau = new Date(
+                ChanSau.getTime() + 60000 * (parseInt(DiemDung_Item_ThoiGianDungs[i].value) + ThoiGianBay_Min_TS),
+            );
+            break;
+        }
+    }
+
+    if (ChanSau == null) {
+        ChanSau = new Date(ChanTruoc.getTime() + 60000 * ThoiGianBay_Min_TS);
+    }
+
+    var distance = (ChanSau.getTime() - ChanTruoc.getTime()) / 60000;
+    if (parseInt(ThoiGianBay_ViPham.value) < distance) {
+        ThoiGianBay_ViPham.setAttribute('value', distance);
+    }
+    ThoiGianBay_ViPham.setAttribute('min', distance);
+    ThoiGianBay_ViPham_DeXuat.innerText = 'Yêu cầu tối thiểu: ' + distance + ' phút.';
+
+    ThoiGianBay_ViPham_DeXuat.classList.add('text-danger');
 }
 
 if (ModalStaticChinhSua_Thoat) {

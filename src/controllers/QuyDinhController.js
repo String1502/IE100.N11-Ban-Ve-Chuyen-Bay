@@ -1,10 +1,26 @@
+import { raw } from 'body-parser';
 import db, { sequelize } from '../models/index';
+import { dateIsValid } from '../public/javascript/start';
 const { QueryTypes } = require('sequelize');
 
 class QuyDinhController {
     // 'staff/QuyDinh'
     async Regulations(req, res) {
         try {
+            let MaUser = req.signedCookies.MaUser;
+            let Users = await db.sequelize.query(
+                'select user.`MaUser` from user, phanquyen where user.MaChucVu=phanquyen.MaChucVu and phanquyen.MaQuyen = 4',
+                { type: QueryTypes.SELECT, raw: true },
+            );
+
+            let HienThi = 'd-none';
+            for (let i = 0; i < Users.length; i++) {
+                console.log(Users[i].MaUser);
+                if (Users[i].MaUser == MaUser) {
+                    HienThi = '';
+                    break;
+                }
+            }
             let ThamSos = await db.sequelize.query('select TenThamSo, TenHienThi, NgayHieuLuc , GiaTri from thamso', {
                 type: QueryTypes.SELECT,
                 raw: true,
@@ -44,6 +60,7 @@ class QuyDinhController {
                 HangGhes: HangGhes,
                 LoaiKhachHangs: LoaiKhachHangs,
                 MocHanhLys: MocHanhLys,
+                HienThi: HienThi,
             });
         } catch (error) {
             console.log(error);

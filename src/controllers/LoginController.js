@@ -3,6 +3,35 @@ const { QueryTypes } = require('sequelize');
 import Mailer from '../utils/mailer';
 
 class LoginController {
+    //Kiểm tra tài khoản mật khẩu
+    async check(req, res) {
+        try {
+            let user = await db.User.findOne({
+                where: { MaUser: req.body.MaUser, MatKhau: req.body.MatKhau },
+                raw: true,
+            });
+            let ChucVu = await db.ChucVu.findOne({
+                where: { TenChucVu: 'Khách hàng' },
+                raw: true,
+            });
+            if (!user || user.MaChucVu == ChucVu.MaChucVu) {
+                let check1;
+                return res.send({
+                    check1: false,
+                });
+            } else {
+                let check1;
+                res.cookie('MaUser', user.MaUser, {
+                    signed: true,
+                });
+                return res.send({
+                    check1: true,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // "/login"
     async login(req, res) {
         try {

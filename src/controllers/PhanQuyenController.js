@@ -226,7 +226,6 @@ class PhanQuyenController {
             let User = await db.User.findOne({
                 where: { MaUser: User_P.MaUser },
             });
-            console.log(User);
             if (User) {
                 User.set({
                     MaChucVu: User_P.MaChucVu,

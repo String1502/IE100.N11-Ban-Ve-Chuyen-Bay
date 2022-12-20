@@ -11,5 +11,6 @@ router.post('/get-flight', FlightController.getFlight);
 router.post('/update', FlightController.updateChuyenBay);
 router.post('/cancel', FlightController.CancelChuyenBay);
 router.post('/addFromexcel', fileController.addByExcel);
+router.post('/addByTay', fileController.addByTay);
 
 module.exports = router;

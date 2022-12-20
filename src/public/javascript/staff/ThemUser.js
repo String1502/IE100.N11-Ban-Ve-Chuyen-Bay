@@ -12,6 +12,7 @@ import {
 window.onlyNumber = onlyNumber;
 let MaChucVu = document.querySelector('.MaChucVu').getAttribute('value');
 let Users = JSON.parse(document.querySelector('.Users').getAttribute('value'));
+let MaXacNhan;
 let User_MaUser = document.querySelector('.User_MaUser');
 let User_MaChucVu = document.querySelector('.User_MaChucVu');
 let User_MatKhau = document.querySelector('.User_MatKhau');
@@ -238,29 +239,77 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
             return;
         }
     }
-    // new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
-    let User_NgaySinh =
-        User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
-    let User_P = {
-        MaUser: User_MaUser.value,
-        MaChucVu: User_MaChucVu.value,
-        MatKhau: User_MatKhau.value,
-        HoTen: User_HoTen.value,
-        GioiTinh: User_GioiTinh.value,
-        NgaySinh: User_NgaySinh,
-        CCCD: User_CCCD.value,
-        SDT: User_SDT.value,
-        Email: User_Email.value,
-    };
-    console.log(User_P);
+    new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
+    document.getElementById('XacNhan_Email').innerText = User_Email.value;
+    let input = document.getElementById('MaXacNhan_input');
+    input.value = '';
+    const NhacNhapCode = document.getElementById('NhacNhapCode');
+    if (!NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.add('d-none');
+    if (!input.classList.contains('custom-boxshadow-focus-primary')) {
+        input.classList.add('custom-boxshadow-focus-primary');
+    }
+    if (input.classList.contains('custom-boxshadow-focus-secondary')) {
+        input.classList.remove('custom-boxshadow-focus-secondary');
+    }
+    document.getElementById('XacNhan').disabled = true;
+    new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
+
     axios({
-        method: 'POST',
-        url: '/staff/phanquyen/ThemUser',
-        data: User_P,
+        method: 'post',
+        url: '/validatecode',
+        data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
     }).then((res) => {
-        alert('Thêm người dùng thành công');
-        var Form = document.forms['Form'];
-        Form.action = '/staff/phanquyen/Authorization';
-        Form.submit();
+        MaXacNhan = res.data.Code;
+        console.log(MaXacNhan);
+        document.getElementById('XacNhan').disabled = false;
     });
 });
+
+// kiểm tra mã xác nhận
+const XacNhan = document.getElementById('XacNhan');
+if (XacNhan) {
+    XacNhan.addEventListener('click', (e) => {
+        let input = document.getElementById('MaXacNhan_input');
+        if (input.value == '' || input.value != MaXacNhan) {
+            const NhacNhapCode = document.getElementById('NhacNhapCode');
+
+            if (input.value == '') NhacNhapCode.innerText = 'Bạn chưa nhập mã code!';
+            else NhacNhapCode.innerText = 'Mã code không đúng!';
+
+            if (NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.remove('d-none');
+            if (input.classList.contains('custom-boxshadow-focus-primary')) {
+                input.classList.remove('custom-boxshadow-focus-primary');
+            }
+            if (!input.classList.contains('custom-boxshadow-focus-secondary')) {
+                input.classList.add('custom-boxshadow-focus-secondary');
+            }
+            return;
+        }
+        if (input.value == MaXacNhan) {
+            let User_NgaySinh =
+                User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
+            let User_P = {
+                MaUser: User_MaUser.value,
+                MaChucVu: User_MaChucVu.value,
+                MatKhau: User_MatKhau.value,
+                HoTen: User_HoTen.value,
+                GioiTinh: User_GioiTinh.value,
+                NgaySinh: User_NgaySinh,
+                CCCD: User_CCCD.value,
+                SDT: User_SDT.value,
+                Email: User_Email.value,
+            };
+            console.log(User_P);
+            axios({
+                method: 'POST',
+                url: '/staff/phanquyen/ThemUser',
+                data: User_P,
+            }).then((res) => {
+                alert('Thêm người dùng thành công');
+                var Form = document.forms['Form'];
+                Form.action = '/staff/phanquyen/Authorization';
+                Form.submit();
+            });
+        }
+    });
+}

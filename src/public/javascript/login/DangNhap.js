@@ -8,7 +8,26 @@ function SendForm(_PackageBooking) {
 const DangNhap = document.getElementById('DangNhap');
 
 DangNhap.addEventListener('click', (e) => {
-    SendForm('Haha');
+    if (TaiKhoan.value == '' || MatKhau.value == '') {
+        D2.classList.remove('d-none');
+        D1.classList.add('d-none');
+        return;
+    }
+    var P = {};
+    P.MaUser = TaiKhoan.value;
+    P.MatKhau = MatKhau.value;
+    axios({
+        method: 'POST',
+        url: '/login/check',
+        data: P,
+    }).then((res) => {
+        if (res.data.check1 == false) {
+            D1.classList.remove('d-none');
+            D2.classList.add('d-none');
+            return;
+        }
+        SendForm('Haha');
+    });
 });
 
 window.addEventListener('pageshow', function (event) {

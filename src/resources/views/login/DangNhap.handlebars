@@ -93,6 +93,7 @@
                                 <input
                                     class='form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='text'
+                                    id='TaiKhoan'
                                     autocomplete='email'
                                 />
                             </div>
@@ -115,14 +116,18 @@
                                             Quên mật khẩu
                                         </a>
                                     </div>
-
                                 </div>
 
                                 <input
                                     class='form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='password'
                                     autocomplete='new-password'
+                                    id='MatKhau'
                                 />
+                                <div class='form-text custom-font text-danger d-none' id='D1'>Tài khoản hoặc mật khẩu
+                                    chưa chính xác</div>
+                                <div class='form-text custom-font text-danger d-none' id='D2'>Vui lòng nhập đầy đủ thông
+                                    tin</div>
                             </div>
 
                         </div>
@@ -171,5 +176,8 @@
 </div>
 
 {{! Our js }}
+<form action='' method='post' class='d-none' name='staff-form'>
+    <input type='text' id='Packagee' name='Package' />
+</form>
 <script type='module' src='/javascript/login/DangNhap.js'>
 </script>

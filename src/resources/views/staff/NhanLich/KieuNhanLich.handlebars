@@ -1,0 +1,100 @@
+<div class='bg-tertiary-light'>
+
+    <div style='height: 180px;' class='w-100 bg-primary-gradient'>
+        <div class='container h-100'>
+            <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
+                <div class='d-flex flex-column'>
+                    <span class='custom-font h48-B text-light mb-2'>Nhận lịch chuyến bay?</span>
+                    <span class='custom-font p20-S text-light'>Thêm các chuyến bay thủ công hoặc từ file Excel.</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='container mt-4 pb-4 h-auto'>
+        <div class='row align-items-center'>
+
+            {{! Hành khách }}
+            <div class='col-6 col-lg-3'>
+                <div class='d-flex flex-column justify-content-center align-items-center'>
+
+                    <div
+                        id='ThuCong'
+                        style='box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;'
+                        class='bg-light rounded-2 ratio ratio-1x1 Zoom'
+                    >
+                        <div class='d-flex flex-column justify-content-center'>
+
+                            <div class='text-center mb-3'>
+                                <i style='font-size:9vw;' class='text-primary fa-solid fa-keyboard'></i>
+                            </div>
+
+                            <div class='bg-primary text-center custom-font p20-B text-light lh-lg'>
+                                Thủ công
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div
+                        style='line-height: 20px !important;'
+                        class='mt-3 custom-font p14-R text-tertiary text-center px-4'
+                    >
+                        Nhập thủ công chuyến bay với dữ liệu cụ thể
+                    </div>
+
+                </div>
+            </div>
+
+            {{! Nhân viên }}
+            <div class='col-6 col-lg-3'>
+                <div class='d-flex flex-column justify-content-center align-items-center'>
+
+                    <div
+                        id='FromExcel'
+                        style='box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;'
+                        class='bg-light rounded-2 ratio ratio-1x1 Zoom'
+                    >
+                        <div class='d-flex flex-column justify-content-center'>
+
+                            <div class='text-center mb-3'>
+                                <i style='font-size:9vw; color: #0F783F;' class='fa-solid fa-file-excel'></i>
+                            </div>
+
+                            <div style='background: #0F783F;' class='text-center custom-font p20-B text-light lh-lg'>
+                                Từ Excel
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div
+                        style='line-height: 20px !important;'
+                        class='mt-3 custom-font p14-R text-tertiary text-center px-4'
+                    >
+                        Nhập dữ liệu chuyến bay hàng loạt với Excel file
+                    </div>
+                </div>
+            </div>
+
+            <div class='d-none d-lg-block col-lg-6'>
+                <div class='d-flex flex-row justify-content-center align-items-center'>
+                    <img
+                        src='https://img.freepik.com/free-vector/positive-people-sitting-city-park-with-cherry-trees-isolated-flat-illustration_74855-15504.jpg?w=1380&t=st=1668404980~exp=1668405580~hmac=f0570ffafe8e3b44e7870358611f5ff582305b6fae8fec9a31b5377a5632f51c'
+                        alt=''
+                        class='img-fluid rounded'
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{! Form }}
+<form name='NhanLich-form' method='POST' class='d-none'>
+</form>
+
+{{! Our js }}
+<script type='module' src='/javascript/staff/KieuNhanLich.js'>
+</script>

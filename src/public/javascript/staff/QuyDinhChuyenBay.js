@@ -417,7 +417,7 @@ ThamSo_CapNhat.addEventListener('click', (e) => {
                         continue;
                     }
                 }
-                if (Package.ChuyenBays[j].ThoiGianBay_Check < ThamSos_P_Update[0].GiaTri) {
+                if (Package.ChuyenBays[j].ThoiGianBay_check < ThamSos_P_Update[0].GiaTri) {
                     let date = new Date(ThamSos_P_Update[0].NgayHieuLuc);
                     if (date1.getTime() > date.getTime()) {
                         CBVP[o++] = Package.ChuyenBays[j].MaChuyenBay;
@@ -425,7 +425,7 @@ ThamSo_CapNhat.addEventListener('click', (e) => {
                     }
                 }
                 if (
-                    Package.ChuyenBays[j].ThoiGianDung_Check < ThamSos_P_Update[1].GiaTri &&
+                    Package.ChuyenBays[j].ThoiGianDung_check < ThamSos_P_Update[1].GiaTri &&
                     Package.ChuyenBays[j].SBTG_Max_check != 0
                 ) {
                     let date = new Date(ThamSos_P_Update[1].NgayHieuLuc);

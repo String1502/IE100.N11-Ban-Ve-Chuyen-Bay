@@ -8,7 +8,6 @@ import {
     getToday,
     showToast,
     onlyNumber,
-    money_format_input,
     validateEmail,
 } from '../start.js';
 
@@ -37,5 +36,11 @@ PhanQuyen.addEventListener('click', (e) => {
     //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
     var staff_form = document.forms['staffheader-form'];
     staff_form.action = '/staff/phanquyen/Authorization';
+    staff_form.submit();
+});
+
+NhanLich.addEventListener('click', (e) => {
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/staff/nhanlich';
     staff_form.submit();
 });

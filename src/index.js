@@ -5,15 +5,17 @@ import initWebRoutes from './routes/index';
 import connectDB from './config/connectDB';
 const methodOverride = require('method-override');
 
-require('dotenv').config();
+var cookieParser = require('cookie-parser');
+const session = require('express-session');
 
+require('dotenv').config();
 const path = require('path');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cookieParser('quanlyvemaybay'));
 configViewEngine(app);
 
 initWebRoutes(app);

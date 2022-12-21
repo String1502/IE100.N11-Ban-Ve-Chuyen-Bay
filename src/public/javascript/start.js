@@ -108,22 +108,24 @@ export function onlyNumber(evt) {
     }
 }
 
-// key up đang xài dấu ,
-export function money_format_input(e) {
-    let val = e.value;
-    val = val.replace(/,/g, '');
-    if (val.length > 3) {
-        let noCommas = Math.ceil(val.length / 3) - 1;
-        let remain = val.length - noCommas * 3;
-        let newVal = [];
-        for (let i = 0; i < noCommas; i++) {
-            newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
-        }
-        newVal.unshift(val.substr(0, remain));
-        e.value = newVal;
-    } else {
-        e.value = val;
+// key up cho tiền
+export function formatVND(string) {
+    if (string.charAt(0) == '0' && string.length > 1) {
+        string = string.replace('0', '');
     }
+    string = string.replaceAll('.', '');
+    let part = [];
+    let i = 0;
+    if (string.length > 3) {
+        while (string.length > 3) {
+            part[i++] = '.' + string.slice(string.length - 3, string.length);
+            string = string.slice(0, string.length - 3);
+        }
+        for (let j = i - 1; j >= 0; j--) {
+            string = string + part[j];
+        }
+    }
+    return string;
 }
 
 export function validateEmail(email) {

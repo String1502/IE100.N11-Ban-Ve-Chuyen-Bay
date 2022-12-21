@@ -27,7 +27,6 @@ let Flight_fromDB;
 function GetFlight_fromSV() {
     const ChuyenBay = document.getElementById('MaChuyenBay');
     var data = { MaChuyenBay: ChuyenBay.getAttribute('machuyenbay'), MaChuyenBayHienThi: ChuyenBay.value };
-
     openLoader('Chờ chút');
     axios({
         method: 'post',
@@ -47,11 +46,39 @@ function GetFlight_fromSV() {
             LoadDataLenView();
             AddModalEvent();
             AddEventKeyUpSearch();
+            KhoiTaoNutChinhSua();
             console.log(Flight_fromDB);
         }
     });
 }
 if (!Flight_fromDB) GetFlight_fromSV();
+
+function KhoiTaoNutChinhSua() {
+    if (Flight_fromDB.TrangThai == 'ChuaKhoiHanh') {
+        var now = new Date();
+        var ThoiGianChinhSua_Min = parseInt(ChinhSuaChuyenBay.getAttribute('ThoiGianChinhSua_Min'));
+        now = new Date(now.getTime() + ThoiGianChinhSua_Min * 60000);
+        var KhoiHanh = new Date(
+            Flight_fromDB.ThoiGianDi.NgayDi.Nam,
+            Flight_fromDB.ThoiGianDi.NgayDi.Thang - 1,
+            Flight_fromDB.ThoiGianDi.NgayDi.Ngay,
+            Flight_fromDB.ThoiGianDi.GioDi.Gio,
+            Flight_fromDB.ThoiGianDi.GioDi.Phut,
+        );
+
+        if (now > KhoiHanh) {
+            ChinhSuaChuyenBay.parentElement.removeChild(ChinhSuaChuyenBay);
+        }
+    } else if (Flight_fromDB.TrangThai == 'DaKhoiHanh') {
+        ChinhSuaChuyenBay.parentElement.removeChild(ChinhSuaChuyenBay);
+    } else if (Flight_fromDB.TrangThai == 'DaHuy') {
+        ChinhSuaChuyenBay.parentElement.removeChild(ChinhSuaChuyenBay);
+    } else if (Flight_fromDB.TrangThai == 'ViPhamQuyDinh') {
+        ChinhSuaChuyenBay.innerText = 'Chỉnh sửa vi phạm';
+        ChinhSuaChuyenBay.classList.remove('bg-secondary');
+        ChinhSuaChuyenBay.classList.add('bg-danger');
+    }
+}
 
 function LoadDataLenView() {
     document.getElementById('MaChuyenBay').value =
@@ -81,8 +108,8 @@ function LoadDataLenView() {
     } else if (Flight_fromDB.TrangThai == 'DaHuy') {
         document.getElementById('TrangThai').value = 'Đã hủy';
         document.getElementById('TrangThai').classList.add('text-danger');
-    } else if (Flight_fromDB.TrangThai == 'ViPhamQuiDinh') {
-        document.getElementById('TrangThai').value = 'Vi phạm qui định';
+    } else if (Flight_fromDB.TrangThai == 'ViPhamQuyDinh') {
+        document.getElementById('TrangThai').value = 'Vi phạm quy định';
         document.getElementById('TrangThai').classList.add('text-secondary');
     }
 
@@ -455,5 +482,14 @@ function AddEventKeyUpSearch() {
                 }
             }
         }
+    });
+}
+
+if (QuayVe) {
+    QuayVe.addEventListener('click', (e) => {
+        //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
+        var staff_form = document.forms['staff-form'];
+        staff_form.action = '/staff';
+        staff_form.submit();
     });
 }

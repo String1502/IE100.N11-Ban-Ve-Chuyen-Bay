@@ -1,29 +1,31 @@
 <div class='bg-tertiary-light'>
-    <div style='height: 88px;' class='w-100 bg-primary'>
+    <div style='height: 88px;' class='w-100 bg-primary-gradient'>
         <div style='height: 88px;' class='container col-10'>
             <div style='height: 88px;' class='row d-flex flex-row align-items-center'>
                 <div class='custom-font h28-B text-light mb-2'>Thêm người dùng</div>
             </div>
         </div>
     </div>
-    <div class='container col-10'>
-        <div class='row mt-4 mb-2'>
-            <div class='col-2 offset-1 ps-5'><select
-                    type='text'
-                    class='form-select p16-B custom-boxshadow-focus-primary User_MaChucVu'
-                >
-                    {{#each ChucVus}}
-                        <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
-                    {{/each}}
-                </select>
+    <div class='container mt-4 pb-4 h-auto'>
+        <div class='row align-items-start'>
+
+            <div class='col-5 col-lg-3 mb-3'>
+                <div class='bg-light rounded-2 shadow p-3'>
+                    <select
+                        type='text'
+                        class='form-select custom-font p16-B custom-boxshadow-focus-primary User_MaChucVu'
+                    >
+                        {{#each ChucVus}}
+                            <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
             </div>
-        </div>
-        <div class='row'>
-            <div class='col-3'>
-            </div>
-            <div class='col-7'>
+
+            <div class='col-12 col-lg-9'>
                 {{! card tài khoản }}
-                <div class='card mb-5'>
+                <div class='card mb-5 shadow'>
                     <div class='card-header p16-B custom-font'>Tài khoản</div>
                     <div class='card-body'>
                         <label for='' class='form-label p16-S custom-font'>Tên tài khoản</label>
@@ -31,20 +33,28 @@
                             type='text'
                             class='form-control p16-S custom-font mb-3 custom-boxshadow-focus-primary User_MaUser custom-font'
                         />
-                        <label for='' class='form-label p16-S custom-font'>Mật khẩu</label>
-                        <input
-                            type='password'
-                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_MatKhau custom-font'
-                        />
-                        <label for='' class='form-label p16-S custom-font'>Nhập lại mật khẩu</label>
-                        <input
-                            type='password'
-                            class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauR custom-font'
-                        />
+
+                        <div class='row'>
+                            <div class='col-12 col-md-6 mb-3'>
+                                <label for='' class='form-label p16-S custom-font'>Mật khẩu</label>
+                                <input
+                                    type='password'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhau custom-font'
+                                />
+                            </div>
+                            <div class='col-12 col-md-6'>
+                                <label for='' class='form-label p16-S custom-font'>Nhập lại mật khẩu</label>
+                                <input
+                                    type='password'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauR custom-font'
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 {{! card dữ liệu cá nhân}}
-                <div class='card mb-5'>
+                <div class='card mb-5 shadow'>
                     <div class='card-header p16-B custom-font'>Dữ liệu cá nhân</div>
                     <div class='card-body'>
                         <label for='' class='form-label p16-S custom-font'>Tên đầy đủ</label>
@@ -53,17 +63,17 @@
                             class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_HoTen custom-font'
                         />
                         <div class='row'>
-                            <div class='col-6'>
+                            <div class='col-12 col-md-6 mb-3'>
                                 <label for='' class='form-label p16-S custom-font'>Giới tính</label>
                                 <select
                                     type='text'
-                                    class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_GioiTinh custom-font'
+                                    class='form-select p16-S custom-boxshadow-focus-primary User_GioiTinh custom-font'
                                 >
                                     <option value='1' selected>Nam</option>
                                     <option value='2'>Nữ</option>
                                 </select>
                             </div>
-                            <div class='col-6'>
+                            <div class='col-12 col-md-6 mb-3'>
                                 <label for='' class='form-label p16-S custom-font'> Ngày sinh</label>
                                 <div class='row'>
                                     <div class='col-3 pe-0'>
@@ -71,7 +81,7 @@
                                             name=''
                                             id=''
                                             style='max-height: 50px;'
-                                            class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_Ngay custom-font'
+                                            class='form-select p16-S custom-boxshadow-focus-primary User_Ngay custom-font'
                                         >
                                         </select>
                                     </div>
@@ -79,7 +89,7 @@
                                         <select
                                             name=''
                                             id=''
-                                            class='form-select p16-S mb-3 custom-boxshadow-focus-primary User_Thang custom-font'
+                                            class='form-select p16-S custom-boxshadow-focus-primary User_Thang custom-font'
                                         >
                                         </select>
                                     </div>
@@ -87,15 +97,13 @@
                                         <select
                                             name=''
                                             id=''
-                                            class='form-select p16-S mb-3 ms-0 custom-boxshadow-focus-primary User_Nam custom-font'
+                                            class='form-select p16-S ms-0 custom-boxshadow-focus-primary User_Nam custom-font'
                                         >
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class='row'>
-                            <div class='col-6'>
+                            <div class='col-12 col-md-6 mb-3'>
                                 <label for='' class='form-label p16-S custom-font'>Số điện thoại</label>
                                 <input
                                     type='text'
@@ -103,7 +111,7 @@
                                     class='form-control p16-S custom-boxshadow-focus-primary User_SDT custom-font'
                                 />
                             </div>
-                            <div class='col-6'>
+                            <div class='col-12 col-md-6'>
                                 <label for='' class='form-label p16-S custom-font'>Căn cước công dân</label>
                                 <input
                                     type='text'
@@ -115,7 +123,7 @@
                     </div>
                 </div>
                 {{! card bảo mật }}
-                <div class='card mb-3'>
+                <div class='card mb-3 shadow'>
                     <div class='card-header p16-B custom-font'>Bảo mật</div>
                     <div class='card-body'>
                         <label for='' class='form-label p16-S custom-font'>Email</label>
@@ -129,7 +137,7 @@
                     <button
                         type='button'
                         class='custom-font User--Them btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
-                    >Thêm người dùng </button>
+                    >Tiếp tục </button>
                 </div>
                 {{! Modal: Xác nhận email }}
                 <div
@@ -207,6 +215,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

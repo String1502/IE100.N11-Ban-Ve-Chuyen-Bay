@@ -2,6 +2,34 @@ import db from '../models/index';
 const { QueryTypes } = require('sequelize');
 
 class StaffController {
+    //LoadHeder
+    async LoadHeader(req, res) {
+        try {
+            let P = {};
+            let MaUser = req.signedCookies.MaUser;
+            let User = await db.User.findOne({ where: { MaUser: MaUser }, raw: true });
+            let Quyen = await db.sequelize.query(
+                "select MaQuyen from phanquyen where MaChucVu = '" + User.MaChucVu + "'",
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            let QuyenHT = [];
+            for (let i = 0; i < 6; i++) {
+                QuyenHT[i] = 0;
+            }
+            for (let i = 0; i < Quyen.length; i++) {
+                QuyenHT[Quyen[i].MaQuyen] = 1;
+            }
+            P.HoTen = User.HoTen;
+            P.QuyenHT = QuyenHT;
+            return res.send(P);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     // "/staff/"
     async index(req, res) {
         try {

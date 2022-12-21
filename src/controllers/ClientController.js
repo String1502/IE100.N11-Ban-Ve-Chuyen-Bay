@@ -8,6 +8,7 @@ class ClientController {
     // "/"
     async index(req, res) {
         try {
+            res.clearCookie('MaUser');
             //let SanBays = [
             //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
             //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },

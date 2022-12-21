@@ -31,12 +31,17 @@
                     {{! Mã chuyến bay }}
                     <div class='mb-3'>
                         <label for='MaChuyenBay' class='form-label custom-font p14-S'>Chọn file excel</label>
-                        <input
-                            style='line-height: 24px;'
-                            type='file'
-                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                            id='inputGroupFile02'
-                        />
+                        <form action='/flight/addFromexcel' method='post' enctype='multipart/form-data'>
+                            <input
+                                style='line-height: 24px;'
+                                type='file'
+                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
+                                id='inputGroupFile02'
+                                name='myfile'
+                                accept='.xls, .xlsx'
+                            />
+                            <button type='submit'></button>
+                        </form>
 
                     </div>
 

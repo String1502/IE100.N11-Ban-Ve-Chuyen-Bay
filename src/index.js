@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 import configViewEngine from './config/viewEngine';
 import initWebRoutes from './routes/index';
 import connectDB from './config/connectDB';
+import updateData from './controllers/DataController';
 const methodOverride = require('method-override');
 
 var cookieParser = require('cookie-parser');
-const session = require('express-session');
 
 require('dotenv').config();
 const path = require('path');
@@ -26,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 connectDB();
+//update TrangThaiChuyenBay + DoanhThu
+updateData;
 
 //Bthuong thi nó chạy ở port 8080, lỗi thì qua 8081
 const port = process.env.PORT || 8081;

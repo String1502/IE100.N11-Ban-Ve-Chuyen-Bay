@@ -30,6 +30,31 @@ class StaffController {
             console.log(err);
         }
     }
+    //Màn hình profile
+    async Profile(req, res) {
+        try {
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let Users = await db.sequelize.query(
+                'select MaUser, Email,MatKhau,HoTen,CCCD,GioiTinh,NgaySinh,MaChucVu,HinhAnh,TrangThai,SDT from user',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            let MaUser = req.signedCookies.MaUser;
+            return res.render('staff/Profile', {
+                layout: 'staff.handlebars',
+                ChucVus: ChucVus,
+                Users: JSON.stringify(Users),
+                MaUser: MaUser,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // "/staff/"
     async index(req, res) {
         try {

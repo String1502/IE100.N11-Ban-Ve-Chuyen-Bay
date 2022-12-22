@@ -14,18 +14,23 @@ class LoginController {
                 where: { TenChucVu: 'Khách hàng' },
                 raw: true,
             });
-            if (!user || user.MaChucVu == ChucVu.MaChucVu) {
-                let check1;
+            console.log(user);
+            if (!user || user.MaChucVu == ChucVu.MaChucVu || user.TrangThai == 'VoHieu') {
+                let check1 = true;
+                let HieuLuc = true;
+                if (user && user.TrangThai == 'VoHieu') HieuLuc = false;
+                if (!user || user.MaChucVu == ChucVu.MaChucVu) check1 = false;
                 return res.send({
-                    check1: false,
+                    check1: check1,
+                    HieuLuc: HieuLuc,
                 });
             } else {
-                let check1;
                 res.cookie('MaUser', user.MaUser, {
                     signed: true,
                 });
                 return res.send({
                     check1: true,
+                    HieuLuc: true,
                 });
             }
         } catch (error) {

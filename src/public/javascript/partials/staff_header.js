@@ -31,6 +31,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
     P;
 });
+Profile.addEventListener('click', (e) => {
+    //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/staff/Profile';
+    staff_form.submit();
+});
+
 TraCuu.addEventListener('click', (e) => {
     //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
     var staff_form = document.forms['staffheader-form'];

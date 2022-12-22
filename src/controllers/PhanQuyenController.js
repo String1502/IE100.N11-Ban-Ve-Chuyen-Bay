@@ -227,17 +227,32 @@ class PhanQuyenController {
                 where: { MaUser: User_P.MaUser },
             });
             if (User) {
-                User.set({
-                    MaChucVu: User_P.MaChucVu,
-                    HoTen: User_P.HoTen,
-                    GioiTinh: User_P.GioiTinh,
-                    NgaySinh: User_P.NgaySinh,
-                    CCCD: User_P.CCCD,
-                    SDT: User_P.SDT,
-                    TrangThai: User_P.TrangThai == 1 ? 'HieuLuc' : 'VoHieu',
-                    Email: User_P.Email,
-                });
-                User.save();
+                if (User_P.MatKhau == undefined) {
+                    User.set({
+                        MaChucVu: User_P.MaChucVu,
+                        HoTen: User_P.HoTen,
+                        GioiTinh: User_P.GioiTinh,
+                        NgaySinh: User_P.NgaySinh,
+                        CCCD: User_P.CCCD,
+                        SDT: User_P.SDT,
+                        TrangThai: User_P.TrangThai == 1 ? 'HieuLuc' : 'VoHieu',
+                        Email: User_P.Email,
+                    });
+                    User.save();
+                } else {
+                    User.set({
+                        MaChucVu: User_P.MaChucVu,
+                        HoTen: User_P.HoTen,
+                        GioiTinh: User_P.GioiTinh,
+                        NgaySinh: User_P.NgaySinh,
+                        CCCD: User_P.CCCD,
+                        SDT: User_P.SDT,
+                        MatKhau: User_P.MatKhau,
+                        TrangThai: User_P.TrangThai,
+                        Email: User_P.Email,
+                    });
+                    User.save();
+                }
             }
             console.log(User_P);
             return res.send('tc');

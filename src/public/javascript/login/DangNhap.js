@@ -11,6 +11,8 @@ DangNhap.addEventListener('click', (e) => {
     if (TaiKhoan.value == '' || MatKhau.value == '') {
         D2.classList.remove('d-none');
         D1.classList.add('d-none');
+        D3.classList.add('d-none');
+
         return;
     }
     var P = {};
@@ -21,9 +23,16 @@ DangNhap.addEventListener('click', (e) => {
         url: '/login/check',
         data: P,
     }).then((res) => {
+        if (res.data.HieuLuc == false) {
+            D3.classList.remove('d-none');
+            D2.classList.add('d-none');
+            D1.classList.add('d-none');
+            return;
+        }
         if (res.data.check1 == false) {
             D1.classList.remove('d-none');
             D2.classList.add('d-none');
+            D3.classList.add('d-none');
             return;
         }
         SendForm('Haha');

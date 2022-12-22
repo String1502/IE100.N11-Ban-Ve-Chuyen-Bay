@@ -53,8 +53,25 @@ class NhanLichController {
     // "/staff/nhanlich/fromexcel"
     async addbyExcel(req, res) {
         try {
+            let SanBays = await db.sequelize.query(
+                `select MaSanBay , TenSanBay, TenTinhThanh as TinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh and sanbay.TrangThai = 'HoatDong'`,
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            let HangGhes = await db.sequelize.query(
+                `select MaHangGhe , TenHangGhe, HeSo from hangghe where hangghe.TrangThai = 'ApDung' `,
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
             return res.render('staff/NhanLich/NhanLichTuExcel', {
                 layout: 'staff.handlebars',
+                SB_HG: JSON.stringify({ SanBays: SanBays, HangGhes: HangGhes }),
             });
         } catch (error) {
             console.log(error);

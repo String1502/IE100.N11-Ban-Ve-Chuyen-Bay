@@ -15,7 +15,7 @@ let addByExcel = async (req, res) => {
         //Doc lay data tu excel
         const file = reader.readFile('./src/public/temp/Demo.xlsx');
 
-        // const file = reader.readFile(req.files);
+        //const file = reader.readFile(req.files);
         const worksheet = file.Sheets[file.SheetNames[0]];
         const arr = reader.utils.sheet_to_json(worksheet);
         let data = [];

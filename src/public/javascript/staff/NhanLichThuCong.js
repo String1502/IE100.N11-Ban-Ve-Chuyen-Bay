@@ -298,6 +298,11 @@ function KhoiTao() {
         minDate = new Date(minDate.getTime() + ThoiGianNhanLich_Min * 24 * 60 * 60 * 1000);
         // Demo
         NgayKhoiHanh.setAttribute('min', minDate.yyyymmdd());
+        NgayKhoiHanh.setAttribute('value', minDate.yyyymmdd());
+        data_send.NgayKhoiHanh.Ngay = minDate.getDate();
+        data_send.NgayKhoiHanh.Thang = minDate.getMonth() + 1;
+        data_send.NgayKhoiHanh.Nam = minDate.getFullYear();
+
         NgayKhoiHanh.addEventListener('change', (e) => {
             if (e.target.value == '') {
             } else {
@@ -1194,9 +1199,17 @@ function On_off_ThemHangGhe() {
     }
 
     if (block == true) {
+        HangGhe_ThongBao.innerText = 'Vui lòng nhập giá vé cơ bản trước.';
+        HangGhe_ThongBao.classList.remove('text-danger');
         HangGhe_ThongBao.classList.remove('d-none');
     } else {
-        HangGhe_ThongBao.classList.add('d-none');
+        if (document.querySelectorAll('.HangGhe_Item').length <= 1) {
+            HangGhe_ThongBao.innerText = 'Yêu cầu chuyến bay có ít nhất 1 hạng vé.';
+            HangGhe_ThongBao.classList.add('text-danger');
+            HangGhe_ThongBao.classList.remove('d-none');
+        } else {
+            HangGhe_ThongBao.classList.add('d-none');
+        }
     }
 
     var HangGhe_Item_MaHangVe_ul = document.querySelector('.HangGhe_Item_MaHangVe_ul');
@@ -1254,6 +1267,9 @@ function CheckTrongHoacThayDoi(isshowtoast) {
         }
         if (check == false) {
             var HangGhe_Items = document.querySelectorAll('.HangGhe_Item');
+            if (HangGhe_Items.length <= 1) {
+                check = true;
+            }
             for (let i = 1; i < HangGhe_Items.length; i++) {
                 var HangVe = HangGhe_Items[i].querySelector('.HangGhe_Item_MaHangVe').value;
                 header = 'Hạng ghế thứ ' + i;
@@ -1290,10 +1306,9 @@ function SendForm_NhanLich() {
     axios({
         method: 'post',
         // Trí
-        url: '/flight/update',
+        url: '/flight/addByTay',
         data: data_send,
     }).then((res) => {
-        closeLoader();
         var body = '';
         var type = '';
         if (res.data == true) {
@@ -1303,6 +1318,8 @@ function SendForm_NhanLich() {
             body = 'Thất bại';
             type = 'danger';
         }
+        openLoader(body);
+        closeLoader();
         showToast({
             header: 'Cập nhật chuyến bay',
             body: body,

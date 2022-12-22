@@ -144,6 +144,8 @@ class ClientController {
                     if (manghanhkhach[i].title == tile_loaihanhkhach[j].TenLoai) {
                         manghanhkhach[i].HeSo = tile_loaihanhkhach[j].HeSo;
                         manghanhkhach[i].TongTienVe = 0;
+                        manghanhkhach[i].SoTuoiToiDa = tile_loaihanhkhach[j].SoTuoiToiDa;
+                        manghanhkhach[i].SoTuoiToiThieu = tile_loaihanhkhach[j].SoTuoiToiThieu;
                         break;
                     }
                 }

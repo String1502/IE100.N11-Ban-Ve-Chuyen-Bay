@@ -13,7 +13,7 @@ let addByExcel = async (req, res) => {
 
     try {
         //Doc lay data tu excel
-        const file = reader.readFile('src/public/temp/Demo.xlsx');
+        const file = reader.readFile('./src/public/temp/Demo.xlsx');
 
         // const file = reader.readFile(req.files);
         const worksheet = file.Sheets[file.SheetNames[0]];
@@ -62,9 +62,9 @@ let addByExcel = async (req, res) => {
             }
         }
 
-        var filePath = path.join(__dirname, '../pulibc/temp/Demo.xlsx');
+        // var filePath = path.join(__dirname, '../pulibc/temp/Demo.xlsx');
 
-        fs.unlinkSync(filePath);
+        // fs.unlinkSync(filePath);
 
         return res.send(JSON.stringify(chuyenbays));
     } catch (error) {

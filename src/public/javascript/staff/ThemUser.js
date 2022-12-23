@@ -239,7 +239,6 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
             return;
         }
     }
-    new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
     document.getElementById('XacNhan_Email').innerText = User_Email.value;
     let input = document.getElementById('MaXacNhan_input');
     input.value = '';

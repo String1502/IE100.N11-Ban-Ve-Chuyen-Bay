@@ -231,7 +231,6 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
         }
     }
     if (User_Email.value != Email) {
-        new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
         document.getElementById('XacNhan_Email').innerText = User_Email.value;
         let input = document.getElementById('MaXacNhan_input');
         input.value = '';

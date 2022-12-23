@@ -320,14 +320,6 @@ if (XacNhan) {
         }
     });
 }
-// đổi email xác nhận
-if (DoiEmail_XacNhan) {
-    DoiEmail_XacNhan.addEventListener('click', (e) => {
-        // var myModalEl = document.getElementById('staticBackdrop');
-        // var modal = bootstrap.Modal.getInstance(myModalEl);
-        // modal.hide();
-    });
-}
 // xác nhận thay đổi mật khẩu
 const XacNhanMK = document.getElementById('XacNhanMK');
 if (XacNhanMK) {

@@ -220,7 +220,6 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
         }
     }
     if (User_Email.value != Email) {
-        new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
         document.getElementById('XacNhan_Email').innerText = User_Email.value;
         let input = document.getElementById('MaXacNhan_input');
         input.value = '';
@@ -324,9 +323,9 @@ if (XacNhan) {
 // đổi email xác nhận
 if (DoiEmail_XacNhan) {
     DoiEmail_XacNhan.addEventListener('click', (e) => {
-        var myModalEl = document.getElementById('staticBackdrop');
-        var modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
+        // var myModalEl = document.getElementById('staticBackdrop');
+        // var modal = bootstrap.Modal.getInstance(myModalEl);
+        // modal.hide();
     });
 }
 // xác nhận thay đổi mật khẩu

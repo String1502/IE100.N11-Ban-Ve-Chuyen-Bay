@@ -40,9 +40,10 @@ const { QueryTypes, where } = require('sequelize');
 //         ThoiGianBayToiThieu: 0, //1 khi có khoảng thời gian bay giữa các sân bay lỗi
 //         SBTG: [
 //             {
+//                 Thu Tu: 1, Thứ tự trong file excel
 //                 MaSanBay: 0,
 //                 ThoiGianDung: 0, // 1 khi thoigiandung_sbtg < tối thiểu
-//                 ThoiGianDen: 0, // 1 khi DateStart_ChuyenBay > ThoiGianDen_SBTG || DateEnd_ChuyenBay < ThoiGianDen_SBTG
+//                 NgayGioDen: 0, // 1 khi DateStart_ChuyenBay > ThoiGianDen_SBTG || DateEnd_ChuyenBay < ThoiGianDen_SBTG
 //             },
 //         ],
 //         HangGhe: [
@@ -449,6 +450,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
             ThuTu: i,
             MaSanBay: 0,
             ThoiGianDung: 0,
+            NgayGioDen: 0,
         };
         // check MaSanBay
         let check = await db.SanBay.findOne({
@@ -477,7 +479,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         //check  chuyenbay_start <  thoi gian den sbtg < chuyenbay_end
         if (ChuyenBay.SBTG[i].NgayGioDen <= dateStart_ChuyenBay || ChuyenBay.SBTG[i].NgayGioDen >= dateEnd_ChuyenBay) {
             errNum++;
-            res_err.ThoiGianBay_Min = 1;
+            errSBTG.NgayGioDen = 1;
         }
 
         let ThoiGianBay = getMinDiff(dateEnd_Sbtg_Prev, dateStart_Sbtg);

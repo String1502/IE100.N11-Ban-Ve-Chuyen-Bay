@@ -19,8 +19,16 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
-
 Date.prototype.display = function () {
+    var dd = numberSmallerTen(this.getDate());
+    var mm = numberSmallerTen(this.getMonth() + 1); // getMonth() is zero-based
+    var yy = this.getFullYear();
+    var hr = numberSmallerTen(this.getHours());
+    var min = numberSmallerTen(this.getMinutes());
+
+    return dd + '/' + mm + '/' + yy + ' ' + hr + ':' + min;
+};
+Date.prototype.displayReverse = function () {
     var dd = numberSmallerTen(this.getDate());
     var mm = numberSmallerTen(this.getMonth() + 1); // getMonth() is zero-based
     var yy = this.getFullYear();
@@ -30,27 +38,85 @@ Date.prototype.display = function () {
     return hr + ':' + min + ' ' + dd + '/' + mm + '/' + yy;
 };
 
-var SB_HG = JSON.parse(document.getElementById('SB_HG').innerText);
-console.log(SB_HG);
+function KhoiTaoCountDown() {
+    // đếm thời gian
+    setInterval(function () {
+        var now = new Date();
+        Timer_NgayGio.innerText = now.display() + ':' + numberSmallerTen(now.getSeconds());
+    }, 1000);
+}
 
+var SB_HG = JSON.parse(document.getElementById('SB_HG').innerText);
 var ChuyenBay_list = [];
 
-NhapFileExcel.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        openLoader('Chờ chút');
-        var formData = new FormData(document.getElementById('form-excel'));
-        axios.post('/flight/addFromexcel', formData).then((res) => {
-            console.log(res.data);
-            ChuyenBay_list = [];
-            ChuyenBay_list = res.data;
-            LoadChuyenBayLenView();
-            closeLoader();
-        });
+function Start() {
+    openLoader('Chờ chút');
+
+    if (staff_header) {
+        staff_header.parentElement.removeChild(staff_header);
     }
-});
+
+    KhoiTaoCountDown();
+    console.log(SB_HG);
+
+    NhapFileExcel.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            openLoader('Chờ chút');
+            var formData = new FormData(document.getElementById('form-excel'));
+            axios.post('/flight/addFromexcel', formData).then((res) => {
+                console.log(res.data);
+
+                ChuyenBay_list = [];
+                if (res.data == 'fail') {
+                } else {
+                    ChuyenBay_list = res.data;
+                }
+                LoadChuyenBayLenView();
+                On_off_NhanLich();
+                closeLoader();
+            });
+        }
+    });
+
+    NhanLichChuyenBay.addEventListener('click', (e) => {
+        Modal_Body.innerText = 'Bạn muốn nhận lịch ' + ChuyenBay_list.length + ' chuyến bay?';
+        Modal_Luu.classList.remove('d-none');
+        Modal_Thoat.classList.add('d-none');
+        var Modal = new bootstrap.Modal(document.getElementById('Modal'), true);
+        Modal.show();
+    });
+
+    ThoatThemChuyenBay.addEventListener('click', (e) => {
+        if (ChuyenBay_list.length > 0) {
+            Modal_Body.innerText = 'Tồn tại chuyến bay chưa nhận lịch! \nBạn thực sự muốn thoát?';
+        } else {
+            Modal_Body.innerText = 'Bạn muốn thoát?';
+        }
+        Modal_Luu.classList.add('d-none');
+        Modal_Thoat.classList.remove('d-none');
+        var Modal = new bootstrap.Modal(document.getElementById('Modal'), true);
+        Modal.show();
+    });
+
+    Modal_Thoat.addEventListener('click', (e) => {
+        SendForm_ThoatNhanLich();
+    });
+
+    Modal_Luu.addEventListener('click', (e) => {
+        SendForm_NhanLichExcel();
+    });
+
+    closeLoader();
+}
+Start();
 
 function LoadChuyenBayLenView() {
+    const ChuyenBay_Items = document.querySelectorAll('.ChuyenBay_Item');
+    for (let i = 1; i < ChuyenBay_Items.length; i++) {
+        ChuyenBay_Container.removeChild(ChuyenBay_Items[i]);
+    }
+
     if (ChuyenBay_list.length <= 0) {
         KhongCoChuyenBay.classList.remove('d-none');
         KhongCoChuyenBay.classList.add('text-danger');
@@ -156,7 +222,7 @@ function LoadModal(index) {
         ).TenSanBay;
         // Thời gian đến
         var ngayden = new Date(chuyenbay.SBTG[i].NgayGioDen.toString());
-        node.querySelector('.ThoiGianDen').innerText = ngayden.display();
+        node.querySelector('.ThoiGianDen').innerText = ngayden.displayReverse();
         // Thời gian dừng
         node.querySelector('.ThoiGianDung').innerText = chuyenbay.SBTG[i].ThoiGianDung;
         // Ghi chú
@@ -186,4 +252,61 @@ function LoadModal(index) {
         node.querySelector('.SoGhe').innerText = chuyenbay.HangGhe[i].TongVe;
         HangVe_Container.appendChild(node);
     }
+}
+
+function On_off_NhanLich() {
+    var block = false;
+    if (ChuyenBay_list.length <= 0) {
+        block = true;
+    } else {
+        ChuyenBay_list.forEach((item) => {
+            if (item.errNum > 0) {
+                block = true;
+            }
+        });
+    }
+
+    NhanLichChuyenBay.disabled = block;
+}
+
+// Gửi gói lưu
+function SendForm_NhanLichExcel() {
+    // Trí
+    return;
+    openLoader('Chờ chút');
+    console.log(data_send);
+    //return;
+    axios({
+        method: 'post',
+        url: '/flight/update',
+        data: data_send,
+    }).then((res) => {
+        var body = '';
+        var type = '';
+        if (res.data == true) {
+            body = 'Thành công';
+            type = 'success';
+        } else if (res.data == false) {
+            body = 'Thất bại';
+            type = 'danger';
+        }
+        showToast({
+            header: 'Cập nhật chuyến bay',
+            body: body,
+            duration: 5000,
+            type: type,
+        });
+        openLoader(body);
+        closeLoader();
+        setTimeout(() => {
+            SendForm_ThoatNhanLich();
+        }, 1500);
+    });
+}
+
+// Hủy quay về nhận lịch
+function SendForm_ThoatNhanLich() {
+    var staff_form = document.forms['NhanLich-form'];
+    staff_form.action = '/staff/nhanlich';
+    staff_form.submit();
 }

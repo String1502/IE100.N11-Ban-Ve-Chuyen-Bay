@@ -77,6 +77,30 @@ class NhanLichController {
             console.log(error);
         }
     }
+
+    // Download file excel template
+    async downExcelTemplate(req, res) {
+        try {
+            var filePath = './src/public/ExcelTemplate/PlanetExcelTemplate.xlsx';
+            var fileName = 'PlanetExcelTemplate.xlsx';
+            return res.download(filePath, fileName);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // Download file excel template
+    async FlightAmount(req, res) {
+        try {
+            let amount = await db.sequelize.query(`SELECT MAX(MaChuyenBay) AS last_flight FROM chuyenbay`, {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            return res.send(amount[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new NhanLichController();

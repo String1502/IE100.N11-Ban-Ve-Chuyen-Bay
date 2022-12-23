@@ -152,6 +152,10 @@ var data_send = {
 // };
 
 function Start() {
+    // if (staff_header) {
+    //     staff_header.parentElement.removeChild(staff_header);
+    // }
+
     // Tham số
     ThamSos = structuredClone(JSON.parse(document.getElementById('ThamSos').innerText));
 
@@ -175,7 +179,6 @@ function Start() {
 }
 Start();
 
-// Đếm ngược
 function KhoiTaoCountDown() {
     // đếm thời gian
     setInterval(function () {
@@ -515,13 +518,36 @@ function KhoiTao() {
         });
     }
 
+    // Nút nhận lịch
     if (NhanLichChuyenBay) {
         NhanLichChuyenBay.addEventListener('click', (e) => {
+            Modal_Body.innerText = 'Bạn muốn nhận lịch chuyến bay?';
+            Modal_Thoat.classList.add('d-none');
+            Modal_NhanLich.classList.remove('d-none');
             var Modal = new bootstrap.Modal(document.getElementById('Modal'), true);
             Modal.show();
         });
     }
 
+    // Thoát nhận lịch
+    if (ThoatThemChuyenBay) {
+        ThoatThemChuyenBay.addEventListener('click', (e) => {
+            if (CheckTrongHoacThayDoi(false) != false) {
+                // Thoát
+                Modal_Body.innerText = 'Bạn muốn thoát nhận lịch chuyến bay?';
+            } else {
+                // Chưa lưu
+                Modal_Body.innerText = 'Chuyến bay chưa được nhận!\nBạn vẫn muốn thoát?';
+            }
+
+            Modal_Thoat.classList.remove('d-none');
+            Modal_NhanLich.classList.add('d-none');
+            var Modal = new bootstrap.Modal(document.getElementById('Modal'), true);
+            Modal.show();
+        });
+    }
+
+    // Nút nhận lịch modal
     if (Modal_NhanLich) {
         Modal_NhanLich.addEventListener('click', (e) => {
             data_send.HangVe = [];
@@ -536,6 +562,13 @@ function KhoiTao() {
                 });
             }
             SendForm_NhanLich();
+        });
+    }
+
+    // Nút thoát nhận lịch modal
+    if (Modal_Thoat) {
+        Modal_Thoat.addEventListener('click', (e) => {
+            SendForm_ThoatNhanLich();
         });
     }
 }
@@ -578,10 +611,10 @@ function CapNhatMaChuyenBay() {
     } else {
         axios({
             method: 'post',
-            url: '/flight/get-all-flights',
+            url: '/staff/nhanlich/FlightAmount',
             data: { GetFlight_fromSV: true },
         }).then((res) => {
-            var Flight_amount = res.data.length + 1;
+            var Flight_amount = res.data.last_flight + 1;
 
             if (Flight_amount) {
                 MaChuyenBay.value = data_send.MaSanBayDi + '-' + data_send.MaSanBayDen + '-' + Flight_amount;
@@ -1305,7 +1338,6 @@ function SendForm_NhanLich() {
     openLoader('Chờ chút');
     axios({
         method: 'post',
-        // Trí
         url: '/flight/addByTay',
         data: data_send,
     }).then((res) => {
@@ -1327,7 +1359,14 @@ function SendForm_NhanLich() {
             type: type,
         });
         setTimeout(() => {
-            window.location.reload();
+            SendForm_ThoatNhanLich();
         }, 1500);
     });
+}
+
+// Hủy quay về nhận lịch
+function SendForm_ThoatNhanLich() {
+    var staff_form = document.forms['NhanLich-form'];
+    staff_form.action = '/staff/nhanlich';
+    staff_form.submit();
 }

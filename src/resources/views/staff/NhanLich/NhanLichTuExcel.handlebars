@@ -46,7 +46,11 @@
 
                     <div class='custom-font p16-S text-tertiary align-self-end'>
                         Không có file template? Tải xuống
-                        <a id='DownloadTemplate' class='text-primary text-decoration-none'>tại đây.</a>
+                        <a
+                            id='DownloadTemplate'
+                            href='/staff/nhanlich/downExcelTemplate'
+                            class='text-primary text-decoration-none'
+                        >tại đây.</a>
                     </div>
                 </div>
             </div>
@@ -73,7 +77,7 @@
                                 <th scope='col'>Sân bay đi</th>
                                 <th scope='col'>Sân bay đến</th>
                                 <th scope='col'>Khởi hành</th>
-                                <th scope='col'>Giá vé cơ bản</th>
+                                <th scope='col'>Giá vé cơ bản (VND)</th>
                                 <th scope='col'>Điểm dừng</th>
                                 <th scope='col'>Hạng vé</th>
                                 <th scope='col'>Chi tiết</th>
@@ -121,7 +125,7 @@
                         <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                     </div>
                     <div class='modal-body custom-font p20-R text-dark' id='Modal_Body'>
-                        Bạn có muốn lưu thay đổi?
+                        Bạn muốn nhận lịch các chuyến bay?
                     </div>
                     <div class='modal-footer'>
 
@@ -331,7 +335,7 @@
                                                     <thead class='sticky-top bg-light shadow-sm'>
                                                         <tr class='custom-font p16-S text-center'>
                                                             <th scope='col'>Tên hạng vé</th>
-                                                            <th scope='col'>Giá tiền</th>
+                                                            <th scope='col'>Giá vé (VND)</th>
                                                             <th scope='col'>Số ghế</th>
                                                         </tr>
                                                     </thead>
@@ -384,8 +388,7 @@
 
         <div class='py-2 px-2 bg-tertiary shadow text-end rounded text-light custom-font p16-B'>
             <span class='fa-solid fa-clock mx-1'></span>
-            <span id='Timer_Ngay'>27/06/2022</span>
-            <span id='Timer_Gio'>11:11:11</span>
+            <span id='Timer_NgayGio'>11/11/1011 11:11:11</span>
         </div>
 
         <div class='d-flex flex-row justify-content-end'>

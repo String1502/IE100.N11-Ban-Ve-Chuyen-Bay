@@ -64,3 +64,14 @@ NhanLich.addEventListener('click', (e) => {
     staff_form.action = '/staff/nhanlich';
     staff_form.submit();
 });
+
+DangXuat.addEventListener('click', (e) => {
+    axios({
+        method: 'POST',
+        url: '/logout',
+    });
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/';
+    staff_form.method = 'get';
+    staff_form.submit();
+});

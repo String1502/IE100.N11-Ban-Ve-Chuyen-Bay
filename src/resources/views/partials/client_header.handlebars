@@ -26,16 +26,36 @@
                     <a class='nav-link text-dark nav-item-hover' aria-current='page' href='/'>Trang chủ</a>
                 </li>
 
-                <li class='nav-item active mx-3'>
+                <li class='nav-item active d-none mx-3' id='GioiThieu'>
                     <a class='nav-link text-dark nav-item-hover' href=''>Giới thiệu</a>
                 </li>
 
-                <li class='nav-item active mx-3'>
+                <li class='nav-item active d-none mx-3' id='DN'>
                     <a class='nav-link text-dark nav-item-hover' href='/login'>Đăng nhập</a>
                 </li>
 
-                <li class='nav-item active mx-3 ms-lg-3 me-lg-0 mb-lg-0 mb-3'>
+                <li class='nav-item active d-none mx-3' id='Ve'>
+                    <a class='nav-link text-dark nav-item-hover' href=''>Vé đã mua</a>
+                </li>
+                <li class='nav-item active mx-3 ms-lg-3 me-lg-0 mb-lg-0 mb-3 d-none' id='DK'>
                     <a class='nav-link px-3 text-light bg-primary rounded-1' href='/login/register'>Đăng ký</a>
+                </li>
+                <li class='nav-item active mx-3 ms-lg-3 me-lg-0 mb-lg-0 mb-3 d-none' id='TTKH'>
+                    <div class='dropdown'>
+                        <a
+                            class='p20-B dropdown-toggle HT btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm'
+                            type='button'
+                            id='dropdownMenuButton1'
+                            data-bs-toggle='dropdown'
+                            aria-expanded='true'
+                        >
+                        </a>
+                        <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
+                            <li><a class='dropdown-item btn custom-bg-hover-primary p20-S' id='Profile'>Chỉnh sửa hồ sơ</a></li>
+                            <li><a class='dropdown-item btn custom-bg-hover-primary p20-S' href='/' id='DangXuat'>Đăng
+                                    xuất</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
 
@@ -43,3 +63,8 @@
 
     </div>
 </nav>
+<form name='clientheader-form' method='POST' class='d-none'>
+
+</form>
+
+<script type='module' src='/javascript/partials/client_header.js'></script>

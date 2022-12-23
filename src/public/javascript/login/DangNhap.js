@@ -68,7 +68,10 @@ DangNhapKH.addEventListener('click', (e) => {
             D1KH.classList.add('d-none');
             return;
         }
-        alert('KH');
+        var staff_form = document.forms['staff-form'];
+        staff_form.method = 'get';
+        staff_form.action = '/';
+        staff_form.submit();
     });
 });
 

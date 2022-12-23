@@ -22,7 +22,8 @@ router.post('/filter', FlightController.filterFlight);
 router.post('/get-flight', FlightController.getFlight);
 router.post('/update', FlightController.updateChuyenBay);
 router.post('/cancel', FlightController.CancelChuyenBay);
-router.post('/addFromexcel', upload, fileController.addByExcel);
+router.post('/getfromExcel', upload, fileController.getfromExcel);
+
 router.post('/addByTay', fileController.addByTay);
 
 module.exports = router;

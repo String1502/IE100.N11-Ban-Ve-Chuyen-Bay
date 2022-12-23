@@ -4,11 +4,126 @@ const reader = require('xlsx');
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+// let Chuyenbay = {
+//     MaChuyenBayDi: '',
+//     MaChuyenBayDen: '',
+//     NgayGio: '',
+//     ThoiGianBay: -1,
+//     GiaVeCoBan: -1,
+//     HangGhe: [
+//         {
+//             MaHangGhe: '',
+//             TongVe: '',
+//         },
+//     ],
+//     SBTG: [
+//         {
+//             MaSanBay: '',
+//             ThuTu: -1,
+//             NgayGioDen: '',
+//             ThoiGianDung: -1,
+//             GhiChu: '',
+//         },
+//     ],
+// };
+
+// let err = {
+//     errNum: 3,
+//     res_err: {
+//         MaSanBayDi: 0,
+//         MaSanBayDen: 0,
+//         NgayGio: 0, // 1 khi sai định dạng
+//         Sbtg_Max: 0,
+//         GiaVe_Min: 1, // 1 vé cơ bản < giá vé min
+//         ThoiGianNhanLich_Min: 0, //Thời gian bay > now + nhận lịch min
+//         GiaVeCoBan: 0, // 1 khi chứa ký tự
+//         ThoiGianBayToiThieu: 0, //1 khi có khoảng thời gian bay giữa các sân bay lỗi
+//         SBTG: [
+//             {
+//                 MaSanBay: 0,
+//                 ThoiGianDung: 0, // 1 khi thoigiandung_sbtg < tối thiểu
+//                 ThoiGianDen: 0, // 1 khi DateStart_ChuyenBay > ThoiGianDen_SBTG || DateEnd_ChuyenBay < ThoiGianDen_SBTG
+//             },
+//         ],
+//         HangGhe: [
+//             {
+//                 MaHangGhe: 0,
+//                 TongVe: 0,
+//             },
+//         ],
+//     },
+//     RowEx: 11,
+// };
+
+let res_excel = [
+    {
+        MaSanBayDi: 'DAD',
+        MaSanBayDen: 'HA',
+        NgayGio: '2022-12-31T07:30:00.000Z',
+        ThoiGianBay: 180,
+        GiaVeCoBan: 500000,
+        HangGhe: [
+            {
+                MaHangGhe: 'Deluxe',
+                TongVe: '60',
+            },
+            {
+                MaHangGhe: 'Business',
+                TongVe: '10',
+            },
+        ],
+        SBTG: [
+            {
+                MaSanBay: 'PXU',
+                ThuTu: 1,
+                NgayGioDen: '2022-12-31T08:00:00.000Z',
+                ThoiGianDung: '15',
+                GhiChu: 'Note',
+            },
+            {
+                MaSanBay: 'DAD',
+                ThuTu: 2,
+                NgayGioDen: '2022-12-31T08:45:00.000Z',
+                ThoiGianDung: '15',
+                GhiChu: 'Note',
+            },
+        ],
+        RowEx: 10,
+        errNum: 0,
+    },
+    {
+        errNum: 3,
+        res_err: {
+            MaSanBayDi: 0,
+            MaSanBayDen: 0,
+            NgayGio: 0,
+            Sbtg_Max: 0,
+            GiaVe_Min: 1,
+            ThoiGianDung_Min: 0,
+            ThoiGianBay_Min: 1,
+            SBTG: [
+                {
+                    MaSanBay: 0,
+                    NgayDen: 0,
+                    ThoiGianDung: 0,
+                },
+            ],
+            HangGhe: [
+                {
+                    MaHangGhe: 0,
+                    TongVe: 0,
+                },
+            ],
+        },
+        RowEx: 11,
+    },
+];
+
 //get dateNow and timezone
 const date = new Date();
 const offset = date.getTimezoneOffset() / 60;
 
-let addByExcel = async (req, res) => {
+let getfromExcel = async (req, res) => {
     let data = [];
 
     try {
@@ -58,7 +173,7 @@ let addByExcel = async (req, res) => {
             }
             //them nhung chuyen bay ko loi
             if (chuyenbays[i].errNum === 0) {
-                await AddChuyenBay(chuyenbays[i]);
+                // await AddChuyenBay(chuyenbays[i]);
             }
         }
 
@@ -70,6 +185,40 @@ let addByExcel = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.send('fail');
+    }
+};
+
+let addfromExcel = async (req, res) => {
+    let chuyenbays = req.body;
+    try {
+        for (var i in chuyenbays) {
+            chuyenbays[i].NgayGio = new Date(
+                chuyenbays[i].NgayKhoiHanh.Nam,
+                chuyenbays[i].NgayKhoiHanh.Thang - 1,
+                chuyenbays[i].NgayKhoiHanh.Ngay,
+                chuyenbays[i].GioKhoiHanh.Gio - offset,
+                chuyenbays[i].GioKhoiHanh.Phut,
+            );
+
+            for (var j in chuyenbays[i].SBTG) {
+                data_send.SBTG[i].NgayGioDen = new Date(
+                    chuyenbays[i].SBTG[j].NgayDen.Nam,
+                    chuyenbays[i].SBTG[j].NgayDen.Thang - 1,
+                    chuyenbays[i].SBTG[j].NgayDen.Ngay,
+                    chuyenbays[i].SBTG[j].GioDen.Gio - offset,
+                    chuyenbays[i].SBTG[j].GioDen.Phut,
+                );
+            }
+
+            chuyenbays[i].HangGhe = chuyenbays[i].HangVe;
+
+            await AddChuyenBay(chuyenbays[i]);
+        }
+
+        return res.send('true');
+    } catch (error) {
+        console.log(error);
+        return res.send('false');
     }
 };
 
@@ -146,53 +295,7 @@ let addByTay = async (req, res) => {
         else return res.send('false');
     } else return res.send('false');
 };
-// let Chuyenbay = {
-//     MaChuyenBayDi: '',
-//     MaChuyenBayDen: '',
-//     NgayGio: '',
-//     ThoiGianBay: -1,
-//     GiaVeCoBan: -1,
-//     HangGhe: [
-//         {
-//             MaHangGhe: '',
-//             TongVe: '',
-//         },
-//     ],
-//     SBTG: [
-//         {
-//             MaSanBay: '',
-//             ThuTu: -1,
-//             NgayGioDen: '',
-//             ThoiGianDung: -1,
-//             GhiChu: '',
-//         },
-//     ],
-//     Err: {
-
-//     }
-// };
-
-// {
-//     errNum: 1,
-//     res_err: {
-//       MaSanBayDi: 0,
-//       MaSanBayDen: 1,
-//       NgayGio: 0,
-//       Sbtg_Max: 0,
-//       GiaVe_Min: 0,
-//       ThoiGianDung_Min: 0,
-//       ThoiGianBay_Min: 0
-//     }
-//   }
-
-// if(ChuyenBay err)
-// res_err = {
-//     Sbtg_Max: 0,
-//     GiaVe_Min: 0,
-//     NgayGio: 0,
-//     ThoiGianDung_Min: 0,
-//     ThoiGianBay_Min: 0,
-// };
+//
 
 let checkChuyenBayValid = async (ChuyenBay) => {
     let errNum = 0;
@@ -204,7 +307,47 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         GiaVe_Min: 0,
         ThoiGianDung_Min: 0,
         ThoiGianBay_Min: 0,
+        ThoiGianNhanLich_Min: 0,
+        HangGhe: [],
+        SBTG: [],
     };
+
+    for (var i in ChuyenBay.HangGhe) {
+        //check Ma Hang ghe
+        let checkHangGhe = await db.HangGhe.findOne({
+            where: {
+                MaHangGhe: ChuyenBay.HangGhe[i].MaHangGhe,
+            },
+            raw: true,
+            logging: false,
+        });
+
+        if (!checkHangGhe) {
+            errNum++;
+            let hangghe = {
+                ThuTu: i,
+                MaHangGhe: 1,
+                TongVe: 0,
+            };
+            res_err.HangGhe.push(hangghe);
+        } else {
+            let hangghe = {
+                ThuTu: i,
+                MaHangGhe: 0,
+                TongVe: 0,
+            };
+            res_err.HangGhe.push(hangghe);
+        }
+
+        ///check tong ve > 0
+        if (ChuyenBay.HangGhe[i].TongVe <= 0) {
+            errNum++;
+            res_err.HangGhe[i].TongVe = 1;
+        } else {
+            res_err.HangGhe[i].TongVe = 0;
+        }
+    }
+
     //check ma chuyen bay di, den
     let check = await db.SanBay.findOne({
         where: {
@@ -257,7 +400,10 @@ let checkChuyenBayValid = async (ChuyenBay) => {
     let GiaVeCoBan_Min = thamso.find((item) => {
         return item.TenThamSo === 'GiaVeCoBan_Min';
     });
-    if (ChuyenBay.GiaVeCoBan < GiaVeCoBan_Min.GiaTri) {
+    if (!parseInt(ChuyenBay.GiaVeCoBan)) {
+        errNum++;
+        res_err.GiaVe = 1;
+    } else if (ChuyenBay.GiaVeCoBan < GiaVeCoBan_Min.GiaTri) {
         errNum++;
         res_err.GiaVe_Min = 1;
     }
@@ -268,8 +414,15 @@ let checkChuyenBayValid = async (ChuyenBay) => {
     });
     let date = Date.now();
     date = new Date(date);
-    let start = date.addDays(ThoiGianNhanLich_Min);
-    if (ChuyenBay.NgayGio > start) {
+
+    let start = date.addDays(ThoiGianNhanLich_Min.GiaTri);
+
+    if (!isNaN(ChuyenBay.NgayGio.getTime())) {
+        if (ChuyenBay.NgayGio > start) {
+            errNum++;
+            res_err.ThoiGianNhanLich_Min = 1;
+        }
+    } else {
         errNum++;
         res_err.NgayGio = 1;
     }
@@ -292,10 +445,27 @@ let checkChuyenBayValid = async (ChuyenBay) => {
     }
     let tongTime = 0;
     for (var i in ChuyenBay.SBTG) {
+        let errSBTG = {
+            ThuTu: i,
+            MaSanBay: 0,
+            ThoiGianDung: 0,
+        };
+        // check MaSanBay
+        let check = await db.SanBay.findOne({
+            where: {
+                MaSanBay: ChuyenBay.MaSanBayDi,
+            },
+            logging: false,
+        });
+        if (!check) {
+            errNum++;
+            errSBTG.MaSanBay = 1;
+        }
+
         //check thoi gian dung toi thieu
         if (ChuyenBay.SBTG[i].ThoiGianDung < ThoiGianDungToiThieu.GiaTri) {
             errNum++;
-            res_err.ThoiGianDung_Min = 1;
+            errSBTG.MaSanBay = 1;
         }
 
         //check thoi gian bay
@@ -316,6 +486,8 @@ let checkChuyenBayValid = async (ChuyenBay) => {
             errNum++;
             res_err.ThoiGianBay_Min = 1;
         }
+
+        res_err.SBTG.push(errSBTG);
     }
     //Thoi gian bay tu stgbn -> End chuyen bay
     if (ChuyenBay.SBTG.length !== 0) {
@@ -389,10 +561,10 @@ let AddChuyenBay = async (item) => {
                 GiaVeCoBan: item.GiaVeCoBan,
                 DoanhThu: 0,
                 TrangThai: 'ChuaKhoiHanh',
-                ThoiGianBayToiThieu: ThoiGianBayToiThieu,
-                ThoiGianDungToiThieu: ThoiGianDungToiThieu,
-                SBTG_Max: Sbtg_Max,
-                GiaVeCoBan_Min: GiaVeCoBan_Min,
+                ThoiGianBayToiThieu: ThoiGianBayToiThieu.GiaTri,
+                ThoiGianDungToiThieu: ThoiGianDungToiThieu.GiaTri,
+                SBTG_Max: Sbtg_Max.GiaTri,
+                GiaVeCoBan_Min: GiaVeCoBan_Min.GiaTri,
             },
             { logging: false },
         );
@@ -503,6 +675,7 @@ let getMinDiff = function (startDate, endDate) {
 };
 
 module.exports = {
-    addByExcel: addByExcel,
+    getfromExcel: getfromExcel,
+    addfromExcel: addfromExcel,
     addByTay: addByTay,
 };

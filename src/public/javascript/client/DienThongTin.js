@@ -15,7 +15,9 @@ window.onlyNumber = onlyNumber;
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
-
+var MaNguoiLon = '3';
+var MaTreEm = '2';
+var MaEmBe = '1';
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
@@ -83,13 +85,13 @@ function AddEventHanhKhach_Item() {
         // Helper
         const HanhKhach_Item_Header = HanhKhach_Items[i].querySelector('.HanhKhach_Item_Header');
         switch (HanhKhach_Item_Header.title) {
-            case '1':
+            case MaNguoiLon:
                 HanhKhach_Items[i].querySelector('.HanhKhach_Item_Helper_NguoiLon').classList.remove('d-none');
                 break;
-            case '2':
+            case MaTreEm:
                 HanhKhach_Items[i].querySelector('.HanhKhach_Item_Helper_TreEm').classList.remove('d-none');
                 break;
-            case '3':
+            case MaEmBe:
                 HanhKhach_Items[i].querySelector('.HanhKhach_Item_Helper_EmBe').classList.remove('d-none');
                 break;
             default:
@@ -158,22 +160,8 @@ function AddEventHanhKhach_Item() {
         const HanhKhach_Item_NgaySinh_Nam_ul = HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam_ul');
         let namBD = 0;
         let namKT = 0;
-        switch (HanhKhach_Item_Header.title) {
-            case '1':
-                namBD = 1920;
-                namKT = yyyy - 12;
-                break;
-            case '2':
-                namBD = yyyy - 12;
-                namKT = yyyy - 2;
-                break;
-            case '3':
-                namBD = yyyy - 2;
-                namKT = yyyy;
-                break;
-            default:
-                break;
-        }
+        namBD = yyyy - PackageBooking.HanhKhach[i].SoTuoiToiDa;
+        namKT = yyyy - PackageBooking.HanhKhach[i].SoTuoiToiThieu;
         for (let j = namBD; j < namKT + 1; j++) {
             if (j == namBD) {
                 HanhKhach_Item_NgaySinh_Nam_ul.querySelector('.HanhKhach_Item_NgaySinh_Nam_li').querySelector(
@@ -453,7 +441,7 @@ function TienNghiChuyenBay() {
     document.getElementById('GiaHanhLy_ThapNhat').innerText = numberWithDot(min_HanhLy.GiaTien);
 }
 
-function KiemTraNhapThongTin() {
+function KiemTraNhapThongTin(isClick = false) {
     let toast_header = '';
     let toast_body = '';
 
@@ -463,19 +451,21 @@ function KiemTraNhapThongTin() {
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').value == '') {
             toast_body = 'Ngày sinh còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').focus();
+            if (isClick == true) {
+                HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').focus();
+            }
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').value == '') {
             toast_body = 'Tháng sinh còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').focus();
+            if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').value == '') {
             toast_body = 'Năm sinh còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').focus();
+            if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
@@ -495,19 +485,19 @@ function KiemTraNhapThongTin() {
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').value == '') {
             toast_body = 'Danh xưng còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').focus();
+            if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').value == '') {
             toast_body = 'Họ còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').focus();
+            if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
 
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').value == '') {
             toast_body = 'Tên còn trống';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').focus();
+            if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').focus();
             return { head: toast_header, body: toast_body, flag: false };
         }
     }
@@ -517,27 +507,27 @@ function KiemTraNhapThongTin() {
 
     if (document.getElementById('NguoiLienHe_Ho').value == '') {
         toast_body = 'Họ của người liên hệ còn trống';
-        document.getElementById('NguoiLienHe_Ho').focus();
+        if (isClick == true) document.getElementById('NguoiLienHe_Ho').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_Ten').value == '') {
         toast_body = 'Tên của người liên hệ còn trống';
-        document.getElementById('NguoiLienHe_Ten').focus();
+        if (isClick == true) document.getElementById('NguoiLienHe_Ten').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_SDT').value == '') {
         toast_body = 'SDT của người liên hệ còn trống';
-        document.getElementById('NguoiLienHe_SDT').focus();
+        if (isClick == true) document.getElementById('NguoiLienHe_SDT').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (document.getElementById('NguoiLienHe_Email').value == '') {
         toast_body = 'Email của người liên hệ còn trống';
-        document.getElementById('NguoiLienHe_Email').focus();
+        if (isClick == true) document.getElementById('NguoiLienHe_Email').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
     if (!validateEmail(document.getElementById('NguoiLienHe_Email').value)) {
         toast_body = 'Email của người liên hệ chưa hợp lệ';
-        document.getElementById('NguoiLienHe_Email').focus();
+        if (isClick == true) document.getElementById('NguoiLienHe_Email').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
 
@@ -546,7 +536,7 @@ function KiemTraNhapThongTin() {
 
 function TiepTucTren_Onclick() {
     document.getElementById('TiepTucTren').addEventListener('click', (e) => {
-        let KiemTra = KiemTraNhapThongTin();
+        let KiemTra = KiemTraNhapThongTin(true);
         if (KiemTra.flag) {
             document.getElementById('PhanDuoi').classList.remove('d-none');
             e.target.classList.add('d-none');
@@ -586,7 +576,7 @@ function CapNhatTongTien() {
 }
 
 function AnHienPhanDuoi() {
-    const KiemTra = KiemTraNhapThongTin();
+    const KiemTra = KiemTraNhapThongTin(false);
     const PhanDuoi = document.getElementById('PhanDuoi');
     const TiepTucTren = document.getElementById('TiepTucTren');
     if (KiemTra.flag) {
@@ -612,7 +602,7 @@ function SendForm(_PackageBooking) {
 const TiepTucDuoi = document.getElementById('TiepTucDuoi');
 if (TiepTucDuoi)
     TiepTucDuoi.addEventListener('click', () => {
-        let KiemTra = KiemTraNhapThongTin();
+        let KiemTra = KiemTraNhapThongTin(true);
         if (KiemTra.flag) {
             document.getElementById('XacNhan_Email').innerText = document.getElementById('NguoiLienHe_Email').value;
             let input = document.getElementById('MaXacNhan_input');

@@ -8,6 +8,7 @@ class ClientController {
     // "/"
     async index(req, res) {
         try {
+            res.clearCookie('MaUser');
             //let SanBays = [
             //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
             //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
@@ -17,6 +18,7 @@ class ClientController {
                 {
                     type: QueryTypes.SELECT,
                     raw: true,
+                    logging: false,
                 },
             );
 
@@ -27,6 +29,7 @@ class ClientController {
                     TrangThai: 'apdung',
                 },
                 raw: true,
+                logging: false,
             });
 
             //get so hanh khach toi da 1 chuyen bay
@@ -35,7 +38,7 @@ class ClientController {
                 where: {
                     TenThamSo: 'HanhKhach_Max',
                 },
-                raw: true,
+                logging: false,
             });
             HanhKhach_Max = HanhKhach_Max.GiaTri;
 
@@ -45,7 +48,7 @@ class ClientController {
                 where: {
                     TenThamSo: 'ChuyenBay_Max',
                 },
-                raw: true,
+                logging: false,
             });
             ChuyenBay_Max = ChuyenBay_Max.GiaTri;
 
@@ -68,6 +71,7 @@ class ClientController {
             let HanhLy = await db.sequelize.query('select SoKgToiDa , GiaTien from mochanhly WHERE  GiaTien <> 0', {
                 type: QueryTypes.SELECT,
                 raw: true,
+                logging: false,
             });
             // Req.body
             let MangChuyenBayTimKiem = JSON.parse(req.body.MangChuyenBay);
@@ -140,6 +144,8 @@ class ClientController {
                     if (manghanhkhach[i].title == tile_loaihanhkhach[j].TenLoai) {
                         manghanhkhach[i].HeSo = tile_loaihanhkhach[j].HeSo;
                         manghanhkhach[i].TongTienVe = 0;
+                        manghanhkhach[i].SoTuoiToiDa = tile_loaihanhkhach[j].SoTuoiToiDa;
+                        manghanhkhach[i].SoTuoiToiThieu = tile_loaihanhkhach[j].SoTuoiToiThieu;
                         break;
                     }
                 }

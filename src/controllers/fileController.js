@@ -4,6 +4,7 @@ const reader = require('xlsx');
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+//get dateNow and timezone
 const date = new Date();
 const offset = date.getTimezoneOffset() / 60;
 
@@ -12,8 +13,9 @@ let addByExcel = async (req, res) => {
 
     try {
         //Doc lay data tu excel
-        // const file = reader.readFile('src/public/temp/Demo.xlsx');
-        const file = reader.readFile(req.files);
+        const file = reader.readFile('./src/public/temp/Demo.xlsx');
+
+        //const file = reader.readFile(req.files);
         const worksheet = file.Sheets[file.SheetNames[0]];
         const arr = reader.utils.sheet_to_json(worksheet);
         let data = [];
@@ -59,6 +61,11 @@ let addByExcel = async (req, res) => {
                 await AddChuyenBay(chuyenbays[i]);
             }
         }
+
+        // var filePath = path.join(__dirname, '../pulibc/temp/Demo.xlsx');
+
+        // fs.unlinkSync(filePath);
+
         return res.send(JSON.stringify(chuyenbays));
     } catch (error) {
         console.log(error);
@@ -203,6 +210,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         where: {
             MaSanBay: ChuyenBay.MaSanBayDi,
         },
+        logging: false,
     });
     if (!check) {
         errNum++;
@@ -213,6 +221,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         where: {
             MaSanBay: ChuyenBay.MaSanBayDen,
         },
+        logging: false,
     });
     if (!check) {
         errNum++;
@@ -221,6 +230,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
 
     let thamso = await db.ThamSo.findAll({
         raw: true,
+        logging: false,
     });
     //     thời gian khởi hành  x
     // thời gian bay tối thiểu  x
@@ -350,7 +360,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
 
 let AddChuyenBay = async (item) => {
     try {
-        let thamso = await db.ThamSo.findAll({ raw: true });
+        let thamso = await db.ThamSo.findAll({ raw: true, logging: false });
 
         // ThoiGianBayToiThieu: -1,
         //     ThoiGianDungToiThieu: -1,
@@ -370,42 +380,51 @@ let AddChuyenBay = async (item) => {
         });
 
         //save chuyenbay
-        let ChuyenBay = await db.ChuyenBay.create({
-            MaSanBayDi: item.MaSanBayDi,
-            MaSanBayDen: item.MaSanBayDen,
-            NgayGio: item.NgayGio,
-            ThoiGianBay: item.ThoiGianBay,
-            GiaVeCoBan: item.GiaVeCoBan,
-            DoanhThu: 0,
-            TrangThai: 'ChuaKhoiHanh',
-            ThoiGianBayToiThieu: ThoiGianBayToiThieu,
-            ThoiGianDungToiThieu: ThoiGianDungToiThieu,
-            SBTG_Max: Sbtg_Max,
-            GiaVeCoBan_Min: GiaVeCoBan_Min,
-        });
-        await ChuyenBay.save();
+        let ChuyenBay = await db.ChuyenBay.create(
+            {
+                MaSanBayDi: item.MaSanBayDi,
+                MaSanBayDen: item.MaSanBayDen,
+                NgayGio: item.NgayGio,
+                ThoiGianBay: item.ThoiGianBay,
+                GiaVeCoBan: item.GiaVeCoBan,
+                DoanhThu: 0,
+                TrangThai: 'ChuaKhoiHanh',
+                ThoiGianBayToiThieu: ThoiGianBayToiThieu,
+                ThoiGianDungToiThieu: ThoiGianDungToiThieu,
+                SBTG_Max: Sbtg_Max,
+                GiaVeCoBan_Min: GiaVeCoBan_Min,
+            },
+            { logging: false },
+        );
+        await ChuyenBay.save({ logging: false });
 
         //save cac hang ghe
         for (var i in item.HangGhe) {
-            let HangGhe = await db.ChiTietHangVe.create({
-                MaChuyenBay: ChuyenBay.MaChuyenBay,
-                MaHangGhe: item.HangGhe[i].MaHangGhe,
-                TongVe: item.HangGhe[i].TongVe,
-                VeDaBan: 0,
-            });
+            let HangGhe = await db.ChiTietHangVe.create(
+                {
+                    MaChuyenBay: ChuyenBay.MaChuyenBay,
+                    MaHangGhe: item.HangGhe[i].MaHangGhe,
+                    TongVe: item.HangGhe[i].TongVe,
+                    VeDaBan: 0,
+                },
+                { logging: false },
+            );
             HangGhe.save();
         }
 
         //save chi tiet chuyen bay
         for (var i in item.SBTG) {
-            let sbtg = await db.ChiTietChuyenBay.create({
-                MaChuyenBay: ChuyenBay.MaChuyenBay,
-                MaSBTG: item.SBTG[i].MaSanBay,
-                ThuTu: item.SBTG[i].ThuTu,
-                NgayGioDen: item.SBTG[i].NgayGioDen,
-                ThoiGianDung: item.SBTG[i].ThoiGianDung,
-                GhiChu: item.SBTG[i].GhiChu,
-            });
+            let sbtg = await db.ChiTietChuyenBay.create(
+                {
+                    MaChuyenBay: ChuyenBay.MaChuyenBay,
+                    MaSBTG: item.SBTG[i].MaSanBay,
+                    ThuTu: item.SBTG[i].ThuTu,
+                    NgayGioDen: item.SBTG[i].NgayGioDen,
+                    ThoiGianDung: item.SBTG[i].ThoiGianDung,
+                    GhiChu: item.SBTG[i].GhiChu,
+                },
+                { logging: false },
+            );
 
             sbtg.save();
         }

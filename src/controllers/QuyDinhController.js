@@ -1,6 +1,4 @@
-import { raw } from 'body-parser';
 import db, { sequelize } from '../models/index';
-import { dateIsValid } from '../public/javascript/start';
 const { QueryTypes } = require('sequelize');
 
 class QuyDinhController {

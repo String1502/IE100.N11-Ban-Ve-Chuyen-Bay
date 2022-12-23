@@ -2,6 +2,59 @@ import db from '../models/index';
 const { QueryTypes } = require('sequelize');
 
 class StaffController {
+    //LoadHeder
+    async LoadHeader(req, res) {
+        try {
+            let P = {};
+            let MaUser = req.signedCookies.MaUser;
+            let User = await db.User.findOne({ where: { MaUser: MaUser }, raw: true });
+            let Quyen = await db.sequelize.query(
+                "select MaQuyen from phanquyen where MaChucVu = '" + User.MaChucVu + "'",
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
+            let QuyenHT = [];
+            for (let i = 0; i < 6; i++) {
+                QuyenHT[i] = 0;
+            }
+            for (let i = 0; i < Quyen.length; i++) {
+                QuyenHT[Quyen[i].MaQuyen] = 1;
+            }
+            P.HoTen = User.HoTen;
+            P.QuyenHT = QuyenHT;
+            return res.send(P);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    //Màn hình profile
+    async Profile(req, res) {
+        try {
+            let ChucVus = await db.sequelize.query('select MaChucVu, TenChucVu from chucvu', {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+            let Users = await db.sequelize.query(
+                'select MaUser, Email,MatKhau,HoTen,CCCD,GioiTinh,NgaySinh,MaChucVu,HinhAnh,TrangThai,SDT from user',
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            let MaUser = req.signedCookies.MaUser;
+            return res.render('staff/Profile', {
+                layout: 'staff.handlebars',
+                ChucVus: ChucVus,
+                Users: JSON.stringify(Users),
+                MaUser: MaUser,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // "/staff/"
     async index(req, res) {
         try {

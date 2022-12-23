@@ -6,11 +6,13 @@ function LoadGioiTinh() {
     }
     let ChucVus = document.querySelectorAll('.ChucVu');
     for (let i = 0; i < ChucVus.length; i++) {
-        if (ChucVus[i].querySelector('.ChucVu_Ten').innerText == 'Khách hàng') {
+        if (
+            ChucVus[i].querySelector('.ChucVu_Ten').innerText == 'Khách hàng' ||
+            ChucVus[i].querySelector('.ChucVu_Ten').innerText == 'Quản lý'
+        ) {
             let dele = ChucVus[i].querySelector('.button');
             let de = ChucVus[i].querySelector('.ChucVu--Sua');
             dele.removeChild(de);
-            return;
         }
     }
 }

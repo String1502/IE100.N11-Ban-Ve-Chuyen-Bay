@@ -188,7 +188,7 @@ let getfromExcel = async (req, res) => {
     }
 };
 
-let addfromExcel = async (req, res) => {
+let addByExcel = async (req, res) => {
     let chuyenbays = req.body;
     try {
         for (var i in chuyenbays) {
@@ -418,7 +418,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
     let start = date.addDays(ThoiGianNhanLich_Min.GiaTri);
 
     if (!isNaN(ChuyenBay.NgayGio.getTime())) {
-        if (ChuyenBay.NgayGio > start) {
+        if (ChuyenBay.NgayGio < start) {
             errNum++;
             res_err.ThoiGianNhanLich_Min = 1;
         }
@@ -676,6 +676,6 @@ let getMinDiff = function (startDate, endDate) {
 
 module.exports = {
     getfromExcel: getfromExcel,
-    addfromExcel: addfromExcel,
+    addByExcel: addByExcel,
     addByTay: addByTay,
 };

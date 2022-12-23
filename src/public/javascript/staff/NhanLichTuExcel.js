@@ -64,7 +64,7 @@ function Start() {
         if (file) {
             openLoader('Chờ chút');
             var formData = new FormData(document.getElementById('form-excel'));
-            axios.post('/flight/addFromexcel', formData).then((res) => {
+            axios.post('/flight/getdatafromExcel', formData).then((res) => {
                 console.log(res.data);
 
                 ChuyenBay_list = [];
@@ -272,13 +272,13 @@ function On_off_NhanLich() {
 // Gửi gói lưu
 function SendForm_NhanLichExcel() {
     // Trí
-    return;
+    // return;
     openLoader('Chờ chút');
     console.log(data_send);
     //return;
     axios({
         method: 'post',
-        url: '/flight/update',
+        url: '/flight/addByExcel',
         data: data_send,
     }).then((res) => {
         var body = '';

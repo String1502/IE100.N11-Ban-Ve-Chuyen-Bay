@@ -218,7 +218,6 @@ function InsertNewRow(thang, data) {
     GanGiaTriChoRow(item_body_Item, data);
 
     const detailButton = item_body_Item.querySelector('.Item_ChiTiet');
-    detailButton.addEventListener('click', () => {});
 
     container.appendChild(item_body_Item);
 }

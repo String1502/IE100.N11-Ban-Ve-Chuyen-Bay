@@ -1,4 +1,15 @@
 import mailConfig from '../config/mail.config';
+import {
+    numberWithDot,
+    numberWithoutDot,
+    numberSmallerTen,
+    openLoader,
+    closeLoader,
+    getThuTrongTuan,
+    today,
+    onlyNumber,
+    showToast,
+} from '../public/javascript/start.js';
 import db from '../models/index';
 import HoaDonController from './HoaDonController';
 const { QueryTypes } = require('sequelize');
@@ -8,6 +19,13 @@ class ClientController {
     // "/"
     async index(req, res) {
         try {
+            //K phải khách hàng là get tới url này thì đăng xuất
+            if (req.signedCookies.MaUser) {
+                let user = await db.User.findOne({ where: { MaUser: req.signedCookies.MaUser }, raw: true });
+                if (user.MaChucVu != '3KH') {
+                    res.clearCookie('MaUser');
+                }
+            }
             //let SanBays = [
             //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
             //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
@@ -79,13 +97,81 @@ class ClientController {
                     where: { MaUser: req.signedCookies.MaUser },
                     raw: true,
                 });
-                console.log(user.HoTen + 'addasd');
                 res.send({
                     HoTen: user.HoTen,
                 });
             } else {
                 res.send();
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async VeCuaToi(req, res) {
+        // MaHoaDon
+        // MaVe
+        // MaChuyenBay
+        try {
+            let HoaDons = await db.sequelize.query(
+                "select hoadon.MaHoaDon, hoadon.MaUser, hoadon.HoTen, hoadon.Email, hoadon.SDT, hoadon.NgayGioThanhToan, hoadon.TongTien, htthanhtoan.Ten from hoadon, htthanhtoan where hoadon.MaHTTT=htthanhtoan.MaHTTT and hoadon.MaUser = '" +
+                    req.signedCookies.MaUser +
+                    "' ",
+                {
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            HoaDons.sort((a, b) => {
+                let datea = new Date(a.NgayGioThanhToan);
+                let dateb = new Date(b.NgayGioThanhToan);
+                if (datea < dateb) return 1;
+                else return -1;
+            });
+            for (let i = 0; i < HoaDons.length; i++) {
+                let NgayTT = new Date(new Date(HoaDons[i].NgayGioThanhToan).getTime() - 7 * 60 * 60 * 1000);
+                HoaDons[i].NgayGioThanhToan =
+                    ('0' + NgayTT.getHours()).slice(-2) +
+                    ':' +
+                    NgayTT.getMinutes() +
+                    ' ' +
+                    ('0' + NgayTT.getDate()).slice(-2) +
+                    '/' +
+                    ('0' + (NgayTT.getMonth() + 1)).slice(-2) +
+                    '/' +
+                    NgayTT.getFullYear();
+                HoaDons[i].TongTien = numberWithDot(HoaDons[i].TongTien) + ' VND';
+                let Ves = await db.sequelize.query(
+                    "select ve.MaVe, mochanhly.SoKgToiDa, hanhkhach.HoTen, hanhkhach.MaHK , ve.GiaVe , ve.MaCTVe, ve.MaHoaDon from ve, mochanhly, hanhkhach where ve.MaHK=hanhkhach.MaHK and ve.MaMocHanhLy=mochanhly.MaMocHanhLy and ve.MaHoaDon = '" +
+                        HoaDons[i].MaHoaDon +
+                        "'",
+                    {
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
+                for (let j = 0; j < Ves.length; j++) {
+                    Ves[j].GiaVe = numberWithDot(Ves[j].GiaVe) + ' VND';
+                    let CTVE = await db.sequelize.query(
+                        "select chuyenbay.MaSanBayDi, chuyenbay.MaSanBayDen, chuyenbay.MaChuyenbay, chitiethangve.MaCTVe, hangghe.MaHangGhe, hangghe.TenHangGhe from chuyenbay, chitiethangve, hangghe where chitiethangve.MaHangGhe=hangghe.MaHangGhe and chitiethangve.MaChuyenBay=chuyenbay.MaChuyenBay and chitiethangve.MaCTVe= '" +
+                            Ves[j].MaCTVe +
+                            "' limit 1",
+                        {
+                            type: QueryTypes.SELECT,
+                            raw: true,
+                        },
+                    );
+                    Ves[j].MaChuyenBay = CTVE[0].MaSanBayDi + '-' + CTVE[0].MaSanBayDen + '-' + CTVE[0].MaChuyenbay;
+                    Ves[j].MaChuyenBayCT = CTVE[0].MaChuyenBay;
+                    Ves[j].HangVe = CTVE[0].MaHangGhe + '-' + CTVE[0].TenHangGhe;
+                    Ves[j].MaVe = Ves[j].MaChuyenBay + Ves[j].MaVe;
+                }
+                HoaDons[i].MaHoaDon = HoaDons[i].MaUser + '-' + HoaDons[i].MaHoaDon;
+                HoaDons[i].Ves = structuredClone(Ves);
+            }
+            return res.render('client/VeCuaToi', {
+                layout: 'client.handlebars',
+                HoaDons: HoaDons,
+            });
         } catch (error) {
             console.log(error);
         }

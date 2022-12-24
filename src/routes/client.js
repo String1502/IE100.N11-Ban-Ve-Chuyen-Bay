@@ -10,6 +10,7 @@ router.post('/pre-booking', clientController.prebooking);
 router.post('/choose_flight', clientController.choose_flight);
 router.post('/ChooseHeader', clientController.ChooseHeader);
 router.post('/logout', clientController.logout);
+router.get('/vecuatoi', clientController.VeCuaToi);
 router.get('/', clientController.index);
 
 module.exports = router;

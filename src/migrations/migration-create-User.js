@@ -14,6 +14,9 @@ module.exports = {
             MatKhau: {
                 type: Sequelize.STRING,
             },
+            HoTen: {
+                type: Sequelize.STRING,
+            },
             CCCD: {
                 type: Sequelize.STRING,
             },
@@ -32,14 +35,19 @@ module.exports = {
             TrangThai: {
                 type: Sequelize.STRING,
             },
+            SDT: {
+                type: Sequelize.STRING,
+            },
 
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.NOW,
             },
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.NOW,
             },
         });
     },

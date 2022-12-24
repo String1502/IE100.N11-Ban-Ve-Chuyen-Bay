@@ -3,6 +3,12 @@ const router = express.Router();
 
 const staffController = require('../controllers/StaffController');
 
-router.get('/', staffController.index);
+// Chi tiết chuyến bay
+router.post('/flightdetail/editdetail', staffController.editdetail);
+router.post('/flightdetail', staffController.flightdetail);
+router.post('/LoadHeader', staffController.LoadHeader);
+router.post('/profile', staffController.Profile);
+// Tra cứu
+router.post('/', staffController.index);
 
 module.exports = router;

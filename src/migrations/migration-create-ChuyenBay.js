@@ -19,7 +19,7 @@ module.exports = {
                 type: Sequelize.DATE,
             },
             ThoiGianBay: {
-                type: Sequelize.DATE,
+                type: Sequelize.INTEGER,
             },
             GiaVeCoBan: {
                 type: Sequelize.BIGINT,
@@ -29,6 +29,18 @@ module.exports = {
             },
             TrangThai: {
                 type: Sequelize.STRING,
+            },
+            ThoiGianBayToiThieu: {
+                type: Sequelize.INTEGER,
+            },
+            ThoiGianDungToiThieu: {
+                type: Sequelize.INTEGER,
+            },
+            SBTG_Max: {
+                type: Sequelize.INTEGER,
+            },
+            GiaVeCoBan_Min: {
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,

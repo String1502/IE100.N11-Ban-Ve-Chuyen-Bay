@@ -32,23 +32,25 @@
                         {{! Họ }}
                         <div class='col-12 col-md-6 px-3'>
                             <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>Họ (vd: Nguyen)</label>
+                                <label class='form-label custom-font p16-B lh-lg'>Họ</label>
                                 <input
+                                    id='NguoiLienHe_Ho'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='text'
                                 />
-                                <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
+                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: Phan</small>
                             </div>
                         </div>
                         {{! Tên đệm và tên }}
                         <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
                             <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên (vd: Thi Ngoc Anh)</label>
+                                <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên</label>
                                 <input
+                                    id='NguoiLienHe_Ten'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='text'
                                 />
-                                <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
+                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: Trường Huy</small>
                             </div>
                         </div>
                     </div>
@@ -59,9 +61,11 @@
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Điện thoại di động</label>
                                 <input
+                                    id='NguoiLienHe_SDT'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='tel'
                                     autocomplete='tel'
+                                    onkeypress='onlyNumber(event)'
                                 />
                                 <small class='mt-2 custom-font p12-R text-tertiary'>vd: 0343214971</small>
                             </div>
@@ -71,6 +75,7 @@
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Email</label>
                                 <input
+                                    id='NguoiLienHe_Email'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                                     type='email'
                                     autocomplete='email'
@@ -90,1095 +95,883 @@
             </div>
 
             {{! Hành khách Container }}
-            <div>
-
-                {{! Hành khách Item }}
-                <div class='bg-light shadow rounded-1 h-auto'>
-                    <div class='py-2'>
-                        <span class='px-3 custom-font p20-B text-dark'>Người lớn
-                            <span> 1</span>
-                        </span>
-
-                    </div>
-                    <div style='border-top: 1px solid black;'></div>
-
-                    <div class='row mx-0 px-0 py-3'>
-                        {{! Danh xưng }}
-                        <div class='col-4 px-3'>
-                            <label class='form-label custom-font p16-B mb-1 lh-lg'>Danh xưng</label>
-                            <div class='input-group dropdown'>
-                                <input
-                                    type='text'
-                                    class='form-control dropdown-toggle form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    data-bs-toggle='dropdown'
-                                    aria-expanded='false'
-                                    readonly
-                                />
-                                <ul
-                                    style='width: 364px; height: auto;'
-                                    class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                >
-                                    {{! Dropdown items }}
-                                    <li class='HangGhe_li dropdown-item custom-active'>
-                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
-                                            <span class='custom-font p14-S text-dark'>Ông</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='row mx-0 px-0 pb-4'>
-                        {{! Họ }}
-                        <div class='col-12 col-md-6 px-3'>
-                            <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>Họ (vd: Nguyen)</label>
-                                <input
-                                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='text'
-                                />
-                                <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
-                            </div>
-                        </div>
-                        {{! Tên đệm và tên }}
-                        <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
-                            <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên (vd: Thi Ngoc Anh)</label>
-                                <input
-                                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='text'
-                                />
-                                <small class='mt-2 custom-font p12-R text-tertiary'>như trên CMND (không dấu)</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='row mx-0 px-0 pb-4'>
-                        {{! Ngày sinh }}
-                        <div class='col-12 col-md-6 px-3'>
-                            <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>Ngày sinh</label>
-                                <div class='d-flex flex-row justify-content-between'>
-                                    {{! Ngày }}
-                                    <div class=''>
-                                        <input
-                                            class='dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                            type='text'
-                                            data-bs-toggle='dropdown'
-                                            aria-expanded='false'
-                                            readonly
-                                        />
-                                        <ul
-                                            class='h-auto list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                        >
-                                            {{! Dropdown items }}
-                                            <li class='HangGhe_li dropdown-item custom-active py-2'>
-                                                <span class='custom-font p14-S text-dark'>1</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    {{! Tháng }}
-                                    <div class='flex-fill mx-2'>
-                                        <input
-                                            class='dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                            type='text'
-                                            data-bs-toggle='dropdown'
-                                            aria-expanded='false'
-                                            readonly
-                                        />
-                                        <ul
-                                            class='h-auto list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                        >
-                                            {{! Dropdown items }}
-                                            <li class='HangGhe_li dropdown-item custom-active py-2'>
-                                                <span class='custom-font p14-S text-dark'>Tháng <span>1</span></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    {{! Năm }}
-                                    <div>
-                                        <input
-                                            class='dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                            type='text'
-                                            data-bs-toggle='dropdown'
-                                            aria-expanded='false'
-                                            readonly
-                                        />
-                                        <ul
-                                            class='h-auto list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                        >
-                                            {{! Dropdown items }}
-                                            <li class='HangGhe_li dropdown-item custom-active py-2'>
-                                                <span class='custom-font p14-S text-dark'>2022</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <small class='mt-2 custom-font p12-R text-tertiary'>Hành khách người lớn (trên 12 tuổi)</small>
-                                <small class='mt-2 custom-font p12-R text-tertiary d-none'>Hành khách trẻ em (từ 2 - 11
-                                    tuổi)</small>
-                                <small class='mt-2 custom-font p12-R text-tertiary d-none'>Hành khách trẻ sơ sinh (dưới
-                                    2 tuổi)</small>
-                            </div>
-
-                        </div>
-                        {{! CMND/CCCD }}
-                        <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
-                            <div class='d-flex flex-column'>
-                                <label class='form-label custom-font p16-B lh-lg'>CMND/CCCD</label>
-                                <input
-                                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='text'
-                                />
-                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: 312470710</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        {{! Tiện nghi chuyến bay }}
-        <div class='mb-5'>
-            <div class='mb-3'>
-                <span class='custom-font h24-B text-dark'>Tiện nghi chuyến bay</span>
-            </div>
-            <div class='bg-light shadow rounded-1 h-auto'>
-                {{! Hàng 1 }}
-                <div class='d-flex flex-row py-2 justify-content-between align-items-center'>
-                    <div>
-                        <span class='px-3 custom-font p20-B text-dark'>
-                            Hành lý
-                        </span>
-                    </div>
-                    <div>
-                        <a
-                            type='button'
-                            data-bs-toggle='modal'
-                            data-bs-target='#DatHanhLy_Modal'
-                            class='btn btn-primary bg-light border-0 px-3 text-primary custom-font p20-B custom-boxshadow-focus-none'
-                            href=''
-                        >
-                            Chọn hành lý
-                        </a>
-                    </div>
-                </div>
-
-                {{! Modal }}
-                <div id='DatHanhLy_Modal' class='modal fade' tabindex='-1' aria-hidden='true'>
-                    <div class='modal-dialog modal-dialog-centered modal-xl'>
-                        <div class='modal-content h-auto'>
-                            <div class='d-flex flex-column bg-tertiary-light h-auto'>
-
-                                {{! Body }}
-                                <div style='height: 550px;' class='row p-0 m-0'>
-
-                                    {{! Bên trái }}
-                                    <div class='col-5 px-0 bg-light shadow'>
-
-                                        <div class='px-3 pt-3'>
-                                            {{! Header }}
-                                            <div class='px-2 d-flex flex-column pt-3'>
-
-                                                <div class='d-flex flex-row align-items-center mb-3'>
-                                                    <i
-                                                        style='width: 48px; height:48px; font-size:48px;'
-                                                        class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                    ></i>
-                                                    <span class='custom-font h48-B text-dark'>
-                                                        Hành Lý
-                                                    </span>
-                                                </div>
-
-                                                <div class='mb-2'>
-                                                    <span class='custom-font h24-B text-dark'>
-                                                        Chọn chuyến bay
-                                                    </span>
-                                                </div>
-
-                                                <div>
-                                                    <span class='custom-font p16-R text-tertiary'>
-                                                        Thêm hành lý kí gửi vào chuyến bay của bạn
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div style='border-top: 1px solid black ;' class='px-2 my-3'></div>
-                                        </div>
-
-                                        {{! ChuyenBay Container }}
-                                        <ul class='d-flex flex-column list-unstyled overflow-auto'>
-
-                                            {{! ChuyenBay Item }}
-                                            <li
-                                                class='px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'
-                                            >
-
-                                                <div class='me-3'>
-                                                    <span class='custom-font p20-B text-dark'>
-                                                        1.
-                                                    </span>
-                                                </div>
-
-                                                <div class='flex-fill d-flex flex-column'>
-
-                                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p20-B text-dark me-1'>
-                                                                TP HCM
-                                                            </span>
-                                                            <span class='custom-font p20-B text-dark'>
-                                                                (<span>SGN</span>)
-                                                            </span>
-                                                        </div>
-
-                                                        <div class='mx-3'>
-                                                            <i
-                                                                style='width: 20px; height:20px;font-size:20px;'
-                                                                class='fa-solid fa-arrow-right text-dark'
-                                                            ></i>
-                                                        </div>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p20-B text-dark me-1'>
-                                                                TOKYO
-                                                            </span>
-                                                            <span class='custom-font p20-B text-dark'>
-                                                                (<span>TKO</span>)
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class='d-flex flex-row justify-content-between'>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p16-B text-tertiary me-1'>
-                                                                15 kg, 20 kg
-                                                            </span>
-                                                        </div>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p16-B text-tertiary me-1'>
-                                                                300.000
-                                                            </span>
-                                                            <span class='custom-font p16-B text-tertiary'>
-                                                                VND
-                                                            </span>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </li>
-
-                                            {{! ChuyenBay Item }}
-                                            <li
-                                                class='px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'
-                                            >
-
-                                                <div class='me-3'>
-                                                    <span class='custom-font p20-B text-dark'>
-                                                        1.
-                                                    </span>
-                                                </div>
-
-                                                <div class='flex-fill d-flex flex-column'>
-
-                                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p20-B text-dark me-1'>
-                                                                TP HCM
-                                                            </span>
-                                                            <span class='custom-font p20-B text-dark'>
-                                                                (<span>SGN</span>)
-                                                            </span>
-                                                        </div>
-
-                                                        <div class='mx-3'>
-                                                            <i
-                                                                style='width: 20px; height:20px;font-size:20px;'
-                                                                class='fa-solid fa-arrow-right text-dark'
-                                                            ></i>
-                                                        </div>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p20-B text-dark me-1'>
-                                                                TOKYO
-                                                            </span>
-                                                            <span class='custom-font p20-B text-dark'>
-                                                                (<span>TKO</span>)
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class='d-flex flex-row justify-content-between'>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p16-B text-tertiary me-1'>
-                                                                15 kg, 20 kg
-                                                            </span>
-                                                        </div>
-
-                                                        <div class='d-flex flex-row'>
-                                                            <span class='custom-font p16-B text-tertiary me-1'>
-                                                                300.000
-                                                            </span>
-                                                            <span class='custom-font p16-B text-tertiary'>
-                                                                VND
-                                                            </span>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </li>
-
-                                        </ul>
-
-                                    </div>
-
-                                    {{! Bên phải }}
-                                    <div class='col-7 px-0 h-100'>
-
-                                        <div class='d-flex flex-column my-3 h-100'>
-
-                                            {{! Nút close }}
-                                            <div class='mx-3 d-flex flex-row justify-content-end'>
-                                                <button
-                                                    type='button'
-                                                    class='btn-close'
-                                                    data-bs-dismiss='modal'
-                                                    aria-label='Close'
-                                                ></button>
-                                            </div>
-
-                                            {{! Sân bay }}
-                                            <div class='mx-3 d-flex flex-row justify-content-start mb-3'>
-                                                <div class='d-flex flex-row justify-content-between'>
-                                                    <div class='d-flex flex-row'>
-                                                        <span class='custom-font p20-B text-dark me-1'>
-                                                            TP HCM
-                                                        </span>
-                                                        <span class='custom-font p20-B text-dark'>
-                                                            (<span>SGN</span>)
-                                                        </span>
-                                                    </div>
-
-                                                    <div class='mx-3'>
-                                                        <i
-                                                            style='width: 20px; height:20px;font-size:20px;'
-                                                            class='fa-solid fa-arrow-right text-dark'
-                                                        ></i>
-                                                    </div>
-
-                                                    <div class='d-flex flex-row'>
-                                                        <span class='custom-font p20-B text-dark me-1'>
-                                                            TOKYO
-                                                        </span>
-                                                        <span class='custom-font p20-B text-dark'>
-                                                            (<span>TKO</span>)
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{! Hành khách Container }}
-                                            <div class='overflow-auto mb-3'>
-
-                                                {{! Hành khách Item }}
-                                                <div class='mx-3 bg-light rounded-2 shadow h-auto my-2'>
-
-                                                    {{! Header }}
-                                                    <div class='px-3 py-3 d-flex flex-row justify-content-between'>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Hanh khach
-                                                                1/2</div>
-
-                                                            <div class='custom-font p20-B text-dark'>Ông Phan Trường Huy</div>
-
-                                                        </div>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Tổng số
-                                                                hành lý</div>
-
-                                                            <div class='custom-font p20-B text-dark'>15 kg</div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div style='border-top: 1px solid black;'></div>
-
-                                                    {{! Hành lý container }}
-                                                    <ul class='list-unstyled px-3 py-3'>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
-
-                                                {{! Hành khách Item }}
-                                                <div class='mx-3 bg-light rounded-2 shadow h-auto my-2'>
-
-                                                    {{! Header }}
-                                                    <div class='px-3 py-3 d-flex flex-row justify-content-between'>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Hanh khach
-                                                                1/2</div>
-
-                                                            <div class='custom-font p20-B text-dark'>Ông Phan Trường Huy</div>
-
-                                                        </div>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Tổng số
-                                                                hành lý</div>
-
-                                                            <div class='custom-font p20-B text-dark'>15 kg</div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div style='border-top: 1px solid black;'></div>
-
-                                                    {{! Hành lý container }}
-                                                    <ul class='list-unstyled px-3 py-3'>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
-
-                                                {{! Hành khách Item }}
-                                                <div class='mx-3 bg-light rounded-2 shadow h-auto my-2'>
-
-                                                    {{! Header }}
-                                                    <div class='px-3 py-3 d-flex flex-row justify-content-between'>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Hanh khach
-                                                                1/2</div>
-
-                                                            <div class='custom-font p20-B text-dark'>Ông Phan Trường Huy</div>
-
-                                                        </div>
-
-                                                        <div class='d-flex flex-column'>
-
-                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Tổng số
-                                                                hành lý</div>
-
-                                                            <div class='custom-font p20-B text-dark'>15 kg</div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div style='border-top: 1px solid black;'></div>
-
-                                                    {{! Hành lý container }}
-                                                    <ul class='list-unstyled px-3 py-3'>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                        {{! Hành lý item }}
-                                                        <li class='mb-3'>
-                                                            <div class='input-group'>
-                                                                <div class='input-group-text bg-light'>
-                                                                    <input
-                                                                        class='form-check-input mt-0'
-                                                                        type='radio'
-                                                                        value=''
-                                                                    />
-                                                                </div>
-                                                                <div
-                                                                    class='d-flex flex-row form-control justify-content-between'
-                                                                >
-                                                                    {{! Số kg }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <i
-                                                                            style='width: 16px; height: 16px; font-size: 16px;'
-                                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                        ></i>
-                                                                        <span class='custom-font p16-S text-dark'>
-                                                                            Không có hành lý bổ sung
-                                                                        </span>
-                                                                    </div>
-
-                                                                    {{! Số tiền }}
-                                                                    <div class='d-flex flex-row'>
-                                                                        <span
-                                                                            class='custom-font p16-S text-secondary me-1'
-                                                                        >
-                                                                            162.000
-                                                                        </span>
-                                                                        <span class='custom-font p16-S text-secondary'>
-                                                                            VND
-                                                                        </span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                {{! Footer }}
-                                <div
-                                    class='pt-3 px-3 d-flex flex-row justify-content-between align-items-center bg-light pb-3 shadow'
-                                >
-
-                                    {{! Tổng phụ }}
-                                    <div class='d-flex flex-column'>
-
-                                        <div class='d-flex flex-row mb-1'>
-                                            <span class='custom-font p20-B text-dark me-5'>
-                                                Tổng phụ
-                                            </span>
-                                            <span class='ms-5 custom-font p20-B text-secondary'>
-                                                500.000
-                                                <span>VND</span>
-                                            </span>
-                                        </div>
-
-                                        <div>
-                                            <span class='custom-font p16-S text-tertiary'>
-                                                (Đối với tất cả các chuyến bay và hành khách)
-                                            </span>
-                                        </div>
-
-                                    </div>
-
-                                    {{! Nút Hoàn Tất }}
-                                    <div>
-                                        <button
-                                            type='button'
-                                            data-bs-dismiss='modal'
-                                            class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                                            href=''
-                                        >
-                                            Hoàn tất
-                                        </button>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style='border-top: 1px solid black;'></div>
-
-                {{! Hành lý container  }}
-                <div class='d-flex flex-column'>
-
-                    {{! Chưa chọn hành lý }}
-                    <div class='d-flex flex-row py-3 justify-content-between align-items-center'>
-                        <div class='px-3 text-wrap'>
-                            <span class='custom-font p20-B text-tertiary'>
-                                Sao bạn phải cố nhồi nhét? Thêm hành lý để chuyến đi thêm nhẹ nhàng.
+            <div id='HanhKhach_Container'>
+                {{#each this.PackageBooking.HoaDon.HanhKhach}}
+                    {{! Hành khách Item }}
+                    <div title='{{this.index}}' class='HanhKhach_Item bg-light shadow rounded-1 h-auto mb-4'>
+                        <div class='py-2'>
+                            <span
+                                title='{{this.MaLoaiKhach}}'
+                                class='HanhKhach_Item_Header px-3 custom-font p20-B text-dark'
+                            >{{this.TenLoai}}
+                                <span> {{this.ThuTu}}</span>
                             </span>
                         </div>
-                        <div class='d-flex flex-column align-items-end'>
-                            <div class='mb-1'>
-                                <span class='px-3 custom-font p20-B text-tertiary'>
-                                    Bắt đầu từ
-                                </span>
-                            </div>
-                            <div style='min-width: 200px;' class='px-3 text-end'>
-                                <span class='custom-font h24-B text-secondary'>
-                                    162.000
-                                    <span>VND</span>
-                                </span>
+
+                        <div style='border-top: 1px solid black;'></div>
+
+                        <div class='row mx-0 px-0 py-3'>
+                            {{! Danh xưng }}
+                            <div class='HanhKhach_Item_DanhXung col-4 px-3'>
+                                <label class='form-label custom-font p16-B mb-1 lh-lg'>Danh xưng</label>
+                                <div class='input-group dropdown'>
+                                    <input
+                                        type='text'
+                                        class='HanhKhach_Item_GioiTinh form-control dropdown-toggle form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        data-bs-toggle='dropdown'
+                                        aria-expanded='false'
+                                        readonly
+                                    />
+                                    <ul class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 h-auto'>
+                                        {{! Dropdown items }}
+                                        <li class='DanhXung_li dropdown-item custom-active'>
+                                            <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                                <span class='DanhXung_li_Value custom-font p14-S text-dark'>Ông</span>
+                                            </div>
+                                        </li>
+                                        <li class='DanhXung_li dropdown-item custom-active'>
+                                            <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                                <span class='DanhXung_li_Value custom-font p14-S text-dark'>Cô</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{! Hành lý item }}
-                    <div style='border-bottom: 1px solid black;' class='d-flex flex-row mx-3 py-3'>
-                        <div class='d-flex flex-column w-100'>
-
-                            {{! Điểm đến Điểm đi }}
-                            <div class='d-flex flex-row align-items-center mb-3'>
-                                <span class='custom-font h24-B text-dark'>
-                                    TP HCM (<span>TSN</span>)
-                                </span>
-                                <i
-                                    style='width: 24px; height:24px; font-size:24px;'
-                                    class='fa-solid fa-arrow-right mx-3'
-                                ></i>
-                                <span class='custom-font h24-B text-dark'>
-                                    TP HCM (<span>TSN</span>)
-                                </span>
+                        <div class='row mx-0 px-0 pb-4'>
+                            {{! Họ }}
+                            <div class='col-12 col-md-6 px-3'>
+                                <div class='d-flex flex-column'>
+                                    <label class='form-label custom-font p16-B lh-lg'>Họ</label>
+                                    <input
+                                        class='HanhKhach_Item_Ho form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        type='text'
+                                    />
+                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: Phan</small>
+                                </div>
                             </div>
-
-                            {{! Hành khách mua Container }}
-                            <div class='d-flex flex-column'>
-
-                                {{! Hành khách mua Item }}
-                                <div class='d-flex flex-row justify-content-between mb-2'>
-
-                                    {{! Khách mua }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-tertiary me-1'>
-                                            Ông
-                                        </span>
-                                        <span class='custom-font p20-B text-tertiary'>Phan Truong Huy</span>
-                                    </div>
-
-                                    {{! Số hành lý + Giá tiền }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-dark'>
-                                            15
-                                            <span class='me-1'>kg - </span>
-                                        </span>
-                                        <span class='custom-font p20-B text-dark'>
-                                            500.000
-                                            <span> VND</span>
-                                        </span>
-                                    </div>
-
+                            {{! Tên đệm và tên }}
+                            <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
+                                <div class='d-flex flex-column'>
+                                    <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên</label>
+                                    <input
+                                        class='HanhKhach_Item_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        type='text'
+                                    />
+                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: Trường Huy</small>
                                 </div>
-
-                                {{! Hành khách mua Item }}
-                                <div class='d-flex flex-row justify-content-between mb-2'>
-
-                                    {{! Khách mua }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-tertiary me-1'>
-                                            Ông
-                                        </span>
-                                        <span class='custom-font p20-B text-tertiary'>Phan Truong Huy</span>
-                                    </div>
-
-                                    {{! Số hành lý + Giá tiền }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-dark'>
-                                            15
-                                            <span class='me-1'>kg - </span>
-                                        </span>
-                                        <span class='custom-font p20-B text-dark'>
-                                            500.000
-                                            <span> VND</span>
-                                        </span>
-                                    </div>
-
-                                </div>
-
                             </div>
                         </div>
-                    </div>
 
-                    {{! Hành lý item }}
-                    <div style='border-bottom: 1px solid black;' class='d-flex flex-row mx-3 py-3'>
-                        <div class='d-flex flex-column w-100'>
-
-                            {{! Điểm đến Điểm đi }}
-                            <div class='d-flex flex-row align-items-center mb-3'>
-                                <span class='custom-font h24-B text-dark'>
-                                    TP HCM (<span>TSN</span>)
-                                </span>
-                                <i
-                                    style='width: 24px; height:24px; font-size:24px;'
-                                    class='fa-solid fa-arrow-right mx-3'
-                                ></i>
-                                <span class='custom-font h24-B text-dark'>
-                                    TP HCM (<span>TSN</span>)
-                                </span>
-                            </div>
-
-                            {{! Hành khách mua Container }}
-                            <div class='d-flex flex-column'>
-
-                                {{! Hành khách mua Item }}
-                                <div class='d-flex flex-row justify-content-between mb-2'>
-
-                                    {{! Khách mua }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-tertiary me-1'>
-                                            Ông
-                                        </span>
-                                        <span class='custom-font p20-B text-tertiary'>Phan Truong Huy</span>
+                        <div class='row mx-0 px-0 pb-4'>
+                            {{! Ngày sinh }}
+                            <div class='col-12 col-md-6 px-3'>
+                                <div class='d-flex flex-column'>
+                                    <label class='form-label custom-font p16-B lh-lg'>Ngày sinh</label>
+                                    <div class='HanhKhach_Item_NgaySinh d-flex flex-row justify-content-between'>
+                                        {{! Ngày }}
+                                        <div class='input-group dropdown'>
+                                            <input
+                                                class='HanhKhach_Item_NgaySinh_Ngay dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                                type='text'
+                                                data-bs-toggle='dropdown'
+                                                aria-expanded='false'
+                                                placeholder='Ngày sinh'
+                                                readonly
+                                            />
+                                            <ul
+                                                style='height: 200px;'
+                                                class='HanhKhach_Item_NgaySinh_Ngay_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 overflow-auto'
+                                            >
+                                                {{! Dropdown items }}
+                                                <li
+                                                    class='HanhKhach_Item_NgaySinh_Ngay_li dropdown-item custom-active py-2'
+                                                >
+                                                    <span
+                                                        style='pointer-events:none;'
+                                                        class='HanhKhach_Item_NgaySinh_Ngay_li_value custom-font p14-S text-dark'
+                                                    >1</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        {{! Tháng }}
+                                        <div class='flex-fill mx-2 input-group dropdown'>
+                                            <input
+                                                class='HanhKhach_Item_NgaySinh_Thang dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                                type='text'
+                                                data-bs-toggle='dropdown'
+                                                aria-expanded='false'
+                                                placeholder='Tháng sinh'
+                                                readonly
+                                            />
+                                            <ul
+                                                style='height: 200px;'
+                                                class='overflow-auto HanhKhach_Item_NgaySinh_Thang_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
+                                            >
+                                                {{! Dropdown items }}
+                                                <li
+                                                    class='HanhKhach_Item_NgaySinh_Thang_li dropdown-item custom-active py-2'
+                                                >
+                                                    <span
+                                                        style='pointer-events:none;'
+                                                        class='HanhKhach_Item_NgaySinh_Thang_li_value custom-font p14-S text-dark'
+                                                    >Tháng 1</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        {{! Năm }}
+                                        <div class='input-group dropdown'>
+                                            <input
+                                                class='HanhKhach_Item_NgaySinh_Nam dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                                type='text'
+                                                data-bs-toggle='dropdown'
+                                                aria-expanded='false'
+                                                placeholder='Năm sinh'
+                                                readonly
+                                            />
+                                            <ul
+                                                style='height: 200px;'
+                                                class='overflow-auto HanhKhach_Item_NgaySinh_Nam_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
+                                            >
+                                                {{! Dropdown items }}
+                                                <li
+                                                    class='HanhKhach_Item_NgaySinh_Nam_li dropdown-item custom-active py-2'
+                                                >
+                                                    <span
+                                                        style='pointer-events:none;'
+                                                        class='HanhKhach_Item_NgaySinh_Nam_li_value custom-font p14-S text-dark'
+                                                    >2022</span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-
-                                    {{! Số hành lý + Giá tiền }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-dark'>
-                                            15
-                                            <span class='me-1'>kg - </span>
-                                        </span>
-                                        <span class='custom-font p20-B text-dark'>
-                                            500.000
-                                            <span> VND</span>
-                                        </span>
-                                    </div>
-
-                                </div>
-
-                                {{! Hành khách mua Item }}
-                                <div class='d-flex flex-row justify-content-between mb-2'>
-
-                                    {{! Khách mua }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-tertiary me-1'>
-                                            Ông
-                                        </span>
-                                        <span class='custom-font p20-B text-tertiary'>Phan Truong Huy</span>
-                                    </div>
-
-                                    {{! Số hành lý + Giá tiền }}
-                                    <div class='d-flex flex-row'>
-                                        <span class='custom-font p20-B text-dark'>
-                                            15
-                                            <span class='me-1'>kg - </span>
-                                        </span>
-                                        <span class='custom-font p20-B text-dark'>
-                                            500.000
-                                            <span> VND</span>
-                                        </span>
-                                    </div>
-
+                                    <small
+                                        class='HanhKhach_Item_Helper_NguoiLon mt-2 custom-font p12-R text-tertiary d-none'
+                                    >Hành khách người lớn (trên 12 tuổi)</small>
+                                    <small
+                                        class='HanhKhach_Item_Helper_TreEm mt-2 custom-font p12-R text-tertiary d-none'
+                                    >Hành khách trẻ em (từ 2 - 11 tuổi)</small>
+                                    <small
+                                        class='HanhKhach_Item_Helper_EmBe mt-2 custom-font p12-R text-tertiary d-none'
+                                    >Hành khách trẻ sơ sinh (dưới 2 tuổi)</small>
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        {{! Tóm tắt }}
-        <div class='mb-5'>
-            <div class='mb-3'>
-                <span class='custom-font h24-B text-dark'>Tóm tắt</span>
-            </div>
-            <div class='bg-light shadow rounded-1 h-auto'>
-                {{! Hàng 1 }}
-                <div class='d-flex flex-row py-2 justify-content-between align-items-center'>
-                    <div>
-                        <span class='px-3 custom-font p20-B text-dark'>
-                            Giá bạn trả
-                        </span>
-                    </div>
-                    <div>
-                        <span class='px-3 custom-font h32-B text-secondary'>
-                            5.000.000
-                            <span>VND</span>
-                        </span>
-                    </div>
-                </div>
-
-                <div style='border-top: 1px solid black;'></div>
-
-                {{! Nội dung }}
-                <div>
-                    {{! Tiền vé cho từng chuyến bay - TienVe_Container }}
-                    <div class='d-flex flex-column pt-3'>
-
-                        {{! TienVe_Item }}
-                        <div class='d-flex flex-row justify-content-between mb-3'>
-                            <div class='d-flex flex-row'>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    [<span>TSN</span>] (<span>Người lớn</span>) x<span>2</span>
-                                </span>
-                            </div>
-
-                            <div>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    5.000.000
-                                    <span>VND</span>
-                                </span>
-                            </div>
-
-                        </div>
-
-                        {{! TienVe_Item }}
-                        <div class='d-flex flex-row justify-content-between mb-3'>
-                            <div class='d-flex flex-row'>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    [<span>TSN</span>] (<span>Người lớn</span>) x<span>2</span>
-                                </span>
-                            </div>
-
-                            <div>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    5.000.000
-                                    <span>VND</span>
-                                </span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {{! Tiền hành lý cho từng chuyến bay - HanhLy_Container }}
-                    <div class='d-flex flex-column'>
-
-                        {{! HanhLy_Item }}
-                        <div class='d-flex flex-row justify-content-between mb-3'>
-                            <div class='d-flex flex-row'>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    Hành lý đến [<span>TSN</span>]
-                                </span>
-                            </div>
-
-                            <div>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    500.000
-                                    <span>VND</span>
-                                </span>
-                            </div>
-                        </div>
-
-                        {{! HanhLy_Item }}
-                        <div class='d-flex flex-row justify-content-between mb-3'>
-                            <div class='d-flex flex-row'>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    Hành lý đến [<span>TSN</span>]
-                                </span>
-                            </div>
-
-                            <div>
-                                <span class='px-3 custom-font p20-B text-dark'>
-                                    500.000
-                                    <span>VND</span>
-                                </span>
+                            {{! CMND/CCCD }}
+                            <div class='col-12 col-md-6 px-3 mt-3 mt-md-0 d-none'>
+                                <div class='d-flex flex-column'>
+                                    <label class='form-label custom-font p16-B lh-lg'>CMND/CCCD</label>
+                                    <input
+                                        class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        type='text'
+                                    />
+                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: 312470710</small>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
-
+                {{/each}}
             </div>
         </div>
 
         {{! Tiếp tục }}
         <div class='mb-5 d-flex flex-row justify-content-end'>
             <button
-                id='TiepTuc'
+                id='TiepTucTren'
                 type='button'
                 class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                href=''
             >
                 Tiếp tục
             </button>
         </div>
+
+        <div id='PhanDuoi' class='d-none'>
+
+            {{! Tiện nghi chuyến bay }}
+            <div class='mb-5'>
+                <div class='mb-3'>
+                    <span class='custom-font h24-B text-dark'>Tiện nghi chuyến bay</span>
+                </div>
+                <div class='bg-light shadow rounded-1 h-auto'>
+                    {{! Hàng 1 }}
+                    <div class='d-flex flex-row py-2 justify-content-between align-items-center'>
+                        <div>
+                            <span class='px-3 custom-font p20-B text-dark'>
+                                Hành lý
+                            </span>
+                        </div>
+                        <div>
+                            <a
+                                id='Modal_click'
+                                type='button'
+                                data-bs-toggle='modal'
+                                data-bs-target='#DatHanhLy_Modal'
+                                class='btn btn-primary bg-light border-0 px-3 text-primary custom-font p20-B custom-boxshadow-focus-none'
+                            >
+                                Chọn hành lý
+                            </a>
+                        </div>
+                    </div>
+
+                    {{! Modal }}
+                    <div id='DatHanhLy_Modal' class='modal fade' tabindex='-1' aria-hidden='true'>
+                        <div class='modal-dialog modal-dialog-centered modal-xl'>
+                            <div class='modal-content h-auto'>
+                                <div class='d-flex flex-column bg-tertiary-light h-auto'>
+
+                                    {{! Body }}
+                                    <div style='height: 550px;' class='row p-0 m-0'>
+
+                                        {{! Bên trái }}
+                                        <div class='col-5 px-0 bg-light shadow'>
+
+                                            <div class='px-3 pt-3'>
+                                                {{! Header }}
+                                                <div class='px-2 d-flex flex-column pt-3'>
+
+                                                    <div class='d-flex flex-row align-items-center mb-3'>
+                                                        <i
+                                                            style='width: 48px; height:48px; font-size:48px;'
+                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
+                                                        ></i>
+                                                        <span class='custom-font h48-B text-dark'>
+                                                            Hành Lý
+                                                        </span>
+                                                    </div>
+
+                                                    <div class='mb-2'>
+                                                        <span class='custom-font h24-B text-dark'>
+                                                            Chọn chuyến bay
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <span class='custom-font p16-R text-tertiary'>
+                                                            Thêm hành lý kí gửi vào chuyến bay của bạn
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div style='border-top: 1px solid black ;' class='px-2 my-3'></div>
+                                            </div>
+
+                                            {{! ChuyenBay Container }}
+                                            <ul
+                                                id='ChuyenBay_ul'
+                                                class='d-flex flex-column list-unstyled overflow-auto'
+                                            >
+
+                                                {{#each this.PackageBooking.MangChuyenBayTimKiem}}
+                                                    {{! ChuyenBay Item }}
+                                                    <li
+                                                        title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
+                                                        class='ChuyenBay_li px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'
+                                                    >
+
+                                                        <div style='pointer-events: none;' class='me-3'>
+                                                            <span
+                                                                class='ChuyenBay_li_ThuTu custom-font p20-B text-dark'
+                                                            >
+                                                                {{this.ThuTu}}.
+                                                            </span>
+                                                        </div>
+
+                                                        <div
+                                                            style='pointer-events: none;'
+                                                            class='flex-fill d-flex flex-column'
+                                                        >
+
+                                                            <div class='d-flex flex-row justify-content-between mb-2'>
+                                                                <div class='d-flex flex-row'>
+                                                                    <span
+                                                                        class='ChuyenBay_li_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'
+                                                                    >
+                                                                        {{this.SanBayDi.TinhThanh}}
+                                                                    </span>
+                                                                    <span class='custom-font p20-B text-dark'>
+                                                                        (<span
+                                                                            class='ChuyenBay_li_SanBayDi_MaSanBay'
+                                                                        >{{this.SanBayDi.MaSanBay}}</span>)
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class='mx-3'>
+                                                                    <i
+                                                                        style='width: 20px; height:20px;font-size:20px;'
+                                                                        class='fa-solid fa-arrow-right text-dark'
+                                                                    ></i>
+                                                                </div>
+
+                                                                <div class='d-flex flex-row'>
+                                                                    <span
+                                                                        class='ChuyenBay_li_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'
+                                                                    >
+                                                                        {{this.SanBayDen.TinhThanh}}
+                                                                    </span>
+                                                                    <span class='custom-font p20-B text-dark'>
+                                                                        (<span
+                                                                            class='ChuyenBay_li_SanBayDen_MaSanBay'
+                                                                        >{{this.SanBayDen.MaSanBay}}</span>)
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class='d-flex flex-row justify-content-between'>
+
+                                                                <div class='d-flex flex-row'>
+                                                                    <span
+                                                                        class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'
+                                                                    >
+                                                                        0 kg
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class='d-flex flex-row'>
+                                                                    <span
+                                                                        class='ChuyenBay_li_TienHanhLy custom-font p16-B text-tertiary me-1'
+                                                                    >
+                                                                        0
+                                                                    </span>
+                                                                    <span class='custom-font p16-B text-tertiary'>
+                                                                        VND
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </li>
+                                                {{/each}}
+                                            </ul>
+
+                                        </div>
+
+                                        {{! Bên phải }}
+                                        <div class='col-7 px-0 h-100'>
+
+                                            <div class='d-flex flex-column my-3 h-100'>
+
+                                                {{! Nút close }}
+                                                <div class='mx-3 d-flex flex-row justify-content-end'>
+                                                    <button
+                                                        type='button'
+                                                        class='btn-close'
+                                                        data-bs-dismiss='modal'
+                                                        aria-label='Close'
+                                                    ></button>
+                                                </div>
+
+                                                {{! Sân bay }}
+                                                <div class='mx-3 d-flex flex-row justify-content-start mb-3'>
+                                                    <div
+                                                        id='ChuyenBay_ChonHanhLy'
+                                                        title='MaChuyenBay'
+                                                        class='d-flex flex-row justify-content-between d-none'
+                                                    >
+                                                        <div class='d-flex flex-row'>
+                                                            <span
+                                                                class='ChuyenBay_ChonHanhLy_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'
+                                                            >
+                                                                TP HCM
+                                                            </span>
+                                                            <span class='custom-font p20-B text-dark'>
+                                                                (<span
+                                                                    class='ChuyenBay_ChonHanhLy_SanBayDi_MaSanBay'
+                                                                >SGN</span>)
+                                                            </span>
+                                                        </div>
+
+                                                        <div class='mx-3'>
+                                                            <i
+                                                                style='width: 20px; height:20px;font-size:20px;'
+                                                                class='fa-solid fa-arrow-right text-dark'
+                                                            ></i>
+                                                        </div>
+
+                                                        <div class='d-flex flex-row'>
+                                                            <span
+                                                                class='ChuyenBay_ChonHanhLy_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'
+                                                            >
+                                                                TOKYO
+                                                            </span>
+                                                            <span class='custom-font p20-B text-dark'>
+                                                                (<span
+                                                                    class='ChuyenBay_ChonHanhLy_SanBayDen_MaSanBay'
+                                                                >TKO</span>)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{! Hành khách Container }}
+                                                <div id='HanhLy_HanhKhach_Container' class='overflow-auto mb-3'>
+
+                                                    {{! Hành khách Item }}
+                                                    <div
+                                                        class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2 d-none'
+                                                    >
+
+                                                        {{! Header }}
+                                                        <div class='px-3 py-3 d-flex flex-row justify-content-between'>
+
+                                                            <div class='d-flex flex-column'>
+
+                                                                <div
+                                                                    title='indexKhach'
+                                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'
+                                                                >Hành khách 1/2</div>
+
+                                                                <div
+                                                                    class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'
+                                                                >Ông Phan Trường Huy</div>
+
+                                                            </div>
+
+                                                            <div class='d-flex flex-column'>
+
+                                                                <div class='mb-1 custom-font p20-B text-tertiary'>Tổng
+                                                                    số hành lý</div>
+
+                                                                <div
+                                                                    class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'
+                                                                >0 kg</div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div style='border-top: 1px solid black;'></div>
+
+                                                        {{! Hành lý container }}
+                                                        <ul class='HanhLy_HanhKhach_ul list-unstyled px-3 py-3'>
+
+                                                            {{! Hành lý item xách tay}}
+                                                            <li
+                                                                style='pointer-events: none;'
+                                                                class='HanhLy_HanhKhach_li_xachtay mb-3'
+                                                            >
+                                                                <div class='input-group'>
+                                                                    <div class='input-group-text bg-light'>
+                                                                        <input
+                                                                            style=' background-color: grey !important; border-color: grey !important;'
+                                                                            class='HanhLy_HanhKhach_li_radio_xachtay form-check-input mt-0 custom-boxshadow-focus-primary'
+                                                                            type='radio'
+                                                                            value='1'
+                                                                            checked
+                                                                            disabled='true'
+                                                                        />
+                                                                    </div>
+                                                                    <div
+                                                                        class='d-flex flex-row form-control justify-content-between'
+                                                                    >
+                                                                        {{! Số kg }}
+                                                                        <div class='d-flex flex-row'>
+                                                                            <i
+                                                                                style='width: 16px; height: 16px; font-size: 16px;'
+                                                                                class='fa-solid fa-suitcase-rolling text-tertiary me-2'
+                                                                            ></i>
+                                                                            <span
+                                                                                class='HanhLy_HanhKhach_li_SoKgToiDa_xachtay custom-font p16-S text-tertiary'
+                                                                            >
+                                                                                +7 kg xách tay
+                                                                            </span>
+                                                                        </div>
+
+                                                                        {{! Số tiền }}
+                                                                        <div class='d-flex flex-row'>
+                                                                            <span
+                                                                                class='HanhLy_HanhKhach_li_GiaTien_xachtay custom-font p16-S text-tertiary me-1'
+                                                                            >
+                                                                                0
+                                                                            </span>
+                                                                            <span
+                                                                                class='custom-font p16-S text-tertiary'
+                                                                            >
+                                                                                VND
+                                                                            </span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            {{#each this.PackageBooking.HanhLy}}
+                                                                {{! Hành lý item }}
+                                                                <li class='HanhLy_HanhKhach_li mb-3'>
+                                                                    <div class='input-group'>
+                                                                        <div class='input-group-text bg-light'>
+                                                                            <input
+                                                                                class='HanhLy_HanhKhach_li_radio form-check-input mt-0 custom-color-checked custom-boxshadow-focus-primary'
+                                                                                type='radio'
+                                                                                value='{{this.MaMocHanhLy}}'
+                                                                                name='HanhLy_HanhKhach_li_radio'
+                                                                            />
+                                                                        </div>
+                                                                        <div
+                                                                            class='d-flex flex-row form-control justify-content-between'
+                                                                        >
+                                                                            {{! Số kg }}
+                                                                            <div class='d-flex flex-row'>
+                                                                                <i
+                                                                                    style='width: 16px; height: 16px; font-size: 16px;'
+                                                                                    class='fa-solid fa-suitcase-rolling text-primary me-2'
+                                                                                ></i>
+                                                                                <span
+                                                                                    class='HanhLy_HanhKhach_li_SoKgToiDa custom-font p16-S text-dark'
+                                                                                >
+                                                                                    +{{this.SoKgToiDa}}
+                                                                                    kg
+                                                                                </span>
+                                                                            </div>
+
+                                                                            {{! Số tiền }}
+                                                                            <div class='d-flex flex-row'>
+                                                                                <span
+                                                                                    class='HanhLy_HanhKhach_li_GiaTien custom-font p16-S text-secondary me-1'
+                                                                                >
+                                                                                    {{this.GiaTien}}
+                                                                                </span>
+                                                                                <span
+                                                                                    class='custom-font p16-S text-secondary'
+                                                                                >
+                                                                                    VND
+                                                                                </span>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            {{/each}}
+
+                                                        </ul>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    {{! Footer }}
+                                    <div
+                                        class='pt-3 px-3 d-flex flex-row justify-content-between align-items-center bg-light pb-3 shadow'
+                                    >
+
+                                        {{! Tổng phụ }}
+                                        <div class='d-flex flex-column'>
+
+                                            <div class='d-flex flex-row mb-1'>
+                                                <span class='custom-font p20-B text-dark me-5'>
+                                                    Tổng phụ
+                                                </span>
+                                                <span
+                                                    id='Modal_TongPhu'
+                                                    class='ms-5 custom-font p20-B text-secondary me-1'
+                                                >
+                                                    0
+                                                </span>
+                                                <span class='custom-font p20-B text-secondary'>VND</span>
+                                            </div>
+
+                                            <div>
+                                                <span class='custom-font p16-S text-tertiary'>
+                                                    (Đối với tất cả các chuyến bay và hành khách)
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        {{! Nút Hoàn Tất }}
+                                        <div>
+                                            <button
+                                                type='button'
+                                                data-bs-dismiss='modal'
+                                                class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                                href=''
+                                            >
+                                                Hoàn tất
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style='border-top: 1px solid black;'></div>
+
+                    {{! Hành lý container  }}
+                    <div id='TienNghi_Container' class='d-flex flex-column'>
+
+                        {{! Chưa chọn hành lý }}
+                        <div class='d-flex flex-row py-3 justify-content-between align-items-center'>
+                            <div class='px-3 text-wrap'>
+                                <span class='custom-font p20-B text-tertiary'>
+                                    Sao bạn phải cố nhồi nhét? Thêm hành lý để chuyến đi thêm nhẹ nhàng.
+                                </span>
+                            </div>
+                            <div class='d-flex flex-column align-items-end'>
+                                <div class='mb-1'>
+                                    <span class='px-3 custom-font p20-B text-tertiary'>
+                                        Bắt đầu từ
+                                    </span>
+                                </div>
+                                <div style='min-width: 200px;' class='px-3 text-end'>
+                                    <span id='GiaHanhLy_ThapNhat' class='custom-font h24-B text-secondary me-1'>
+                                        162.000
+                                    </span>
+                                    <span class='custom-font h24-B text-secondary'>VND</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{! Hành lý item }}
+                        {{#each this.PackageBooking.MangChuyenBayTimKiem}}
+                            <div
+                                style='border-bottom: 1px solid black;'
+                                class='TienNghi_Item d-flex flex-row mx-3 py-3 mb-3 d-none'
+                                title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
+                            >
+                                <div class='d-flex flex-column w-100'>
+
+                                    {{! Điểm đến Điểm đi }}
+                                    <div class='d-flex flex-row align-items-center mb-3'>
+                                        <span class='custom-font p20-B text-dark'>
+                                            {{this.SanBayDi.TinhThanh}}
+                                            (<span>{{this.SanBayDi.MaSanBay}}</span>)
+                                        </span>
+                                        <i
+                                            style='width: 20px; height:20px; font-size:20px;'
+                                            class='fa-solid fa-arrow-right mx-3'
+                                        ></i>
+                                        <span class='custom-font p20-B text-dark'>
+                                            {{this.SanBayDen.TinhThanh}}
+                                            (<span>{{this.SanBayDen.MaSanBay}}</span>)
+                                        </span>
+                                    </div>
+
+                                    {{! Hành lý mua }}
+                                    <div class='d-flex flex-row justify-content-between'>
+
+                                        <div class='d-flex flex-row'>
+                                            <span class='TienNghi_Item_MocHanhLy custom-font p20-B text-tertiary me-1'>
+                                                0 kg
+                                            </span>
+                                        </div>
+
+                                        <div class='d-flex flex-row'>
+                                            <span class='TienNghi_Item_TienHanhLy custom-font p20-B text-tertiary me-1'>
+                                                0
+                                            </span>
+                                            <span class='custom-font p20-B text-tertiary'>
+                                                VND
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            {{! Tóm tắt }}
+            <div class='mb-5'>
+                <div class='mb-3'>
+                    <span class='custom-font h24-B text-dark'>Tóm tắt</span>
+                </div>
+                <div class='bg-light shadow rounded-1 h-auto'>
+                    {{! Hàng 1 }}
+                    <div class='d-flex flex-row py-2 justify-content-between align-items-center'>
+                        <div>
+                            <span class='px-3 custom-font p20-B text-dark'>
+                                Giá bạn trả
+                            </span>
+                        </div>
+                        <div>
+                            <span id='TomTat_TongTien' class='ps-3 custom-font h32-B text-secondary me-1'>
+                                5.000.000
+                            </span>
+                            <span class='pe-3 custom-font h32-B text-secondary'>VND</span>
+                        </div>
+                    </div>
+
+                    <div style='border-top: 1px solid black;'></div>
+
+                    {{! Nội dung }}
+                    <div>
+                        {{! Tiền vé cho từng chuyến bay - TienVe_Container }}
+                        <div id='TienVe_Container' class='d-flex flex-column pt-3'>
+
+                            {{#each this.PackageBooking.HanhKhach}}
+                                {{! TienVe_Item }}
+                                <div class='TienVe_Item d-flex flex-row justify-content-between align-items-start mb-3'>
+                                    <div class='d-flex flex-row'>
+                                        <span class='px-3 custom-font p20-B text-dark'>
+                                            (<span>{{this.title}}</span>) x<span>{{this.value}}</span>
+                                        </span>
+                                    </div>
+
+                                    <div class='d-flex flex-row align-items-start'>
+                                        <div class='me-1'>
+                                            <span
+                                                class='TomTat_HanhKhach_TienVe custom-font p20-B text-dark'
+                                            >{{this.TongTienVe}}
+                                            </span>
+                                        </div>
+                                        <div class='me-3'>
+                                            <span class='custom-font p20-B text-dark'>VND</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            {{/each}}
+
+                        </div>
+
+                        {{! Tiền hành lý cho từng chuyến bay - HanhLy_Container }}
+                        <div class='d-flex flex-column'>
+
+                            {{#each PackageBooking.MangChuyenBayTimKiem}}
+                                {{! HanhLy_Item }}
+                                <div
+                                    title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
+                                    class='TomTat_HanhLy_Item d-flex flex-row justify-content-between align-items-center mb-3 d-none'
+                                >
+                                    <div class='d-flex flex-row'>
+                                        <span class='px-3 custom-font p20-B text-dark'>
+                                            Hành lý đến sân bay
+                                            <span>{{this.SanBayDen.TenSanBay}}</span>
+                                        </span>
+                                    </div>
+
+                                    <div class='d-flex flex-row'>
+                                        <div class='me-1'>
+                                            <span class='TomTat_HanhLy_Item_GiaTien ps-3 custom-font p20-B text-dark'>
+                                                0
+                                            </span>
+                                        </div>
+                                        <div class='me-3'>
+                                            <span class='custom-font p20-B text-dark'>VND</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/each}}
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            {{! Tiếp tục }}
+            <div class='mb-5 d-flex flex-row justify-content-end'>
+                <button
+                    id='TiepTucDuoi'
+                    type='button'
+                    class='btn btn-primary bg-primary border-primary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                >
+                    Tiếp tục
+                </button>
+            </div>
+
+            {{! Modal: Xác nhận email }}
+            <div
+                class='modal fade'
+                id='staticBackdrop'
+                data-bs-backdrop='static'
+                data-bs-keyboard='false'
+                tabindex='-1'
+                aria-hidden='true'
+            >
+                <div class='modal-dialog modal-dialog-centered'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <span class='modal-title custom-font h24-B text-dark'>Xác nhận Email</span>
+                        </div>
+                        <div class='modal-body'>
+
+                            <div class='d-flex flex-column'>
+
+                                <div class='mx-5 mb-3'>
+                                    <img
+                                        src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
+                                        alt=''
+                                        class='img-fluid'
+                                    />
+                                </div>
+
+                                <div class='custom-font p20-S text-dark mb-3'>
+                                    Xác nhận Email
+                                </div>
+                                <div class='custom-font p16-R text-tertiary mb-3'>
+                                    Vui lòng nhập chuỗi kí tự đã gửi đến
+                                    <span id='XacNhan_Email'>phantruonghuy0701@gmail.com</span>
+                                </div>
+
+                                <div class='mb-3'>
+                                    <input
+                                        type='text'
+                                        id='MaXacNhan_input'
+                                        style='border: 2px solid;'
+                                        class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center'
+                                    />
+                                    <div
+                                        id='NhacNhapCode'
+                                        class='custom-font p14-R text-danger d-none text-center mt-2'
+                                    >
+                                        Bạn chưa nhập mã code!
+                                    </div>
+                                </div>
+
+                                <div class='text-center'>
+                                    <a
+                                        class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'
+                                    >Gửi lại mã xác nhận</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class='modal-footer justify-content-center'>
+                            <button
+                                id='DoiEmail_XacNhan'
+                                style='margin-right: 48px;'
+                                type='button'
+                                class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                data-bs-dismiss='modal'
+                            >Đổi Email</button>
+                            <button
+                                id='XacNhan'
+                                type='button'
+                                class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                            >Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>
+
+<form name='book-flight-form' method='POST' style='display: none;'>
+    <input id='packagebooking' name='PackageBooking' />
+</form>
+
+<div id='PackageBookingJS' PackageBookingJS='{{this.PackageBookingJS}}' class='d-none'></div>
+
+{{! Our js }}
+<script type='module' src='/javascript/client/DienThongTin.js'>
+</script>

@@ -7,7 +7,7 @@ const { QueryTypes, where } = require('sequelize');
 // let Chuyenbay = {
 //     MaChuyenBayDi: '',
 //     MaChuyenBayDen: '',
-//     NgayGio: '',
+//     ThoiGianDi: { GioDi: { Gio: -1, Phut: -1 }, NgayDi: { Ngay: -1, Thang: -1, Nam: -1 } },
 //     ThoiGianBay: -1,
 //     GiaVeCoBan: -1,
 //     HangGhe: [
@@ -20,7 +20,7 @@ const { QueryTypes, where } = require('sequelize');
 //         {
 //             MaSanBay: '',
 //             ThuTu: -1,
-//             NgayGioDen: '',
+//             ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, GioDen: { Ngay: -1, Thang: -1, Nam: -1 } },
 //             ThoiGianDung: -1,
 //             GhiChu: '',
 //         },
@@ -155,6 +155,10 @@ let getfromExcel = async (req, res) => {
                 MaSanBayDi: dataTemp[0],
                 MaSanBayDen: dataTemp[1],
                 NgayGio: NgayBay,
+                ThoiGianDi: {
+                    GioDi: { Gio: Gio[0], Phut: Gio[1] },
+                    NgayDi: { Ngay: Ngay[0], Thang: Ngay[1], Nam: Ngay[2] },
+                },
                 ThoiGianBay: dataTemp[5],
                 GiaVeCoBan: dataTemp[4],
                 HangGhe: hangghe,
@@ -200,7 +204,7 @@ let addByExcel = async (req, res) => {
                 chuyenbays[i].GioKhoiHanh.Gio - offset,
                 chuyenbays[i].GioKhoiHanh.Phut,
             );
-
+            chuyenbays[i].d = 1;
             for (var j in chuyenbays[i].SBTG) {
                 data_send.SBTG[i].NgayGioDen = new Date(
                     chuyenbays[i].SBTG[j].NgayDen.Nam,
@@ -623,10 +627,15 @@ let getSBTG = (stringSBTG) => {
             var ngay = trunggian[2].split('/');
             var gio = trunggian[3].split(':');
             var date = new Date(ngay[2], ngay[1] - 1, ngay[0], gio[0] - offset, gio[1]);
+            //ThoiGianDen: { GioDen: { Gio: -1, Phut: -1 }, GioDen: { Ngay: -1, Thang: -1, Nam: -1 } },
             let sanbay = {
                 MaSanBay: trunggian[0],
                 ThuTu: Number(i) + 1,
                 NgayGioDen: date,
+                ThoiGianDen: {
+                    GioDen: { Gio: gio[0], Phut: gio[1] },
+                    NgayDen: { Ngay: ngay[0], Thang: ngay[1], Nam: ngay[2] },
+                },
                 ThoiGianDung: trunggian[1],
                 GhiChu: trunggian[4],
             };

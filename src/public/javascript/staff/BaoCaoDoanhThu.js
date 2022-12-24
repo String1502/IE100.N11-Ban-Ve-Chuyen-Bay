@@ -54,6 +54,25 @@ function getCount(parent, getChildrensChildren) {
     return relevantChildren;
 }
 
+function GetFlightDataFromElement(row) {
+    let flightData = {};
+
+    flightData.MaChuyenBay = row.querySelector('.Item_ChiTiet').getAttribute('MaChuyenBay');
+    flightData.MaChuyenBayHienThi = row.querySelector('.Item_MaChuyenBayHienThi').innerText;
+    flightData.KhoiHanh = row.querySelector('.Item_KhoiHanh').innerText;
+    flightData.VeDaBan = row.querySelector('.Item_VeDaBan').innerText;
+    flightData.DoanhThu = row.querySelector('.Item_DoanhThu').innerText;
+    flightData.TiLe = row.querySelector('.Item_TiLe').innerText;
+
+    return flightData;
+}
+
+function FillDataIntoDetailModal(flightData) {
+    MaHienThi_Title_Modal.innerText = flightData.MaChuyenBayHienThi;
+    TongVe_Modal.innerText = flightData.VeDaBan;
+    DoanhThu_Ve_Modal.innerText = flightData.DoanhThu;
+}
+
 //#endregion
 
 //#region Functions
@@ -218,6 +237,19 @@ function InsertNewRow(thang, data) {
     GanGiaTriChoRow(item_body_Item, data);
 
     const detailButton = item_body_Item.querySelector('.Item_ChiTiet');
+
+    detailButton.addEventListener('click', (e) => {
+        // Get data
+        // Get the flight row
+        const row = e.target.closest('.item_body_Item');
+
+        // Get data from it
+        const flightData = GetFlightDataFromElement(row);
+        console.log(flightData);
+
+        // Fill data in detail modal
+        FillDataIntoDetailModal(flightData);
+    });
 
     container.appendChild(item_body_Item);
 }

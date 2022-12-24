@@ -8,11 +8,8 @@
                     {{! <span class='custom-font p16-R text-light'></span> }}
                 </div>
                 <div class='w-auto'>
-                    <a
-                        id='HuyChuyenBay'
-                        type='button'
-                        class='d-none btn btn-primary bg-secondary border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                    >
+                    <a id='HuyChuyenBay' type='button'
+                        class='d-none btn btn-primary bg-secondary border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'>
                         Thoát
                     </a>
                 </div>
@@ -32,20 +29,12 @@
 
                             <label class='form-label custom-font p14-S'>Năm</label>
                             <div class='input-group dropdown'>
-                                <input
-                                    id='Nam'
-                                    style='height: 36px;'
-                                    type='text'
+                                <input id='Nam' style='height: 36px;' type='text'
                                     class='form-control dropdown-toggle custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary form-select'
-                                    data-bs-toggle='dropdown'
-                                    placeholder='Năm'
-                                    nam=''
-                                />
+                                    data-bs-toggle='dropdown' placeholder='Năm' nam='' />
                                 {{! Drop down }}
-                                <ul
-                                    id='Nam_Container'
-                                    class='h-auto list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
-                                >
+                                <ul id='Nam_Container'
+                                    class='h-auto list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'>
                                     <li class='Nam_Item dropdown-item custom-active py-2 d-none'>
                                         <div style='pointer-events:none;' class='custom-font p16-B' nam='0'>
                                             2022
@@ -54,15 +43,11 @@
                                     {{! Dropdown items }}
                                     {{#each years}}
 
-                                        <li class='Nam_Item dropdown-item custom-active py-2'>
-                                            <div
-                                                style='pointer-events:none;'
-                                                class='custom-font p16-B'
-                                                nam='{{this.nam}}'
-                                            >
-                                                {{this.nam}}
-                                            </div>
-                                        </li>
+                                    <li class='Nam_Item dropdown-item custom-active py-2'>
+                                        <div style='pointer-events:none;' class='custom-font p16-B' nam='{{this.nam}}'>
+                                            {{this.nam}}
+                                        </div>
+                                    </li>
 
                                     {{/each}}
 
@@ -96,10 +81,8 @@
                                 </div>
 
                                 <div class=''>
-                                    <button
-                                        type='button'
-                                        class='btn btn-primary bg-primary border-0 px-3 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                    >
+                                    <button type='button'
+                                        class='btn btn-primary bg-primary border-0 px-3 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
                                         Xuất báo cáo
                                     </button>
                                 </div>
@@ -117,17 +100,12 @@
                                 <div class='accordion-item rounded-0 d-none' thang='0'>
 
                                     <div class='accordion-header'>
-                                        <div
-                                            style='box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'
+                                        <div style='box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'
                                             class='collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
-                                            type='button'
-                                            aria-expanded='false'
-                                            data-bs-toggle='collapse'
-                                        >
+                                            type='button' aria-expanded='false' data-bs-toggle='collapse'>
 
                                             <div
-                                                class='d-flex flex-row justify-content-between align-items-center flex-fill'
-                                            >
+                                                class='d-flex flex-row justify-content-between align-items-center flex-fill'>
 
                                                 {{! nội dung header }}
                                                 <div class='custom-font p14-B text-dark'>
@@ -147,11 +125,8 @@
 
                                                 {{! Nút xuất báo cáo }}
                                                 <div class=''>
-                                                    <button
-                                                        type='button'
-                                                        thang=''
-                                                        class='item_header_btn me-2 btn btn-primary bg-primary border-0 px-3 text-light custom-font p12-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                                    >
+                                                    <button type='button' thang=''
+                                                        class='item_header_btn me-2 btn btn-primary bg-primary border-0 px-3 text-light custom-font p12-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
                                                         Xuất báo cáo
                                                     </button>
                                                 </div>
@@ -178,21 +153,17 @@
                                                     </thead>
                                                     <tbody class='item_body_Container' thang='0'>
                                                         <tr
-                                                            class='item_body_Item custom-font p16-R align-middle text-center d-none'
-                                                        >
+                                                            class='item_body_Item custom-font p16-R align-middle text-center d-none'>
                                                             <th class='Item_MaChuyenBayHienThi'>SG-HA-1</th>
                                                             <td class='Item_KhoiHanh'>11:11 11/11/2022</td>
                                                             <td class='Item_VeDaBan'>10</td>
                                                             <td class='Item_DoanhThu'>20.000.000 VND</td>
                                                             <td class='Item_TiLe'>20%</td>
                                                             <td style='width: 12.5%;'>
-                                                                <a
-                                                                    type='button'
-                                                                    MaChuyenBay=''
-                                                                    data-bs-toggle='modal'
-                                                                    data-bs-target='#Modal_ChiTietChuyenBay'
-                                                                    class='Item_ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'
-                                                                >Chi tiết</a>
+                                                                <a type='button' MaChuyenBay='' data-bs-toggle='modal'
+                                                                    data-bs-target='#ChiTietChuyenBay_Modal'
+                                                                    class='Item_ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'>Chi
+                                                                    tiết</a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -218,227 +189,404 @@
 
     </div>
 
-    {{! Modal Chi tiết }}
-    <div class='modal fade' id='Modal_ChiTietChuyenBay'>
+    {{! Modal }}
+    <div id='ChiTietChuyenBay_Modal' class='modal fade' tabindex='-1' aria-hidden='true'>
         <div class='modal-dialog modal-dialog-centered modal-xl'>
-            <div class='modal-content h-auto w-auto bg-tertiary-light rounded-0'>
+            <div class='modal-content h-auto'>
+                <div class='d-flex flex-column bg-tertiary-light h-auto'>
 
-                <div class='row m-0'>
+                    {{! Body }}
+                    <div style='height: 550px;' class='row p-0 m-0'>
 
-                    {{! Thông tin chuyến bay }}
-                    <div class='col-4 ps-0 pe-3'>
-                        <div class='d-flex flex-column bg-light shadow h-100'>
+                        {{! Bên trái }}
+                        <div class='col-5 px-0 bg-light shadow'>
 
-                            {{! Tiêu đề }}
-                            <div class='p-3 mt-3 custom-font h24-B text-primary'>
-                                THÔNG TIN CHUYẾN BAY
+                            <div class='px-3 pt-3'>
+                                {{! Header }}
+                                <div class='px-2 d-flex flex-column pt-3'>
+
+                                    <div class='d-flex flex-row align-items-center mb-3'>
+                                        <i style='width: 48px; height:48px; font-size:48px;'
+                                            class='fa-solid fa-plane text-primary me-2'></i>
+                                        <div
+                                            class="d-flex flex-column align-items-start custom-font p16-R text-tertiary ms-3">
+                                            Chuyến bay
+                                            <span id="MaHienThi_Title_Modal" class='h48-B text-dark'>
+                                                MaHienThi
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class='mb-2'>
+                                        <span class='custom-font h24-B text-dark'>
+                                            Chọn nguồn thu
+                                        </span>
+                                    </div>
+
+                                    {{!-- <div>
+                                        <span class='custom-font p16-R text-tertiary'>
+                                            Thêm hành lý kí gửi vào chuyến bay của bạn
+                                        </span>
+                                    </div> --}}
+                                </div>
+
+                                <div style='border-top: 1px solid black ;' class='px-2 my-3'></div>
                             </div>
 
-                            {{! Dòng 1 }}
-                            <div class='row px-3 justify-content-center'>
+                            {{! ChuyenBay Container }}
+                            <ul id='NguonThu_ul' class='d-flex flex-column list-unstyled overflow-auto'>
 
-                                {{! Sân bay đi }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='SanBayDi' class='form-label custom-font p14-S'>Sân bay đi</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='SanBayDi'
-                                            disabled
-                                        />
+                                {{! NguonThuVe Item }}
+                                <li title='Doanh thu vé'
+                                    class='ChuyenBay_li px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'>
+
+                                    <div style='pointer-events: none;' class='me-3'>
+                                        <span class='ChuyenBay_li_ThuTu custom-font p20-B text-dark'>
+                                            1.
+                                        </span>
                                     </div>
-                                </div>
 
-                                {{! Sân bay đến }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='SanBayDen' class='form-label custom-font p14-S'>Sân bay đến</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='SanBayDen'
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
+                                    <div style='pointer-events: none;' class='flex-fill d-flex flex-column'>
 
-                            </div>
-                            {{! Dòng 2 }}
-                            <div class='row px-3 justify-content-center'>
-                                {{! Khởi hành }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='KhoiHanh' class='form-label custom-font p14-S'>Khởi hành</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='KhoiHanh'
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
+                                        <div class='d-flex flex-row justify-content-between mb-2'>
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'>
+                                                    Doanh thu vé
+                                                </span>
+                                                {{!-- <span class='custom-font p20-B text-dark'>
+                                                    (<span
+                                                        class='ChuyenBay_li_SanBayDi_MaSanBay'>{{this.SanBayDi.MaSanBay}}</span>)
+                                                </span> --}}
+                                            </div>
 
-                                {{! Thời gian bay }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='ThoiGianBay' class='form-label custom-font p14-S'>Thời gian bay</label>
-                                        <div class='input-group'>
-                                            <input
-                                                style='height: 36px;'
-                                                type='text'
-                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                                id='ThoiGianBay'
-                                                disabled
-                                            />
-                                            <span
-                                                style='height: 36px; background-color:#e9ecef;'
-                                                class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
-                                            >phút</span>
+                                            {{!-- <div class='mx-3'>
+                                                <i style='width: 20px; height:20px;font-size:20px;'
+                                                    class='fa-solid fa-arrow-right text-dark'></i>
+                                            </div> --}}
+
+                                            {{!-- <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'>
+                                                    {{this.SanBayDen.TinhThanh}}
+                                                </span>
+                                                <span class='custom-font p20-B text-dark'>
+                                                    (<span
+                                                        class='ChuyenBay_li_SanBayDen_MaSanBay'>{{this.SanBayDen.MaSanBay}}</span>)
+                                                </span>
+                                            </div> --}}
+                                        </div>
+
+                                        <div class='d-flex flex-row justify-content-between'>
+
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    Tổng vé:
+                                                </span>
+                                                <span id="TongVe_Modal"
+                                                    class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    120
+                                                </span>
+                                            </div>
+
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_TienHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    Doanh thu:
+                                                </span>
+                                                <span id="DoanhThu_Ve_Modal" class='custom-font p16-B text-tertiary'>
+                                                    <span id="DoanhThu_Modal">
+                                                        2.520.000.000
+                                                    </span>
+                                                    VND
+                                                </span>
+                                            </div>
+
                                         </div>
 
                                     </div>
+
+                                </li>
+                                {{! NguonThuHanhLy Item }}
+                                <li title='Doanh thu hành lý'
+                                    class='ChuyenBay_li px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'>
+
+                                    <div style='pointer-events: none;' class='me-3'>
+                                        <span class='ChuyenBay_li_ThuTu custom-font p20-B text-dark'>
+                                            2.
+                                        </span>
+                                    </div>
+
+                                    <div style='pointer-events: none;' class='flex-fill d-flex flex-column'>
+
+                                        <div class='d-flex flex-row justify-content-between mb-2'>
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'>
+                                                    Doanh thu hành lý
+                                                </span>
+                                                {{!-- <span class='custom-font p20-B text-dark'>
+                                                    (<span
+                                                        class='ChuyenBay_li_SanBayDi_MaSanBay'>{{this.SanBayDi.MaSanBay}}</span>)
+                                                </span> --}}
+                                            </div>
+
+                                            {{!-- <div class='mx-3'>
+                                                <i style='width: 20px; height:20px;font-size:20px;'
+                                                    class='fa-solid fa-arrow-right text-dark'></i>
+                                            </div> --}}
+
+                                            {{!-- <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'>
+                                                    {{this.SanBayDen.TinhThanh}}
+                                                </span>
+                                                <span class='custom-font p20-B text-dark'>
+                                                    (<span
+                                                        class='ChuyenBay_li_SanBayDen_MaSanBay'>{{this.SanBayDen.MaSanBay}}</span>)
+                                                </span>
+                                            </div> --}}
+                                        </div>
+
+                                        <div class='d-flex flex-row justify-content-between'>
+
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    Tổng số mốc:
+                                                </span>
+                                                <span id="TongMoc_HanhLy_Modal"
+                                                    class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    5
+                                                </span>
+                                            </div>
+
+                                            <div class='d-flex flex-row'>
+                                                <span
+                                                    class='ChuyenBay_li_TienHanhLy custom-font p16-B text-tertiary me-1'>
+                                                    Doanh thu:
+                                                </span>
+                                                <span id="DoanhThu_Modal" class='custom-font p16-B text-tertiary'>
+                                                    <span id="DoanhThu_HanhLy_Modal">
+                                                        45.000.000
+                                                    </span>
+                                                    VND
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        {{! Bên phải }}
+                        <div class='col-7 px-0 h-100'>
+
+                            <div class='d-flex flex-column my-3 h-100'>
+
+                                {{! Nút close }}
+                                <div class='mx-3 d-flex flex-row justify-content-end'>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal'
+                                        aria-label='Close'></button>
                                 </div>
 
-                                {{! Giá vé }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='GiaVeCoBan' class='form-label custom-font p14-S'>Giá vé cơ bản</label>
-                                        <div class='input-group mb-3'>
-                                            <input
-                                                style='height: 36px;'
-                                                type='text'
-                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                                id='GiaVeCoBan'
-                                                disabled
-                                            />
+                                {{! Sân bay }}
+                                <div class='mx-3 d-flex flex-row justify-content-start mb-3'>
+                                    <div id='ChuyenBay_ChonHanhLy' title='MaChuyenBay'
+                                        class='d-flex flex-row justify-content-between d-none'>
+                                        <div class='d-flex flex-row'>
                                             <span
-                                                style='height: 36px;  background-color:#e9ecef;'
-                                                class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
-                                            >VND</span>
+                                                class='ChuyenBay_ChonHanhLy_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'>
+                                                TP HCM
+                                            </span>
+                                            <span class='custom-font p20-B text-dark'>
+                                                (<span class='ChuyenBay_ChonHanhLy_SanBayDi_MaSanBay'>SGN</span>)
+                                            </span>
+                                        </div>
+
+                                        <div class='mx-3'>
+                                            <i style='width: 20px; height:20px;font-size:20px;'
+                                                class='fa-solid fa-arrow-right text-dark'></i>
+                                        </div>
+
+                                        <div class='d-flex flex-row'>
+                                            <span
+                                                class='ChuyenBay_ChonHanhLy_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'>
+                                                TOKYO
+                                            </span>
+                                            <span class='custom-font p20-B text-dark'>
+                                                (<span class='ChuyenBay_ChonHanhLy_SanBayDen_MaSanBay'>TKO</span>)
+                                            </span>
                                         </div>
                                     </div>
+                                </div>
+
+                                {{! Hành khách Container }}
+                                <div id='HanhLy_HanhKhach_Container' class='overflow-auto mb-3'>
+
+                                    {{! Hành khách Item }}
+                                    <div
+                                        class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2 d-none'>
+
+                                        {{! Header }}
+                                        <div class='px-3 py-3 d-flex flex-row justify-content-between'>
+
+                                            <div class='d-flex flex-column'>
+
+                                                <div title='indexKhach'
+                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
+                                                    Hành khách 1/2</div>
+
+                                                <div class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>Ông
+                                                    Phan Trường Huy</div>
+
+                                            </div>
+
+                                            <div class='d-flex flex-column'>
+
+                                                <div class='mb-1 custom-font p20-B text-tertiary'>Tổng
+                                                    số hành lý</div>
+
+                                                <div
+                                                    class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'>
+                                                    0 kg</div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div style='border-top: 1px solid black;'></div>
+
+                                        {{! Hành lý container }}
+                                        <ul class='HanhLy_HanhKhach_ul list-unstyled px-3 py-3'>
+
+                                            {{! Hành lý item xách tay}}
+                                            <li style='pointer-events: none;' class='HanhLy_HanhKhach_li_xachtay mb-3'>
+                                                <div class='input-group'>
+                                                    <div class='input-group-text bg-light'>
+                                                        <input
+                                                            style=' background-color: grey !important; border-color: grey !important;'
+                                                            class='HanhLy_HanhKhach_li_radio_xachtay form-check-input mt-0 custom-boxshadow-focus-primary'
+                                                            type='radio' value='1' checked disabled='true' />
+                                                    </div>
+                                                    <div class='d-flex flex-row form-control justify-content-between'>
+                                                        {{! Số kg }}
+                                                        <div class='d-flex flex-row'>
+                                                            <i style='width: 16px; height: 16px; font-size: 16px;'
+                                                                class='fa-solid fa-suitcase-rolling text-tertiary me-2'></i>
+                                                            <span
+                                                                class='HanhLy_HanhKhach_li_SoKgToiDa_xachtay custom-font p16-S text-tertiary'>
+                                                                +7 kg xách tay
+                                                            </span>
+                                                        </div>
+
+                                                        {{! Số tiền }}
+                                                        <div class='d-flex flex-row'>
+                                                            <span
+                                                                class='HanhLy_HanhKhach_li_GiaTien_xachtay custom-font p16-S text-tertiary me-1'>
+                                                                0
+                                                            </span>
+                                                            <span class='custom-font p16-S text-tertiary'>
+                                                                VND
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            {{#each this.PackageBooking.HanhLy}}
+                                            {{! Hành lý item }}
+                                            <li class='HanhLy_HanhKhach_li mb-3'>
+                                                <div class='input-group'>
+                                                    <div class='input-group-text bg-light'>
+                                                        <input
+                                                            class='HanhLy_HanhKhach_li_radio form-check-input mt-0 custom-color-checked custom-boxshadow-focus-primary'
+                                                            type='radio' value='{{this.MaMocHanhLy}}'
+                                                            name='HanhLy_HanhKhach_li_radio' />
+                                                    </div>
+                                                    <div class='d-flex flex-row form-control justify-content-between'>
+                                                        {{! Số kg }}
+                                                        <div class='d-flex flex-row'>
+                                                            <i style='width: 16px; height: 16px; font-size: 16px;'
+                                                                class='fa-solid fa-suitcase-rolling text-primary me-2'></i>
+                                                            <span
+                                                                class='HanhLy_HanhKhach_li_SoKgToiDa custom-font p16-S text-dark'>
+                                                                +{{this.SoKgToiDa}}
+                                                                kg
+                                                            </span>
+                                                        </div>
+
+                                                        {{! Số tiền }}
+                                                        <div class='d-flex flex-row'>
+                                                            <span
+                                                                class='HanhLy_HanhKhach_li_GiaTien custom-font p16-S text-secondary me-1'>
+                                                                {{this.GiaTien}}
+                                                            </span>
+                                                            <span class='custom-font p16-S text-secondary'>
+                                                                VND
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {{/each}}
+
+                                        </ul>
+
+                                    </div>
+
                                 </div>
 
                             </div>
 
                         </div>
+
                     </div>
 
-                    {{! Bên phải }}
-                    <div class='col-8 px-0'>
+                    {{! Footer }}
+                    <div
+                        class='pt-3 px-3 d-flex flex-row justify-content-between align-items-center bg-light pb-3 shadow'>
 
-                        <div class='row m-0 h-auto justify-content-center'>
+                        {{! Tổng phụ }}
+                        <div class='d-flex flex-column'>
 
-                            {{! nút tắt }}
-                            <div class='col-12 justify-self-end text-end'>
-                                <button
-                                    type='button'
-                                    class='btn-close py-3'
-                                    data-bs-dismiss='modal'
-                                    aria-label='Close'
-                                ></button>
+                            <div class='d-flex flex-row mb-1'>
+                                <span class='custom-font p20-B text-dark me-5'>
+                                    Tổng doanh thu
+                                </span>
+                                <span id='TongDoanhThu_Modal' class='ms-5 custom-font p20-B text-secondary me-1'>
+                                    2.565.000.000
+                                </span>
+                                <span class='custom-font p20-B text-secondary'>VND</span>
                             </div>
 
-                            {{! Sân bay trung gian }}
-                            <div class='col-12 mb-3 ps-0'>
-                                <div class='d-flex flex-column bg-light shadow rounded-2 h-auto'>
-
-                                    {{! Tiêu đề }}
-                                    <div class='px-3 custom-font p20-B text-tertiary py-3'>
-                                        SÂN BAY TRUNG GIAN
-                                    </div>
-
-                                    {{! Table }}
-                                    <div class='px-3'>
-                                        <div style='height: 200px;' class='table-responsive overflow-auto'>
-
-                                            <table class='table'>
-                                                <thead class='sticky-top bg-light shadow-sm'>
-                                                    <tr class='custom-font p16-S text-center'>
-                                                        <th scope='col'>Thứ tự</th>
-                                                        <th scope='col'>Tên sân bay</th>
-                                                        <th scope='col'>Thời gian đến</th>
-                                                        <th scope='col'>Thời gian dừng (Phút)</th>
-                                                        <th scope='col'>Ghi chú</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id='SanBayTrungGian_Container'>
-                                                    <tr
-                                                        class='d-none SanBayTrungGian_Item custom-font p16-R align-middle text-center'
-                                                    >
-                                                        <th class='ThuTu'>1</th>
-                                                        <td class='TenSanBay'>Tân Sơn Nhất</td>
-                                                        <td class='ThoiGianDen'>11:11 11/11/2022</td>
-                                                        <td class='ThoiGianDung'>180</td>
-                                                        <td class='GhiChu'></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                            <div>
+                                <span class='custom-font p16-S text-tertiary'>
+                                    (Bao gồm tất cả các nguồn doanh thu)
+                                </span>
                             </div>
 
-                            {{! Hạng vé }}
-                            <div class='col-12 mb-3 ps-0'>
-                                <div class='d-flex flex-column bg-light shadow rounded-2 h-auto'>
+                        </div>
 
-                                    {{! Tiêu đề }}
-                                    <div class='px-3 custom-font p20-B text-tertiary py-3'>
-                                        HẠNG VÉ
-                                    </div>
-
-                                    {{! Table }}
-                                    <div class='px-3'>
-                                        <div style='height: 200px;' class='table-responsive overflow-auto'>
-
-                                            <table class='table'>
-                                                <thead class='sticky-top bg-light shadow-sm'>
-                                                    <tr class='custom-font p16-S text-center'>
-                                                        <th scope='col'>Tên hạng vé</th>
-                                                        <th scope='col'>Giá tiền</th>
-                                                        <th scope='col'>Số ghế</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id='HangVe_Container'>
-                                                    <tr
-                                                        class='d-none HangVe_Item custom-font p16-R align-middle text-center'
-                                                    >
-                                                        <th class='TenHangVe'>Phổ thông</th>
-                                                        <td class='GiaTien'>500.000</td>
-                                                        <td class='SoGhe'>11</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+                        {{! Nút Hoàn Tất }}
+                        <div>
+                            <button type='button' data-bs-dismiss='modal'
+                                class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                href=''>
+                                Đóng
+                            </button>
                         </div>
 
                     </div>
 
                 </div>
-
-                <div class='row m-0 justify-content-center bg-light'>
-                    <div class='col-12 text-end py-2' style='box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;'>
-                        <button
-                            type='button'
-                            class='px-5 btn btn-secondary custom-font p20-B text-light bg-secondary border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
-                            data-bs-dismiss='modal'
-                        >Đóng</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

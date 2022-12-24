@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
     P;
 });
+LoGo.addEventListener('click', (e) => {
+    //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/staff';
+    staff_form.submit();
+});
 Profile.addEventListener('click', (e) => {
     //document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
     var staff_form = document.forms['staffheader-form'];
@@ -62,5 +68,16 @@ PhanQuyen.addEventListener('click', (e) => {
 NhanLich.addEventListener('click', (e) => {
     var staff_form = document.forms['staffheader-form'];
     staff_form.action = '/staff/nhanlich';
+    staff_form.submit();
+});
+
+DangXuat.addEventListener('click', (e) => {
+    axios({
+        method: 'POST',
+        url: '/logout',
+    });
+    var staff_form = document.forms['staffheader-form'];
+    staff_form.action = '/';
+    staff_form.method = 'get';
     staff_form.submit();
 });

@@ -8,7 +8,6 @@ class ClientController {
     // "/"
     async index(req, res) {
         try {
-            res.clearCookie('MaUser');
             //let SanBays = [
             //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
             //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
@@ -63,7 +62,34 @@ class ClientController {
             console.log(error);
         }
     }
-
+    //Đăng xuất
+    async logout(req, res) {
+        try {
+            res.clearCookie('MaUser');
+            return res.send();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // ChooseHeader
+    async ChooseHeader(req, res) {
+        try {
+            if (req.signedCookies.MaUser) {
+                let user = await db.User.findOne({
+                    where: { MaUser: req.signedCookies.MaUser },
+                    raw: true,
+                });
+                console.log(user.HoTen + 'addasd');
+                res.send({
+                    HoTen: user.HoTen,
+                });
+            } else {
+                res.send();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // "/choose_flight" - TraCuuChuyenBay
     async choose_flight(req, res) {
         try {

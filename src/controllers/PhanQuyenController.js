@@ -22,6 +22,12 @@ class PhanQuyenController {
                 let t = 0;
                 for (let j = 0; j < Users.length; j++) {
                     if (Users[j].MaChucVu == ChucVus[i].MaChucVu) {
+                        Users[j].NgaySinh =
+                            Users[j].NgaySinh.slice(8, 10) +
+                            '-' +
+                            Users[j].NgaySinh.slice(5, 7) +
+                            '-' +
+                            Users[j].NgaySinh.slice(0, 4);
                         U[t] = Users[j];
                         t++;
                     }
@@ -29,6 +35,7 @@ class PhanQuyenController {
                 ChucVus[i].Users = structuredClone(U);
                 ChucVus[i].SoLuong = U.length;
             }
+            console.log(ChucVus[0].Users);
             return res.render('staff/PhanQuyenChuyenBay', {
                 layout: 'staff.handlebars',
                 ChucVus: ChucVus,

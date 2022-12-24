@@ -265,9 +265,17 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
             data: User_P,
         }).then((res) => {
             alert('Cập nhật thông tin tài khoản thành công');
-            var Form = document.forms['Form'];
-            Form.action = '/staff';
-            Form.submit();
+            if (User_MaChucVu.value == '3KH') {
+                var Form = document.forms['Form'];
+                Form.action = '/';
+                Form.method = 'get';
+
+                Form.submit();
+            } else {
+                var Form = document.forms['Form'];
+                Form.action = '/staff';
+                Form.submit();
+            }
         });
     }
 });
@@ -313,19 +321,18 @@ if (XacNhan) {
                 data: User_P,
             }).then((res) => {
                 alert('Cập nhật thông tin tài khoản thành công');
-                var Form = document.forms['Form'];
-                Form.action = '/staff';
-                Form.submit();
+                if (User_MaChucVu.value == '3KH') {
+                    var Form = document.forms['Form'];
+                    Form.method = 'get';
+                    Form.action = '/';
+                    Form.submit();
+                } else {
+                    var Form = document.forms['Form'];
+                    Form.action = '/staff';
+                    Form.submit();
+                }
             });
         }
-    });
-}
-// đổi email xác nhận
-if (DoiEmail_XacNhan) {
-    DoiEmail_XacNhan.addEventListener('click', (e) => {
-        // var myModalEl = document.getElementById('staticBackdrop');
-        // var modal = bootstrap.Modal.getInstance(myModalEl);
-        // modal.hide();
     });
 }
 // xác nhận thay đổi mật khẩu

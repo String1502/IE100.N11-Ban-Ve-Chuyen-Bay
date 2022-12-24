@@ -9,7 +9,7 @@
     </div>
     <div class='container col-10'>
         <div class='row'>
-            <div class='col-6'>
+            <div class='col-xl-6 col-12'>
                 {{! Quy định về chuyến bay }}
                 <div class='row'>
                     <div class='custom-font h24-B mt-4 mb-4'>Quy định về chuyến bay</div>
@@ -270,7 +270,7 @@
                         </div>
                     </div>
                     <div class='row mx-0 justify-content-center'>
-                        <div class='col-6 justify-content-center d-flex'>
+                        <div class='col-8 justify-content-center d-flex'>
                             <button
                                 style='width: 100%;'
                                 class='custom-font d-none mb-3 me-5 ThamSo--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
@@ -292,7 +292,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-6'>
+            <div class='col-xl-6 col-12'>
                 {{! Thông tin các loại mốc hành lý }}
                 <div class='row'>
                     <div class='custom-font h24-B my-4'>Thông tin các loại mốc hành lý</div>
@@ -401,7 +401,7 @@
                         </div>
                     </div>
                     <div class='row mx-0 justify-content-center mb-3'>
-                        <div class='col-6 justify-content-center d-flex'>
+                        <div class='col-8 justify-content-center d-flex'>
                             <button
                                 style='width: 100%;'
                                 class='custom-font d-none mb-4 me-5 MocHanhLy--Huy btn btn-primary bg-secondary border-secondary text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary shadow-sm p20-B'
@@ -760,7 +760,7 @@
             <div class='card-body LoaiKhachHang_Card pe-4' style='height: 251px; overflow-y: scroll;'>
                 {{#each LoaiKhachHangs}}
                     <div class='row mb-3 LoaiKhachHang' index='{{this.MaLoaiKhachHang}}'>
-                        <div class='col-2'>
+                        <div class='col-xl-2 col-3'>
                             <label for='' class='p14-S form-label custom-font'>Tên loại hành khách</label>
                             <input
                                 value='{{this.TenLoaiKhachHang}}'
@@ -790,7 +790,7 @@
                                 class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                             />
                         </div>
-                        <div class='col-4'>
+                        <div class='col'>
                             <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                             <input
                                 type='number'
@@ -806,7 +806,7 @@
 
                 {{! Dòng loại hành khách khi được thêm }}
                 <div class='row mb-3 LoaiKhachHang_Cop d-none'>
-                    <div class='col-2'>
+                    <div class='col-xl-2 col-3'>
                         <label for='' class='p14-S form-label custom-font'>Tên loại hành khách</label>
                         <input
                             value='{{this.TenLoaiKhachHang}}'
@@ -832,7 +832,7 @@
                             class='LoaiKhachHang_SoTuoiToiDa form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
                         />
                     </div>
-                    <div class='col-4'>
+                    <div class='col'>
                         <label for='' class='p14-S form-label custom-font'>Hệ số</label>
                         <div class='d-flex'>
                             <input

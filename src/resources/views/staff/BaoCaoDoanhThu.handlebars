@@ -47,7 +47,7 @@
                                     class='h-auto list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
                                 >
                                     <li class='Nam_Item dropdown-item custom-active py-2 d-none'>
-                                        <div style='pointer-events:none;' class='custom-font p16-B' nam='2022'>
+                                        <div style='pointer-events:none;' class='custom-font p16-B' nam='0'>
                                             2022
                                         </div>
                                     </li>
@@ -72,11 +72,6 @@
                         </div>
                     </div>
 
-                    <div class='row px-4 pb-3'>
-                        <button id='btn_load_doanh_thu' class='bg-primary p14-S custom-font text-light btn'>Load doanh
-                            thu</button>
-                    </div>
-
                 </div>
             </div>
 
@@ -94,8 +89,9 @@
                                 <div class='custom-font h24-B text-tertiary'>
 
                                     <span class='text-dark'>Tổng doanh thu:</span>
-                                    <span>341.000.000</span>
-                                    VND (<span>Chưa kết thúc</span>)
+                                    <span id='tong_doanh_thu'>341.000.000</span>
+                                    VND
+                                    <span id='doanh_thu_nam_status'>(Chưa kết thúc)</span>
 
                                 </div>
 

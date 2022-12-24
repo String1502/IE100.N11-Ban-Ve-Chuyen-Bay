@@ -7,6 +7,7 @@ const { QueryTypes, where } = require('sequelize');
 // }
 // let res_data = {
 //     Nam: -1,
+// TongDoanhThu: 0,
 //     DoanhThu: [
 //         {
 //             Thang: -1,
@@ -34,6 +35,7 @@ class BaoCaoController {
 
         let res_data = {
             Nam: -1,
+            TongDoanhThu: 0,
             DoanhThu: [
                 // {
                 //     Thang: -1,
@@ -64,8 +66,8 @@ class BaoCaoController {
         }
 
         for (var i in DoanhThuThang) {
-            let chuyenbays = await db.sequelize.query(
-                'SELECT chuyenbay.MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, TongVe, VeDaBan, DoanhThu FROM `chuyenbay`, chitiethangve WHERE YEAR(NgayGio) = :nam AND MONTH(NgayGio) = :thang AND chuyenbay.MaChuyenBay = chitiethangve.MaChuyenBay',
+            let chuyenBays = await db.sequelize.query(
+                'SELECT MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, (SUM(A.TongVe)) AS TongVe, (SUM(A.VeDaBan)) AS VeDaBan, DoanhThu FROM ( SELECT chuyenbay.MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, TongVe, VeDaBan, DoanhThu FROM `chuyenbay`, chitiethangve WHERE chuyenbay.MaChuyenBay = chitiethangve.MaChuyenBay AND YEAR(NgayGio) = :nam AND MONTH(NgayGio) = :thang) A GROUP BY A.MaChuyenBay',
                 {
                     replacements: {
                         nam: Nam,
@@ -75,18 +77,34 @@ class BaoCaoController {
                     raw: true,
                 },
             );
-            console.log(chuyenbays.length);
-            for (var j in chuyenbays) {
-                chuyenbays[i].MaHienThi =
-                    chuyenbays[i].MaSanBayDi + '-' + chuyenbays[i].MaSanBayDen + '-' + chuyenbays[i].MaChuyenBay;
-                chuyenbays[i].TiLe = ((chuyenbays[i].DoanhThu * 100) / DoanhThuThang.DoanhThu).toFixed(2);
+
+            console.log(`So chuyen bay: ${chuyenBays.length}`);
+
+            for (var j in chuyenBays) {
+                console.log(j);
+                chuyenBays[j].MaHienThi =
+                    chuyenBays[j].MaSanBayDi + '-' + chuyenBays[j].MaSanBayDen + '-' + chuyenBays[j].MaChuyenBay;
+                console.log('Doanh thu chuyen bay: ' + chuyenBays[j].DoanhThu);
+                console.log('Doanh thu thang: ' + DoanhThuThang[i].DoanhThu);
+
+                chuyenBays[j].TiLe = 0;
+
+                if (DoanhThuThang[i].DoanhThu != 0)
+                    chuyenBays[j].TiLe = ((chuyenBays[j].DoanhThu * 100) / DoanhThuThang[i].DoanhThu).toFixed(2);
             }
+
+            // for (var j in chuyenbays) {
+            //     console.log(j);
+            //     chuyenbays[i].MaHienThi =
+            //         chuyenbays[i].MaSanBayDi + '-' + chuyenbays[i].MaSanBayDen + '-' + chuyenbays[i].MaChuyenBay;
+            //     chuyenbays[i].TiLe = ((chuyenbays[i].DoanhThu * 100) / DoanhThuThang.DoanhThu).toFixed(2);
+            // }
 
             let doanhThu = {
                 Thang: DoanhThuThang[i].Thang,
                 TongDoanhThu: DoanhThuThang[i].DoanhThu,
                 SoChuyenBay: DoanhThuThang[i].SoChuyenBay,
-                ChuyenBay: chuyenbays,
+                ChuyenBay: chuyenBays,
             };
             res_data.DoanhThu.push(doanhThu);
         }

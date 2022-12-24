@@ -8,7 +8,13 @@ import {
     today,
     onlyNumber,
     showToast,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('QuyDinh');
+
+openLoader('Chờ chút');
+closeLoader();
 
 let Package;
 let SanBays_P_Update = [];

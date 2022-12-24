@@ -9,7 +9,11 @@ import {
     showToast,
     onlyNumber,
     formatVND,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('Nhanlich');
+
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {
     var historyTraversal =
@@ -37,6 +41,13 @@ Date.prototype.displayReverse = function () {
 
     return hr + ':' + min + ' ' + dd + '/' + mm + '/' + yy;
 };
+Date.prototype.ddmmyy = function () {
+    var dd = numberSmallerTen(this.getDate());
+    var mm = numberSmallerTen(this.getMonth() + 1); // getMonth() is zero-based
+    var yy = this.getFullYear();
+
+    return dd + '/' + mm + '/' + yy;
+};
 
 function KhoiTaoCountDown() {
     // đếm thời gian
@@ -58,9 +69,11 @@ function Start() {
 
     KhoiTaoCountDown();
     console.log(SB_HG);
+    KhoiTaoModalThamSo();
 
     NhapFileExcel.addEventListener('change', (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[e.target.files.length - 1];
+        console.log(e.target.files);
         if (file) {
             openLoader('Chờ chút');
             var formData = new FormData(document.getElementById('form-excel'));
@@ -77,6 +90,12 @@ function Start() {
                 closeLoader();
             });
         }
+    });
+
+    XoaFileExcel.addEventListener('click', (e) => {
+        NhapFileExcel.value = '';
+        ChuyenBay_list = [];
+        LoadChuyenBayLenView();
     });
 
     NhanLichChuyenBay.addEventListener('click', (e) => {
@@ -131,7 +150,7 @@ function LoadChuyenBayLenView() {
             node.querySelector('.STT').innerText = document.querySelectorAll('.ChuyenBay_Item').length;
 
             if (item.errNum > 0) {
-                var err = 'Chuyến bay dòng số ' + item.RowEx + ' lỗi ở: ';
+                var err = 'Chuyến bay dòng số ' + item.RowEx + ' có lỗi: ';
 
                 if (item.res_err.MaSanBayDi == 1) {
                     err += '| Mã sân bay đi ';
@@ -141,17 +160,49 @@ function LoadChuyenBayLenView() {
                 }
                 if (item.res_err.NgayGio == 1) {
                     err += '| Ngày giờ bay ';
+                } else if (item.res_err.ThoiGianNhanLich_Min == 1) {
+                    err += '| Vi phạm thời gian nhận lịch tối thiểu ';
                 }
+
                 if (item.res_err.GiaVe_min == 1) {
-                    err += '| Giá vé ';
+                    err += '| Vi phạm giá vé tối thiểu ';
                 }
+
                 if (item.res_err.ThoiGianBay_Min == 1) {
                     err += '| Vi phạm thời gian bay tối thiểu ';
                 }
+
+                if (err == '') {
+                    for (let j = 0; j < item.res_err.HangGhe.length; j++) {
+                        var temp = item.res_err.HangGhe[j];
+                        if (temp.MaHangGhe == 1 || temp.TongVe == 1) {
+                            err += '| Hạng vé ';
+                            break;
+                        }
+                    }
+                }
+
                 if (item.res_err.Sbtg_max == 1) {
                     err += '| Vi phạm số SBTG tối đa ';
                 }
-                err += '|';
+
+                if (item.res_err.ThoiGianDung_Min == 1) {
+                    err += '| Vi phạm thời gian dừng tối thiểu ';
+                }
+
+                if (err == '') {
+                    for (let j = 0; j < item.res_err.SBTG.length; j++) {
+                        var temp = item.res_err.SBTG[j];
+                        if (temp.MaSanBay == 1 || temp.ThoiGianDung == 1 || temp.NgayGioDen) {
+                            err += '| Sân bay trung gian ';
+                            break;
+                        }
+                    }
+                }
+
+                if (err != '') {
+                    err += '|';
+                }
 
                 node.querySelector('.ViPham').innerText = err;
                 node.querySelector('.ViPham').classList.remove('d-none');
@@ -309,4 +360,52 @@ function SendForm_ThoatNhanLich() {
     var staff_form = document.forms['NhanLich-form'];
     staff_form.action = '/staff/nhanlich';
     staff_form.submit();
+}
+
+// Modal tham số
+function KhoiTaoModalThamSo() {
+    var TenQuyDinh = '',
+        GiaTriQuyDinh = '';
+
+    // Thời gian nhận lịch tối thiểu
+    TenQuyDinh = '- Thời gian nhận lịch tối thiểu:';
+    GiaTriQuyDinh = SB_HG.ThamSos.find((i) => i.TenThamSo == 'ThoiGianNhanLich_Min').GiaTri;
+    var temp = new Date();
+    temp = new Date(temp.getTime() + parseInt(GiaTriQuyDinh) * 24 * 60 * 60 * 1000);
+    GiaTriQuyDinh = temp.ddmmyy();
+    ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh);
+
+    // Giá vé tối thiểu
+    TenQuyDinh = '- Giá vé tối thiểu:';
+    GiaTriQuyDinh = SB_HG.ThamSos.find((i) => i.TenThamSo == 'GiaVeCoBan_Min').GiaTri;
+    GiaTriQuyDinh = numberWithDot(GiaTriQuyDinh.toString()) + ' VND';
+    ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh);
+
+    // Thời gian bay tối thiểu
+    TenQuyDinh = '- Thời gian bay tối thiểu:';
+    GiaTriQuyDinh = SB_HG.ThamSos.find((i) => i.TenThamSo == 'ThoiGianBayToiThieu').GiaTri;
+    GiaTriQuyDinh = GiaTriQuyDinh.toString() + ' phút';
+    ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh);
+
+    // SBTG tối đa
+    TenQuyDinh = '- Số sân bay trung gian tối đa:';
+    GiaTriQuyDinh = SB_HG.ThamSos.find((i) => i.TenThamSo == 'SBTG_Max').GiaTri;
+    GiaTriQuyDinh = GiaTriQuyDinh.toString() + ' sân bay';
+    ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh);
+
+    // Thời gian dừng tối thiểu
+    TenQuyDinh = '- Thời gian dừng tối thiểu:';
+    GiaTriQuyDinh = SB_HG.ThamSos.find((i) => i.TenThamSo == 'ThoiGianDungToiThieu').GiaTri;
+    GiaTriQuyDinh = GiaTriQuyDinh.toString() + ' phút';
+    ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh);
+}
+
+function ThemDongModalThamSo(TenQuyDinh, GiaTriQuyDinh) {
+    const node = document.querySelector('.Modal_ThamSo_Item').cloneNode(true);
+    node.classList.remove('d-none');
+
+    node.querySelector('.TenQuyDinh').innerText = TenQuyDinh.toString();
+    node.querySelector('.GiaTriQuyDinh').innerText = GiaTriQuyDinh.toString();
+
+    Modal_ThamSo_Body.appendChild(node);
 }

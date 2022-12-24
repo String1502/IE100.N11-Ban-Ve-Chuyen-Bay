@@ -10,7 +10,10 @@ import {
     onlyNumber,
     validateEmail,
     formatVND,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('TraCuu');
 
 window.onlyNumber = onlyNumber;
 

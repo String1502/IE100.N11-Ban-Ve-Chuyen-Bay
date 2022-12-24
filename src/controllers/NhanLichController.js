@@ -69,9 +69,14 @@ class NhanLichController {
                 },
             );
 
+            let ThamSos = await db.sequelize.query(`select * from thamso `, {
+                type: QueryTypes.SELECT,
+                raw: true,
+            });
+
             return res.render('staff/NhanLich/NhanLichTuExcel', {
                 layout: 'staff.handlebars',
-                SB_HG: JSON.stringify({ SanBays: SanBays, HangGhes: HangGhes }),
+                SB_HG: JSON.stringify({ SanBays: SanBays, HangGhes: HangGhes, ThamSos: ThamSos }),
             });
         } catch (error) {
             console.log(error);

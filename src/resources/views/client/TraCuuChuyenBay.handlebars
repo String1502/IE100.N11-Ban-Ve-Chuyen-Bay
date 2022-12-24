@@ -134,14 +134,14 @@
                                             class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'
                                         >
                                             <div class='d-flex flex-column'>
-                                                <span
-                                                    class='custom-font p12-S text-dark border-tertiary border-tertiary'
-                                                >Thành phố hoặc sân bay phổ biến</span>
+                                                <span class='custom-font p12-S text-dark'>Thành phố hoặc sân bay phổ
+                                                    biến</span>
                                             </div>
                                         </li>
                                         {{! Dropdown items }}
                                         {{#each SanBays}}
                                             <li
+                                                style='cursor: pointer;'
                                                 class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                             >
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
@@ -213,6 +213,7 @@
                                         {{! Dropdown items }}
                                         {{#each SanBays}}
                                             <li
+                                                style='cursor: pointer;'
                                                 class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                             >
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
@@ -435,7 +436,7 @@
                                 >
                                     {{! Dropdown items }}
                                     {{#each HangGhes}}
-                                        <li class='HangGhe_li dropdown-item custom-active'>
+                                        <li style='cursor: pointer;' class='HangGhe_li dropdown-item custom-active'>
                                             <div style='pointer-events:none;' class='d-flex flex-row py-2'>
                                                 <span
                                                     class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'

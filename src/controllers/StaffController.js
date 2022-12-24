@@ -6,6 +6,14 @@ class StaffController {
     async LoadHeader(req, res) {
         try {
             let P = {};
+            // {
+            //     HoTen:'',
+            //     QuyenHT:
+            //     [
+            //         0: 0, // value luôn 0
+            //         1: 1, // value 1 || 0
+            //     ]
+            // }
             let MaUser = req.signedCookies.MaUser;
             let User = await db.User.findOne({ where: { MaUser: MaUser }, raw: true });
             let Quyen = await db.sequelize.query(

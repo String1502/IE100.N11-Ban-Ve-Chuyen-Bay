@@ -371,7 +371,7 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         },
         logging: false,
     });
-    if (!check) {
+    if (!check || ChuyenBay.MaSanBayDi === ChuyenBay.MaSanBayDen) {
         errNum++;
         res_err.MaSanBayDen = 1;
     }
@@ -448,6 +448,11 @@ let checkChuyenBayValid = async (ChuyenBay) => {
         errNum++;
         res_err.ThoiGianBay_Min = 1;
     }
+
+    let arrMaSanBay = [];
+    arrMaSanBay.push(ChuyenBay.MaSanBayDi);
+    arrMaSanBay.push(ChuyenBay.MaSanBayDen);
+
     let tongTime = 0;
     for (var i in ChuyenBay.SBTG) {
         let errSBTG = {
@@ -467,6 +472,14 @@ let checkChuyenBayValid = async (ChuyenBay) => {
             errNum++;
             errSBTG.MaSanBay = 1;
         }
+        let found = arrMaSanBay.find((item) => {
+            return item === ChuyenBay.SBTG[i].MaSanBay;
+        });
+
+        if (found) {
+            errNum++;
+            errSBTG.MaSanBay = 1;
+        } else arrMaSanBay.push(ChuyenBay.SBTG[i].MaSanBay);
 
         //check thoi gian dung toi thieu
         if (ChuyenBay.SBTG[i].ThoiGianDung < ThoiGianDungToiThieu.GiaTri) {

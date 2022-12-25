@@ -11,8 +11,6 @@
 }
 
 .bg-primary-gradient {
-    background: #007991;
-    background: -webkit-linear-gradient(to right, #007991, #66d8b6);
     background: linear-gradient(to right, #007991, #66d8b6);
 }
 
@@ -42,8 +40,6 @@
 }
 
 .bg-secondary-gradient {
-    background: $secondary;
-    background: -webkit-linear-gradient(to right, $secondary, #dc3545);
     background: linear-gradient(to right, $secondary, #dc3545);
 }
 

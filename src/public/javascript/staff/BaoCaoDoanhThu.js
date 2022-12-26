@@ -60,17 +60,92 @@ function GetFlightDataFromElement(row) {
     flightData.MaChuyenBay = row.querySelector('.Item_ChiTiet').getAttribute('MaChuyenBay');
     flightData.MaChuyenBayHienThi = row.querySelector('.Item_MaChuyenBayHienThi').innerText;
     flightData.KhoiHanh = row.querySelector('.Item_KhoiHanh').innerText;
+    flightData.TongVe = row.querySelector('.Item_TongVe').innerText;
     flightData.VeDaBan = row.querySelector('.Item_VeDaBan').innerText;
     flightData.DoanhThu = row.querySelector('.Item_DoanhThu').innerText;
     flightData.TiLe = row.querySelector('.Item_TiLe').innerText;
+    flightData.ChiTietHangVe = row.querySelector('.Item_ChiTiet').getAttribute('ChiTietHangVe');
+    flightData.GiaVeCoBan = row.querySelector('.Item_ChiTiet').getAttribute('GiaVeCoBan');
 
     return flightData;
 }
+
+let firstModalChart;
+let secondModalChart;
 
 function FillDataIntoDetailModal(flightData) {
     MaHienThi_Title_Modal.innerText = flightData.MaChuyenBayHienThi;
     TongVe_Modal.innerText = flightData.VeDaBan;
     DoanhThu_Ve_Modal.innerText = flightData.DoanhThu;
+    VeDaBan_Right_Header_Title.innerText = flightData.VeDaBan;
+    DoanhThu_Right_Header_Title.innerText = flightData.DoanhThu;
+
+    console.log(flightData);
+
+    // Graph
+    const chiTietHangVe = JSON.parse(flightData.ChiTietHangVe);
+    const tenHangVes = chiTietHangVe.map((chiTiet) => chiTiet.TenHangGhe);
+    const veDaBans = chiTietHangVe.map((chiTiet) => chiTiet.VeDaBan);
+    const doanhThus = chiTietHangVe.map((chiTiet) => flightData.GiaVeCoBan * chiTiet.HeSo * chiTiet.VeDaBan);
+
+    const ctx_1 = document.getElementById('chart_1');
+    const ctx_2 = document.getElementById('chart_2');
+
+    if (firstModalChart) firstModalChart.destroy();
+
+    if (secondModalChart) secondModalChart.destroy();
+
+    firstModalChart = new Chart(ctx_1, {
+        type: 'doughnut',
+        data: {
+            labels: tenHangVes,
+            datasets: [
+                {
+                    label: 'Vé đã bán',
+                    data: veDaBans,
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    fullSize: true,
+                    text: 'Vé đã bán',
+                    color: '#04bfa',
+                    position: 'bottom',
+                    align: 'center',
+                },
+            },
+        },
+    });
+
+    secondModalChart = new Chart(ctx_2, {
+        type: 'doughnut',
+        data: {
+            labels: tenHangVes,
+            datasets: [
+                {
+                    label: 'Doanh thu',
+                    data: doanhThus,
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Doanh thu',
+                    fullSize: true,
+                    color: '#04bfa',
+                    position: 'bottom',
+                    align: 'center',
+                },
+            },
+        },
+    });
 }
 
 //#endregion
@@ -155,8 +230,16 @@ function LoadEmptyMonth(thang, clone) {
 }
 
 function LoadMonthData(thang, data, clone) {
+    const hasAnyFlight = data.ChuyenBay && data.ChuyenBay.length > 0;
     // Hiện ra
     clone.classList.remove('d-none');
+
+    if (!hasAnyFlight) {
+        clone.querySelector('.item_header_btn').disabled = true;
+        clone.querySelector('.table').classList.add('d-none');
+        clone.querySelector('.no_flight_identifier').classList.remove('d-none');
+        clone.querySelector('.table_rapper').style.height = '50px';
+    }
 
     // Set tháng
     clone.setAttribute('thang', thang);
@@ -195,14 +278,19 @@ function KhoiTaoAccordion(thang, data) {
     if (data) {
         const flights = data.ChuyenBay;
 
+        console.log(flights);
+
         flights.forEach((flight) =>
             InsertNewRow(thang, {
                 MaChuyenBay: flight.MaChuyenBay,
                 MaChuyenBayHienThi: flight.MaHienThi,
                 KhoiHanh: flight.NgayGio,
-                VeDaBan: flight.TongVe,
+                GiaVeCoBan: flight.GiaVeCoBan,
+                TongVe: flight.TongVe,
+                VeDaBan: flight.VeDaBan,
                 DoanhThu: numberWithDot(flight.DoanhThu) + ' VND',
                 TiLe: flight.TiLe,
+                ChiTietHangVe: flight.ChiTietHangVe,
             }),
         );
     }
@@ -245,7 +333,6 @@ function InsertNewRow(thang, data) {
 
         // Get data from it
         const flightData = GetFlightDataFromElement(row);
-        console.log(flightData);
 
         // Fill data in detail modal
         FillDataIntoDetailModal(flightData);
@@ -258,9 +345,12 @@ function GanGiaTriChoRow(item, values) {
     item.querySelector('.Item_ChiTiet').setAttribute('MaChuyenBay', values.MaChuyenBay);
     item.querySelector('.Item_MaChuyenBayHienThi').innerText = values.MaChuyenBayHienThi;
     item.querySelector('.Item_KhoiHanh').innerText = values.KhoiHanh;
+    item.querySelector('.Item_TongVe').innerText = values.TongVe;
     item.querySelector('.Item_VeDaBan').innerText = values.VeDaBan;
     item.querySelector('.Item_DoanhThu').innerText = values.DoanhThu;
     item.querySelector('.Item_TiLe').innerText = values.TiLe;
+    item.querySelector('.Item_ChiTiet').setAttribute('ChiTietHangVe', JSON.stringify(values.ChiTietHangVe));
+    item.querySelector('.Item_ChiTiet').setAttribute('GiaVeCoBan', values.GiaVeCoBan);
 }
 
 //#endregion

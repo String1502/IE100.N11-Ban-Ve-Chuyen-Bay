@@ -80,6 +80,14 @@ if (document.getElementById('TraCuu')) {
     });
 }
 
+if (document.getElementById('DoanhThu')) {
+    document.getElementById('DoanhThu').addEventListener('click', (e) => {
+        var staff_form = document.forms['staffheader-form'];
+        staff_form.action = '/staff/baocao';
+        staff_form.submit();
+    });
+}
+
 if (document.getElementById('QuyDinh')) {
     document.getElementById('QuyDinh').addEventListener('click', (e) => {
         var staff_form = document.forms['staffheader-form'];

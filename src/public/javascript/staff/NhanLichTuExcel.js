@@ -67,6 +67,10 @@ function Start() {
         staff_header.parentElement.removeChild(staff_header);
     }
 
+    if (footer_planet) {
+        footer_planet.parentElement.removeChild(footer_planet);
+    }
+
     KhoiTaoCountDown();
     console.log(SB_HG);
     KhoiTaoModalThamSo();

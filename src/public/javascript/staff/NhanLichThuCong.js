@@ -155,9 +155,13 @@ var data_send = {
 // };
 
 function Start() {
-    // if (staff_header) {
-    //     staff_header.parentElement.removeChild(staff_header);
-    // }
+    if (staff_header) {
+        staff_header.parentElement.removeChild(staff_header);
+    }
+
+    if (footer_planet) {
+        footer_planet.parentElement.removeChild(footer_planet);
+    }
 
     // Tham số
     ThamSos = structuredClone(JSON.parse(document.getElementById('ThamSos').innerText));

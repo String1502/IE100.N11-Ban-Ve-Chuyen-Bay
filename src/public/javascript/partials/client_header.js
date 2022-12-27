@@ -36,3 +36,8 @@ Profile.addEventListener('click', (e) => {
     staff_form.action = '/staff/Profile';
     staff_form.submit();
 });
+Ve.addEventListener('click', (e) => {
+    var staff_form = document.forms['clientheader-form'];
+    staff_form.action = '/vecuatoi';
+    staff_form.submit();
+});

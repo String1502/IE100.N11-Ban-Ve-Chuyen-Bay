@@ -85,13 +85,11 @@
                                     <div class='row justify-content-center align-items-center'>
                                         <div
                                             style='height: 40px;border-radius: 10px;'
-                                            class='col-10 position-relative bg-primary custom-font p20-B text-light'
+                                            class='col-10 d-flex align-items-center justify-content-center bg-primary custom-font p20-B text-light'
                                         >
 
-                                            <div class='position-absolute top-50 start-50 translate-middle'>
-                                                Số tiền thanh toán:
-                                                {{this.TongTien}}
-                                            </div>
+                                            Số tiền thanh toán:
+                                            {{this.TongTien}}
 
                                         </div>
                                     </div>
@@ -100,7 +98,7 @@
                         </div>
                         {{! Vés }}
                         <div class='accordion-item'>
-                            <div class='accordion-header'>
+                            <div class='accordion-header button_ac_Ve'>
                                 <div
                                     style='box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'
                                     class='collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
@@ -120,7 +118,8 @@
                                             <div class='accordion-item mb-3'>
                                                 <div class='accordion-header'>
                                                     <div
-                                                        class='collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
+                                                        id=''
+                                                        class='VeDong collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
                                                         type='button'
                                                         aria-expanded='false'
                                                         data-bs-target='.VeCT{{this.MaVe}}'
@@ -130,7 +129,7 @@
                                                             {{this.MaVe}}</div>
                                                     </div>
                                                 </div>
-                                                <div class='VeCT{{this.MaVe}} accordion-collapse collapse'>
+                                                <div id='' class='VeCT{{this.MaVe}} accordion-collapse collapse VeMo'>
                                                     <div class='accordion-body'>
                                                         <div class='row mb-3'>
                                                             <div class='col-6'>
@@ -195,11 +194,140 @@
                                                                 />
                                                             </div>
                                                         </div>
+                                                        {{! Modal thông tin khách hàng }}
+                                                        <div
+                                                            class='modal fade MChiTietHanhKhach'
+                                                            id=''
+                                                            tabindex='10'
+                                                            aria-hidden='true'
+                                                        >
+                                                            <div
+                                                                class='modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable'
+                                                            >
+                                                                <div class='modal-content'>
+                                                                    <div
+                                                                        class='modal-header bg-tertiary-light border-0 py-3'
+                                                                    >
+                                                                        <span
+                                                                            class='modal-title custom-font p20-B'
+                                                                        ></span>
+                                                                        <button
+                                                                            type='button'
+                                                                            class='btn-close'
+                                                                            data-bs-dismiss='modal'
+                                                                            aria-label='Close'
+                                                                        ></button>
+                                                                    </div>
+                                                                    <div
+                                                                        class='modal-body bg-tertiary-light rounded-1 pt-0'
+                                                                    >
+                                                                        <div class='d-flex flex-column overflow-auto'>
 
+                                                                            {{! Hành khách }}
+                                                                            <div class='mb-4'>
+                                                                                <div class='mb-3 mx-3'>
+                                                                                    <span
+                                                                                        class='custom-font h24-B text-dark'
+                                                                                    >Thông tin hành khách</span>
+                                                                                </div>
+                                                                                <div
+                                                                                    class='bg-light shadow rounded-1 mx-3 h-auto'
+                                                                                >
+                                                                                    <div class='py-2'>
+                                                                                        <div
+                                                                                            class='px-3 d-flex flex-row justify-content-between align-items-center'
+                                                                                        >
+                                                                                            <span
+                                                                                                class='custom-font p20-B text-dark'
+                                                                                            >Người thụ hưởng vé</span>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <div
+                                                                                        style='border-top: 1px solid black;'
+                                                                                    ></div>
+
+                                                                                    <form>
+                                                                                        <div class='row mx-0 px-0 py-3'>
+                                                                                            {{! Giới tính }}
+                                                                                            <div
+                                                                                                class='col-12 col-md-6 px-3'
+                                                                                            >
+                                                                                                <label
+                                                                                                    class='form-label custom-font p16-S text-tertiary'
+                                                                                                >Giới tính</label>
+                                                                                                <div
+                                                                                                    class='input-group dropdown'
+                                                                                                >
+                                                                                                    <input
+                                                                                                        type='text'
+                                                                                                        id='HanhKhach_DanhXung'
+                                                                                                        class='form-control dropdown-toggle custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0'
+                                                                                                        {{! class='HanhKhach_GioiTinh form-control dropdown-toggle custom-font p16-B text-dark border-tertiary form-select custom-boxshadow-focus-primary' }}
+                                                                                                        {{! data-bs-toggle='dropdown' }}
+                                                                                                        aria-expanded='false'
+                                                                                                        value='{{this.GioiTinh}}'
+                                                                                                        readonly
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            {{! Họ tên }}
+                                                                                            <div
+                                                                                                class='col-12 col-md-6 px-3'
+                                                                                            >
+                                                                                                <div
+                                                                                                    class='d-flex flex-column'
+                                                                                                >
+                                                                                                    <label
+                                                                                                        class='form-label custom-font text-tertiary p16-S'
+                                                                                                    >Họ tên</label>
+                                                                                                    <input
+                                                                                                        id='HanhKhach_HoTen'
+                                                                                                        class='form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0'
+                                                                                                        type='text'
+                                                                                                        value='{{this.HoTen}}'
+                                                                                                        readonly
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class='row mx-0 px-0 pb-3'>
+                                                                                            {{! Ngày sinh }}
+                                                                                            <div
+                                                                                                class='col-12 col-md-6 px-3'
+                                                                                            >
+                                                                                                <div
+                                                                                                    class='d-flex flex-column'
+                                                                                                >
+                                                                                                    <label
+                                                                                                        class='form-label custom-font p16-S text-tertiary'
+                                                                                                    >Ngày sinh</label>
+                                                                                                    <input
+                                                                                                        type='text'
+                                                                                                        value='{{this.NgaySinh}}'
+                                                                                                        class='form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0'
+                                                                                                    />
+
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                     {{/each}}
                                 </div>
                             </div>
@@ -209,141 +337,20 @@
                 </div>
             </div>
         {{/each}}
-        {{! Modal thông tin khách hàng }}
-        <div class='modal fade' id='ChiTietHangKhach' tabindex='-1' aria-hidden='true'>
-            <div class='modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable'>
-                <div class='modal-content'>
-                    <div class='modal-header bg-tertiary-light border-0 py-3'>
-                        <span class='modal-title custom-font p20-B'></span>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                    </div>
-                    <div class='modal-body bg-tertiary-light rounded-1 pt-0'>
-                        <div class='d-flex flex-column overflow-auto'>
 
-                            {{! Hành khách }}
-                            <div class='mb-4'>
-                                <div class='mb-3 mx-3'>
-                                    <span class='custom-font h24-B text-dark'>Thông tin hành khách</span>
-                                </div>
-                                <div class='bg-light shadow rounded-1 mx-3 h-auto'>
-                                    <div class='py-2'>
-                                        <div class='px-3 d-flex flex-row justify-content-between align-items-center'>
-                                            <span class='custom-font p20-B text-dark'>Người thụ hưởng vé</span>
-                                        </div>
-
-                                    </div>
-                                    <div style='border-top: 1px solid black;'></div>
-
-                                    <form>
-                                        <div class='row mx-0 px-0 py-3'>
-                                            {{! Danh xưng }}
-                                            <div class='col-12 col-md-6 px-3'>
-                                                <label class='form-label custom-font p16-S text-tertiary'>Danh xưng</label>
-                                                <div class='input-group dropdown'>
-                                                    <input
-                                                        type='text'
-                                                        id='HanhKhach_DanhXung'
-                                                        class='form-control dropdown-toggle custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0'
-                                                        {{! class='HanhKhach_GioiTinh form-control dropdown-toggle custom-font p16-B text-dark border-tertiary form-select custom-boxshadow-focus-primary' }}
-                                                        {{! data-bs-toggle='dropdown' }}
-                                                        aria-expanded='false'
-                                                        value='Ông'
-                                                        readonly
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            {{! Họ tên }}
-                                            <div class='col-12 col-md-6 px-3'>
-                                                <div class='d-flex flex-column'>
-                                                    <label class='form-label custom-font text-tertiary p16-S'>Họ tên</label>
-                                                    <input
-                                                        id='HanhKhach_HoTen'
-                                                        class='form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0'
-                                                        type='text'
-                                                        value='Phan Trường Huy'
-                                                        readonly
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class='row mx-0 px-0 pb-3'>
-                                            {{! Ngày sinh }}
-                                            <div class='col-12 col-md-6 px-3'>
-                                                <div class='d-flex flex-column'>
-                                                    <label class='form-label custom-font p16-S text-tertiary'>Ngày sinh</label>
-                                                    <div id='HanhKhach_NgaySinh' class='d-flex flex-row'>
-                                                        {{! Ngày }}
-                                                        <div class=''>
-                                                            <input
-                                                                id='HanhKhach_NgaySinh_Ngay'
-                                                                class='dropdown-toggle form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0 mx-0'
-                                                                type='text'
-                                                                {{! data-bs-toggle='dropdown' }}
-                                                                aria-expanded='false'
-                                                                placeholder='Ngày sinh'
-                                                                value='Ngày 07'
-                                                                readonly
-                                                            />
-
-                                                        </div>
-                                                        {{! Tháng }}
-                                                        <div class=''>
-                                                            <input
-                                                                id='HanhKhach_NgaySinh_Thang'
-                                                                class='dropdown-toggle form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0 mx-0'
-                                                                type='text'
-                                                                {{! data-bs-toggle='dropdown' }}
-                                                                aria-expanded='false'
-                                                                placeholder='Tháng sinh'
-                                                                value='Tháng 1'
-                                                                readonly
-                                                            />
-
-                                                        </div>
-                                                        {{! Năm }}
-                                                        <div class=''>
-                                                            <input
-                                                                id='HanhKhach_NgaySinh_Nam'
-                                                                class='dropdown-toggle form-control custom-font p16-B text-dark border-tertiary custom-boxshadow-focus-none ps-0 border-0 mx-0'
-                                                                type='text'
-                                                                {{! data-bs-toggle='dropdown' }}
-                                                                aria-expanded='false'
-                                                                placeholder='Năm sinh'
-                                                                value='Năm 2002'
-                                                                readonly
-                                                            />
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{! Modal chi tiết chuyến bay }}
-        <div id='ChiTietChuyenBay' class='modal fade' tabindex='-1' aria-hidden='true'>
+        {{! Modal thông tin chuyến bay }}
+        <div id='ChiTietChuyenBay' class='modal fade MCTCB' tabindex='-1' aria-hidden='true'>
             <div class='modal-dialog modal-dialog-centered modal-lg'>
                 <div class='modal-content'>
                     <div class='modal-header'>
-                        <span class='modal-title custom-font p20-B text-tertiary'>Chi tiết chuyến bay</span>
+                        <span class='modal-title custom-font p20-B text-tertiary'>Thông tin chuyến bay</span>
                         <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                     </div>
                     <div class='modal-body'>
                         {{! Thông tin chung }}
                         <div
-                            style='border-bottom: 1px solid gray;'
-                            class='py-3 d-flex flex-row justify-content-between'
+                            {{! style='border-bottom: 1px solid gray;' }}
+                            class='py-1 d-flex flex-row justify-content-between'
                         >
 
                             {{! Bên trái }}
@@ -354,41 +361,22 @@
                                     </span>
                                     <span
                                         class='TomTat_Item_Detail_Modal_MaChuyenBay custom-font p16-B text-dark'
-                                    >TSN</span>
-                                </div>
-                                <div class='d-flex flex-row'>
-                                    <i
-                                        style='height: 16px; width: 16px;'
-                                        class='me-3 p16-B fa-solid fa-ticket-simple'
-                                    ></i>
-                                    <span class='custom-font p16-R text-dark me-2'>Giá vé:
-                                    </span>
-                                    <span
-                                        class='TomTat_Item_Detail_Modal_GiaVe custom-font p16-B text-dark'
-                                    >500.000</span>
-                                    <span class='ps-1 custom-font p16-B text-dark'>
-                                        VND /khách</span>
+                                    >{{this.MaChuyenBay}}</span>
                                 </div>
                             </div>
 
                             {{! Bên phải }}
                             <div class='d-flex flex-column me-4'>
-                                <div class='d-flex flex-row mb-2'>
-                                    <i style='height: 16px; width: 16px;' class='me-3 p16-B fa-solid fa-suitcase'></i>
-                                    <span class='custom-font p16-R text-dark me-2'>Hành lý:
-                                    </span>
-                                    <span class='custom-font p16-B text-dark'>7kg xách tay</span>
-                                </div>
-                                <div class='d-flex flex-row'>
-                                    <span
-                                        class='TomTat_Item_Detail_Modal_HanhLyMuaThem custom-font p14-S text-primary'
-                                    >+ xem giá hành lý mua thêm</span>
-                                </div>
+
+                                <span class='custom-font p16-B text-secondary me-2' id='TrangThai'>
+                                </span>
+
                             </div>
                         </div>
-
                         {{! Trung gian container }}
-                        <div class='TomTat_Item_Detail_Modal_TrungGian_Container py-4 d-flex flex-column'>
+                        <div
+                            class='TomTat_Item_Detail_Modal_TrungGian_Container py-4 d-flex flex-column container col-8'
+                        >
                             {{! Chặn bay item }}
                             <div class='TomTat_Item_Detail_Modal_TrungGian_Item'>
                                 <div class='px-4 mb-4 d-flex flex-column'>
@@ -397,99 +385,195 @@
                                     <div class='d-flex flex-row justify-content-between'>
                                         {{! Đi }}
                                         <div class='d-flex flex-row align-items-end'>
-                                            <span
-                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_GioDi custom-font p20-B text-dark'
-                                            >11:11</span>
+                                            <span class='custom-font p20-B text-dark' id='GioBay'>11:11</span>
                                             <span
                                                 style='margin-bottom: 4px;'
-                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_NgayDi ms-1 custom-font p12-S text-tertiary'
-                                            >11-11-2022</span>
+                                                class='ms-1 custom-font p12-S text-tertiary'
+                                                id='NgayBay'
+                                            ></span>
                                         </div>
                                         {{! Thời gian bay }}
                                         <div class='mx-auto align-self-end'>
-                                            <span
-                                                class='TomTat_Item_Detail_Modal_TrungGian_Item_ThoiGianBay custom-font p16-B text-tertiary'
-                                            >11h 11m</span>
+                                            <span class='custom-font p16-B text-tertiary' id='ThoiGianBay'>11h 11m</span>
                                         </div>
                                         {{! Đến }}
                                         <div class='d-flex flex-row align-items-end'>
                                             <span
                                                 style='margin-bottom: 4px;'
                                                 class='TomTat_Item_Detail_Modal_TrungGian_Item_NgayDen me-1 custom-font p12-S text-tertiary'
+                                                id='NgayDap'
                                             >11-11-2022</span>
                                             <span
                                                 class='TomTat_Item_Detail_Modal_TrungGian_Item_GioDen custom-font p20-B text-dark'
+                                                id='GioDap'
                                             >11:11</span>
                                         </div>
                                     </div>
 
-                                    {{! decor }}
-                                    <div class='d-flex flex-column py-1'>
-                                        <div class='d-flex flex-row align-items-center'>
-
-                                            <div class='w-auto h-auto'>
-                                                <i
-                                                    style='height:15px; width:15px; font-size:15px; '
-                                                    class='fa-regular fa-circle text-tertiary'
-                                                ></i>
-                                            </div>
-
-                                            <div
-                                                style='border-bottom: 1px solid black; padding: 0 60px;'
-                                                class='w-100'
-                                            ></div>
-
-                                            <div class='w-auto h-auto'>
-                                                <i
-                                                    style='height:15px; width:15px; font-size:15px;'
-                                                    class='fa-solid fa-circle text-tertiary'
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     {{! Sân bay đi - đến }}
-                                    <div class='d-flex flex-row justify-content-between'>
+                                    <div class='d-flex flex-row row'>
                                         {{! Đi }}
-                                        <div class='d-flex flex-column'>
-                                            <div style='padding: 4px 0px;' class='mx-auto'>
-                                                <span
-                                                    class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDi custom-font p12-S text-dark'
-                                                >TSN - TP HCM</span>
+                                        <div class='d-flex flex-column col-4 justify-content-start mt-1'>
+
+                                            <span class='custom-font p12-S text-dark' id='SanBayDi'>TSN - TP HCM</span>
+
+                                        </div>
+                                        {{! decor }}
+                                        <div class='px-0 col-4 d-flex flex-column'>
+                                            <div class='d-flex flex-row align-items-center'>
+
+                                                <div class='w-auto h-auto'>
+                                                    <i
+                                                        style='height:15px; width:15px; font-size:15px; '
+                                                        class='fa-regular fa-circle text-tertiary'
+                                                    ></i>
+                                                </div>
+
+                                                <div
+                                                    style='border-bottom: 1px solid black; padding: 0 60px;'
+                                                    class='w-100'
+                                                ></div>
+
+                                                <div class='w-auto h-auto'>
+                                                    <i
+                                                        style='height:15px; width:15px; font-size:15px;'
+                                                        class='fa-solid fa-circle text-tertiary'
+                                                    ></i>
+                                                </div>
                                             </div>
+                                            <span class='custom-font p16-B text-tertiary text-center' id='SoDiemDung'>Số
+                                                điểm dừng</span>
                                         </div>
                                         {{! Đến }}
-                                        <div class='d-flex flex-column'>
-                                            <div style='padding: 4px 0px;' class='mx-auto'>
-                                                <span
-                                                    class='TomTat_Item_Detail_Modal_TrungGian_Item_SanBayDen custom-font p12-S text-dark'
-                                                >DAD - Đà Nẵng</span>
-                                            </div>
+                                        <div class='d-flex col-4 justify-content-end mt-1'>
+
+                                            <span class='custom-font p12-S text-dark' id='SanBayDen'>DAD - Đà Nẵng</span>
+
                                         </div>
                                     </div>
 
                                 </div>
-
-                                {{! Divider }}
-                                <div
-                                    class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider mb-4 px-2 py-1 d-flex flex-row bg-primary rounded-2 align-items-center'
-                                >
-                                    <i class='fa-solid fa-circle-info me-2 text-light'></i>
-                                    <span class='custom-font p16-S text-light pe-1'>Dừng ở sân bay
-                                    </span>
-                                    <span
-                                        class='TomTat_Item_Detail_Modal_TrungGian_Item_Divider_SanBay custom-font p16-S text-light'
-                                    >Tân Sơn Nhất (11h 11m)</span>
-                                </div>
-
                             </div>
-
                         </div>
+                        {{! Thông tin từng chằng bay }}
+                        <div class='container col-10 mb-2 ChangBay d-none'>
+                            {{! Thanh ngang treen }}
+                            <div class='mb-3' style='border-bottom: 1px solid gray; '></div>
+                            {{! Tung chang bay }}
+                            <div class='row ps-2'>
+                                <div class='col-auto d-flex flex-column'>
+                                    {{! Hai cục tròn }}
+                                    <div class='w-auto h-auto'>
+                                        <i
+                                            style='height:15px; width:15px; font-size:15px; '
+                                            class='fa-regular fa-circle text-tertiary'
+                                        ></i>
+                                    </div>
+                                    <div style='border-left: 2px solid gray; height: 61px;margin-left:7px'>
+
+                                    </div>
+                                    <div class='w-auto h-auto'>
+                                        <i
+                                            style='height:15px; width:15px; font-size:15px; '
+                                            class='fa-solid fa-circle text-tertiary'
+                                        ></i>
+                                    </div>
+                                </div>
+                                <div class='col ps-0'>
+                                    <div class='d-flex flex-column'>
+                                        <div class='custom-font p12-R text-dark col-auto mb-2'>Khởi hành
+                                        </div>
+                                        <div class='custom-font p12-S text-dark col-auto mb-2 NgayGioBay' id=''>07:15,
+                                            22/10/2022</div>
+                                        <div class='custom-font p12-S text-dark col-auto mb-4 SanBayCTDi' id=''>Tp. Hồ
+                                            Chí Minh, Sân bay Tân Sơn Nhất</div>
+                                        <div class='custom-font p12-R text-dark col-auto mb-2'>Đến</div>
+                                        <div class='custom-font p12-S text-dark col-auto mb-2 NgayGioDap'>07:15,
+                                            22/10/2022</div>
+                                        <div class='custom-font p12-S text-dark col-auto mb-3 SanBayCTDen'>Tp. Hồ Chí
+                                            Minh, Sân bay Tân Sơn Nhất</div>
+                                    </div>
+                                </div>
+                                {{! Thời gian bên phải }}
+                                <div class='col row'>
+                                    <i
+                                        style='height:15px; width:15px; font-size:15px;margin-top: -1px;'
+                                        class='fa-solid fa-clock'
+                                    ></i>
+                                    <div class='custom-font p12-R text-dark mb-1 col-auto'>Thời gian:
+                                    </div>
+                                    <div class='custom-font p12-S text-dark ps-0 mb-1 col-auto ThoiGianChangBay'>1 giờ
+                                        20 phút
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='Cop'>
+                                {{! Thời gian dừng }}
+                                <div
+                                    class='row bg-primary py-2 custom-font p12-S text-light mb-3 d-flex align-items-center row'
+                                    style='border-radius:10px'
+                                >
+                                    <i
+                                        class='< fas fa-map-marker'
+                                        style='height: 15px; width:15px; font-size: 15px me-1'
+                                    ></i>
+                                    <div class='ThoiGianDung col ps-1'>Thời gian dừng</div>
+                                </div>
+                                {{! Tung chang bay }}
+                                <div class='row ps-2'>
+                                    <div class='col-auto d-flex flex-column'>
+                                        {{! Hai cục tròn }}
+                                        <div class='w-auto h-auto'>
+                                            <i
+                                                style='height:15px; width:15px; font-size:15px; '
+                                                class='fa-regular fa-circle text-tertiary'
+                                            ></i>
+                                        </div>
+                                        <div style='border-left: 2px solid gray; height: 61px;margin-left:7px'>
+                                        </div>
+                                        <div class='w-auto h-auto'>
+                                            <i
+                                                style='height:15px; width:15px; font-size:15px; '
+                                                class='fa-solid fa-circle text-tertiary'
+                                            ></i>
+                                        </div>
+                                    </div>
+                                    <div class='col ps-0'>
+                                        <div class='d-flex flex-column'>
+                                            <div class='custom-font p12-R text-dark col-auto mb-2'>Khởi hành
+                                            </div>
+                                            <div class='custom-font p12-S text-dark col-auto mb-2 NgayGioBay'>07:15,
+                                                22/10/2022</div>
+                                            <div class='custom-font p12-S text-dark col-auto mb-4 SanBayCTDi'>Tp. Hồ Chí
+                                                Minh, Sân bay Tân Sơn Nhất</div>
+                                            <div class='custom-font p12-R text-dark col-auto mb-2'>Đến</div>
+                                            <div class='custom-font p12-S text-dark col-auto mb-2 NgayGioDap'>07:15,
+                                                22/10/2022</div>
+                                            <div class='custom-font p12-S text-dark col-auto mb-3 SanBayCTDen'>Tp. Hồ
+                                                Chí Minh, Sân bay Tân Sơn Nhất</div>
+                                        </div>
+                                    </div>
+                                    {{! Thời gian bên phải }}
+                                    <div class='col row'>
+                                        <i
+                                            style='height:15px; width:15px; font-size:15px;margin-top: -1px;'
+                                            class='fa-solid fa-clock'
+                                        ></i>
+                                        <div class='custom-font p12-R text-dark mb-1 col-auto'>Thời gian:
+                                        </div>
+                                        <div class='custom-font p12-S text-dark ps-0 mb-1 col-auto ThoiGianChangBay'>1
+                                            giờ 20 phút
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    <div class='py-3'></div>
                 </div>
             </div>
         </div>
-
     </div>
     <div style='height: 50px;'></div>
 </div>

@@ -10,7 +10,7 @@ import {
     onlyNumber,
     showToast,
 } from '../public/javascript/start.js';
-import db from '../models/index';
+import db, { sequelize } from '../models/index';
 import HoaDonController from './HoaDonController';
 const { QueryTypes } = require('sequelize');
 import Mailer from '../utils/mailer';
@@ -132,7 +132,7 @@ class ClientController {
                 HoaDons[i].NgayGioThanhToan =
                     ('0' + NgayTT.getHours()).slice(-2) +
                     ':' +
-                    NgayTT.getMinutes() +
+                    ('0' + NgayTT.getMinutes()).slice(-2) +
                     ' ' +
                     ('0' + NgayTT.getDate()).slice(-2) +
                     '/' +
@@ -141,7 +141,7 @@ class ClientController {
                     NgayTT.getFullYear();
                 HoaDons[i].TongTien = numberWithDot(HoaDons[i].TongTien) + ' VND';
                 let Ves = await db.sequelize.query(
-                    "select ve.MaVe, mochanhly.SoKgToiDa, hanhkhach.HoTen, hanhkhach.MaHK , ve.GiaVe , ve.MaCTVe, ve.MaHoaDon from ve, mochanhly, hanhkhach where ve.MaHK=hanhkhach.MaHK and ve.MaMocHanhLy=mochanhly.MaMocHanhLy and ve.MaHoaDon = '" +
+                    "select ve.MaVe, mochanhly.SoKgToiDa, hanhkhach.HoTen, hanhkhach.GioiTinh , hanhkhach.NgaySinh , hanhkhach.MaHK , ve.GiaVe , ve.MaCTVe, ve.MaHoaDon from ve, mochanhly, hanhkhach where ve.MaHK=hanhkhach.MaHK and ve.MaMocHanhLy=mochanhly.MaMocHanhLy and ve.MaHoaDon = '" +
                         HoaDons[i].MaHoaDon +
                         "'",
                     {
@@ -151,8 +151,12 @@ class ClientController {
                 );
                 for (let j = 0; j < Ves.length; j++) {
                     Ves[j].GiaVe = numberWithDot(Ves[j].GiaVe) + ' VND';
+                    Ves[j].GioiTinh = Ves[j].GioiTinh == 1 ? 'Nam' : 'Nữ';
+                    let NS = new Date(Ves[j].NgaySinh);
+                    Ves[j].NgaySinh =
+                        'Ngày ' + NS.getDate() + ' Tháng ' + (NS.getMonth() + 1) + ' Năm ' + NS.getFullYear();
                     let CTVE = await db.sequelize.query(
-                        "select chuyenbay.MaSanBayDi, chuyenbay.MaSanBayDen, chuyenbay.MaChuyenbay, chitiethangve.MaCTVe, hangghe.MaHangGhe, hangghe.TenHangGhe from chuyenbay, chitiethangve, hangghe where chitiethangve.MaHangGhe=hangghe.MaHangGhe and chitiethangve.MaChuyenBay=chuyenbay.MaChuyenBay and chitiethangve.MaCTVe= '" +
+                        "select chuyenbay.MaSanBayDi, chuyenbay.MaSanBayDen, chuyenbay.MaChuyenBay, chitiethangve.MaCTVe, hangghe.MaHangGhe, hangghe.TenHangGhe from chuyenbay, chitiethangve, hangghe where chitiethangve.MaHangGhe=hangghe.MaHangGhe and chitiethangve.MaChuyenBay=chuyenbay.MaChuyenBay and chitiethangve.MaCTVe= '" +
                             Ves[j].MaCTVe +
                             "' limit 1",
                         {
@@ -160,11 +164,12 @@ class ClientController {
                             raw: true,
                         },
                     );
-                    Ves[j].MaChuyenBay = CTVE[0].MaSanBayDi + '-' + CTVE[0].MaSanBayDen + '-' + CTVE[0].MaChuyenbay;
+                    Ves[j].MaChuyenBay = CTVE[0].MaSanBayDi + '-' + CTVE[0].MaSanBayDen + '-' + CTVE[0].MaChuyenBay;
                     Ves[j].MaChuyenBayCT = CTVE[0].MaChuyenBay;
                     Ves[j].HangVe = CTVE[0].MaHangGhe + '-' + CTVE[0].TenHangGhe;
                     Ves[j].MaVe = Ves[j].MaChuyenBay + Ves[j].MaVe;
                 }
+                console.log(Ves);
                 HoaDons[i].MaHoaDon = HoaDons[i].MaUser + '-' + HoaDons[i].MaHoaDon;
                 HoaDons[i].Ves = structuredClone(Ves);
             }
@@ -172,6 +177,53 @@ class ClientController {
                 layout: 'client.handlebars',
                 HoaDons: HoaDons,
             });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async ChiTietChuyenBay(req, res) {
+        try {
+            let p = req.body;
+            let ChuyenBay = await db.ChuyenBay.findOne({
+                where: { MaChuyenBay: p.MaChuyenBay },
+                raw: true,
+            });
+            let SanBay = await sequelize.query(
+                "select sanbay.TenSanBay, tinhthanh.TenTinhThanh from tinhthanh, sanbay where tinhthanh.MaTinhThanh = sanbay.MaTinhThanh and sanbay.MaSanBay = '" +
+                    ChuyenBay.MaSanBayDi +
+                    "'",
+                { type: QueryTypes.SELECT, raw: true },
+            );
+            ChuyenBay.SanBayDi = structuredClone(SanBay);
+            SanBay = await sequelize.query(
+                "select sanbay.TenSanBay, tinhthanh.TenTinhThanh from tinhthanh, sanbay where tinhthanh.MaTinhThanh = sanbay.MaTinhThanh and sanbay.MaSanBay = '" +
+                    ChuyenBay.MaSanBayDen +
+                    "'",
+                { type: QueryTypes.SELECT, raw: true },
+            );
+            ChuyenBay.SanBayDen = structuredClone(SanBay);
+            let ChiTietChuyenBay = await db.ChiTietChuyenBay.findAll({
+                where: { MaChuyenBay: p.MaChuyenBay },
+                raw: true,
+            });
+            ChiTietChuyenBay.sort((a, b) => {
+                if (a.ThuTu < a.ThuTu) return 1;
+                else return -1;
+            });
+            console.log(ChiTietChuyenBay);
+            for (let i = 0; i < ChiTietChuyenBay.length; i++) {
+                let SanBay = await sequelize.query(
+                    "select sanbay.TenSanBay, tinhthanh.TenTinhThanh from tinhthanh, sanbay where tinhthanh.MaTinhThanh = sanbay.MaTinhThanh and sanbay.MaSanBay = '" +
+                        ChiTietChuyenBay[i].MaSBTG +
+                        "'",
+                    { type: QueryTypes.SELECT, raw: true },
+                );
+                ChiTietChuyenBay[i].SBTG = structuredClone(SanBay);
+            }
+            let P = {};
+            P.ChuyenBay = structuredClone(ChuyenBay);
+            P.ChiTietChuyenBay = structuredClone(ChiTietChuyenBay);
+            return res.send(P);
         } catch (error) {
             console.log(error);
         }

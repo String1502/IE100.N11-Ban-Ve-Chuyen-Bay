@@ -54,7 +54,7 @@ let getTemplateHtml = async () => {
 //     }]
 // }
 
-let generatePdf = async (MaHoaDon, PackageBooking) => {
+let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     let data = {
         NguoiLienHe: {
             HoTen: '',
@@ -68,7 +68,14 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
         SoTien: '',
         HanhKhach: [],
         ChuyenBay: [],
+        TenHTTT: '',
     };
+
+    data.TenHTTT = await db.HtThanhToan.findOne({
+        where: {
+            MaHTTT: MaHTTT,
+        },
+    }).Ten;
 
     data.NguoiLienHe.HoTen = PackageBooking.HoaDon.NguoiLienHe.HoTen;
     data.NguoiLienHe.SDT = PackageBooking.HoaDon.NguoiLienHe.SDT;
@@ -90,7 +97,7 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
             MaHoaDon: MaHoaDon,
         },
     });
-    data.SoTien = numberWithDot(TongTien.TongTien);
+    data.SoTien = numberWithDot(TongTien.TongTien) + ' VND';
 
     for (var i in PackageBooking.HoaDon.HanhKhach) {
         let khach = {
@@ -100,12 +107,12 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
         data.HanhKhach.push(khach);
     }
 
-    for (var i in PackageBooking.MangChuyenBayTimKiem) {
+    for (var i in PackageBooking.ChuyenBayDaChon) {
         let HanhLy = await db.sequelize.query(
             'SELECT SUM(mochanhly.SoKgToiDa) as TongKg FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = :machuyenbay AND hoadon.MaHoaDon = :mahoadon GROUP BY chitiethangve.MaChuyenBay',
             {
                 replacements: {
-                    machuyenbay: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.MaChuyenBay,
+                    machuyenbay: PackageBooking.ChuyenBayDaChon[i].ChuyenBay.MaChuyenBay,
                     mahoadon: MaHoaDon,
                 },
                 type: QueryTypes.SELECT,
@@ -113,23 +120,26 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
             },
         );
 
+        var KhoiHanh = new Date(PackageBooking.ChuyenBayDaChon[i].ChuyenBay.NgayGio);
+        var Den = new Date(KhoiHanh.getTime() + PackageBooking.ChuyenBayDaChon[i].ChuyenBay.ThoiGianBay * 60000);
+
         let chuyenbay = {
-            MaChuyenBay: `${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDi.MaSanBay}-${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDen.MaSanBay}-${PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.MaChuyenBay}`,
-            SanBayDi: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDi.TenSanBay,
-            SanBayDen: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.SanBayDen.TenSanBay,
+            MaChuyenBay: `${PackageBooking.ChuyenBayDaChon[i].SanBayDi.MaSanBay}-${PackageBooking.ChuyenBayDaChon[i].SanBayDen.MaSanBay}-${PackageBooking.ChuyenBayDaChon[i].ChuyenBay.MaChuyenBay}`,
+            SanBayDi: PackageBooking.ChuyenBayDaChon[i].SanBayDi.TenSanBay,
+            SanBayDen: PackageBooking.ChuyenBayDaChon[i].SanBayDen.TenSanBay,
             KhoiHanh: {
-                Gio: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDi.GioDi.Gio,
-                Phut: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDi.GioDi.Phut,
-                Ngay: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDi.NgayDi.Ngay,
-                Thang: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDi.NgayDi.Thang,
-                Nam: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDi.NgayDi.Nam,
+                Gio: KhoiHanh.getHours(),
+                Phut: KhoiHanh.getMinutes(),
+                Ngay: KhoiHanh.getDate(),
+                Thang: KhoiHanh.getMonth() + 1,
+                Nam: KhoiHanh.getFullYear(),
             },
             Den: {
-                Gio: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.GioDen.Gio,
-                Phut: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.GioDen.Phut,
-                Ngay: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.NgayDen.Ngay,
-                Thang: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.NgayDen.Thang,
-                Nam: PackageBooking.MangChuyenBayTimKiem[i].ChuyenBayDaChon.ThoiGianDen.NgayDen.Nam,
+                Gio: Den.getHours(),
+                Phut: Den.getMinutes(),
+                Ngay: Den.getDate(),
+                Thang: Den.getMonth() + 1,
+                Nam: Den.getFullYear(),
             },
             HanhLy: HanhLy[0].TongKg,
             BookingID: '',
@@ -140,7 +150,7 @@ let generatePdf = async (MaHoaDon, PackageBooking) => {
 
     // SELECT  chitiethangve.MaChuyenBay, mochanhly.SoKgToiDa FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = 1 AND hoadon.MaHoaDon = 46 GROUP BY chitiethangve.MaChuyenBay
 
-    let date = new Date(Date.now());
+    let date = new Date();
     const filename = `[${date.toDateString()}].[Deluxe-${MaHoaDon}].pdf`;
     await getTemplateHtml()
         .then(async (call) => {

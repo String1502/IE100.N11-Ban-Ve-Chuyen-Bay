@@ -11,6 +11,10 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
+
+console.log(new Date('2022-11-11'));
+console.log(new Date('2022/11/11'));
+
 // Mảng các sân bay
 const SanBayDi_lis = document.querySelectorAll('.SanBayDi_li');
 let mangSanBay = [];

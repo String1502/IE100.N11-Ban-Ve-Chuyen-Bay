@@ -11,7 +11,6 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
-
 // Mảng các sân bay
 const SanBayDi_lis = document.querySelectorAll('.SanBayDi_li');
 let mangSanBay = [];
@@ -351,70 +350,71 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     search_flight_form.submit();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    window.searchFlightBtn_onclick = function searchFlightBtn() {
-        if (!KiemTra_TraCuu()) return;
+//document.addEventListener('DOMContentLoaded', function () {});
+// Sao cần cái này?
 
-        const ChuyenBay_Items = document.querySelectorAll('.ChuyenBay_Item');
+window.searchFlightBtn_onclick = function searchFlightBtn() {
+    if (!KiemTra_TraCuu()) return;
 
-        let soluongChuyenBay = MotChieu_KhuHoi.checked ? (KhuHoi.checked ? 2 : 1) : ChuyenBay_Items.length;
-        let mangChuyenBay = [];
+    const ChuyenBay_Items = document.querySelectorAll('.ChuyenBay_Item');
 
-        let MaSanBayDi;
-        let SanBayDi;
-        let MaSanBayDen;
-        let SanBayDen;
+    let soluongChuyenBay = MotChieu_KhuHoi.checked ? (KhuHoi.checked ? 2 : 1) : ChuyenBay_Items.length;
+    let mangChuyenBay = [];
 
-        let ngaythangnam;
-        let NgayBay;
-        if (MotChieu_KhuHoi.checked && KhuHoi.checked) {
-            MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
+    let MaSanBayDi;
+    let SanBayDi;
+    let MaSanBayDen;
+    let SanBayDen;
+
+    let ngaythangnam;
+    let NgayBay;
+    if (MotChieu_KhuHoi.checked && KhuHoi.checked) {
+        MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
+        SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
+
+        MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
+        SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
+
+        ngaythangnam = (
+            MotChieu_KhuHoi.checked
+                ? Hang3_div.querySelector('.NgayDi').value
+                : ChuyenBay_Items[0].querySelector('.NgayDi').value
+        ).split('-');
+        NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
+
+        mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
+
+        // Chuyến khứ hồi
+        MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
+        SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
+
+        MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
+        SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
+
+        ngaythangnam = document.getElementById('NgayVe').value.split('-');
+        NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
+
+        mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
+    } else {
+        for (let i = 0; i < soluongChuyenBay; i++) {
+            MaSanBayDi = ChuyenBay_Items[i].querySelector('.SanBayDi').title;
             SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
 
-            MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
+            MaSanBayDen = ChuyenBay_Items[i].querySelector('.SanBayDen').title;
             SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
 
             ngaythangnam = (
                 MotChieu_KhuHoi.checked
                     ? Hang3_div.querySelector('.NgayDi').value
-                    : ChuyenBay_Items[0].querySelector('.NgayDi').value
+                    : ChuyenBay_Items[i].querySelector('.NgayDi').value
             ).split('-');
             NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
 
             mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
-
-            // Chuyến khứ hồi
-            MaSanBayDi = ChuyenBay_Items[0].querySelector('.SanBayDen').title;
-            SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
-
-            MaSanBayDen = ChuyenBay_Items[0].querySelector('.SanBayDi').title;
-            SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
-
-            ngaythangnam = document.getElementById('NgayVe').value.split('-');
-            NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
-
-            mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
-        } else {
-            for (let i = 0; i < soluongChuyenBay; i++) {
-                MaSanBayDi = ChuyenBay_Items[i].querySelector('.SanBayDi').title;
-                SanBayDi = mangSanBay.find((item) => item.MaSanBay == MaSanBayDi);
-
-                MaSanBayDen = ChuyenBay_Items[i].querySelector('.SanBayDen').title;
-                SanBayDen = mangSanBay.find((item) => item.MaSanBay == MaSanBayDen);
-
-                ngaythangnam = (
-                    MotChieu_KhuHoi.checked
-                        ? Hang3_div.querySelector('.NgayDi').value
-                        : ChuyenBay_Items[i].querySelector('.NgayDi').value
-                ).split('-');
-                NgayBay = { Nam: ngaythangnam[0], Thang: ngaythangnam[1], Ngay: ngaythangnam[2] };
-
-                mangChuyenBay.push({ SanBayDi: SanBayDi, SanBayDen: SanBayDen, NgayDi: NgayBay });
-            }
         }
+    }
 
-        let bienHangGhe = mangHangGhe.find((item) => item.TenHangGhe == HangGhe.value);
+    let bienHangGhe = mangHangGhe.find((item) => item.TenHangGhe == HangGhe.value);
 
-        SendForm(JSON.stringify(mangChuyenBay), JSON.stringify(bienHangGhe), JSON.stringify(mangHanhKhach));
-    };
-});
+    SendForm(JSON.stringify(mangChuyenBay), JSON.stringify(bienHangGhe), JSON.stringify(mangHanhKhach));
+};

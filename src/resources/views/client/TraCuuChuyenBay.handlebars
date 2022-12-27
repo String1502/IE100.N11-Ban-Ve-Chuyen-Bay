@@ -64,7 +64,6 @@
             <div class='col-12 col-lg-11 h-auto bg-white rounded-1 shadow my-3'>
 
                 <div class='px-5 py-3'>
-
                     {{! Hàng 1 }}
                     <div class='row h-auto mb-3 align-items-center'>
                         {{! Radio button: 1 chiều/ khứ hồi }}
@@ -134,14 +133,14 @@
                                             class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'
                                         >
                                             <div class='d-flex flex-column'>
-                                                <span
-                                                    class='custom-font p12-S text-dark border-tertiary border-tertiary'
-                                                >Thành phố hoặc sân bay phổ biến</span>
+                                                <span class='custom-font p12-S text-dark'>Thành phố hoặc sân bay phổ
+                                                    biến</span>
                                             </div>
                                         </li>
                                         {{! Dropdown items }}
                                         {{#each SanBays}}
                                             <li
+                                                style='cursor: pointer;'
                                                 class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                             >
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
@@ -213,6 +212,7 @@
                                         {{! Dropdown items }}
                                         {{#each SanBays}}
                                             <li
+                                                style='cursor: pointer;'
                                                 class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
                                             >
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
@@ -435,7 +435,7 @@
                                 >
                                     {{! Dropdown items }}
                                     {{#each HangGhes}}
-                                        <li class='HangGhe_li dropdown-item custom-active'>
+                                        <li style='cursor: pointer;' class='HangGhe_li dropdown-item custom-active'>
                                             <div style='pointer-events:none;' class='d-flex flex-row py-2'>
                                                 <span
                                                     class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
@@ -473,299 +473,6 @@
             </div>
         </div>
     </div>
-
-    {{!-- <div class='container mt-4 pb-4 bg-light'>
-
-        {{! Hàng 1 }}
-        <div class='row align-items-center mb-3'>
-
-            <div class='col-2'>
-                <img
-                    src='https://img.freepik.com/premium-vector/air-plane-icon-illustration_138676-278.jpg?w=826'
-                    alt=''
-                    class='img-fluid'
-                />
-            </div>
-
-            <div class='col-10'>
-                <div class='d-flex flex-column'>
-
-                    <div class='mb-1'>
-                        <span class='text-primary custom-font h64-B'>Planet</span>
-                    </div>
-
-                    <div>
-                        <div class='custom-font p16-S text-dark mb-1'>
-                            Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam
-                        </div>
-                        <div class='custom-font p16-R text-dark'>
-                            http://127.0.0.1:8080/ | planet@gmail.com
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{! Hàng 2 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col-5'>
-                <div style='font-weight: 400px !important; font-size:48px;' class='custom-font text-dark'>
-                    E-ticket
-                    <span style='font-size:36px;' class='text-tertiary'> / Vé điện tử</span>
-                </div>
-            </div>
-        </div>
-
-        {{! Hàng 3 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col'>
-                <div style='border:3px dashed;' class='rounded border-primary'>
-
-                    <div class='row align-items-center justify-content-between m-0'>
-
-                        <div class='col-6 px-0 border-primary' style='border-right:3px dashed;'>
-
-                            <div class='d-flex flex-column mt-3'>
-
-                                <div class='custom-font h24-B text-primary text-center align-middle'><i
-                                        class='fa-solid fa-envelope h24-B me-2'
-                                    ></i>Người liên hệ</div>
-
-                                <div style='border-bottom:3px dashed;' class='my-3 border-primary'>
-                                </div>
-
-                                <div class='d-flex flex-column px-3'>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Họ tên:</div>
-                                        <div class='custom-font p20-S text-dark'>Phan Trường Huy</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Số điện thoại:</div>
-                                        <div class='custom-font p20-S text-dark'>0343214971</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-3'>
-                                        <div class='custom-font p20-R text-dark'>Email:</div>
-                                        <div class='custom-font p20-S text-dark'>phantruonghuy0701@gmail.com</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class='col-6 px-0'>
-
-                            <div class='d-flex flex-column mt-3'>
-
-                                <div class='custom-font h24-B text-primary text-center align-middle'><i
-                                        class='fa-solid fa-money-check-dollar h24-B me-2'
-                                    ></i>Thanh toán</div>
-
-                                <div style='border-bottom:3px dashed;' class='my-3 border-primary'>
-                                </div>
-
-                                <div class='d-flex flex-column px-3'>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Hạng vé:</div>
-                                        <div class='custom-font p20-S text-dark'>Eco - Phổ thông</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Hình thức thanh toán:</div>
-                                        <div class='custom-font p20-S text-dark'>Momo</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-3'>
-                                        <div class='custom-font p20-R text-dark'>Số tiền thanh toán:</div>
-                                        <div class='custom-font p20-S text-dark'>500.000 VND</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        {{! Hàng 4 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col'>
-
-                <div class='row mx-0 border-tertiary py-3' style='border-bottom:2px solid; border-top:2px solid;'>
-
-                    <div class='col-6'>
-
-                        <div style='margin-left: 64px; margin-right:32px;' class='d-flex flex-row align-items-center'>
-
-                            <div style='font-size: 54px;' class='text-tertiary'>
-                                <i class='fa-solid fa-address-book'></i>
-                            </div>
-
-                            <div class='custom-font p20-R text-tertiary text-wrap ms-3'>
-                                Trình CMND/ hộ chiếu và vé điện tử khi làm thủ tục bay ở quầy.
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class='col-6'>
-
-                        <div style='margin-left: 32px; margin-right:64px;' class='d-flex flex-row align-items-center'>
-
-                            <div style='font-size: 54px;' class='text-tertiary'>
-                                <i class='fa-solid fa-clock'></i>
-                            </div>
-
-                            <div class='custom-font p20-R text-tertiary text-wrap ms-3'>
-                                Làm thủ tục ít nhất 90 phút trước giờ khởi hành.
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{! Hàng 5 }}
-        <div class='d-flex flex-column mb-5'>
-
-            <div style='font-weight: 600px !important; font-size:28px;' class='custom-font text-dark'>
-                Passenger(s)
-                <span style='font-size:20px;' class='text-tertiary'> / Hành khách</span>
-            </div>
-
-            <div>
-                <table class='table mt-3'>
-                    <thead>
-                        <tr class='custom-font p20-R text-dark'>
-                            <th style='width: 10%;' scope='col' class='text-end'>Thứ tự</th>
-                            <th style='width: 5%;' scope='col'></th>
-                            <th style='width: 55%;' scope='col'>Tên hành khách</th>
-                            <th style='width: 30%;' scope='col'>Độ tuổi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>2</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>3</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy Huy Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        {{! Hàng 6 }}
-        <div class='d-flex flex-column mb-5'>
-
-            <div style='font-weight: 600px !important; font-size:28px;' class='custom-font text-dark'>
-                Flight(s)
-                <span style='font-size:20px;' class='text-tertiary'> / Chuyến bay</span>
-            </div>
-
-            <div>
-                <table class='table mt-3 align-middle'>
-                    <thead>
-                        <tr class='custom-font p20-R text-dark'>
-                            <th style='width: 5%;' scope='col' class='text-end'>TT</th>
-                            <th style='width: 15%;' scope='col'>Mã chuyến bay</th>
-                            <th style='width: 15%;' scope='col'>Sân bay đi</th>
-                            <th style='width: 15%;' scope='col'>Sân bay đến</th>
-                            <th style='width: 13%;' scope='col'>Khởi hành</th>
-                            <th style='width: 13%;' scope='col'>Đến</th>
-                            <th style='width: 10%;' scope='col'>Hành lý</th>
-                            <th style='width: 14%;' scope='col'>Booking ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div> --}}
-
 </div>
 
 <form name='search-flight-form' method='POST' style='display: none;'>

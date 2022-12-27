@@ -8,7 +8,12 @@ import {
     today,
     onlyNumber,
     showToast,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('PhanQuyen');
+openLoader('Chờ chút');
+closeLoader();
 
 let ChucVus = JSON.parse(document.querySelector('.ChucVus').getAttribute('value'));
 console.log(ChucVus);

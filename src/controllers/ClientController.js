@@ -435,10 +435,11 @@ class ClientController {
     async payment(req, res) {
         try {
             let PackageBooking_ = JSON.parse(req.body.PackageBooking);
-            let HoaDon = await HoaDonController.CreateHoaDon(PackageBooking_.HoaDon);
+            // Trí
+            // let HoaDon = await HoaDonController.CreateHoaDon(PackageBooking_.HoaDon);
             return res.render('client/ThanhToan', {
                 layout: 'client.handlebars',
-                HoaDon: JSON.stringify(HoaDon),
+                //HoaDon: JSON.stringify(HoaDon),
                 PackageBookingJS: JSON.stringify(PackageBooking_),
             });
         } catch (error) {

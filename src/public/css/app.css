@@ -7,6 +7,11 @@
     padding-bottom: 6px;
     color: #04bfae !important; } }
 
+.nav-item-active {
+  border-bottom: 2px solid #04bfae;
+  padding-bottom: 6px;
+  color: #04bfae !important; }
+
 @media (max-width: 991.98px) {
   .nav-item-hover:hover {
     border-right: 3px solid #04bfae;
@@ -32,6 +37,9 @@
 /* Active */
 .custom-active:active {
   background-color: #04bfae; }
+
+.custom-active-gray:active {
+  background-color: #e9ecef; }
 
 /* ::after display none */
 .d-none-after::after {

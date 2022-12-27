@@ -9,6 +9,38 @@ export function getToday() {
     return { yyyy: yyyy, mm: mm, dd: dd };
 }
 
+export function ActiveNavItem_Header(Quyen = '') {
+    // Quyen: TraCuu || NhanLich || DoanhThu || QuyDinh || PhanQuyen
+    if (document.getElementById('TraCuu')) {
+        document.getElementById('TraCuu').classList.remove('nav-item-active');
+    }
+    if (document.getElementById('NhanLich')) {
+        document.getElementById('NhanLich').classList.remove('nav-item-active');
+    }
+    if (document.getElementById('DoanhThu')) {
+        document.getElementById('DoanhThu').classList.remove('nav-item-active');
+    }
+    if (document.getElementById('QuyDinh')) {
+        document.getElementById('QuyDinh').classList.remove('nav-item-active');
+    }
+    if (document.getElementById('PhanQuyen')) {
+        document.getElementById('PhanQuyen').classList.remove('nav-item-active');
+    }
+    if (Quyen == 'TraCuu') {
+        document.getElementById('TraCuu').classList.add('nav-item-active');
+    } else if (Quyen == 'NhanLich') {
+        document.getElementById('NhanLich').classList.add('nav-item-active');
+    } else if (Quyen == 'DoanhThu') {
+        document.getElementById('DoanhThu').classList.add('nav-item-active');
+    } else if (Quyen == 'QuyDinh') {
+        document.getElementById('QuyDinh').classList.add('nav-item-active');
+    } else if (Quyen == 'PhanQuyen') {
+        document.getElementById('PhanQuyen').classList.add('nav-item-active');
+    } else {
+        // khác
+    }
+}
+
 export function numberWithDot(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }

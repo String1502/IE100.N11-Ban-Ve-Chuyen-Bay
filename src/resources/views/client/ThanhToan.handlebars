@@ -1,13 +1,15 @@
 <div class='bg-tertiary-light'>
 
-    <div style='height: 88px;' class='w-100 bg-primary'>
+    <div style='height: 180px;' class='w-100 bg-primary-gradient'>
         <div class='container h-100'>
             <div class='row justify-content-center h-100'>
-                <div class='col-10 px-0'>
+                <div class='col-12 col-md-10 px-0'>
                     <div class='d-flex flex-row h-100 justify-content-start align-items-center'>
                         <div class='d-flex flex-column'>
-                            <span class='custom-font h28-B text-light mb-2'>Thanh toán</span>
-                            <span class='custom-font p16-R text-light'>Thanh toán trong giới hạn thời gian</span>
+                            <span class='custom-font h64-B text-light mb-2'>Thanh toán</span>
+                            <span class='custom-font p20-S text-light'>Thanh toán nhanh chóng với hình thức thanh toán
+                                đa dạng
+                            </span>
 
                         </div>
                     </div>
@@ -18,13 +20,143 @@
     </div>
 
     <div class='container mt-5 pb-5 h-auto'>
-        <div class='row h-75 justify-content-center'>
-            {{! <div class='col-3 bg-primary'>
+        <div class='row justify-content-center'>
+
+            <div class='col-12 col-md-10'>
+
+                <div class='row mb-3 shadow-sm bg-light rounded'>
+                    {{! Bên trái }}
+                    <div
+                        class='col-5 px-0 bg-primary rounded-start'
+                        style='box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+                    >
+
+                        <div class=''>
+
+                            <div
+                                style='border-bottom: 2px solid white;'
+                                class='shadow py-4 px-3 custom-font h28-B text-light d-flex justify-content-center align-items-center'
+                            >
+                                THÔNG TIN THANH TOÁN
+                            </div>
+
+                            <div
+                                style='border-bottom: 1px solid white;'
+                                class='p-3 custom-font text-light d-flex justify-content-between align-items-center'
+                            >
+                                <div class='p16-S'>Mã hóa đơn:</div>
+                                <div id='MaHoaDonHienThi' class='p20-B text-end'>GUEST-25-DELUXE</div>
+
+                            </div>
+
+                            <div
+                                style='border-bottom: 1px solid white;'
+                                class='p-3 custom-font text-light d-flex justify-content-between align-items-center'
+                            >
+                                <div class='p16-S'>Ngày thanh toán:</div>
+                                <div id='NgayThanhToan' class='p20-B text-end'>11/11/2022</div>
+
+                            </div>
+
+                            <div
+                                style='border-bottom: 1px solid white;'
+                                class='p-3 custom-font text-light d-flex justify-content-between align-items-center'
+                            >
+                                <div class='p16-S'>Nội dung thanh toán:</div>
+                                <div id='NoiDungThanhToan' class='p20-B text-end'>THANH TOAN HOA DON GUEST-25-DELUXE</div>
+
+                            </div>
+
+                            <div
+                                style='border-bottom: 1px solid white;'
+                                class='p-3 custom-font text-light d-flex justify-content-between align-items-center'
+                            >
+                                <div class='p16-S'>Số tiền:</div>
+                                <div id='TongTien' class='p20-B text-end'>1.000.000 VND</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{! Bên phải }}
+                    <div class='col-7 px-0 rounded-end'>
+                        <div class='px-3 py-4'>
+
+                            <div class='custom-font p20-B text-tertiary mx-3'>
+                                Vui lòng chọn phương thức thanh toán
+                            </div>
+
+                            <div>
+                                <img
+                                    class='img-fluid px-5 mb-2'
+                                    src='https://img.freepik.com/free-vector/happy-tiny-man-woman-with-big-open-wallet_74855-5869.jpg?w=996&t=st=1671956219~exp=1671956819~hmac=45560cbfb8bdd06f4b3d6f1c66ebc28db9a4138dfd8f5845c13cdf7c67634a17'
+                                    alt=''
+                                />
+                            </div>
+
+                            <div class='row'>
+
+                                {{! MOMO }}
+                                <div class='col-12 mb-3'>
+                                    <div
+                                        id='MOMO_payment'
+                                        style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+                                        class='Zoom d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded'
+                                    >
+                                        <div style='pointer-events: none;' class='me-2'>
+                                            <img style='height: 60px;' class='img-fluid' src='/img/Momo.png' alt='' />
+                                        </div>
+                                        <div
+                                            style='font-weight: 500!important; pointer-events: none;'
+                                            class='custom-font h24-B text-dark'
+                                        >Thanh toán bằng Ví MoMo</div>
+                                    </div>
+                                </div>
+
+                                {{! VNPAY }}
+                                <div class='col-12 mb-3'>
+                                    <div
+                                        id='VNPAY_payment'
+                                        style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+                                        class='Zoom d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded'
+                                    >
+                                        <div style='pointer-events: none;' class='me-2'>
+                                            <img style='height: 50px;' class='img-fluid' src='/img/VNPay.png' alt='' />
+                                        </div>
+                                        <div
+                                            style='font-weight: 500!important; pointer-events: none;'
+                                            class='custom-font h24-B text-dark'
+                                        >Thanh toán qua VNPAY</div>
+                                    </div>
+                                </div>
+
+                                {{! PAYPAL }}
+                                <div class='col-12 mb-3'>
+                                    <div
+                                        id='PAYPAL_payment'
+                                        style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+                                        class='Zoom d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded'
+                                    >
+                                        <div style='pointer-events: none;' class='me-2'>
+                                            <img style='height: 60px;' class='img-fluid' src='/img/PayPal.png' alt='' />
+                                        </div>
+                                        <div
+                                            style='font-weight: 500!important; pointer-events: none;'
+                                            class='custom-font h24-B text-dark'
+                                        >Thanh toán qua PayPal</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
-            <div class='col-7 bg-secondary'>
-
-            </div> }}
 
             {{! Nút thanh toán }}
             <div class='w-auto h-auto'>
@@ -36,11 +168,15 @@
                     Thanh toán
                 </button>
             </div>
+
         </div>
     </div>
 </div>
 
-<form name='home_form' method='GET' style='display: none;'>
+<form name='thanhtoan_form' method='POST' style='display: none;'>
+    <input type='text' name='MaHoaDon' id='MaHoaDonHienThi_form' />
+    <input type='text' name='NoiDungThanhToan' id='NoiDungThanhToan_form' />
+    <input type='text' name='TongTien' id='TongTien_form' />
 </form>
 
 <div data-HoaDon='{{HoaDon}}' class='d-none' id='data-hoadon'></div>

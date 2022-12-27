@@ -8,7 +8,13 @@ import {
     today,
     onlyNumber,
     showToast,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('PhanQuyen');
+openLoader('Chờ chút');
+closeLoader();
+
 window.onlyNumber = onlyNumber;
 let MaUser = document.querySelector('.MaUser').getAttribute('value');
 let Users = JSON.parse(document.querySelector('.Users').getAttribute('value'));

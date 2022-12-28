@@ -59,6 +59,17 @@ class StaffController {
                 },
             );
             let MaUser = req.signedCookies.MaUser;
+            for (let i = 0; i < Users.length; i++) {
+                if (MaUser == Users[i].MaUser && Users[i].MaChucVu == '3KH') {
+                    return res.render('staff/Profile', {
+                        layout: 'client.handlebars',
+                        ChucVus: ChucVus,
+                        Users: JSON.stringify(Users),
+                        MaUser: MaUser,
+                    });
+                }
+            }
+
             return res.render('staff/Profile', {
                 layout: 'staff.handlebars',
                 ChucVus: ChucVus,

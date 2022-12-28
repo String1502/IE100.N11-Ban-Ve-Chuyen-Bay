@@ -256,18 +256,44 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
     if (input.classList.contains('custom-boxshadow-focus-secondary')) {
         input.classList.remove('custom-boxshadow-focus-secondary');
     }
-    document.getElementById('XacNhan').disabled = true;
-    new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
-
+    //-----------------
+    let User_NgaySinh =
+        User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
+    let User_P = {
+        MaUser: User_MaUser.value,
+        MaChucVu: User_MaChucVu.value,
+        MatKhau: User_MatKhau.value,
+        HoTen: User_HoTen.value,
+        GioiTinh: User_GioiTinh.value,
+        NgaySinh: User_NgaySinh,
+        CCCD: User_CCCD.value,
+        SDT: User_SDT.value,
+        Email: User_Email.value,
+    };
+    console.log(User_P);
     axios({
-        method: 'post',
-        url: '/validatecode',
-        data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        method: 'POST',
+        url: '/staff/phanquyen/ThemUser',
+        data: User_P,
     }).then((res) => {
-        MaXacNhan = res.data.Code;
-        console.log(MaXacNhan);
-        document.getElementById('XacNhan').disabled = false;
+        alert('Thêm người dùng thành công');
+        var Form = document.forms['Form'];
+        Form.action = '/staff/phanquyen/Authorization';
+        Form.submit();
     });
+    //-----------------
+    // document.getElementById('XacNhan').disabled = true;
+    // new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
+
+    // axios({
+    //     method: 'post',
+    //     url: '/validatecode',
+    //     data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+    // }).then((res) => {
+    //     MaXacNhan = res.data.Code;
+    //     console.log(MaXacNhan);
+    //     document.getElementById('XacNhan').disabled = false;
+    // });
 });
 
 // kiểm tra mã xác nhận
@@ -316,5 +342,19 @@ if (XacNhan) {
                 Form.submit();
             });
         }
+    });
+}
+if (GuiLaiMaXacNhan) {
+    GuiLaiMaXacNhan.addEventListener('click', (e) => {
+        document.getElementById('XacNhan').disabled = true;
+        axios({
+            method: 'post',
+            url: '/validatecode',
+            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        }).then((res) => {
+            MaXacNhan = res.data.Code;
+            console.log(MaXacNhan);
+            document.getElementById('XacNhan').disabled = false;
+        });
     });
 }

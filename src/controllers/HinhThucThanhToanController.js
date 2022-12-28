@@ -1,6 +1,6 @@
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
-
+import HoaDonController from './HoaDonController';
 import {
     numberWithDot,
     numberWithoutDot,
@@ -44,11 +44,11 @@ class HinhThucThanhToanController {
             var createDate = '' + yyyy + mm + dd + HHmmss;
 
             // -- Start: Điền dữ liệu của mình dô --
-            var orderId = '' + HHmmss; // mã hóa đơn không trùng ở DB
+            var orderId = req.body.MaHoaDon; // mã hóa đơn không trùng ở DB [Mã hóa đơn của mình]
 
-            var amount = 100000; // Số tiền
+            var amount = parseInt(req.body.TongTien); // Số tiền
 
-            var orderInfo = 'Thanh Toan Planet'; // Nội dung thanh toán, tiếng việt không dấu
+            var orderInfo = req.body.NoiDungThanhToan; // Nội dung thanh toán, tiếng việt không dấu
 
             var returnUrl = vnp_ReturnUrl; // URL trả cho khách khi kết thúc thanh toán, lưu ý VNPay sẽ dùng GET cho URL này
             //-- End: Hết điền --
@@ -119,27 +119,40 @@ class HinhThucThanhToanController {
 
         var MaHoaDonHienThi = vnp_Params['vnp_TxnRef'].toString();
         // [MaUser]-[MaHoaDon]-[MaHangVe] // nếu MaUser = null thì MaUser = GUEST
+        var MaHoaDon = MaHoaDonHienThi.split('-')[1];
 
         if (secureHash === signed) {
             var rspCode = vnp_Params['vnp_ResponseCode'].toString();
             if (rspCode == '00') {
                 // thanh toán thành công
-                // Trí: Lấy ra mã hóa đơn và cập nhật trạng thái "DaThanhToan", NgayGioThanhToan, MaHTTT
-                // Cập nhật VeDaBan và DoanhThu
+                var MaHTTT = 'vnpay'; // Coi DB
+                var NgayGioThanhToan = new Date();
 
-                KetQuaThanhToan.ThanhCong = true;
-                KetQuaThanhToan.NgayGioThanhToan = 'Trí Điền!';
+                // Thanh toán và gửi vé điện tử
+                let ThanhToan = await HoaDonController.ThanhToan(MaHoaDon, MaHTTT, NgayGioThanhToan);
+
+                if (ThanhToan == 1) {
+                    KetQuaThanhToan.ThanhCong = true;
+                    KetQuaThanhToan.NgayGioThanhToan =
+                        numberSmallerTen(NgayGioThanhToan.getHours()) +
+                        ':' +
+                        numberSmallerTen(NgayGioThanhToan.getMinutes()) +
+                        ' ' +
+                        numberSmallerTen(NgayGioThanhToan.getDate()) +
+                        '/' +
+                        numberSmallerTen(NgayGioThanhToan.getMonth() + 1) +
+                        '/' +
+                        NgayGioThanhToan.getFullYear();
+                }
             }
         }
 
         if (KetQuaThanhToan.ThanhCong == false) {
-            // thanh toán thất bại
-            // Trí: Lấy ra mã hóa đơn và cập nhật trạng thái "DaHuy"
-            // Cập nhật lại TongVe
+            await HoaDonController.HuyHoaDon(MaHoaDon);
         }
         return res.render('client/KetQuaThanhToan', {
             layout: 'client.handlebars',
-            ThanhToanThanhCong: KetQuaThanhToan,
+            KetQuaThanhToanJS: JSON.stringify(KetQuaThanhToan),
         });
     }
 }

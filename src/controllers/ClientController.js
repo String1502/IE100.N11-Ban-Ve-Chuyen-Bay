@@ -69,12 +69,19 @@ class ClientController {
             });
             ChuyenBay_Max = ChuyenBay_Max.GiaTri;
 
+            let LoaiKhachHang = await db.sequelize.query('SELECT * FROM `loaikhachhang`', {
+                type: QueryTypes.SELECT,
+                raw: true,
+                logging: false,
+            });
+
             return res.render('client/TraCuuChuyenBay', {
                 layout: 'client.handlebars',
                 SanBays: SanBays,
                 HangGhes: HangGhes,
                 HanhKhach_Max: HanhKhach_Max,
                 ChuyenBay_Max: ChuyenBay_Max,
+                LoaiKhachHang: JSON.stringify(LoaiKhachHang),
             });
         } catch (error) {
             console.log(error);
@@ -435,11 +442,10 @@ class ClientController {
     async payment(req, res) {
         try {
             let PackageBooking_ = JSON.parse(req.body.PackageBooking);
-            // Trí
             // let HoaDon = await HoaDonController.CreateHoaDon(PackageBooking_.HoaDon);
             return res.render('client/ThanhToan', {
                 layout: 'client.handlebars',
-                //HoaDon: JSON.stringify(HoaDon),
+                // HoaDon: JSON.stringify(HoaDon),
                 PackageBookingJS: JSON.stringify(PackageBooking_),
             });
         } catch (error) {

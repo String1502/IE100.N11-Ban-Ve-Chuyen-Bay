@@ -273,14 +273,17 @@
                                                         ></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Người lớn</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(từ 12 tuổi)</span>
+                                                        <span
+                                                            class='Ten_NguoiLon custom-font p14-S text-dark pb-1'
+                                                        >Người lớn</span>
+                                                        <span class='Tuoi_NguoiLon custom-font p12-S text-tertiary'>(từ
+                                                            12 tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
                                                     <input
                                                         type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        class='Input_NguoiLon form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
                                                         value='1'
                                                         min='1'
                                                         max='7'
@@ -299,14 +302,15 @@
                                                         ></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Trẻ em</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(từ 2 - 11 tuổi)</span>
+                                                        <span class='Ten_TreEm custom-font p14-S text-dark pb-1'>Trẻ em</span>
+                                                        <span class='Tuoi_TreEm custom-font p12-S text-tertiary'>(từ 2 -
+                                                            11 tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
                                                     <input
                                                         type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        class='Input_TreEm form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
                                                         value='0'
                                                         min='0'
                                                         max='7'
@@ -325,14 +329,15 @@
                                                         ></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Em bé</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(dưới 2 tuổi)</span>
+                                                        <span class='Ten_EmBe custom-font p14-S text-dark pb-1'>Em bé</span>
+                                                        <span class='Tuoi_EmBe custom-font p12-S text-tertiary'>(dưới 2
+                                                            tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
                                                     <input
                                                         type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        class='Input_EmBe form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
                                                         value='0'
                                                         min='0'
                                                         max='7'
@@ -438,11 +443,11 @@
                                         <li style='cursor: pointer;' class='HangGhe_li dropdown-item custom-active'>
                                             <div style='pointer-events:none;' class='d-flex flex-row py-2'>
                                                 <span
-                                                    class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
+                                                    class='HangGhe_li_MaHangGhe custom-font p14-S text-dark me-1'
                                                 >{{this.MaHangGhe}}</span>
                                                 <span class='custom-font p14-S text-dark me-1'> - </span>
                                                 <span
-                                                    class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'
+                                                    class='HangGhe_li_TenHangGhe custom-font p14-S text-dark'
                                                 >{{this.TenHangGhe}}</span>
                                             </div>
                                         </li>
@@ -480,6 +485,8 @@
     <input id='hangghe_formid' name='HangGhe' />
     <input id='hanhkhach_formid' name='HanhKhach' />
 </form>
+
+<div class='d-none' id='LoaiKhachHang'>{{this.LoaiKhachHang}}</div>
 
 {{! Our JS }}
 

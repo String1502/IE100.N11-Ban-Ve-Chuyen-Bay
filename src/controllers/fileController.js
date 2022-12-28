@@ -204,9 +204,8 @@ let addByExcel = async (req, res) => {
                 chuyenbays[i].GioKhoiHanh.Gio - offset,
                 chuyenbays[i].GioKhoiHanh.Phut,
             );
-            chuyenbays[i].d = 1;
             for (var j in chuyenbays[i].SBTG) {
-                data_send.SBTG[i].NgayGioDen = new Date(
+                chuyenbays[i].SBTG[j].NgayGioDen = new Date(
                     chuyenbays[i].SBTG[j].NgayDen.Nam,
                     chuyenbays[i].SBTG[j].NgayDen.Thang - 1,
                     chuyenbays[i].SBTG[j].NgayDen.Ngay,

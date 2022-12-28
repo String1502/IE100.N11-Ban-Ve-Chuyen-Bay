@@ -11,6 +11,12 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
+
+axios({
+    method: 'post',
+    url: '/hoadon/XoaCookieMaHangVe',
+}).then((res) => {});
+
 // Mảng các sân bay
 const SanBayDi_lis = document.querySelectorAll('.SanBayDi_li');
 let mangSanBay = [];
@@ -105,6 +111,30 @@ if (KhuHoi)
 if (NgayVe) NgayVe.setAttribute('min', yyyy + '-' + mm + '-' + dd);
 
 // Hành khách
+
+var MangLoaiHanhKhach = JSON.parse(document.getElementById('LoaiKhachHang').innerText);
+
+if (MangLoaiHanhKhach) {
+    // Người lớn
+    var nguoilon = MangLoaiHanhKhach[2];
+    document.querySelector('.Ten_NguoiLon').innerText = nguoilon.TenLoai;
+    document.querySelector('.Input_NguoiLon').title = nguoilon.TenLoai;
+    document.querySelector('.Tuoi_NguoiLon').innerText = '(từ ' + nguoilon.SoTuoiToiThieu + ' tuổi)';
+
+    // Trẻ em
+    var treem = MangLoaiHanhKhach[1];
+    document.querySelector('.Ten_TreEm').innerText = treem.TenLoai;
+    document.querySelector('.Input_TreEm').title = treem.TenLoai;
+    document.querySelector('.Tuoi_TreEm').innerText =
+        '(từ ' + treem.SoTuoiToiThieu + '-' + treem.SoTuoiToiDa + ' tuổi)';
+
+    // Em bé
+    var embe = MangLoaiHanhKhach[0];
+    document.querySelector('.Ten_EmBe').innerText = embe.TenLoai;
+    document.querySelector('.Input_EmBe').title = embe.TenLoai;
+    document.querySelector('.Tuoi_EmBe').innerText = '(dưới ' + embe.SoTuoiToiDa + ' tuổi)';
+}
+
 const hanhkhach_inputnumber_items = document.querySelectorAll('.hanhkhach_inputnumber_item');
 const HanhKhach = document.getElementById('HanhKhach');
 let mangHanhKhach = []; // Object: { value: , title: ""}; Vd: { value: 5 , title: "Người lớn"}
@@ -345,7 +375,6 @@ function SendForm(mangchuyenbay, hangghe, hanhkhach) {
     document.getElementById('hangghe_formid').value = hangghe;
     document.getElementById('hanhkhach_formid').value = hanhkhach;
     var search_flight_form = document.forms['search-flight-form'];
-    ///NOTE: Lần đầu tiên gọi thì gọi form này để điều hướng trang web do axios chỉ trả về data ko có điều hướng
     search_flight_form.action = '/choose_flight';
     search_flight_form.submit();
 }
@@ -415,6 +444,8 @@ window.searchFlightBtn_onclick = function searchFlightBtn() {
     }
 
     let bienHangGhe = mangHangGhe.find((item) => item.TenHangGhe == HangGhe.value);
-
+    console.log(mangChuyenBay);
+    console.log(bienHangGhe);
+    console.log(mangHanhKhach);
     SendForm(JSON.stringify(mangChuyenBay), JSON.stringify(bienHangGhe), JSON.stringify(mangHanhKhach));
 };

@@ -43,7 +43,7 @@
                                     {{! Dropdown items }}
                                     {{#each years}}
 
-                                    <li class='Nam_Item dropdown-item custom-active py-2'>
+                                    <li class='Nam_Item dropdown-item custom-active py-2' nam="{{this.nam}}">
                                         <div style='pointer-events:none;' class='custom-font p16-B' nam='{{this.nam}}'>
                                             {{this.nam}}
                                         </div>
@@ -321,82 +321,126 @@
 
                         {{! Bên phải }}
                         <div class='col-7 px-0 h-100'>
-
                             <div class='d-flex flex-column h-100'>
-
+                                {{!--
                                 {{! Nút close }}
-                                <div class='mx-3 d-flex flex-row justify-content-end'>
+                                <div class='mx-3 mt-3 d-flex flex-row justify-content-end float-right'>
                                     <button type='button' class='btn-close' data-bs-dismiss='modal'
                                         aria-label='Close'></button>
-                                </div>
+                                </div> --}}
 
+                                {{! Tabs }}
+                                <div class="tabs-x tab-bordered tabs-above tab-align-right">
+                                    <ul id="myTab-kv-9" class="nav nav-tabs bg-light" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#home-kv-9" role="tab"
+                                                data-bs-toggle="tab">
+                                                <i class="fas fa-home"></i> Tổng quan
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#profile-kv-9" role="tab" data-bs-toggle="tab">
+                                                <i class="fa fa-receipt"></i> Hoá đơn
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div id="myTabContent-kv-9" class="tab-content">
+                                        <div class="tab-pane fade show active" id="home-kv-9" role="tabpanel"
+                                            aria-labelledby="home-tab">
+                                            {{! Doanh thu Container }}
+                                            <div id='HanhLy_HanhKhach_Container'
+                                                class='d-flex justify-content-center align-items-center overflow-auto'>
 
-                                {{! Doanh thu Container }}
-                                <div id='HanhLy_HanhKhach_Container'
-                                    class='d-flex justify-content-center align-items-center overflow-auto'>
+                                                {{! Hành khách Item }}
+                                                <div
+                                                    class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2'>
 
-                                    {{! Hành khách Item }}
-                                    <div class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2'>
+                                                    {{! Header }}
+                                                    <div class='px-3 py-3 d-flex flex-row justify-content-between'>
 
-                                        {{! Header }}
-                                        <div class='px-3 py-3 d-flex flex-row justify-content-between'>
+                                                        <div class='d-flex flex-column'>
 
-                                            <div class='d-flex flex-column'>
+                                                            <div title='indexKhach'
+                                                                class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
+                                                                Tổng vé</div>
 
-                                                <div title='indexKhach'
-                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
-                                                    Tổng vé</div>
+                                                            <div id="TongVe_Right_Header_Title"
+                                                                class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>
+                                                                50
+                                                            </div>
 
-                                                <div id="TongVe_Right_Header_Title"
-                                                    class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>
-                                                    50
+                                                        </div>
+
+                                                        <div class='d-flex flex-column'>
+
+                                                            <div title='indexKhach'
+                                                                class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
+                                                                Vé đã bán</div>
+
+                                                            <div id="VeDaBan_Right_Header_Title"
+                                                                class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class='d-flex flex-column'>
+
+                                                            <div class='mb-1 custom-font p20-B text-tertiary'>Doanh thu
+                                                            </div>
+
+                                                            <div id="DoanhThu_Right_Header_Title"
+                                                                class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'>
+                                                                <span>120.000.000</span> VND
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    {{! Seprator line }}
+                                                    <div style='border-top: 1px solid black;'></div>
+
+                                                    {{! Hành lý container }}
+                                                    <div class='list-unstyled px-3 py-3'>
+
+                                                        <div class="d-flex justify-content-around chart-container"
+                                                            style="position: relative; height:40vh; width:vw">
+                                                            <canvas id="chart_1"></canvas>
+                                                            <canvas id="chart_2"></canvas>
+                                                        </div>
+
+                                                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                    </div>
+
                                                 </div>
 
                                             </div>
-
-                                            <div class='d-flex flex-column'>
-
-                                                <div title='indexKhach'
-                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
-                                                    Vé đã bán</div>
-
-                                                <div id="VeDaBan_Right_Header_Title"
-                                                    class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>
-                                                </div>
-
-                                            </div>
-
-                                            <div class='d-flex flex-column'>
-
-                                                <div class='mb-1 custom-font p20-B text-tertiary'>Doanh thu</div>
-
-                                                <div id="DoanhThu_Right_Header_Title"
-                                                    class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'>
-                                                    <span>120.000.000</span> VND
-                                                </div>
-
-                                            </div>
-
                                         </div>
-
-                                        {{! Seprator line }}
-                                        <div style='border-top: 1px solid black;'></div>
-
-                                        {{! Hành lý container }}
-                                        <ul class='HanhLy_HanhKhach_ul list-unstyled px-3 py-3'>
-
-                                            <div class="d-flex justify-content-around chart-container"
-                                                style="position: relative; height:40vh; width:vw">
-                                                <canvas id="chart_1"></canvas>
-                                                <canvas id="chart_2"></canvas>
-                                            </div>
-
-                                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                        </ul>
-
+                                        <div class="tab-pane fade" id="profile-kv-9" role="tabpanel"
+                                            aria-labelledby="profile-tab">
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
+                                                single-origin coffee squid.
+                                                Exercitation +1 labore velit, blog sartorial PBR leggings next level wes
+                                                anderson artisan
+                                                four
+                                                loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo
+                                                enim craft beer
+                                                mlkshk
+                                                aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic,
+                                                assumenda labore
+                                                aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero
+                                                magna velit sapiente
+                                                labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
+                                                sustainable jean shorts
+                                                beard
+                                                ut DIY ethical culpa terry richardson biodiesel. Art party scenester
+                                                stumptown, tumblr
+                                                butcher
+                                                vero sint qui sapiente accusamus tattooed echo park.</p>
+                                        </div>
                                     </div>
-
                                 </div>
+
 
                             </div>
 

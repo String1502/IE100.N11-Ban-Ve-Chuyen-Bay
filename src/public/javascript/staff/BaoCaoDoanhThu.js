@@ -31,12 +31,22 @@ for (let i = 0; i < years.length; i++) {
     });
 }
 
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
 const currentYearComboboxItem = document.querySelector('#Nam_Container');
-const currentYear = currentYearComboboxItem.lastElementChild.querySelector('div').getAttribute('nam');
-document.getElementById('Nam').setAttribute('nam', currentYear);
-document.getElementById('Nam').value = currentYear;
 
-UpdateYearReport(currentYear);
+// const currentYear = currentYearComboboxItem.lastElementChild.querySelector('div').getAttribute('nam');
+let selectedYear = currentYearComboboxItem
+    .querySelector(`[nam*="${currentYear}"]`)
+    .querySelector('div')
+    .getAttribute('nam');
+console.log(selectedYear);
+if (!selectedYear) selectedYear = currentYearComboboxItem.lastElementChild.querySelector('div').getAttribute('nam');
+
+document.getElementById('Nam').setAttribute('nam', selectedYear);
+document.getElementById('Nam').value = selectedYear;
+
+UpdateYearReport(selectedYear);
 
 AddEventToElements();
 

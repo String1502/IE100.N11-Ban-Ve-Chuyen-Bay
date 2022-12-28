@@ -12,7 +12,9 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('QuyDinh');
-
+if (footer_planet) {
+    footer_planet.parentElement.removeChild(footer_planet);
+}
 openLoader('Chờ chút');
 closeLoader();
 

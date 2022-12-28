@@ -14,7 +14,6 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('DoanhThu');
-
 // #region Run when page load
 
 let Reports;

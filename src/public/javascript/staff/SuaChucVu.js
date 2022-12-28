@@ -12,7 +12,6 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('PhanQuyen');
-
 openLoader('Chờ chút');
 closeLoader();
 

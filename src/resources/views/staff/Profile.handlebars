@@ -11,13 +11,10 @@
 
             <div class='col-5 col-lg-3 mb-3'>
                 <div class='bg-light rounded-2 shadow p-3'>
-                    <select
-                        type='text'
-                        class='form-select custom-font p16-B custom-boxshadow-focus-primary User_MaChucVu'
-                        disabled
-                    >
+                    <select type='text'
+                        class='form-select custom-font p16-B custom-boxshadow-focus-primary User_MaChucVu' disabled>
                         {{#each ChucVus}}
-                            <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
+                        <option class='custom-font' value='{{this.MaChucVu}}'>{{this.TenChucVu}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -30,17 +27,13 @@
                     <div class='card-header p16-B custom-font'>Dữ liệu cá nhân</div>
                     <div class='card-body'>
                         <label for='' class='form-label p16-S custom-font'>Tên đầy đủ</label>
-                        <input
-                            type='text'
-                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_HoTen custom-font'
-                        />
+                        <input type='text'
+                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_HoTen custom-font' />
                         <div class='row'>
                             <div class='col-12 col-md-6 mb-3'>
                                 <label for='' class='form-label p16-S custom-font'>Giới tính</label>
-                                <select
-                                    type='text'
-                                    class='form-select p16-S custom-boxshadow-focus-primary User_GioiTinh custom-font'
-                                >
+                                <select type='text'
+                                    class='form-select p16-S custom-boxshadow-focus-primary User_GioiTinh custom-font'>
                                     <option value='1' selected>Nam</option>
                                     <option value='2'>Nữ</option>
                                 </select>
@@ -49,47 +42,31 @@
                                 <label for='' class='form-label p16-S custom-font'> Ngày sinh</label>
                                 <div class='row'>
                                     <div class='col-3 pe-0'>
-                                        <select
-                                            name=''
-                                            id=''
-                                            style='max-height: 50px;'
-                                            class='form-select p16-S custom-boxshadow-focus-primary User_Ngay custom-font'
-                                        >
+                                        <select name='' id='' style='max-height: 50px;'
+                                            class='form-select p16-S custom-boxshadow-focus-primary User_Ngay custom-font'>
                                         </select>
                                     </div>
                                     <div class='col-5'>
-                                        <select
-                                            name=''
-                                            id=''
-                                            class='form-select p16-S custom-boxshadow-focus-primary User_Thang custom-font'
-                                        >
+                                        <select name='' id=''
+                                            class='form-select p16-S custom-boxshadow-focus-primary User_Thang custom-font'>
                                         </select>
                                     </div>
                                     <div class='col-4 ps-0'>
-                                        <select
-                                            name=''
-                                            id=''
-                                            class='form-select p16-S ms-0 custom-boxshadow-focus-primary User_Nam custom-font'
-                                        >
+                                        <select name='' id=''
+                                            class='form-select p16-S ms-0 custom-boxshadow-focus-primary User_Nam custom-font'>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class='col-12 col-md-6 mb-3'>
                                 <label for='' class='form-label p16-S custom-font'>Số điện thoại</label>
-                                <input
-                                    type='text'
-                                    onkeypress='onlyNumber(event)'
-                                    class='form-control p16-S custom-boxshadow-focus-primary User_SDT custom-font'
-                                />
+                                <input type='text' onkeypress='onlyNumber(event)'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_SDT custom-font' />
                             </div>
                             <div class='col-12 col-md-6'>
                                 <label for='' class='form-label p16-S custom-font'>Căn cước công dân</label>
-                                <input
-                                    type='text'
-                                    onkeypress='onlyNumber(event)'
-                                    class='form-control p16-S custom-boxshadow-focus-primary User_CCCD custom-font'
-                                />
+                                <input type='text' onkeypress='onlyNumber(event)'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_CCCD custom-font' />
                             </div>
                         </div>
                     </div>
@@ -98,35 +75,27 @@
                 <div class='card mb-3 shadow'>
                     <div class='card-header d-flex justify-content-between align-items-center'>
                         <div class='p16-B custom-font'>Bảo mật</div>
-                        <a class='text-primary custom-font p14-S text-decoration-none' id='DoiMatKhau' type='buton'>Thay
+                        <a style="cursor: pointer;" class='text-primary custom-font p14-S text-decoration-none'
+                            id='DoiMatKhau' type='buton'>Thay
                             đổi mật khẩu</a>
                     </div>
                     <div class='card-body'>
                         <label for='' class='form-label p16-S custom-font'>Tên tài khoản</label>
                         <input type='text' class='form-control p16-S mb-3 custom-font User_MaUser' disabled />
                         <label for='' class='form-label p16-S custom-font'>Email</label>
-                        <input
-                            type='text'
-                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_Email custom-font'
-                        />
+                        <input type='text'
+                            class='form-control p16-S mb-3 custom-boxshadow-focus-primary User_Email custom-font' />
 
                     </div>
                 </div>
                 <div class='col-auto mb-5' align='right'>
-                    <button
-                        type='button'
-                        class='custom-font User--Sua btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'
-                    >Lưu </button>
+                    <button type='button'
+                        class='custom-font User--Sua btn bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm p20-B'>Lưu
+                    </button>
                 </div>
                 {{! Modal: Xác nhận email }}
-                <div
-                    class='modal fade'
-                    id='staticBackdrop'
-                    data-bs-backdrop='static'
-                    data-bs-keyboard='false'
-                    tabindex='-1'
-                    aria-hidden='true'
-                >
+                <div class='modal fade' id='staticBackdrop' data-bs-backdrop='static' data-bs-keyboard='false'
+                    tabindex='-1' aria-hidden='true'>
                     <div class='modal-dialog modal-dialog-centered'>
                         <div class='modal-content'>
                             <div class='modal-header'>
@@ -137,11 +106,8 @@
                                 <div class='d-flex flex-column'>
 
                                     <div class='mx-5 mb-3'>
-                                        <img
-                                            src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
-                                            alt=''
-                                            class='img-fluid'
-                                        />
+                                        <img src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
+                                            alt='' class='img-fluid' />
                                     </div>
 
                                     <div class='custom-font p20-S text-dark mb-3'>
@@ -153,42 +119,30 @@
                                     </div>
 
                                     <div class='mb-3'>
-                                        <input
-                                            type='text'
-                                            id='MaXacNhan_input'
-                                            style='border: 2px solid;'
-                                            class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center'
-                                        />
-                                        <div
-                                            id='NhacNhapCode'
-                                            class='custom-font p14-R text-danger d-none text-center mt-2'
-                                        >
+                                        <input type='text' id='MaXacNhan_input' style='border: 2px solid;'
+                                            class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center' />
+                                        <div id='NhacNhapCode'
+                                            class='custom-font p14-R text-danger d-none text-center mt-2'>
                                             Bạn chưa nhập mã code!
                                         </div>
                                     </div>
 
                                     <div class='text-center'>
                                         <a
-                                            class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'
-                                        >Gửi lại mã xác nhận</a>
+                                            class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'>Gửi
+                                            lại mã xác nhận</a>
                                     </div>
 
                                 </div>
 
                             </div>
                             <div class='modal-footer justify-content-center'>
-                                <button
-                                    id='DoiEmail_XacNhan'
-                                    style='margin-right: 48px;'
-                                    type='button'
+                                <button id='DoiEmail_XacNhan' style='margin-right: 48px;' type='button'
                                     class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                                    data-bs-dismiss='modal'
-                                >Đổi Email</button>
-                                <button
-                                    id='XacNhan'
-                                    type='button'
-                                    class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                >Xác nhận</button>
+                                    data-bs-dismiss='modal'>Đổi Email</button>
+                                <button id='XacNhan' type='button'
+                                    class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'>Xác
+                                    nhận</button>
                             </div>
                         </div>
                     </div>
@@ -202,42 +156,28 @@
                             </div>
                             <div class='modal-body'>
                                 <label for='' class='form-label p16-S custom-font'>Mật khẩu cũ</label>
-                                <input
-                                    type='password'
-                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhau custom-font mb-3'
-                                />
+                                <input type='password'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhau custom-font mb-3' />
                                 <label for='' class='form-label p16-S custom-font'>Mật khẩu mới</label>
-                                <input
-                                    type='password'
-                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauMoi custom-font mb-3'
-                                />
+                                <input type='password'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauMoi custom-font mb-3' />
                                 <label for='' class='form-label p16-S custom-font'>Nhập lại mật khẩu mới</label>
-                                <input
-                                    type='password'
-                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauMoiR custom-font mb-3'
-                                />
-                                <div
-                                    class='form-text form-text d-none custom-font p16-S text-danger mb-2'
-                                    id='TextMKCu'
-                                >Mật khẩu cũ không đúng</div>
-                                <div
-                                    class='form-text form-text custom-font d-none p16-S text-danger mb-2'
-                                    id='TextMKMoi'
-                                >Mật khẩu xác nhận không trùng khớp</div>
-                                <div
-                                    class='form-text form-text custom-font p16-S d-none text-danger mb-2'
-                                    id='Trung'
-                                >Mật khẩu mới phải khác mật khẩu cũ</div>
-                                <div
-                                    class='form-text form-text custom-font p16-S d-none text-danger mb-2'
-                                    id='Trong'
-                                >Bạn vui lòng điền đầy đủ thông tin</div>
+                                <input type='password'
+                                    class='form-control p16-S custom-boxshadow-focus-primary User_MatKhauMoiR custom-font mb-3' />
+                                <div class='form-text form-text d-none custom-font p16-S text-danger mb-2'
+                                    id='TextMKCu'>Mật khẩu cũ không đúng</div>
+                                <div class='form-text form-text custom-font d-none p16-S text-danger mb-2'
+                                    id='TextMKMoi'>Mật khẩu xác nhận không trùng khớp</div>
+                                <div class='form-text form-text custom-font p16-S d-none text-danger mb-2' id='Trung'>
+                                    Mật khẩu mới phải khác mật khẩu cũ</div>
+                                <div class='form-text form-text custom-font p16-S d-none text-danger mb-2' id='Trong'>
+                                    Bạn vui lòng điền đầy đủ thông tin</div>
                                 <div class='d-flex justify-content-center'>
-                                    <button
-                                        id='XacNhanMK'
-                                        type='button'
-                                        class='btn btn-secondary bg-secondary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                    >Xác nhận</button>
+                                    <button type='button' data-bs-dismiss="modal"
+                                        class='me-2 btn btn-secondary bg-secondary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'>Đóng</button>
+                                    <button id='XacNhanMK' type='button'
+                                        class='btn btn-secondary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'>Xác
+                                        nhận</button>
                                 </div>
                             </div>
                         </div>

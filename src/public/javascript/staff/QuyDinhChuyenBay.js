@@ -994,6 +994,27 @@ for (let i = 0; i < HangGhes.length; i++) {
                 HangGhes_P_Update[i].TrangThai = 'ApDung';
             }
         } else {
+            for (let i = 0; i < Package.ChuyenBays.length; i++) {
+                if (
+                    Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
+                    Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
+                ) {
+                    let SB = e.target.closest('.HangGhe');
+                    let Ma = SB.querySelector('.HangGhe_Ma').value;
+                    for (let t = 0; t < Package.ChuyenBays[i].HangGhe.length; t++) {
+                        if (Package.ChuyenBays[i].HangGhe[t].MaHangGhe == Ma) {
+                            showToast({
+                                header: 'Hạng ghế có mã: ' + Ma,
+                                body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng hạng ghế này này',
+                                duration: 5000,
+                                type: 'warning',
+                            });
+                            e.target.selectedIndex = 0;
+                            return;
+                        }
+                    }
+                }
+            }
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
             if (HangGhes_P_Update[i].ID_Update == undefined || HangGhes_P_Update[i].ID_Update == 0) {
@@ -1287,6 +1308,7 @@ document.querySelector('.LoaiKhachHang--Sua').addEventListener('click', (e) => {
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = false;
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = false;
     }
+    LoaiKhachHangs[0].querySelector('.LoaiKhachHang_Ten').disabled = true;
     e.target.classList.add('d-none');
     document.querySelector('.LoaiKhachHang--Them').classList.remove('d-none');
     document.querySelector('.LoaiKhachHang--CapNhat').classList.remove('d-none');

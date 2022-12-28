@@ -105,6 +105,14 @@ class QuyDinhController {
             );
 
             for (let i = 0; i < ChuyenBays.length; i++) {
+                let HangGhe = await sequelize.query(
+                    "select MaHangGhe from chitiethangve where MaChuyenBay = '" + ChuyenBays[i].MaChuyenBay + "'",
+                    {
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
+                ChuyenBays[i].HangGhe = structuredClone(HangGhe);
                 let ChiTietChuyenBays = await sequelize.query(
                     "select MaCTCB,	MaChuyenBay,	MaSBTG	,ThuTu	,NgayGioDen ,ThoiGianDung from chitietchuyenbay where MaChuyenBay = '" +
                         ChuyenBays[i].MaChuyenBay +
@@ -114,6 +122,11 @@ class QuyDinhController {
                         raw: true,
                     },
                 );
+                ChiTietChuyenBays.sort((a, b) => {
+                    if (a.ThuTu < b.ThuTu) return -1;
+                    else return 1;
+                });
+                console.log(ChiTietChuyenBays);
                 ChuyenBays[i].SBTG_Max_check = ChiTietChuyenBays.length;
                 if (ChiTietChuyenBays.length == 0) {
                     ChuyenBays[i].ThoiGianBay_check = ChuyenBays[i].ThoiGianBay;

@@ -12,7 +12,6 @@ import {
 
 let ChiTietHanhKhachs = document.querySelectorAll('.ChiTietHanhKhach');
 let MChiTietHanhKhachs = document.querySelectorAll('.MChiTietHanhKhach');
-
 for (let i = 0; i < ChiTietHanhKhachs.length; i++) {
     ChiTietHanhKhachs[i].addEventListener('click', (e) => {
         new bootstrap.Modal(MChiTietHanhKhachs[i]).show();
@@ -21,6 +20,7 @@ for (let i = 0; i < ChiTietHanhKhachs.length; i++) {
 let ChiTietChuyenBays = document.querySelectorAll('.ChiTietChuyenBay');
 for (let i = 0; i < ChiTietChuyenBays.length; i++) {
     ChiTietChuyenBays[i].addEventListener('click', (e) => {
+        SoHieuChuyenBay.innerText = e.target.getAttribute('index');
         let p = {};
         let MaChuyenBay = e.target.getAttribute('value');
         p.MaChuyenBay = MaChuyenBay;

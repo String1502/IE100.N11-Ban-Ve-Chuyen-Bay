@@ -32,6 +32,10 @@ function LoadGioiTinh() {
             let dele = ChucVus[i].querySelector('.button');
             let de = ChucVus[i].querySelector('.ChucVu--Sua');
             dele.removeChild(de);
+            if (ChucVus[i].querySelector('.ChucVu_Ten').innerText == 'Khách hàng') {
+                let de = ChucVus[i].querySelector('.User--Them');
+                dele.removeChild(de);
+            }
         }
     }
 }

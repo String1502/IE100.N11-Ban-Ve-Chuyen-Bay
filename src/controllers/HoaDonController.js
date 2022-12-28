@@ -260,7 +260,7 @@ let CreateHoaDon = async (req, res) => {
 //#endregion
 
 //#region bam vao nut thanh toan
-let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan) => {
+let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
     try {
         // Kiểm tra hết vé
         let SoVeCuaTungChuyenBay = await db.sequelize.query(
@@ -334,6 +334,7 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan) => {
             NgayGioThanhToan: new Date(NgayGioThanhToan.getTime() + 7 * 60 * 60 * 1000),
             TrangThai: 'DaThanhToan',
             MaHTTT: MaHTTT,
+            MaUser: MaUser,
         });
         await hoadon.save();
 

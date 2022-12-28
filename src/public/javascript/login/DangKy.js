@@ -264,6 +264,20 @@ document.querySelector('.User--Them').addEventListener('click', (e) => {
         document.getElementById('XacNhan').disabled = false;
     });
 });
+if (GuiLaiMaXacNhan) {
+    GuiLaiMaXacNhan.addEventListener('click', (e) => {
+        document.getElementById('XacNhan').disabled = true;
+        axios({
+            method: 'post',
+            url: '/validatecode',
+            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        }).then((res) => {
+            MaXacNhan = res.data.Code;
+            console.log(MaXacNhan);
+            document.getElementById('XacNhan').disabled = false;
+        });
+    });
+}
 
 // kiểm tra mã xác nhận
 const XacNhan = document.getElementById('XacNhan');

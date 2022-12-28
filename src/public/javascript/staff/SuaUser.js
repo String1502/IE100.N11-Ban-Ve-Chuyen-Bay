@@ -87,6 +87,18 @@ function load() {
                 User_TrangThai.classList.add('text-danger');
                 User_TrangThai.classList.remove('text-success-light');
             }
+            if (User_MaChucVu.value == '3KH') {
+                User_MaUser.disabled = true;
+                User_MaChucVu.disabled = true;
+                User_HoTen.disabled = true;
+                User_GioiTinh.disabled = true;
+                User_Ngay.disabled = true;
+                User_Thang.disabled = true;
+                User_Nam.disabled = true;
+                User_CCCD.disabled = true;
+                User_SDT.disabled = true;
+                User_Email.disabled = true;
+            }
             break;
         }
     }
@@ -236,56 +248,56 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
             return;
         }
     }
-    if (User_Email.value != Email) {
-        document.getElementById('XacNhan_Email').innerText = User_Email.value;
-        let input = document.getElementById('MaXacNhan_input');
-        input.value = '';
-        const NhacNhapCode = document.getElementById('NhacNhapCode');
-        if (!NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.add('d-none');
-        if (!input.classList.contains('custom-boxshadow-focus-primary')) {
-            input.classList.add('custom-boxshadow-focus-primary');
-        }
-        if (input.classList.contains('custom-boxshadow-focus-secondary')) {
-            input.classList.remove('custom-boxshadow-focus-secondary');
-        }
-        document.getElementById('XacNhan').disabled = true;
-        new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
+    // if (User_Email.value != Email) {
+    //     document.getElementById('XacNhan_Email').innerText = User_Email.value;
+    //     let input = document.getElementById('MaXacNhan_input');
+    //     input.value = '';
+    //     const NhacNhapCode = document.getElementById('NhacNhapCode');
+    //     if (!NhacNhapCode.classList.contains('d-none')) NhacNhapCode.classList.add('d-none');
+    //     if (!input.classList.contains('custom-boxshadow-focus-primary')) {
+    //         input.classList.add('custom-boxshadow-focus-primary');
+    //     }
+    //     if (input.classList.contains('custom-boxshadow-focus-secondary')) {
+    //         input.classList.remove('custom-boxshadow-focus-secondary');
+    //     }
+    //     document.getElementById('XacNhan').disabled = true;
+    //     new bootstrap.Modal(document.getElementById('staticBackdrop')).show();
 
-        axios({
-            method: 'post',
-            url: '/validatecode',
-            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
-        }).then((res) => {
-            MaXacNhan = res.data.Code;
-            console.log(MaXacNhan);
-            document.getElementById('XacNhan').disabled = false;
-        });
-    } else {
-        let User_NgaySinh =
-            User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
-        let User_P = {
-            MaUser: User_MaUser.value,
-            MaChucVu: User_MaChucVu.value,
-            HoTen: User_HoTen.value,
-            GioiTinh: User_GioiTinh.value,
-            NgaySinh: User_NgaySinh,
-            CCCD: User_CCCD.value,
-            SDT: User_SDT.value,
-            Email: User_Email.value,
-            TrangThai: User_TrangThai.value,
-        };
-        console.log(User_P);
-        axios({
-            method: 'POST',
-            url: '/staff/phanquyen/SuaUser',
-            data: User_P,
-        }).then((res) => {
-            alert('Cập nhật thông tin người dùng thành công');
-            var Form = document.forms['Form'];
-            Form.action = '/staff/phanquyen/Authorization';
-            Form.submit();
-        });
-    }
+    //     axios({
+    //         method: 'post',
+    //         url: '/validatecode',
+    //         data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+    //     }).then((res) => {
+    //         MaXacNhan = res.data.Code;
+    //         console.log(MaXacNhan);
+    //         document.getElementById('XacNhan').disabled = false;
+    //     });
+    // } else {
+    let User_NgaySinh =
+        User_Nam.value + '-' + ('0' + User_Thang.value).slice(-2) + '-' + ('0' + User_Ngay.value).slice(-2);
+    let User_P = {
+        MaUser: User_MaUser.value,
+        MaChucVu: User_MaChucVu.value,
+        HoTen: User_HoTen.value,
+        GioiTinh: User_GioiTinh.value,
+        NgaySinh: User_NgaySinh,
+        CCCD: User_CCCD.value,
+        SDT: User_SDT.value,
+        Email: User_Email.value,
+        TrangThai: User_TrangThai.value,
+    };
+    console.log(User_P);
+    axios({
+        method: 'POST',
+        url: '/staff/phanquyen/SuaUser',
+        data: User_P,
+    }).then((res) => {
+        alert('Cập nhật thông tin người dùng thành công');
+        var Form = document.forms['Form'];
+        Form.action = '/staff/phanquyen/Authorization';
+        Form.submit();
+    });
+    // }
 });
 // kiểm tra mã xác nhận
 const XacNhan = document.getElementById('XacNhan');
@@ -333,5 +345,19 @@ if (XacNhan) {
                 Form.submit();
             });
         }
+    });
+}
+if (GuiLaiMaXacNhan) {
+    GuiLaiMaXacNhan.addEventListener('click', (e) => {
+        document.getElementById('XacNhan').disabled = true;
+        axios({
+            method: 'post',
+            url: '/validatecode',
+            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        }).then((res) => {
+            MaXacNhan = res.data.Code;
+            console.log(MaXacNhan);
+            document.getElementById('XacNhan').disabled = false;
+        });
     });
 }

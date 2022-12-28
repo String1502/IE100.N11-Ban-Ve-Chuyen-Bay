@@ -652,25 +652,25 @@ for (let i = 0; i < SanBays.length; i++) {
                 SanBays_P_Update[i].TrangThai = 'HoatDong';
             }
         } else {
-            for (let i = 0; i < Package.ChuyenBays.length; i++) {
-                if (
-                    Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
-                    Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
-                ) {
-                    let SB = e.target.closest('.SanBay');
-                    let Ma = SB.querySelector('.SanBay_Ma').value;
-                    if (Package.ChuyenBays[i].MaSanBayDi == Ma || Package.ChuyenBays[i].MaSanBayDen == Ma) {
-                        showToast({
-                            header: 'Sân bay có mã: ' + Package.SanBays[i].MaSanBay,
-                            body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng sân bay này',
-                            duration: 5000,
-                            type: 'warning',
-                        });
-                        e.target.selectedIndex = 0;
-                        return;
-                    }
-                }
-            }
+            // for (let i = 0; i < Package.ChuyenBays.length; i++) {
+            //     if (
+            //         Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
+            //         Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
+            //     ) {
+            //         let SB = e.target.closest('.SanBay');
+            //         let Ma = SB.querySelector('.SanBay_Ma').value;
+            //         if (Package.ChuyenBays[i].MaSanBayDi == Ma || Package.ChuyenBays[i].MaSanBayDen == Ma) {
+            //             showToast({
+            //                 header: 'Sân bay có mã: ' + Package.SanBays[i].MaSanBay,
+            //                 body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng sân bay này',
+            //                 duration: 5000,
+            //                 type: 'warning',
+            //             });
+            //             e.target.selectedIndex = 0;
+            //             return;
+            //         }
+            //     }
+            // }
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
             if (SanBays_P_Update[i].ID_Update == undefined || SanBays_P_Update[i].ID_Update == 0) {
@@ -1287,6 +1287,7 @@ document.querySelector('.LoaiKhachHang--Sua').addEventListener('click', (e) => {
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_SoTuoiToiDa').disabled = false;
         LoaiKhachHangs[i].querySelector('.LoaiKhachHang_HeSo').disabled = false;
     }
+    LoaiKhachHangs[0].querySelector('.LoaiKhachHang_Ten').disabled = true;
     e.target.classList.add('d-none');
     document.querySelector('.LoaiKhachHang--Them').classList.remove('d-none');
     document.querySelector('.LoaiKhachHang--CapNhat').classList.remove('d-none');

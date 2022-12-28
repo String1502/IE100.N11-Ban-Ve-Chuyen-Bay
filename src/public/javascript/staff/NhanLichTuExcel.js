@@ -49,6 +49,76 @@ Date.prototype.ddmmyy = function () {
     return dd + '/' + mm + '/' + yy;
 };
 
+function IsNgayNotNull(Ngay) {
+    if (Ngay.Ngay == -1 || Ngay.Ngay == NaN) {
+        return false;
+    } else if (Ngay.Thang == -1 || Ngay.Thang == NaN) {
+        return false;
+    } else if (Ngay.Nam == -1 || Ngay.Nam == NaN) {
+        return false;
+    }
+    return true;
+}
+
+function IsGioNotNull(Gio) {
+    if (Gio.Gio == -1 || Gio.Gio == NaN) {
+        return false;
+    } else if (Gio.Phut == -1 || Gio.Phut == NaN) {
+        return false;
+    }
+    return true;
+}
+
+function CreateDateFromObject(Ngay = null, Gio = null) {
+    var strNgay = '';
+    var strGio = '';
+
+    if (Ngay == null) {
+        strNgay = '1700/01/01';
+    } else {
+        if (IsNgayNotNull(Ngay) == false) {
+            strNgay = '1700/01/01';
+        } else {
+            var dd = numberSmallerTen(Ngay.Ngay);
+            var mm = numberSmallerTen(Ngay.Thang);
+            var yy = numberSmallerTen(Ngay.Nam);
+            strNgay = yy + '/' + mm + '/' + dd;
+        }
+    }
+    if (Gio == null) {
+        strGio = '00:00:00';
+    } else {
+        if (IsGioNotNull(Gio) == false) {
+            strGio = '00:00:00';
+        } else {
+            var hr = numberSmallerTen(Gio.Gio);
+            var min = numberSmallerTen(Gio.Phut);
+            strGio = hr + ':' + min + ':00';
+        }
+    }
+    return new Date(strNgay + ' ' + strGio);
+}
+
+function CreateObjectFromDate(date) {
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yy = date.getFullYear();
+    var hr = date.getHours();
+    var min = date.getMinutes();
+
+    return {
+        Ngay: {
+            Ngay: dd,
+            Thang: mm,
+            Nam: yy,
+        },
+        Gio: {
+            Gio: hr,
+            Phut: min,
+        },
+    };
+}
+
 function KhoiTaoCountDown() {
     // đếm thời gian
     setInterval(function () {
@@ -176,13 +246,11 @@ function LoadChuyenBayLenView() {
                     err += '| Vi phạm thời gian bay tối thiểu ';
                 }
 
-                if (err == '') {
-                    for (let j = 0; j < item.res_err.HangGhe.length; j++) {
-                        var temp = item.res_err.HangGhe[j];
-                        if (temp.MaHangGhe == 1 || temp.TongVe == 1) {
-                            err += '| Hạng vé ';
-                            break;
-                        }
+                for (let j = 0; j < item.res_err.HangGhe.length; j++) {
+                    var temp = item.res_err.HangGhe[j];
+                    if (temp.MaHangGhe == 1 || temp.TongVe == 1) {
+                        err += '| Hạng vé ';
+                        break;
                     }
                 }
 
@@ -194,13 +262,11 @@ function LoadChuyenBayLenView() {
                     err += '| Vi phạm thời gian dừng tối thiểu ';
                 }
 
-                if (err == '') {
-                    for (let j = 0; j < item.res_err.SBTG.length; j++) {
-                        var temp = item.res_err.SBTG[j];
-                        if (temp.MaSanBay == 1 || temp.ThoiGianDung == 1 || temp.NgayGioDen) {
-                            err += '| Sân bay trung gian ';
-                            break;
-                        }
+                for (let j = 0; j < item.res_err.SBTG.length; j++) {
+                    var temp = item.res_err.SBTG[j];
+                    if (temp.MaSanBay == 1 || temp.ThoiGianDung == 1 || temp.NgayGioDen) {
+                        err += '| Sân bay trung gian ';
+                        break;
                     }
                 }
 
@@ -217,7 +283,10 @@ function LoadChuyenBayLenView() {
                 node.querySelector('.TenSanBayDen').innerText = item.MaSanBayDen;
                 node.querySelector('.TenSanBayDen').classList.remove('d-none');
 
-                node.querySelector('.KhoiHanh').innerText = item.NgayGio;
+                node.querySelector('.KhoiHanh').innerText = CreateDateFromObject(
+                    item.ThoiGianDi.NgayDi,
+                    item.ThoiGianDi.GioDi,
+                ).displayReverse();
                 node.querySelector('.KhoiHanh').classList.remove('d-none');
 
                 node.querySelector('.GiaVeCoBan').innerText = numberWithDot(item.GiaVeCoBan.toString());
@@ -250,7 +319,7 @@ function LoadModal(index) {
     SanBayDen.value = SB_HG.SanBays.find((temp) => temp.MaSanBay == chuyenbay.MaSanBayDen).TenSanBay;
 
     // Khởi hành
-    KhoiHanh.value = chuyenbay.NgayGio;
+    KhoiHanh.value = CreateDateFromObject(chuyenbay.ThoiGianDi.NgayDi, chuyenbay.ThoiGianDi.GioDi).displayReverse();
 
     // Thời gian bay
     ThoiGianBay.value = chuyenbay.ThoiGianBay;
@@ -276,7 +345,7 @@ function LoadModal(index) {
             (temp) => temp.MaSanBay == chuyenbay.SBTG[i].MaSanBay,
         ).TenSanBay;
         // Thời gian đến
-        var ngayden = new Date(chuyenbay.SBTG[i].NgayGioDen.toString());
+        var ngayden = CreateDateFromObject(chuyenbay.SBTG[i].ThoiGianDen.NgayDen, chuyenbay.SBTG[i].ThoiGianDen.GioDen);
         node.querySelector('.ThoiGianDen').innerText = ngayden.displayReverse();
         // Thời gian dừng
         node.querySelector('.ThoiGianDung').innerText = chuyenbay.SBTG[i].ThoiGianDung;
@@ -327,10 +396,60 @@ function On_off_NhanLich() {
 // Gửi gói lưu
 function SendForm_NhanLichExcel() {
     // Trí
-    // return;
     openLoader('Chờ chút');
-    console.log(data_send);
-    //return;
+
+    var data_send = [];
+    for (let i = 0; i < ChuyenBay_list.length; i++) {
+        data_send.push({
+            MaChuyenBay: -1,
+            MaSanBayDi: ChuyenBay_list[i].MaSanBayDi,
+            MaSanBayDen: ChuyenBay_list[i].MaSanBayDen,
+            NgayKhoiHanh: CreateObjectFromDate(
+                CreateDateFromObject(ChuyenBay_list[i].ThoiGianDi.NgayDi, ChuyenBay_list[i].ThoiGianDi.GioDi),
+            ).Ngay,
+            GioKhoiHanh: CreateObjectFromDate(
+                CreateDateFromObject(ChuyenBay_list[i].ThoiGianDi.NgayDi, ChuyenBay_list[i].ThoiGianDi.GioDi),
+            ).Gio,
+            ThoiGianBay: ChuyenBay_list[i].ThoiGianBay,
+            GiaVeCoBan: ChuyenBay_list[i].GiaVeCoBan,
+            TrangThai: 'ChuaKhoiHanh',
+            ThoiGianBayToiThieu: SB_HG.ThamSos.find((temp) => temp.TenThamSo == 'ThoiGianBayToiThieu').GiaTri,
+            ThoiGianDungToiThieu: SB_HG.ThamSos.find((temp) => temp.TenThamSo == 'ThoiGianDungToiThieu').GiaTri,
+            SBTG_Max: SB_HG.ThamSos.find((temp) => temp.TenThamSo == 'SBTG_Max').GiaTri,
+            GiaVeCoBan_Min: SB_HG.ThamSos.find((temp) => temp.TenThamSo == 'GiaVeCoBan_Min').GiaTri,
+            SBTG: [],
+            HangVe: [],
+        });
+
+        for (let j = 0; j < ChuyenBay_list[i].SBTG.length; j++) {
+            data_send[data_send.length - 1].SBTG.push({
+                ThuTu: ChuyenBay_list[i].SBTG[j].ThuTu,
+                MaSanBay: ChuyenBay_list[i].SBTG[j].MaSanBay,
+                NgayDen: CreateObjectFromDate(
+                    CreateDateFromObject(
+                        ChuyenBay_list[i].SBTG[j].ThoiGianDen.NgayDen,
+                        ChuyenBay_list[i].SBTG[j].ThoiGianDen.GioDen,
+                    ),
+                ).Ngay,
+                GioDen: CreateObjectFromDate(
+                    CreateDateFromObject(
+                        ChuyenBay_list[i].SBTG[j].ThoiGianDen.NgayDen,
+                        ChuyenBay_list[i].SBTG[j].ThoiGianDen.GioDen,
+                    ),
+                ).Gio,
+                ThoiGianDung: parseInt(ChuyenBay_list[i].SBTG[j].ThoiGianDung),
+                GhiChu: ChuyenBay_list[i].SBTG[j].GhiChu,
+            });
+        }
+
+        for (let j = 0; j < ChuyenBay_list[i].HangGhe.length; j++) {
+            data_send[data_send.length - 1].HangVe.push({
+                MaHangGhe: ChuyenBay_list[i].HangGhe[j].MaHangGhe,
+                TongVe: parseInt(ChuyenBay_list[i].HangGhe[j].TongVe),
+            });
+        }
+    }
+
     axios({
         method: 'post',
         url: '/flight/addByExcel',
@@ -346,7 +465,7 @@ function SendForm_NhanLichExcel() {
             type = 'danger';
         }
         showToast({
-            header: 'Cập nhật chuyến bay',
+            header: 'Nhận lịch chuyến bay',
             body: body,
             duration: 5000,
             type: type,

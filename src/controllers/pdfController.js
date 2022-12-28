@@ -71,11 +71,14 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
         TenHTTT: '',
     };
 
-    data.TenHTTT = await db.HtThanhToan.findOne({
-        where: {
-            MaHTTT: MaHTTT,
+    let HTTT = await db.sequelize.query('SELECT * FROM htthanhtoan WHERE htthanhtoan.MaHTTT=:mahttt;', {
+        replacements: {
+            mahttt: MaHTTT,
         },
-    }).Ten;
+        type: QueryTypes.SELECT,
+        raw: true,
+    });
+    data.TenHTTT = HTTT[0].Ten;
 
     data.NguoiLienHe.HoTen = PackageBooking.HoaDon.NguoiLienHe.HoTen;
     data.NguoiLienHe.SDT = PackageBooking.HoaDon.NguoiLienHe.SDT;

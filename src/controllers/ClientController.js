@@ -69,12 +69,19 @@ class ClientController {
             });
             ChuyenBay_Max = ChuyenBay_Max.GiaTri;
 
+            let LoaiKhachHang = await db.sequelize.query('SELECT * FROM `loaikhachhang`', {
+                type: QueryTypes.SELECT,
+                raw: true,
+                logging: false,
+            });
+
             return res.render('client/TraCuuChuyenBay', {
                 layout: 'client.handlebars',
                 SanBays: SanBays,
                 HangGhes: HangGhes,
                 HanhKhach_Max: HanhKhach_Max,
                 ChuyenBay_Max: ChuyenBay_Max,
+                LoaiKhachHang: JSON.stringify(LoaiKhachHang),
             });
         } catch (error) {
             console.log(error);

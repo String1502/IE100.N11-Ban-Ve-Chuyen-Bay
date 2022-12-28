@@ -45,7 +45,8 @@ function GetPackageBooing_fromSV() {
             }).then((res) => {
                 closeLoader();
                 if (res.data == -1) {
-                    console.log('haha');
+                    var Modal = new bootstrap.Modal(document.getElementById('ThongBaoHetChuyenBay'), true);
+                    Modal.show();
                 } else {
                     GoiHoaDon = structuredClone(res.data);
                     if (GoiHoaDon) {
@@ -71,37 +72,6 @@ function LoadDuLieuHoaDon() {
     MaHoaDonHienThi_form.value = GoiHoaDon.MaHoaDonHienThi;
     NoiDungThanhToan_form.value = GoiHoaDon.NoiDungThanhToan;
     TongTien_form.value = GoiHoaDon.TongTien;
-}
-
-// Nút thanh toán onclick
-if (document.getElementById('ThanhToan')) {
-    document.getElementById('ThanhToan').addEventListener('click', () => {
-        let data_send = document.getElementById('data-hoadon').getAttribute('data-HoaDon');
-
-        const today = new Date();
-        data_send = JSON.parse(data_send);
-        data_send.NgayGioThanhToan = today;
-        data_send.PackageBooking = PackageBooking;
-
-        console.log(data_send);
-        return;
-
-        openLoader('Chờ chút');
-        axios({
-            method: 'post',
-            url: '/hoadon/thanhtoan',
-            data: data_send,
-        }).then((res) => {
-            console.log(res.data);
-            closeLoader();
-            if (res.data === 'Success') alert('Thanh toán thành công');
-            else alert('thanh toán thất bại');
-
-            // var home_form = document.forms['thanhtoan_form'];
-            // home_form.action = '/';
-            // home_form.submit();
-        });
-    });
 }
 
 // Thanh toán MOMO
@@ -130,5 +100,21 @@ if (document.getElementById('PAYPAL_payment')) {
 
     document.getElementById('PAYPAL_payment').addEventListener('click', (e) => {
         //
+    });
+}
+
+// Quay về chọn chuyến bay
+function SendForm() {
+    document.getElementById('mangchuyenbay_formid').value = JSON.stringify(PackageBooking.MangChuyenBayTimKiem);
+    document.getElementById('hangghe_formid').value = JSON.stringify(PackageBooking.HangGhe);
+    document.getElementById('hanhkhach_formid').value = JSON.stringify(PackageBooking.HanhKhach);
+    var search_flight_form = document.forms['search-flight-form'];
+    search_flight_form.action = '/choose_flight';
+    search_flight_form.submit();
+}
+
+if (ChonChuyenBayKhac) {
+    ChonChuyenBayKhac.addEventListener('click', (e) => {
+        SendForm();
     });
 }

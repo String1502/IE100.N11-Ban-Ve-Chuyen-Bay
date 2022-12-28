@@ -21,42 +21,24 @@ var MaEmBe = '1';
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
-    //#region Ngây thơ
-    // openLoader('Chờ chút');
-    // axios({
-    //     method: 'post',
-    //     url: '/booking',
-    //     data: { GetPackageBooing_fromSV: true },
-    // }).then((res) => {
-    //     PackageBooking = res.data;
-    //     closeLoader();
-    //     console.log(PackageBooking);
-
-    //     if (PackageBooking) {
-    //         PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
-    //         AddEventHanhKhach_Item();
-    //         NguoiLienHe_Input_Change();
-    //         AddEventHanhLy_Modal();
-    //         TienNghiChuyenBay();
-    //         TiepTucTren_Onclick();
-    //         TomTat_func();
-    //     }
-    // });
-    //#endregion
-
     openLoader('Chờ chút');
     PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
     closeLoader();
     console.log(PackageBooking);
 
     if (PackageBooking) {
-        PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
-        AddEventHanhKhach_Item();
-        NguoiLienHe_Input_Change();
-        AddEventHanhLy_Modal();
-        TienNghiChuyenBay();
-        TiepTucTren_Onclick();
-        TomTat_func();
+        axios({
+            method: 'post',
+            url: '/hoadon/XoaCookieMaHangVe',
+        }).then((res) => {
+            PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
+            AddEventHanhKhach_Item();
+            NguoiLienHe_Input_Change();
+            AddEventHanhLy_Modal();
+            TienNghiChuyenBay();
+            TiepTucTren_Onclick();
+            TomTat_func();
+        });
     }
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
@@ -675,3 +657,18 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
+
+if (GuiLaiMaXacNhan) {
+    GuiLaiMaXacNhan.addEventListener('click', (e) => {
+        document.getElementById('XacNhan').disabled = true;
+        axios({
+            method: 'post',
+            url: '/validatecode',
+            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        }).then((res) => {
+            MaXacNhan = res.data.Code;
+            console.log(MaXacNhan);
+            document.getElementById('XacNhan').disabled = false;
+        });
+    });
+}

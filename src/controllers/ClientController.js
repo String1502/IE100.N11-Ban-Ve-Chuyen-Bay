@@ -215,8 +215,8 @@ class ClientController {
                 raw: true,
             });
             ChiTietChuyenBay.sort((a, b) => {
-                if (a.ThuTu < a.ThuTu) return 1;
-                else return -1;
+                if (a.ThuTu < b.ThuTu) return -1;
+                else return 1;
             });
             console.log(ChiTietChuyenBay);
             for (let i = 0; i < ChiTietChuyenBay.length; i++) {

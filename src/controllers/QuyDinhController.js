@@ -114,6 +114,11 @@ class QuyDinhController {
                         raw: true,
                     },
                 );
+                ChiTietChuyenBays.sort((a, b) => {
+                    if (a.ThuTu < b.ThuTu) return -1;
+                    else return 1;
+                });
+                console.log(ChiTietChuyenBays);
                 ChuyenBays[i].SBTG_Max_check = ChiTietChuyenBays.length;
                 if (ChiTietChuyenBays.length == 0) {
                     ChuyenBays[i].ThoiGianBay_check = ChuyenBays[i].ThoiGianBay;

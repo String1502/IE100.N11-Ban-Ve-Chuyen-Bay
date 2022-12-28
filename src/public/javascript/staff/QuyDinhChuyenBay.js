@@ -12,7 +12,9 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('QuyDinh');
-
+if (footer_planet) {
+    footer_planet.parentElement.removeChild(footer_planet);
+}
 openLoader('Chờ chút');
 closeLoader();
 
@@ -652,25 +654,25 @@ for (let i = 0; i < SanBays.length; i++) {
                 SanBays_P_Update[i].TrangThai = 'HoatDong';
             }
         } else {
-            // for (let i = 0; i < Package.ChuyenBays.length; i++) {
-            //     if (
-            //         Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
-            //         Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
-            //     ) {
-            //         let SB = e.target.closest('.SanBay');
-            //         let Ma = SB.querySelector('.SanBay_Ma').value;
-            //         if (Package.ChuyenBays[i].MaSanBayDi == Ma || Package.ChuyenBays[i].MaSanBayDen == Ma) {
-            //             showToast({
-            //                 header: 'Sân bay có mã: ' + Package.SanBays[i].MaSanBay,
-            //                 body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng sân bay này',
-            //                 duration: 5000,
-            //                 type: 'warning',
-            //             });
-            //             e.target.selectedIndex = 0;
-            //             return;
-            //         }
-            //     }
-            // }
+            for (let i = 0; i < Package.ChuyenBays.length; i++) {
+                if (
+                    Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
+                    Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
+                ) {
+                    let SB = e.target.closest('.SanBay');
+                    let Ma = SB.querySelector('.SanBay_Ma').value;
+                    if (Package.ChuyenBays[i].MaSanBayDi == Ma || Package.ChuyenBays[i].MaSanBayDen == Ma) {
+                        showToast({
+                            header: 'Sân bay có mã: ' + Package.SanBays[i].MaSanBay,
+                            body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng sân bay này',
+                            duration: 5000,
+                            type: 'warning',
+                        });
+                        e.target.selectedIndex = 0;
+                        return;
+                    }
+                }
+            }
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
             if (SanBays_P_Update[i].ID_Update == undefined || SanBays_P_Update[i].ID_Update == 0) {
@@ -994,6 +996,27 @@ for (let i = 0; i < HangGhes.length; i++) {
                 HangGhes_P_Update[i].TrangThai = 'ApDung';
             }
         } else {
+            for (let i = 0; i < Package.ChuyenBays.length; i++) {
+                if (
+                    Package.ChuyenBays[i].TrangThai == 'ChuaKhoiHanh' ||
+                    Package.ChuyenBays[i].TrangThai == 'ViPhamQuyDinh'
+                ) {
+                    let SB = e.target.closest('.HangGhe');
+                    let Ma = SB.querySelector('.HangGhe_Ma').value;
+                    for (let t = 0; t < Package.ChuyenBays[i].HangGhe.length; t++) {
+                        if (Package.ChuyenBays[i].HangGhe[t].MaHangGhe == Ma) {
+                            showToast({
+                                header: 'Hạng ghế có mã: ' + Ma,
+                                body: 'Không thể chuyển trạng thái "Ngưng hoạt động" vì còn chuyến bay sử dụng hạng ghế này này',
+                                duration: 5000,
+                                type: 'warning',
+                            });
+                            e.target.selectedIndex = 0;
+                            return;
+                        }
+                    }
+                }
+            }
             e.target.classList.remove('text-success-light');
             e.target.classList.add('text-danger');
             if (HangGhes_P_Update[i].ID_Update == undefined || HangGhes_P_Update[i].ID_Update == 0) {

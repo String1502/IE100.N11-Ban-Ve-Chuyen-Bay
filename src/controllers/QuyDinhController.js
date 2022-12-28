@@ -105,6 +105,14 @@ class QuyDinhController {
             );
 
             for (let i = 0; i < ChuyenBays.length; i++) {
+                let HangGhe = await sequelize.query(
+                    "select MaHangGhe from chitiethangve where MaChuyenBay = '" + ChuyenBays[i].MaChuyenBay + "'",
+                    {
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
+                ChuyenBays[i].HangGhe = structuredClone(HangGhe);
                 let ChiTietChuyenBays = await sequelize.query(
                     "select MaCTCB,	MaChuyenBay,	MaSBTG	,ThuTu	,NgayGioDen ,ThoiGianDung from chitietchuyenbay where MaChuyenBay = '" +
                         ChuyenBays[i].MaChuyenBay +

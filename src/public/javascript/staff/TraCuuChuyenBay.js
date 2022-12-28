@@ -13,6 +13,9 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('TraCuu');
+if (footer_planet) {
+    footer_planet.parentElement.removeChild(footer_planet);
+}
 
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {

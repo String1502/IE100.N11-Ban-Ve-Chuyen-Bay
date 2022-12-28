@@ -38,6 +38,10 @@ function GetFlight_fromSV() {
     }).then((res) => {
         Flight_fromDB = res.data;
 
+        if (footer_planet) {
+            footer_planet.parentElement.removeChild(footer_planet);
+        }
+
         closeLoader();
         if (Flight_fromDB) {
             Flight_fromDB['MaChuyenBayHienThi'] =
@@ -457,7 +461,7 @@ function CapNhatNguoiLienHeHienTai() {
     document.getElementById('NguoiLienHe_Email').setAttribute('index', index);
 }
 
-document.getElementById('XacNhan_btn').addEventListener('click', (e) => {
+document.getElementById('ChinhSuaChuyenBay').addEventListener('click', (e) => {
     const _Flight_fromDB = structuredClone(Flight_fromDB);
     SendForm(_Flight_fromDB);
 });

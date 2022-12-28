@@ -271,7 +271,12 @@ document.querySelector('.User--Sua').addEventListener('click', (e) => {
             url: '/staff/phanquyen/SuaUser',
             data: User_P,
         }).then((res) => {
-            alert('Cập nhật thông tin tài khoản thành công');
+            showToast({
+                header: 'Thay đổi thành công',
+                body: 'Đã cập nhật thông tin người dùng ',
+                duration: 5000,
+                type: 'success',
+            });
             if (User_MaChucVu.value == '3KH') {
                 var Form = document.forms['Form'];
                 Form.action = '/';

@@ -1,37 +1,42 @@
 <style>
-    @keyframes pulldown { 0% { opacity: 0; transform: translate(0,-100px); } 80%{ transform: translate(0,-20px); } 100%{
-    opacity: 1; transform: translate(0,0px); } } .header_animation{ animation-name: pulldown; animation-duration: 1.5s;
-    animation-iteration-count: 1;}
+    @keyframes pulldown {
+        0% {
+            opacity: 0;
+            transform: translate(0, -100px);
+        }
+
+        80% {
+            transform: translate(0, -20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translate(0, 0px);
+        }
+    }
+
+    .header_animation {
+        animation-name: pulldown;
+        animation-duration: 1.5s;
+        animation-iteration-count: 1;
+    }
 </style>
 
-<nav
-    style='height: 80px; z-index:1000000000'
-    id='staff_header'
-    class='header_animation navbar navbar-expand-lg navbar-light shadow-lg bg-light sticky-top'
->
+<nav style='height: 80px; z-index:1040;' id='staff_header'
+    class='header_animation navbar navbar-expand-lg navbar-light shadow-lg bg-light sticky-top'>
     <div class='container-fluid'>
 
         {{! Logo + Brand }}
         <a style='cursor: pointer;' class='navbar-brand' id='LoGo'>
-            <i
-                style='pointer-events:none;'
-                class='fa-sharp fa-solid fa-plane d-inline-block align-text-top text-primary'
-                width='30'
-                height='24'
-            ></i>
+            <i style='pointer-events:none;'
+                class='fa-sharp fa-solid fa-plane d-inline-block align-text-top text-primary' width='30'
+                height='24'></i>
             <span style='pointer-events:none;' class='custom-font h32-B text-dark'>Planet</span>
         </a>
 
         {{! Navbar items }}
-        <button
-            class='navbar-toggler'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#navbarNav'
-            aria-controls='navbarNav'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-        >
+        <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav'
+            aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
             <span class='navbar-toggler-icon'></span>
         </button>
 
@@ -72,38 +77,31 @@
                     <div class='h-100 d-flex align-items-center'>
                         <span
                             class='custom-boxshadow-focus-none custom-boxshadow-hover-primary shadow-sm rounded-circle mx-3'
-                            type='button'
-                            data-bs-toggle='dropdown'
-                        >
+                            type='button' data-bs-toggle='dropdown'>
                             <i style='font-size: 48px;' class='fa-solid fa-circle-user text-primary'></i>
                         </span>
-                        <ul
-                            style='min-width: 280px;'
-                            class='dropdown-menu dropdown-menu-end me-3 pb-3 border-0 bg-light shadow rounded-2'
-                        >
+                        <ul style='min-width: 280px;'
+                            class='dropdown-menu dropdown-menu-end me-3 pb-3 border-0 bg-light shadow rounded-2'>
 
                             <li style='border-bottom: 1px gray solid;' class='dropdown-header pb-2'>
                                 <div class='d-flex flex-row justify-content-start align-items-center custom-font me-3'>
                                     <i style='font-size: 38px;' class='fa-solid fa-circle-user text-tertiary'></i>
-                                    <span id='HoTen_User' class='ms-3 custom-font h24-B text-tertiary'>Phan Trường Huy</span>
+                                    <span id='HoTen_User' class='ms-3 custom-font h24-B text-tertiary'>Phan Trường
+                                        Huy</span>
                                 </div>
                             </li>
 
                             <li id='Profile' style='cursor: pointer;' class='dropdown-item custom-active-gray ps-4'>
-                                <div
-                                    style='pointer-events:none;'
-                                    class='d-flex flex-row justify-content-start align-items-center custom-font py-2'
-                                >
+                                <div style='pointer-events:none;'
+                                    class='d-flex flex-row justify-content-start align-items-center custom-font py-2'>
                                     <i style='width: 30px;' class='fa-solid fa-user h24-B text-primary'></i>
                                     <span class='ms-3 text-decoration-none p20-S text-dark'>Chỉnh sửa hồ sơ</span>
                                 </div>
                             </li>
 
                             <li id='DangXuat' style='cursor: pointer;' class='dropdown-item custom-active-gray ps-4'>
-                                <div
-                                    style='pointer-events:none;'
-                                    class='d-flex flex-row justify-content-start align-items-center custom-font py-2'
-                                >
+                                <div style='pointer-events:none;'
+                                    class='d-flex flex-row justify-content-start align-items-center custom-font py-2'>
                                     <i style='width: 30px;' class='fa-solid fa-door-open h24-B text-primary'></i>
                                     <span class='ms-3 text-decoration-none p20-S text-dark'>Đăng xuất</span>
                                 </div>

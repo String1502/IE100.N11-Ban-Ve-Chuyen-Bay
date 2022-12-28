@@ -1,3 +1,22 @@
+import {
+    numberWithDot,
+    numberWithoutDot,
+    numberSmallerTen,
+    openLoader,
+    closeLoader,
+    getThuTrongTuan,
+    today,
+    showToast,
+    onlyNumber,
+    formatVND,
+    ActiveNavItem_Header,
+} from '../start.js';
+
+ActiveNavItem_Header('PhanQuyen');
+
+openLoader('Chờ chút');
+closeLoader();
+
 function LoadGioiTinh() {
     let GioiTinh = document.querySelectorAll('.User_GioiTinh');
     for (let i = 0; i < GioiTinh.length; i++) {

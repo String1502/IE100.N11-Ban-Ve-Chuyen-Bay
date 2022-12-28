@@ -8,8 +8,6 @@
   background-color: #04bfae !important; }
 
 .bg-primary-gradient {
-  background: #007991;
-  background: -webkit-linear-gradient(to right, #007991, #66d8b6);
   background: linear-gradient(to right, #007991, #66d8b6); }
 
 .bg-primary-hover {
@@ -32,8 +30,6 @@
   background-color: #f25c05 !important; }
 
 .bg-secondary-gradient {
-  background: #f25c05;
-  background: -webkit-linear-gradient(to right, #f25c05, #dc3545);
   background: linear-gradient(to right, #f25c05, #dc3545); }
 
 .border-secondary {

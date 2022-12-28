@@ -7,8 +7,10 @@ const QuyDinhRouter = require('./QuyDinh');
 const PhanQuyenRouter = require('./PhanQuyen');
 const NhanLichRouter = require('./NhanLich');
 const BaoCaoRouter = require('./BaoCao');
+const HinhThucThanhToanRouter = require('./HinhThucThanhToan');
 
 const route = (app) => {
+    app.use('/thanhtoan', HinhThucThanhToanRouter);
     app.use('/staff/nhanlich', NhanLichRouter);
     app.use('/staff/quydinh', QuyDinhRouter);
     app.use('/staff/phanquyen', PhanQuyenRouter);

@@ -9,7 +9,10 @@ import {
     showToast,
     onlyNumber,
     formatVND,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('TraCuu');
 
 window.onlyNumber = onlyNumber;
 window.addEventListener('pageshow', function (event) {

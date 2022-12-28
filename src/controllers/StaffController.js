@@ -6,25 +6,39 @@ class StaffController {
     async LoadHeader(req, res) {
         try {
             let P = {};
+            // {
+            //     HoTen:'',
+            //     MaUser:'',
+            //     QuyenHT:
+            //     [
+            //         0: 0, // value luôn 0
+            //         1: 1, // value 1 || 0
+            //     ]
+            // }
             let MaUser = req.signedCookies.MaUser;
-            let User = await db.User.findOne({ where: { MaUser: MaUser }, raw: true });
-            let Quyen = await db.sequelize.query(
-                "select MaQuyen from phanquyen where MaChucVu = '" + User.MaChucVu + "'",
-                {
-                    type: QueryTypes.SELECT,
-                    raw: true,
-                },
-            );
+            if (MaUser) {
+                let User = await db.User.findOne({ where: { MaUser: MaUser }, raw: true });
+                let Quyen = await db.sequelize.query(
+                    "select MaQuyen from phanquyen where MaChucVu = '" + User.MaChucVu + "'",
+                    {
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
 
-            let QuyenHT = [];
-            for (let i = 0; i < 6; i++) {
-                QuyenHT[i] = 0;
+                let QuyenHT = [];
+                for (let i = 0; i < 6; i++) {
+                    QuyenHT[i] = 0;
+                }
+                for (let i = 0; i < Quyen.length; i++) {
+                    QuyenHT[Quyen[i].MaQuyen] = 1;
+                }
+                P.HoTen = User.HoTen;
+                P.MaUser = MaUser;
+                P.QuyenHT = QuyenHT;
+            } else {
+                P.MaUser = 'GUEST';
             }
-            for (let i = 0; i < Quyen.length; i++) {
-                QuyenHT[Quyen[i].MaQuyen] = 1;
-            }
-            P.HoTen = User.HoTen;
-            P.QuyenHT = QuyenHT;
             return res.send(P);
         } catch (err) {
             console.log(err);

@@ -1,4 +1,10 @@
-<div class='h-auto h-md-50 w-100 bg-primary-gradient pb-5'>
+<style>
+    @keyframes pullup { 0% { opacity: 0; transform: translate(0,100px); } 80%{ transform: translate(0,20px); } 100%{
+    opacity: 1; transform: translate(0,0); } } .footer_animation{ animation-name: pullup; animation-duration: 1.5s;
+    animation-iteration-count: 1;}
+</style>
+
+<div class='h-auto h-md-50 w-100 bg-primary-gradient pb-5 footer_animation' id='footer_planet'>
 
     <div class='container-fluid'>
         <div class='row justify-content-evenly'>

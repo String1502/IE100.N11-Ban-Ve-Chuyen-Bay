@@ -10,33 +10,19 @@ import {
 //Lấy gói đặt từ Chọn chuyến bay
 let PackageBooking;
 function GetPackageBooing_fromSV() {
-    //#region Ngây thơ
-    // openLoader('Chờ chút');
-    // axios({
-    //     method: 'post',
-    //     url: '/pre-booking',
-    //     data: { GetPackageBooing_fromSV: true },
-    // }).then((res) => {
-    //     PackageBooking = res.data;
-    //     closeLoader();
-
-    //     if (PackageBooking) {
-    //         formatNumber();
-    //         Add_ChuyenBay_Item_ChiTiet_Click();
-    //         AddTomTat_KhachHang_Item();
-    //     }
-    //     console.log(PackageBooking);
-    // });
-    //#endregion
-
     openLoader('Chờ chút');
     PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
     closeLoader();
 
     if (PackageBooking) {
-        formatNumber();
-        Add_ChuyenBay_Item_ChiTiet_Click();
-        AddTomTat_KhachHang_Item();
+        axios({
+            method: 'post',
+            url: '/hoadon/XoaCookieMaHangVe',
+        }).then((res) => {
+            formatNumber();
+            Add_ChuyenBay_Item_ChiTiet_Click();
+            AddTomTat_KhachHang_Item();
+        });
     }
     console.log(PackageBooking);
 }

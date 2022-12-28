@@ -9,11 +9,12 @@
                 </div>
                 <div class='w-auto'>
                     <a
-                        id='HuyChuyenBay'
                         type='button'
-                        class='d-none btn btn-primary bg-secondary border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                        data-bs-toggle='modal'
+                        data-bs-target='#Modal_ThamSo'
+                        class='shadow-sm btn btn-primary bg-danger border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
                     >
-                        Thoát
+                        Các quy định
                     </a>
                 </div>
             </div>
@@ -26,27 +27,36 @@
         <div class='mb-5 row'>
 
             <div class='col-7'>
-
-                <div class='d-flex flex-column bg-light shadow rounded-2 h-auto ps-3 pe-4 py-3'>
+                <div style='height: 170px;' class='d-flex flex-column bg-light shadow rounded-2 h-auto ps-3 pe-4 py-3'>
                     {{! Mã chuyến bay }}
                     <div class='mb-3'>
                         <label for='MaChuyenBay' class='form-label custom-font p14-S'>Chọn file excel</label>
                         <form action='/flight/addFromexcel' method='post' enctype='multipart/form-data' id='form-excel'>
-                            <input
-                                style='line-height: 24px;'
-                                type='file'
-                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                id='NhapFileExcel'
-                                name='myfile'
-                                accept='.xls, .xlsx'
-                            />
+                            <div class='input-group'>
+                                <input
+                                    type='file'
+                                    class='form-control custom-font p16-S border-tertiary custom-boxshadow-focus-primary'
+                                    id='NhapFileExcel'
+                                    name='myfile'
+                                    accept='.xls, .xlsx'
+                                />
+                                <button
+                                    class='btn border-tertiary bg-danger custom-font p16-S text-light custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                    type='button'
+                                    id='XoaFileExcel'
+                                >Xóa</button>
+                            </div>
                         </form>
 
                     </div>
 
                     <div class='custom-font p16-S text-tertiary align-self-end'>
                         Không có file template? Tải xuống
-                        <a id='DownloadTemplate' class='text-primary text-decoration-none'>tại đây.</a>
+                        <a
+                            id='DownloadTemplate'
+                            href='/staff/nhanlich/downExcelTemplate'
+                            class='text-primary text-decoration-none'
+                        >tại đây.</a>
                     </div>
                 </div>
             </div>
@@ -73,7 +83,7 @@
                                 <th scope='col'>Sân bay đi</th>
                                 <th scope='col'>Sân bay đến</th>
                                 <th scope='col'>Khởi hành</th>
-                                <th scope='col'>Giá vé cơ bản</th>
+                                <th scope='col'>Giá vé cơ bản (VND)</th>
                                 <th scope='col'>Điểm dừng</th>
                                 <th scope='col'>Hạng vé</th>
                                 <th scope='col'>Chi tiết</th>
@@ -112,6 +122,35 @@
 
         </div>
 
+        {{! Modal tham số quy định }}
+        <div class='modal fade' id='Modal_ThamSo'>
+            <div style='width: 500px;' class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <span class='modal-title custom-font p20-B text-dark'>
+                            Các quy định về chuyến bay</span>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body custom-font p20-R text-dark' id='Modal_ThamSo_Body'>
+
+                        <div>
+                            <img
+                                class='img-fluid mb-4'
+                                src='https://img.freepik.com/premium-vector/people-studying-list-rules-making-checklist-reading-guidance-vector-illustration-flat-style_186332-940.jpg?w=1380'
+                                alt=''
+                            />
+                        </div>
+
+                        <div class='d-none d-flex flex-row justify-content-between mb-3 mx-2 Modal_ThamSo_Item'>
+                            <span class='TenQuyDinh'>- Thời gian nhận lịch tối thiểu:</span>
+                            <span class='GiaTriQuyDinh p20-B'>Thời gian nhận lịch tối thiểu</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{! Modal thông báo }}
         <div class='modal fade' id='Modal'>
             <div class='modal-dialog modal-dialog-centered'>
@@ -121,7 +160,7 @@
                         <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                     </div>
                     <div class='modal-body custom-font p20-R text-dark' id='Modal_Body'>
-                        Bạn có muốn lưu thay đổi?
+                        Bạn muốn nhận lịch các chuyến bay?
                     </div>
                     <div class='modal-footer'>
 
@@ -331,7 +370,7 @@
                                                     <thead class='sticky-top bg-light shadow-sm'>
                                                         <tr class='custom-font p16-S text-center'>
                                                             <th scope='col'>Tên hạng vé</th>
-                                                            <th scope='col'>Giá tiền</th>
+                                                            <th scope='col'>Giá vé (VND)</th>
                                                             <th scope='col'>Số ghế</th>
                                                         </tr>
                                                     </thead>
@@ -384,8 +423,7 @@
 
         <div class='py-2 px-2 bg-tertiary shadow text-end rounded text-light custom-font p16-B'>
             <span class='fa-solid fa-clock mx-1'></span>
-            <span id='Timer_Ngay'>27/06/2022</span>
-            <span id='Timer_Gio'>11:11:11</span>
+            <span id='Timer_NgayGio'>11/11/1011 11:11:11</span>
         </div>
 
         <div class='d-flex flex-row justify-content-end'>

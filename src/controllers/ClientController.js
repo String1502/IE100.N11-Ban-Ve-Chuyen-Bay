@@ -123,7 +123,7 @@ class ClientController {
             let HoaDons = await db.sequelize.query(
                 "select hoadon.MaHoaDon, hoadon.MaUser, hoadon.HoTen, hoadon.Email, hoadon.SDT, hoadon.NgayGioThanhToan, hoadon.TongTien, htthanhtoan.Ten from hoadon, htthanhtoan where hoadon.MaHTTT=htthanhtoan.MaHTTT and hoadon.MaUser = '" +
                     req.signedCookies.MaUser +
-                    "' ",
+                    "' and hoadon.TrangThai='DaThanhToan'",
                 {
                     type: QueryTypes.SELECT,
                     raw: true,
@@ -157,6 +157,7 @@ class ClientController {
                         raw: true,
                     },
                 );
+                let MaGhe;
                 for (let j = 0; j < Ves.length; j++) {
                     Ves[j].GiaVe = numberWithDot(Ves[j].GiaVe) + ' VND';
                     Ves[j].GioiTinh = Ves[j].GioiTinh == 1 ? 'Nam' : 'Nữ';
@@ -176,9 +177,9 @@ class ClientController {
                     Ves[j].MaChuyenBayCT = CTVE[0].MaChuyenBay;
                     Ves[j].HangVe = CTVE[0].MaHangGhe + '-' + CTVE[0].TenHangGhe;
                     Ves[j].MaVe = Ves[j].MaChuyenBay + Ves[j].MaVe;
+                    MaGhe = CTVE[0].MaHangGhe;
                 }
-                console.log(Ves);
-                HoaDons[i].MaHoaDon = HoaDons[i].MaUser + '-' + HoaDons[i].MaHoaDon;
+                HoaDons[i].MaHoaDon = HoaDons[i].MaUser + '-' + HoaDons[i].MaHoaDon + '-' + MaGhe;
                 HoaDons[i].Ves = structuredClone(Ves);
             }
             return res.render('client/VeCuaToi', {

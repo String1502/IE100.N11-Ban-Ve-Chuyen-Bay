@@ -319,7 +319,12 @@ if (XacNhan)
                 url: '/staff/phanquyen/ThemUser',
                 data: User_P,
             }).then((res) => {
-                alert('Tạo tài khoản thành công');
+                showToast({
+                    header: 'Thành công',
+                    body: 'Chào mừng đến với planet!',
+                    duration: 5000,
+                    type: 'success',
+                });
                 var Form = document.forms['Form'];
                 Form.action = '/login';
                 Form.submit();

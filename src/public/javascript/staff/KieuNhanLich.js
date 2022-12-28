@@ -13,7 +13,6 @@ import {
 } from '../start.js';
 
 ActiveNavItem_Header('NhanLich');
-
 openLoader('Chờ chút');
 closeLoader();
 

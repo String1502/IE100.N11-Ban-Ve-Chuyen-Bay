@@ -114,6 +114,7 @@ if (document.getElementById('NhanLich')) {
 
 if (document.getElementById('DangXuat')) {
     document.getElementById('DangXuat').addEventListener('click', (e) => {
+        openLoader('Chờ chút');
         axios({
             method: 'POST',
             url: '/logout',
@@ -121,6 +122,7 @@ if (document.getElementById('DangXuat')) {
         var staff_form = document.forms['staffheader-form'];
         staff_form.action = '/';
         staff_form.method = 'get';
+        closeLoader();
         staff_form.submit();
     });
 }

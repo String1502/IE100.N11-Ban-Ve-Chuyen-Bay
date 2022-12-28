@@ -26,12 +26,9 @@ class ClientController {
                     res.clearCookie('MaUser');
                 }
             }
-            //let SanBays = [
-            //     { MaSanBay: 'TSN', TenSanBay: 'Tân Sơn Nhất', TinhThanh: 'HCM' },
-            //     { MaSanBay: 'DAD', TenSanBay: 'Haha', TinhThanh: 'Đà Nẵng' },
-            // ];
+
             let SanBays = await db.sequelize.query(
-                'select MaSanBay , TenSanBay, TenTinhThanh as TinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh',
+                `select MaSanBay , TenSanBay, TenTinhThanh from sanbay, tinhthanh where sanbay.matinhthanh = tinhthanh.matinhthanh and sanbay.trangthai ='HoatDong'`,
                 {
                     type: QueryTypes.SELECT,
                     raw: true,
@@ -43,31 +40,36 @@ class ClientController {
             let HangGhes = await db.HangGhe.findAll({
                 attributes: ['MaHangGhe', 'TenHangGhe'],
                 where: {
-                    TrangThai: 'apdung',
+                    TrangThai: 'ApDung',
                 },
                 raw: true,
                 logging: false,
             });
 
-            //get so hanh khach toi da 1 chuyen bay
-            let HanhKhach_Max = await db.ThamSo.findOne({
-                attributes: ['GiaTri'],
-                where: {
-                    TenThamSo: 'HanhKhach_Max',
-                },
-                logging: false,
+            let ThamSos = await db.sequelize.query(`select * from thamso `, {
+                type: QueryTypes.SELECT,
+                raw: true,
             });
-            HanhKhach_Max = HanhKhach_Max.GiaTri;
+
+            //get so hanh khach toi da 1 chuyen bay
+            // let HanhKhach_Max = await db.ThamSo.findOne({
+            //     attributes: ['GiaTri'],
+            //     where: {
+            //         TenThamSo: 'HanhKhach_Max',
+            //     },
+            //     logging: false,
+            // });
+            // HanhKhach_Max = HanhKhach_Max.GiaTri;
 
             //get so so chuyen bay toi da 1 lan dat ve
-            let ChuyenBay_Max = await db.ThamSo.findOne({
-                attributes: ['GiaTri'],
-                where: {
-                    TenThamSo: 'ChuyenBay_Max',
-                },
-                logging: false,
-            });
-            ChuyenBay_Max = ChuyenBay_Max.GiaTri;
+            // let ChuyenBay_Max = await db.ThamSo.findOne({
+            //     attributes: ['GiaTri'],
+            //     where: {
+            //         TenThamSo: 'ChuyenBay_Max',
+            //     },
+            //     logging: false,
+            // });
+            // ChuyenBay_Max = ChuyenBay_Max.GiaTri;
 
             let LoaiKhachHang = await db.sequelize.query('SELECT * FROM `loaikhachhang`', {
                 type: QueryTypes.SELECT,
@@ -75,13 +77,12 @@ class ClientController {
                 logging: false,
             });
 
+            var Package = { SanBays: SanBays, HangGhes: HangGhes, ThamSos: ThamSos, LoaiKhachHang: LoaiKhachHang };
+
             return res.render('client/TraCuuChuyenBay', {
                 layout: 'client.handlebars',
-                SanBays: SanBays,
-                HangGhes: HangGhes,
-                HanhKhach_Max: HanhKhach_Max,
-                ChuyenBay_Max: ChuyenBay_Max,
-                LoaiKhachHang: JSON.stringify(LoaiKhachHang),
+                Package: Package,
+                PackageJS: JSON.stringify(Package),
             });
         } catch (error) {
             console.log(error);

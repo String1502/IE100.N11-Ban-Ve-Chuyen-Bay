@@ -1,58 +1,70 @@
 <html lang='en'>
-    <head>
-        <meta charset='UTF-8' />
-        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-        <meta name='viewport' content='width={device-width}, initial-scale=1.0' />
-        <title>Document</title>
-        {{!-- Bootstrap5 --}}
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        {{!-- Font-aweosome-icon --}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-         {{!-- Font: Roboto --}}
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-        {{!-- Our css --}}
-        <link rel='stylesheet' href='/css/app.css' />
-        <link rel='stylesheet' href='/css/color.css' />
-        <link rel='stylesheet' href='/css/font.css' />
-        {{!-- Axios --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-    </head>
-    <body>
-        <div id="Spinner_loading" class=" position-fixed top-50 start-50 translate-middle w-100 h-100 d-none" style="z-index: 10001; background-color:rgba(108, 117, 125, 0.5);" >
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div style="border-radius: 15px;" class="border-0 h-25 w-25 bg-light d-flex justify-content-center align-items-center shadow-lg">
-                    <span style="width: 2.5rem; height: 2.5rem; border-width:8px;" class="spinner-border text-primary " role="status"></span>
-                    <span id="Spinner_loading_content" class="ms-3 h24-B custom-font text-primary d-none d-md-block ">Chờ chút</span>
-                </div>
+<head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width={device-width}, initial-scale=1.0' />
+    <title>Document</title>
+    {{!-- Bootstrap5 --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {{!-- Font-aweosome-icon --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{!-- Font: Roboto --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    {{!-- Our css --}}
+    <link rel='stylesheet' href='/css/app.css' />
+    <link rel='stylesheet' href='/css/color.css' />
+    <link rel='stylesheet' href='/css/font.css' />
+    {{!-- Axios --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div id="Spinner_loading" class=" position-fixed top-50 start-50 translate-middle w-100 h-100 d-none"
+        style="z-index: 10001; background-color:rgba(108, 117, 125, 0.5);">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div style="border-radius: 15px;"
+                class="border-0 h-25 w-25 bg-light d-flex justify-content-center align-items-center shadow-lg">
+                <span style="width: 2.5rem; height: 2.5rem; border-width:8px;" class="spinner-border text-primary "
+                    role="status"></span>
+                <span id="Spinner_loading_content" class="ms-3 h24-B custom-font text-primary d-none d-md-block ">Chờ
+                    chút</span>
             </div>
         </div>
+    </div>
 
-        <div >
-            {{> staff_header}}
+    <div>
+        {{> staff_header}}
 
-            <div>
-                {{{body}}}
+        <div>
+            {{{body}}}
+        </div>
+
+        {{> footer}}
+    </div>
+
+    <div style=" z-index: 10000001;" class="position-fixed bottom-0 end-0 p-3 toast-container" id="toastContainer">
+        {{!-- <div class="toast hide rounded-1" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            
-            {{> footer}}
-        </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div> --}}
+    </div>
+    {{!-- Bootstrap 5 --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
 
-        <div style=" z-index: 10000001;" class="position-fixed bottom-0 end-0 p-3 toast-container" id="toastContainer" >
-            {{!-- <div class="toast hide rounded-1" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
-                </div>
-            </div> --}}
-        </div>
-        {{!-- Bootstrap 5 --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    </body>
 </html>

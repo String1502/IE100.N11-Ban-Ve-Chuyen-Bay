@@ -16,6 +16,15 @@ let getTemplateHtml = async () => {
     }
 };
 
+let getReportTemplateHtml = async () => {
+    try {
+        const invoicePath = path.resolve('./src/resources/views/pdfTemplate/report-template.handlebars');
+        return await readFile(invoicePath, 'utf8');
+    } catch (err) {
+        return Promise.reject('Could not load html template');
+    }
+};
+
 // data_html = {
 //     NguoiLienHe: {
 //         HoTen: '',
@@ -187,10 +196,48 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     };
 };
 
+let generateReportPdf = async (data) => {
+    const filename = `report-2022.pdf`;
+    console.log(data);
+
+    await getReportTemplateHtml()
+        .then(async (call) => {
+            // Now we have the html code of our template in res object
+            // you can check by logging it on console
+            // console.log(res)
+            // console.log(call);
+            const template = hb.compile(call, { strict: true });
+            // we have compile our code with handlebars
+            const result = template(data);
+            // We can use this to add dyamic data to our handlebas template at run time from database or API as per need. you can read the official doc to learn more https://handlebarsjs.com/
+            const html = result;
+            // we are using headless mode
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            // We set the page content as the generated html by handlebars
+            await page.setContent(html);
+            // We use pdf function to generate the pdf in the same folder as this file.
+
+            await page.pdf({ path: `./src/public/temp/${filename}`, format: 'A4' });
+            await browser.close();
+            console.log('PDF Generated');
+        })
+        .catch((err) => {
+            console.error(err);
+            return 'fail';
+        });
+
+    return {
+        status: 'ok',
+        filename: filename,
+    };
+};
+
 let numberWithDot = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
 module.exports = {
     generatePdf: generatePdf,
+    generateReportPdf: generateReportPdf,
 };

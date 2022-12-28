@@ -15,7 +15,7 @@ import {
 // #region Run when page load
 
 let Reports;
-let currentyear = 0;
+// let currentyear = 0;
 
 const years = document.querySelectorAll('.Nam_Item');
 
@@ -38,9 +38,57 @@ document.getElementById('Nam').value = currentYear;
 
 UpdateYearReport(currentYear);
 
+AddEventToElements();
+
 //#endregion
 
 //#region Utils
+
+function AddEventToElements() {
+    xuat_bao_cao_nam_button.addEventListener('click', async (e) => {
+        const data = Reports.DoanhThu.map((doanhThu) => ({
+            Thang: doanhThu.Thang,
+            SoChuyenBay: doanhThu.SoChuyenBay,
+            TongDoanhThu: doanhThu.TongDoanhThu,
+        }));
+
+        for (let i = 1; i <= 12; i++) {
+            const thang = data.find((doanhThu) => doanhThu.Thang == i);
+            if (!thang) {
+                data.splice(i - 1, 0, {
+                    Thang: i,
+                    SoChuyenBay: 0,
+                    TongDoanhThu: 0,
+                });
+            }
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            data[i].TongDoanhThuFormated = numberWithDot(data[i].TongDoanhThu) + ' VND';
+            data[i].SoChuyenBayFormated = numberWithDot(data[i].SoChuyenBay);
+        }
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = dd + '/' + mm + '/' + yyyy;
+
+        openLoader('Chờ chút');
+
+        axios({
+            method: 'post',
+            url: '/staff/baocao/PrintReport',
+            data: {
+                DoanhThu: data,
+                NgayXuat: today,
+            },
+        }).then((res) => {
+            closeLoader();
+        });
+    });
+}
 
 function getCount(parent, getChildrensChildren) {
     var relevantChildren = 0;
@@ -86,8 +134,6 @@ function FillDataIntoDetailModal(flightData) {
     SanBayDen_FlightDetail_Modal.innerText = flightData.TenSanBayDen;
     KhoiHanh_FlightDetail_Modal.innerText = flightData.KhoiHanh;
     ThoiGianBay_FlightDetail_Modal.innerText = flightData.ThoiGianBay;
-
-    console.log(flightData);
 
     // Graph
     const chiTietHangVe = JSON.parse(flightData.ChiTietHangVe);
@@ -176,8 +222,6 @@ function UpdateYearReport(nam) {
         closeLoader();
         if (Reports) {
             LoadReportsToView();
-            // AddEventCacTieuChuanTraCuu();
-            // AddEventKeyUpSearch();
         }
     });
 }
@@ -185,11 +229,8 @@ function UpdateYearReport(nam) {
 function ClearAllMonthAccordion() {
     let childCount = getCount(accordion_Container, false);
 
-    console.log(childCount);
-
     while (childCount > 1) {
         const lastChild = accordion_Container.lastChild;
-        console.log(accordion_Container.lastChild);
         accordion_Container.removeChild(lastChild);
         childCount--;
     }
@@ -203,7 +244,8 @@ function LoadReportsToView() {
     // Load year data
 
     tong_doanh_thu.innerText = numberWithDot(Reports.TongDoanhThu);
-    doanh_thu_nam_status.innerText = Reports.DoanhThu.length == 12 ? '' : '(Chưa kết thúc)';
+    const isYearPassed = new Date().getFullYear() > Reports.Nam;
+    doanh_thu_nam_status.innerText = isYearPassed ? '' : '(Chưa kết thúc)';
 
     for (let month = 1; month <= 12; month++) {
         const monthData = Reports.DoanhThu.find((doanhThu) => doanhThu.Thang == month);
@@ -228,9 +270,11 @@ function LoadEmptyMonth(thang, clone) {
     clone.querySelector('.item_header_sochuyenbay').innerText = 'Không có dữ liệu';
     clone.querySelector('.item_header_doanhthu').innerText = 'Không có dữ liệu';
 
+    clone.querySelector('.header').classList.add('bg-disable');
+
     // nút xuất báo cáo
-    clone.querySelector('.item_header_btn').setAttribute('thang', thang);
-    clone.querySelector('.item_header_btn').disabled = true;
+    // clone.querySelector('.item_header_btn').setAttribute('thang', thang);
+    // clone.querySelector('.item_header_btn').disabled = true;
 
     // table thuộc tháng nào?
     // Set tháng cho body
@@ -243,7 +287,7 @@ function LoadMonthData(thang, data, clone) {
     clone.classList.remove('d-none');
 
     if (!hasAnyFlight) {
-        clone.querySelector('.item_header_btn').disabled = true;
+        // clone.querySelector('.item_header_btn').disabled = true;
         clone.querySelector('.table').classList.add('d-none');
         clone.querySelector('.no_flight_identifier').classList.remove('d-none');
         clone.querySelector('.table_rapper').style.height = '50px';
@@ -262,7 +306,7 @@ function LoadMonthData(thang, data, clone) {
     clone.querySelector('.item_header_doanhthu').innerText = numberWithDot(parseInt(data.TongDoanhThu));
 
     // nút xuất báo cáo
-    clone.querySelector('.item_header_btn').setAttribute('thang', thang);
+    // clone.querySelector('.item_header_btn').setAttribute('thang', thang);
 
     // table thuộc tháng nào?
     // Set tháng cho body
@@ -285,8 +329,6 @@ function KhoiTaoAccordion(thang, data) {
     // // get Flight data
     if (data) {
         const flights = data.ChuyenBay;
-
-        console.log(flights);
 
         flights.forEach((flight) =>
             InsertNewRow(thang, {
@@ -320,7 +362,6 @@ function KhoiTaoAccordion(thang, data) {
 }
 
 function InsertNewRow(thang, data) {
-    console.log(data);
     let item_body_Containers = document.querySelectorAll('.item_body_container');
     let container;
 

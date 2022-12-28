@@ -1,6 +1,8 @@
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+import pdfController from './pdfController';
+
 //#region Hen's
 
 // let req.body = {
@@ -84,6 +86,7 @@ class BaoCaoController {
                 // },
             ],
         };
+
         res_data.Nam = Nam;
 
         let DoanhThuNam = await db.DoanhThuNam.findOne({
@@ -91,6 +94,8 @@ class BaoCaoController {
                 Nam: Nam,
             },
         });
+
+        res_data.TongDoanhThu = DoanhThuNam.DoanhThu;
 
         let DoanhThuThang = await db.sequelize.query('SELECT * FROM `doanhthuthang` WHERE doanhthuthang.Nam = :nam', {
             replacements: {
@@ -127,18 +132,12 @@ class BaoCaoController {
                 },
             );
 
-            console.log(`So chuyen bay: ${chuyenBays.length}`);
-
             for (var j in chuyenBays) {
                 console.log(j);
 
                 // Mã hiển thị
                 chuyenBays[j].MaHienThi =
                     chuyenBays[j].MaSanBayDi + '-' + chuyenBays[j].MaSanBayDen + '-' + chuyenBays[j].MaChuyenBay;
-
-                // Doanh thu
-                console.log('Doanh thu chuyen bay: ' + chuyenBays[j].DoanhThu);
-                console.log('Doanh thu thang: ' + DoanhThuThang[i].DoanhThu);
 
                 // Tỉ lệ
                 chuyenBays[j].TiLe = 0;
@@ -212,7 +211,51 @@ class BaoCaoController {
         }
     }
 
-    async LoadReportToView() {}
+    // POST
+    // "/PrintReport"
+    async PrintReport(req, res) {
+        try {
+            const data = req.body;
+            console.log(data);
+            let pdf = await pdfController.generateReportPdf(data);
+            console.log(pdf);
+
+            if (pdf.status === 'ok') {
+                return res.send('Sucessful');
+            } else {
+                return res.send('Fail');
+            }
+
+            // let directory = path.join(__dirname, '../public/temp');
+
+            // fs.readdir(directory, (err, files) => {
+            //     if (err) throw err;
+
+            //     for (const file of files) {
+            //         fs.unlink(path.join(directory, file), (err) => {
+            //             if (err) throw err;
+            //         });
+            //     }
+            // });
+            // return 1;
+        } catch (error) {
+            console.log(error);
+            return res.send('Error');
+        }
+    }
+
+    // GET
+    // "/ReportTemplate"
+    async ReportTemplate(req, res) {
+        try {
+            return res.render('staff/report-template', {
+                layout: 'staff.handlebars',
+            });
+        } catch (error) {
+            console.log(error);
+            return res.send('Error');
+        }
+    }
 }
 
 module.exports = new BaoCaoController();

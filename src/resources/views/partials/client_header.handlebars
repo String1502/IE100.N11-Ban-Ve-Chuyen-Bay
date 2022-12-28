@@ -1,10 +1,21 @@
-<nav style='height: 80px;' class='navbar navbar-expand-lg navbar-light shadow-lg bg-light'>
+<style>
+    @keyframes pulldown { 0% { opacity: 0; transform: translate(0,-100px); } 80%{ transform: translate(0,-20px); } 100%{
+    opacity: 1; transform: translate(0,0px); } } .header_animation{ animation-name: pulldown; animation-duration: 1.5s;
+    animation-iteration-count: 1;}
+</style>
+
+<nav style='height: 80px;' class='header_animation navbar navbar-expand-lg navbar-light shadow-lg bg-light sticky-top'>
     <div class='container-fluid'>
 
         {{! Logo + Brand }}
         <a class='navbar-brand' href='/'>
-            <i class='fa-sharp fa-solid fa-plane d-inline-block align-text-top text-primary' width='30' height='24'></i>
-            <span class='custom-font h32-B text-dark'>Planet</span>
+            <i
+                style='pointer-events:none;'
+                class='fa-sharp fa-solid fa-plane d-inline-block align-text-top text-primary'
+                width='30'
+                height='24'
+            ></i>
+            <span style='pointer-events:none;' class='custom-font h32-B text-dark'>Planet</span>
         </a>
 
         {{! Navbar items }}
@@ -22,6 +33,7 @@
 
         <div class='collapse navbar-collapse bg-light' id='navbarNav'>
             <ul class='navbar-nav w-100 justify-content-lg-end justify-content-center custom-font p20-B'>
+
                 <li class='nav-item active mx-3'>
                     <a class='nav-link text-dark nav-item-hover' aria-current='page' href='/'>Trang chủ</a>
                 </li>
@@ -37,9 +49,11 @@
                 <li class='nav-item active d-none mx-3' id='Ve'>
                     <a class='nav-link text-dark nav-item-hover'>Vé đã mua</a>
                 </li>
+
                 <li class='nav-item active mx-3 ms-lg-3 me-lg-0 mb-lg-0 mb-3 d-none' id='DK'>
                     <a class='nav-link px-3 text-light bg-primary rounded-1' href='/login/register'>Đăng ký</a>
                 </li>
+
                 <li class='nav-item active mx-3 ms-lg-3 me-lg-0 mb-lg-0 mb-3 d-none' id='TTKH'>
                     <div class='dropdown'>
                         <a

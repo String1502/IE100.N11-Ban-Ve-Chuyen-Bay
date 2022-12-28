@@ -98,23 +98,6 @@
 
                             <div class='row'>
 
-                                {{! MOMO }}
-                                <div class='col-12 mb-3'>
-                                    <div
-                                        id='MOMO_payment'
-                                        style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
-                                        class='Zoom d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded'
-                                    >
-                                        <div style='pointer-events: none;' class='me-2'>
-                                            <img style='height: 60px;' class='img-fluid' src='/img/Momo.png' alt='' />
-                                        </div>
-                                        <div
-                                            style='font-weight: 500!important; pointer-events: none;'
-                                            class='custom-font h24-B text-dark'
-                                        >Thanh toán bằng Ví MoMo</div>
-                                    </div>
-                                </div>
-
                                 {{! VNPAY }}
                                 <div class='col-12 mb-3'>
                                     <div
@@ -132,13 +115,40 @@
                                     </div>
                                 </div>
 
+                                {{! MOMO }}
+                                <div class='col-12 mb-3'>
+                                    <div
+                                        id='MOMO_payment'
+                                        style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
+                                        class='d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded position-relative'
+                                    >
+                                        <div
+                                            style='background-color: rgba(233, 236, 239,0.6); ;'
+                                            class='position-absolute top-0 start-0 h-100 w-100'
+                                        >
+                                        </div>
+                                        <div style='pointer-events: none;' class='me-2'>
+                                            <img style='height: 60px;' class='img-fluid' src='/img/Momo.png' alt='' />
+                                        </div>
+                                        <div
+                                            style='font-weight: 500!important; pointer-events: none;'
+                                            class='custom-font h24-B text-dark'
+                                        >Thanh toán bằng Ví MoMo</div>
+                                    </div>
+                                </div>
+
                                 {{! PAYPAL }}
                                 <div class='col-12 mb-3'>
                                     <div
                                         id='PAYPAL_payment'
                                         style='height: 100px; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;'
-                                        class='Zoom d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded'
+                                        class='d-flex flex-row justify-content-center align-items-center p-3 mx-3 rounded position-relative'
                                     >
+                                        <div
+                                            style='background-color: rgba(233, 236, 239,0.6); ;'
+                                            class='position-absolute top-0 start-0 h-100 w-100'
+                                        >
+                                        </div>
                                         <div style='pointer-events: none;' class='me-2'>
                                             <img style='height: 60px;' class='img-fluid' src='/img/PayPal.png' alt='' />
                                         </div>

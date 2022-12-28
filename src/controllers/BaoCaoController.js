@@ -196,7 +196,7 @@ class BaoCaoController {
     // POST
     // "/GetBills"
     async HoaDonTheoChuyenBay(req, res) {
-        let maChuyenBay = req.body.maChuyenBay;
+        const maChuyenBay = req.body.maChuyenBay;
 
         console.log(maChuyenBay);
 
@@ -206,7 +206,7 @@ class BaoCaoController {
 
         let HoaDonList = await db.sequelize.query(
             `
-            select
+            select 
                 hoadon.MaHoaDon, chuyenbay.MaSanBayDi, chuyenbay.MaSanBayDen ,hoadon.HoTen as NguoiThanhToan, COUNT(ve.MaVe) as SoVe,
                 DATE_FORMAT(hoadon.NgayGioDat, "%H:%i %d-%m-%Y") as NgayGioDat,
                 htthanhtoan.Ten as HinhThucThanhToan, hoadon.TongTien 
@@ -217,10 +217,11 @@ class BaoCaoController {
                 htthanhtoan on hoadon.MaHTTT=htthanhtoan.MaHTTT inner JOIN
                 chuyenbay on chuyenbay.MaChuyenBay=chitiethangve.MaChuyenBay
                 where chitiethangve.MaChuyenBay=:maChuyenBay
+            group by hoadon.MaHoaDon
         `,
             {
                 replacements: {
-                    maChuyenBay: 1,
+                    maChuyenBay: maChuyenBay,
                 },
                 type: QueryTypes.SELECT,
                 raw: true,

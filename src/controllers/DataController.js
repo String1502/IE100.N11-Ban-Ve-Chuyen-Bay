@@ -117,7 +117,7 @@ let DoanhThuThang = async (Nam) => {
         }
 
         let ChuyenBayinThang = await db.sequelize.query(
-            'SELECT SUM(DoanhThu) as TongDoanhThu, COUNT(DoanhThu) as SoChuyenBay from chuyenbay WHERE YEAR(NgayGio) = :nam AND MONTH(NgayGio)= :thang',
+            `SELECT SUM(DoanhThu) as TongDoanhThu, COUNT(DoanhThu) as SoChuyenBay from chuyenbay WHERE YEAR(NgayGio) = :nam AND MONTH(NgayGio)= :thang AND TrangThai='DaKhoiHanh'`,
             {
                 replacements: {
                     nam: Nam,

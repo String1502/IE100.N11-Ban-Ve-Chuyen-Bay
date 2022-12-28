@@ -234,7 +234,7 @@ function FillDataIntoDetailModal(flightData) {
     axios({
         method: 'post',
         url: '/staff/baocao/GetBills',
-        data: { maChuyenBay: flightData.MachuyenBay },
+        data: { maChuyenBay: flightData.MaChuyenBay },
     }).then((res) => {
         CurrentModalBills = res.data;
         console.log(CurrentModalBills);
@@ -282,8 +282,8 @@ function ClearAllBills() {
     let childCount = getCount(hoa_don_table_body, false);
 
     while (childCount > 1) {
-        const lastChild = accordion_Container.lastChild;
-        accordion_Container.removeChild(lastChild);
+        const lastChild = hoa_don_table_body.lastChild;
+        hoa_don_table_body.removeChild(lastChild);
         childCount--;
     }
 }
@@ -296,6 +296,7 @@ function getBillClone() {
 function InsertNewBill(bill) {
     const clone = getBillClone();
 
+    clone.classList.remove('d-none');
     clone.querySelector('.hoa_don_table_item_ma_hd').innerText = bill.MaHoaDonHienThi;
     clone.querySelector('.hoa_don_table_item_nguoi_thanh_toan').innerText = bill.NguoiThanhToan;
     clone.querySelector('.hoa_don_table_item_so_ve').innerText = bill.SoVe;
@@ -310,6 +311,8 @@ function LoadBillsToModal() {
     ClearAllBills();
 
     const bills = CurrentModalBills.HoaDonList;
+
+    console.log(bills);
 
     if (!bills || bills.length <= 0) return;
 
@@ -420,7 +423,7 @@ function KhoiTaoAccordion(thang, data) {
                 GiaVeCoBan: flight.GiaVeCoBan,
                 TongVe: flight.TongVe,
                 VeDaBan: flight.VeDaBan,
-                DoanhThu: numberWithDot(flight.DoanhThu) + ' VND',
+                DoanhThu: flight.DoanhThu ? numberWithDot(flight.DoanhThu) + ' VND' : 0 + ' VND',
                 TiLe: flight.TiLe,
                 ChiTietHangVe: flight.ChiTietHangVe,
                 TenSanBayDi: flight.TenSanBayDi,

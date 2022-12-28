@@ -120,7 +120,8 @@ class BaoCaoController {
                         sanbay b on chuyenbay.MaSanBayDen=b.MaSanBay
                     where 
                         year(chuyenbay.NgayGio)=:nam and 
-                        month(chuyenbay.NgayGio)=:thang;
+                        month(chuyenbay.NgayGio)=:thang AND
+                        chuyenbay.TrangThai='DaKhoiHanh'
                 `,
                 {
                     replacements: {
@@ -183,9 +184,10 @@ class BaoCaoController {
             let doanhThu = {
                 Thang: DoanhThuThang[i].Thang,
                 TongDoanhThu: DoanhThuThang[i].DoanhThu,
-                SoChuyenBay: DoanhThuThang[i].SoChuyenBay,
+                SoChuyenBay: chuyenBays.length,
                 ChuyenBay: chuyenBays,
             };
+
             res_data.DoanhThu.push(doanhThu);
         }
 

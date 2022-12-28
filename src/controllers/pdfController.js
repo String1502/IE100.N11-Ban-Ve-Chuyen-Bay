@@ -197,8 +197,8 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
 };
 
 let generateReportPdf = async (data) => {
-    const filename = `report-2022.pdf`;
     console.log(data);
+    const filename = `report-${data.Year}.pdf`;
 
     await getReportTemplateHtml()
         .then(async (call) => {

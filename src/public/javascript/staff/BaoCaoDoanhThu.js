@@ -57,15 +57,20 @@ function AddEventToElements() {
             if (!thang) {
                 data.splice(i - 1, 0, {
                     Thang: i,
-                    SoChuyenBay: 0,
-                    TongDoanhThu: 0,
+                    SoChuyenBay: -1,
+                    TongDoanhThu: -1,
                 });
             }
         }
 
         for (let i = 0; i < data.length; i++) {
-            data[i].TongDoanhThuFormated = numberWithDot(data[i].TongDoanhThu) + ' VND';
-            data[i].SoChuyenBayFormated = numberWithDot(data[i].SoChuyenBay);
+            if (data[i].SoChuyenBay != -1 && data[i].TongDoanhThu != -1) {
+                data[i].TongDoanhThuFormated = numberWithDot(data[i].TongDoanhThu) + ' VND';
+                data[i].SoChuyenBayFormated = numberWithDot(data[i].SoChuyenBay);
+            } else {
+                data[i].TongDoanhThuFormated = 'Không có dữ liệu';
+                data[i].SoChuyenBayFormated = 'Không có dữ liệu';
+            }
         }
 
         var today = new Date();
@@ -77,18 +82,20 @@ function AddEventToElements() {
 
         openLoader('Chờ chút');
 
-        const nam = 2022;
+        const year = Nam.value;
+
         axios({
             method: 'post',
             url: '/staff/baocao/PrintReport',
             data: {
                 DoanhThu: data,
+                Year: year,
                 NgayXuat: today,
             },
         }).then((res) => {
             axios({
                 method: 'get',
-                url: `/download?year=${nam}`,
+                url: `/download?year=${year}`,
             });
             closeLoader();
         });
@@ -323,7 +330,7 @@ function KhoiTaoAccordion(thang, data) {
 
     const clone = getMonthAccordionClone();
 
-    if (!data) {
+    if (!data || data.SoChuyenBay <= 0) {
         LoadEmptyMonth(thang, clone);
     } else {
         LoadMonthData(thang, data, clone);

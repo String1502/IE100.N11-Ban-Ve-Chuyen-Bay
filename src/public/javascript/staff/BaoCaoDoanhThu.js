@@ -77,6 +77,7 @@ function AddEventToElements() {
 
         openLoader('Chờ chút');
 
+        const nam = 2022;
         axios({
             method: 'post',
             url: '/staff/baocao/PrintReport',
@@ -85,6 +86,10 @@ function AddEventToElements() {
                 NgayXuat: today,
             },
         }).then((res) => {
+            axios({
+                method: 'get',
+                url: `/download?year=${nam}`,
+            });
             closeLoader();
         });
     });

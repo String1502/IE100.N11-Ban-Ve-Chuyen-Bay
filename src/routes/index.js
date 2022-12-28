@@ -19,6 +19,12 @@ const route = (app) => {
     app.use('/flight', FlightRouter);
     app.use('/staff', StaffRouter);
     app.use('/login', LoginRouter);
+    app.get('/download', function (req, res) {
+        const year = req.query.year;
+        const file = `src/public/temp/report-${year}.pdf`;
+        console.log(file);
+        res.download(file); // Set disposition and send it.
+    });
     app.use('/', ClientRouter);
 };
 

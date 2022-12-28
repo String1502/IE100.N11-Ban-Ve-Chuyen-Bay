@@ -4,7 +4,7 @@ const { QueryTypes, where } = require('sequelize');
 import pdfController from './pdfController';
 
 //#region Hen's
-
+//
 // let req.body = {
 //     Nam: -1,
 // }
@@ -67,10 +67,9 @@ import pdfController from './pdfController';
 //         },
 //     ],
 // };
-
 class BaoCaoController {
     // POST
-    // "/get"
+    // "/GetReports"
     async DoanhThuNam(req, res) {
         let Nam = req.body.Nam;
 
@@ -189,6 +188,55 @@ class BaoCaoController {
             };
 
             res_data.DoanhThu.push(doanhThu);
+        }
+
+        return res.send(JSON.stringify(res_data));
+    }
+
+    // POST
+    // "/GetBills"
+    async HoaDonTheoChuyenBay(req, res) {
+        let maChuyenBay = req.body.maChuyenBay;
+
+        console.log(maChuyenBay);
+
+        let res_data = {
+            HoaDonList: [],
+        };
+
+        let HoaDonList = await db.sequelize.query(
+            `
+            select
+                hoadon.MaHoaDon, chuyenbay.MaSanBayDi, chuyenbay.MaSanBayDen ,hoadon.HoTen as NguoiThanhToan, COUNT(ve.MaVe) as SoVe,
+                DATE_FORMAT(hoadon.NgayGioDat, "%H:%i %d-%m-%Y") as NgayGioDat,
+                htthanhtoan.Ten as HinhThucThanhToan, hoadon.TongTien 
+            from
+                (chitiethangve inner join
+                ve on chitiethangve.MaCTVe=ve.MaCTVe) inner join
+                hoadon on ve.MaHoaDon=hoadon.MaHoaDon inner JOIN
+                htthanhtoan on hoadon.MaHTTT=htthanhtoan.MaHTTT inner JOIN
+                chuyenbay on chuyenbay.MaChuyenBay=chitiethangve.MaChuyenBay
+                where chitiethangve.MaChuyenBay=:maChuyenBay
+        `,
+            {
+                replacements: {
+                    maChuyenBay: 1,
+                },
+                type: QueryTypes.SELECT,
+                raw: true,
+            },
+        );
+
+        if (HoaDonList.length === 0) {
+            return res.send(JSON.stringify(res_data));
+        }
+
+        for (let i = 0; i < HoaDonList.length; i++) {
+            HoaDonList[
+                i
+            ].MaHoaDonHienThi = `${HoaDonList[i].MaSanBayDi}-${HoaDonList[i].MaSanBayDen}-${HoaDonList[i].MaHoaDon}`;
+
+            res_data.HoaDonList.push(HoaDonList[i]);
         }
 
         return res.send(JSON.stringify(res_data));

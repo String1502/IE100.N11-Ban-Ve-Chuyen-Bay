@@ -15,6 +15,7 @@ import {
 // #region Run when page load
 
 let Reports;
+let CurrentModalBills;
 // let currentyear = 0;
 
 const years = document.querySelectorAll('.Nam_Item');
@@ -147,6 +148,8 @@ let firstModalChart;
 let secondModalChart;
 
 function FillDataIntoDetailModal(flightData) {
+    console.log(flightData);
+
     MaHienThi_Title_Modal.innerText = flightData.MaChuyenBayHienThi;
     TongVe_Right_Header_Title.innerText = flightData.TongVe;
     DoanhThu_Right_Header_Title.innerText = flightData.DoanhThu;
@@ -222,6 +225,22 @@ function FillDataIntoDetailModal(flightData) {
             },
         },
     });
+
+    // Hoa don
+    openLoader('Chờ chút');
+
+    axios({
+        method: 'post',
+        url: '/staff/baocao/GetBills',
+        data: { maChuyenBay: flightData.MachuyenBay },
+    }).then((res) => {
+        CurrentModalBills = res.data;
+        console.log(CurrentModalBills);
+        closeLoader();
+        if (CurrentModalBills) {
+            LoadBillsToModal();
+        }
+    });
 }
 
 //#endregion
@@ -240,7 +259,6 @@ function UpdateYearReport(nam) {
         data: { Nam: nam },
     }).then((res) => {
         Reports = res.data;
-        console.log(Reports);
         closeLoader();
         if (Reports) {
             LoadReportsToView();
@@ -255,6 +273,46 @@ function ClearAllMonthAccordion() {
         const lastChild = accordion_Container.lastChild;
         accordion_Container.removeChild(lastChild);
         childCount--;
+    }
+}
+
+function ClearAllBills() {
+    let childCount = getCount(hoa_don_table_body, false);
+
+    while (childCount > 1) {
+        const lastChild = accordion_Container.lastChild;
+        accordion_Container.removeChild(lastChild);
+        childCount--;
+    }
+}
+
+function getBillClone() {
+    const billClone = hoa_don_table_body.querySelector('.hoa_don_table_item').cloneNode(true);
+    return billClone;
+}
+
+function InsertNewBill(bill) {
+    const clone = getBillClone();
+
+    clone.querySelector('.hoa_don_table_item_ma_hd').innerText = bill.MaHoaDonHienThi;
+    clone.querySelector('.hoa_don_table_item_nguoi_thanh_toan').innerText = bill.NguoiThanhToan;
+    clone.querySelector('.hoa_don_table_item_so_ve').innerText = bill.SoVe;
+    clone.querySelector('.hoa_don_table_item_dat_luc').innerText = bill.NgayGioDat;
+    clone.querySelector('.hoa_don_table_item_hinh_thuc').innerText = bill.HinhThucThanhToan;
+    clone.querySelector('.hoa_don_table_item_tong_tien').innerText = numberWithDot(bill.TongTien) + ' VND';
+
+    hoa_don_table_body.appendChild(clone);
+}
+
+function LoadBillsToModal() {
+    ClearAllBills();
+
+    const bills = CurrentModalBills.HoaDonList;
+
+    if (!bills || bills.length <= 0) return;
+
+    for (let i = 0; i < bills.length; i++) {
+        InsertNewBill(bills[i]);
     }
 }
 

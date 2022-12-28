@@ -120,6 +120,7 @@ class HinhThucThanhToanController {
         var MaHoaDonHienThi = vnp_Params['vnp_TxnRef'].toString();
         // [MaUser]-[MaHoaDon]-[MaHangVe] // nếu MaUser = null thì MaUser = GUEST
         var MaHoaDon = MaHoaDonHienThi.split('-')[1];
+        var MaUser = MaHoaDonHienThi.split('-')[0];
 
         if (secureHash === signed) {
             var rspCode = vnp_Params['vnp_ResponseCode'].toString();
@@ -129,7 +130,7 @@ class HinhThucThanhToanController {
                 var NgayGioThanhToan = new Date();
 
                 // Thanh toán và gửi vé điện tử
-                let ThanhToan = await HoaDonController.ThanhToan(MaHoaDon, MaHTTT, NgayGioThanhToan);
+                let ThanhToan = await HoaDonController.ThanhToan(MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser);
 
                 if (ThanhToan == 1) {
                     KetQuaThanhToan.ThanhCong = true;

@@ -121,6 +121,9 @@ class HinhThucThanhToanController {
         // [MaUser]-[MaHoaDon]-[MaHangVe] // nếu MaUser = null thì MaUser = GUEST
         var MaHoaDon = MaHoaDonHienThi.split('-')[1];
         var MaUser = MaHoaDonHienThi.split('-')[0];
+        if (MaUser == 'GUEST') {
+            MaUser = null;
+        }
 
         if (secureHash === signed) {
             var rspCode = vnp_Params['vnp_ResponseCode'].toString();

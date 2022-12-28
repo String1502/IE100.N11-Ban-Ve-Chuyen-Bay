@@ -1,6 +1,47 @@
 import db from '../models/index';
 const { QueryTypes, where } = require('sequelize');
 
+import pdfController from './pdfController';
+
+//#region Hen's
+
+// let req.body = {
+//     Nam: -1,
+// }
+// let res_data = {
+//     Nam: -1,
+//     TongDoanhThu: 0,
+//     DoanhThu: [
+//         {
+//             Thang: -1,
+//             TongDoanhThu: -1,
+//             SoChuyenBay: -1,
+//             ChuyenBay: [
+//                 {
+//                     MaChuyenBay: '',
+//                     NgayKhoiHanh: '',
+//                     TongVe: -1,
+//                     VeDaBan: -1,
+//                     DoanhThu: -1,
+//                     TiLe: -1,
+//                     HangVes: [
+//                           {
+//                               MaHangGhe: '',
+//                               TenHangGhe: '',
+//                               Gia: '',
+//                               VeDaBan = -1.
+//                               DoanhThu = -1
+//                           }
+//                     ]
+//
+//                 },
+//             ],
+//         },
+//     ],
+// };
+
+//#endregion
+
 //
 // let req.body = {
 //     Nam: -1,
@@ -45,6 +86,7 @@ class BaoCaoController {
                 // },
             ],
         };
+
         res_data.Nam = Nam;
 
         let DoanhThuNam = await db.DoanhThuNam.findOne({
@@ -52,6 +94,8 @@ class BaoCaoController {
                 Nam: Nam,
             },
         });
+
+        res_data.TongDoanhThu = DoanhThuNam.DoanhThu;
 
         let DoanhThuThang = await db.sequelize.query('SELECT * FROM `doanhthuthang` WHERE doanhthuthang.Nam = :nam', {
             replacements: {
@@ -67,7 +111,18 @@ class BaoCaoController {
 
         for (var i in DoanhThuThang) {
             let chuyenBays = await db.sequelize.query(
-                'SELECT MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, (SUM(A.TongVe)) AS TongVe, (SUM(A.VeDaBan)) AS VeDaBan, DoanhThu FROM ( SELECT chuyenbay.MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, TongVe, VeDaBan, DoanhThu FROM `chuyenbay`, chitiethangve WHERE chuyenbay.MaChuyenBay = chitiethangve.MaChuyenBay AND YEAR(NgayGio) = :nam AND MONTH(NgayGio) = :thang) A GROUP BY A.MaChuyenBay',
+                `
+                    select 
+                        MaChuyenBay, MaSanBayDi, MaSanBayDen, a.TenSanBay as TenSanBayDi, b.TenSanBay as TenSanBayDen,
+                        DATE_FORMAT(NgayGio, "%H:%i %d-%m-%Y") as NgayGio, ThoiGianBay, GiaVeCoBan, DoanhThu
+                    from 
+                        (chuyenbay INNER JOIN sanbay a on chuyenbay.MaSanBayDi=a.MaSanBay) INNER JOIN
+                        sanbay b on chuyenbay.MaSanBayDen=b.MaSanBay
+                    where 
+                        year(chuyenbay.NgayGio)=:nam and 
+                        month(chuyenbay.NgayGio)=:thang AND
+                        chuyenbay.TrangThai='DaKhoiHanh'
+                `,
                 {
                     replacements: {
                         nam: Nam,
@@ -78,19 +133,45 @@ class BaoCaoController {
                 },
             );
 
-            console.log(`So chuyen bay: ${chuyenBays.length}`);
-
             for (var j in chuyenBays) {
                 console.log(j);
+
+                // Mã hiển thị
                 chuyenBays[j].MaHienThi =
                     chuyenBays[j].MaSanBayDi + '-' + chuyenBays[j].MaSanBayDen + '-' + chuyenBays[j].MaChuyenBay;
-                console.log('Doanh thu chuyen bay: ' + chuyenBays[j].DoanhThu);
-                console.log('Doanh thu thang: ' + DoanhThuThang[i].DoanhThu);
 
+                // Tỉ lệ
                 chuyenBays[j].TiLe = 0;
 
                 if (DoanhThuThang[i].DoanhThu != 0)
                     chuyenBays[j].TiLe = ((chuyenBays[j].DoanhThu * 100) / DoanhThuThang[i].DoanhThu).toFixed(2);
+
+                // Chi tiết hạng vé
+                const chiTietHangVes = await db.sequelize.query(
+                    `
+                        SELECT hangghe.MaHangGhe, TenHangGhe, HeSo, TongVe, VeDaBan 
+                        FROM hangghe INNER JOIN chitiethangve ON hangghe.MaHangGhe=chitiethangve.MaHangGhe 
+                        WHERE chitiethangve.MaChuyenBay = :maChuyenBay;
+                    `,
+                    {
+                        replacements: {
+                            maChuyenBay: chuyenBays[j].MaChuyenBay,
+                        },
+                        type: QueryTypes.SELECT,
+                        raw: true,
+                    },
+                );
+
+                // Vé đã bán
+                chuyenBays[j].TongVe = chiTietHangVes.reduce(
+                    (accumulator, chiTietHangVe) => accumulator + chiTietHangVe.TongVe,
+                    0,
+                );
+                chuyenBays[j].VeDaBan = chiTietHangVes.reduce(
+                    (accumulator, chiTietHangVe) => accumulator + chiTietHangVe.VeDaBan,
+                    0,
+                );
+                chuyenBays[j].ChiTietHangVe = chiTietHangVes;
             }
 
             // for (var j in chuyenbays) {
@@ -103,9 +184,10 @@ class BaoCaoController {
             let doanhThu = {
                 Thang: DoanhThuThang[i].Thang,
                 TongDoanhThu: DoanhThuThang[i].DoanhThu,
-                SoChuyenBay: DoanhThuThang[i].SoChuyenBay,
+                SoChuyenBay: chuyenBays.length,
                 ChuyenBay: chuyenBays,
             };
+
             res_data.DoanhThu.push(doanhThu);
         }
 
@@ -131,7 +213,51 @@ class BaoCaoController {
         }
     }
 
-    async LoadReportToView() {}
+    // POST
+    // "/PrintReport"
+    async PrintReport(req, res) {
+        try {
+            const data = req.body;
+            console.log(data);
+            let pdf = await pdfController.generateReportPdf(data);
+            console.log(pdf);
+
+            if (pdf.status === 'ok') {
+                return res.send('Sucessful');
+            } else {
+                return res.send('Fail');
+            }
+
+            // let directory = path.join(__dirname, '../public/temp');
+
+            // fs.readdir(directory, (err, files) => {
+            //     if (err) throw err;
+
+            //     for (const file of files) {
+            //         fs.unlink(path.join(directory, file), (err) => {
+            //             if (err) throw err;
+            //         });
+            //     }
+            // });
+            // return 1;
+        } catch (error) {
+            console.log(error);
+            return res.send('Error');
+        }
+    }
+
+    // GET
+    // "/ReportTemplate"
+    async ReportTemplate(req, res) {
+        try {
+            return res.render('staff/report-template', {
+                layout: 'staff.handlebars',
+            });
+        } catch (error) {
+            console.log(error);
+            return res.send('Error');
+        }
+    }
 }
 
 module.exports = new BaoCaoController();

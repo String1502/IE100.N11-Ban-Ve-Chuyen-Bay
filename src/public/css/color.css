@@ -80,6 +80,9 @@
 .bg-light {
   background-color: white !important; }
 
+.bg-disable {
+  background-color: #d8d8d8 !important; }
+
 .border-light {
   border-color: white !important; }
 

@@ -66,6 +66,9 @@ function GetFlightDataFromElement(row) {
     flightData.TiLe = row.querySelector('.Item_TiLe').innerText;
     flightData.ChiTietHangVe = row.querySelector('.Item_ChiTiet').getAttribute('ChiTietHangVe');
     flightData.GiaVeCoBan = row.querySelector('.Item_ChiTiet').getAttribute('GiaVeCoBan');
+    flightData.TenSanBayDi = row.querySelector('.Item_ChiTiet').getAttribute('TenSanBayDi');
+    flightData.TenSanBayDen = row.querySelector('.Item_ChiTiet').getAttribute('TenSanBayDen');
+    flightData.ThoiGianBay = row.querySelector('.Item_ChiTiet').getAttribute('ThoiGianBay');
 
     return flightData;
 }
@@ -75,17 +78,22 @@ let secondModalChart;
 
 function FillDataIntoDetailModal(flightData) {
     MaHienThi_Title_Modal.innerText = flightData.MaChuyenBayHienThi;
-    TongVe_Modal.innerText = flightData.VeDaBan;
-    DoanhThu_Ve_Modal.innerText = flightData.DoanhThu;
+    TongVe_Right_Header_Title.innerText = flightData.TongVe;
+    DoanhThu_Right_Header_Title.innerText = flightData.DoanhThu;
     VeDaBan_Right_Header_Title.innerText = flightData.VeDaBan;
     DoanhThu_Right_Header_Title.innerText = flightData.DoanhThu;
+    SanBayDi_FlightDetail_Modal.innerText = flightData.TenSanBayDi;
+    SanBayDen_FlightDetail_Modal.innerText = flightData.TenSanBayDen;
+    KhoiHanh_FlightDetail_Modal.innerText = flightData.KhoiHanh;
+    ThoiGianBay_FlightDetail_Modal.innerText = flightData.ThoiGianBay;
 
     console.log(flightData);
 
     // Graph
     const chiTietHangVe = JSON.parse(flightData.ChiTietHangVe);
-    const tenHangVes = chiTietHangVe.map((chiTiet) => chiTiet.TenHangGhe);
     const veDaBans = chiTietHangVe.map((chiTiet) => chiTiet.VeDaBan);
+    const tenHangVeVaSoVes = chiTietHangVe.map((chiTiet) => `${chiTiet.TenHangGhe} (Tổng: ${chiTiet.TongVe})`);
+    const tenHangVes = chiTietHangVe.map((chiTiet) => chiTiet.TenHangGhe);
     const doanhThus = chiTietHangVe.map((chiTiet) => flightData.GiaVeCoBan * chiTiet.HeSo * chiTiet.VeDaBan);
 
     const ctx_1 = document.getElementById('chart_1');
@@ -98,7 +106,7 @@ function FillDataIntoDetailModal(flightData) {
     firstModalChart = new Chart(ctx_1, {
         type: 'doughnut',
         data: {
-            labels: tenHangVes,
+            labels: tenHangVeVaSoVes,
             datasets: [
                 {
                     label: 'Vé đã bán',
@@ -291,6 +299,9 @@ function KhoiTaoAccordion(thang, data) {
                 DoanhThu: numberWithDot(flight.DoanhThu) + ' VND',
                 TiLe: flight.TiLe,
                 ChiTietHangVe: flight.ChiTietHangVe,
+                TenSanBayDi: flight.TenSanBayDi,
+                TenSanBayDen: flight.TenSanBayDen,
+                ThoiGianBay: flight.ThoiGianBay,
             }),
         );
     }
@@ -309,6 +320,7 @@ function KhoiTaoAccordion(thang, data) {
 }
 
 function InsertNewRow(thang, data) {
+    console.log(data);
     let item_body_Containers = document.querySelectorAll('.item_body_container');
     let container;
 
@@ -351,6 +363,10 @@ function GanGiaTriChoRow(item, values) {
     item.querySelector('.Item_TiLe').innerText = values.TiLe;
     item.querySelector('.Item_ChiTiet').setAttribute('ChiTietHangVe', JSON.stringify(values.ChiTietHangVe));
     item.querySelector('.Item_ChiTiet').setAttribute('GiaVeCoBan', values.GiaVeCoBan);
+    item.querySelector('.Item_ChiTiet').setAttribute('TenSanBayDi', values.TenSanBayDi);
+    item.querySelector('.Item_ChiTiet').setAttribute('TenSanBayDen', values.TenSanBayDen);
+    item.querySelector('.Item_ChiTiet').setAttribute('KhoiHanh', values.KhoiHanh);
+    item.querySelector('.Item_ChiTiet').setAttribute('ThoiGianBay', values.ThoiGianBay);
 }
 
 //#endregion

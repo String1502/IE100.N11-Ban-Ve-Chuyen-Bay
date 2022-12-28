@@ -107,8 +107,12 @@ class BaoCaoController {
         for (var i in DoanhThuThang) {
             let chuyenBays = await db.sequelize.query(
                 `
-                    select MaChuyenBay, MaSanBayDi, MaSanBayDen, NgayGio, GiaVeCoBan, DoanhThu 
-                    from chuyenbay 
+                    select 
+                        MaChuyenBay, MaSanBayDi, MaSanBayDen, a.TenSanBay as TenSanBayDi, b.TenSanBay as TenSanBayDen,
+                        DATE_FORMAT(NgayGio, "%H:%i %d-%m-%Y") as NgayGio, ThoiGianBay, GiaVeCoBan, DoanhThu
+                    from 
+                        (chuyenbay INNER JOIN sanbay a on chuyenbay.MaSanBayDi=a.MaSanBay) INNER JOIN
+                        sanbay b on chuyenbay.MaSanBayDen=b.MaSanBay
                     where 
                         year(chuyenbay.NgayGio)=:nam and 
                         month(chuyenbay.NgayGio)=:thang;

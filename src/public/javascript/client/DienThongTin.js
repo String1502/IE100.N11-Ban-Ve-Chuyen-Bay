@@ -21,42 +21,24 @@ var MaEmBe = '1';
 //Lấy gói đặt từ Tóm tắt trước đặt
 let PackageBooking;
 function GetPackageBooing_fromSV() {
-    //#region Ngây thơ
-    // openLoader('Chờ chút');
-    // axios({
-    //     method: 'post',
-    //     url: '/booking',
-    //     data: { GetPackageBooing_fromSV: true },
-    // }).then((res) => {
-    //     PackageBooking = res.data;
-    //     closeLoader();
-    //     console.log(PackageBooking);
-
-    //     if (PackageBooking) {
-    //         PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
-    //         AddEventHanhKhach_Item();
-    //         NguoiLienHe_Input_Change();
-    //         AddEventHanhLy_Modal();
-    //         TienNghiChuyenBay();
-    //         TiepTucTren_Onclick();
-    //         TomTat_func();
-    //     }
-    // });
-    //#endregion
-
     openLoader('Chờ chút');
     PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
     closeLoader();
     console.log(PackageBooking);
 
     if (PackageBooking) {
-        PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
-        AddEventHanhKhach_Item();
-        NguoiLienHe_Input_Change();
-        AddEventHanhLy_Modal();
-        TienNghiChuyenBay();
-        TiepTucTren_Onclick();
-        TomTat_func();
+        axios({
+            method: 'post',
+            url: '/hoadon/XoaCookieMaHangVe',
+        }).then((res) => {
+            PackageBooking.HoaDon.NgayGioDat = new Date().toLocaleString();
+            AddEventHanhKhach_Item();
+            NguoiLienHe_Input_Change();
+            AddEventHanhLy_Modal();
+            TienNghiChuyenBay();
+            TiepTucTren_Onclick();
+            TomTat_func();
+        });
     }
 }
 if (!PackageBooking) GetPackageBooing_fromSV();
@@ -115,13 +97,17 @@ function AddEventHanhKhach_Item() {
                 const HanhKhach_Item_NgaySinh_Ngay = e.target
                     .closest('.HanhKhach_Item_NgaySinh')
                     .querySelector('.HanhKhach_Item_NgaySinh_Ngay');
+
                 HanhKhach_Item_NgaySinh_Ngay.value = e.target.querySelector(
                     '.HanhKhach_Item_NgaySinh_Ngay_li_value',
                 ).innerText;
 
                 const index = e.target.closest('.HanhKhach_Item').title;
                 PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay = parseInt(HanhKhach_Item_NgaySinh_Ngay.value);
-
+                if (CheckNgaySinh(index) == false) {
+                    HanhKhach_Item_NgaySinh_Ngay.value = '';
+                    PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay = 0;
+                }
                 AnHienPhanDuoi();
             });
         }
@@ -151,7 +137,10 @@ function AddEventHanhKhach_Item() {
                 PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thang = parseInt(
                     HanhKhach_Item_NgaySinh_Thang.value.split(' ')[1],
                 );
-
+                if (CheckNgaySinh(index) == false) {
+                    HanhKhach_Item_NgaySinh_Thang.value = '';
+                    PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thang = 0;
+                }
                 AnHienPhanDuoi();
             });
         }
@@ -187,6 +176,10 @@ function AddEventHanhKhach_Item() {
 
                 const index = e.target.closest('.HanhKhach_Item').title;
                 PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam = parseInt(HanhKhach_Item_NgaySinh_Nam.value);
+                if (CheckNgaySinh(index) == false) {
+                    HanhKhach_Item_NgaySinh_Nam.value = '';
+                    PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam = 0;
+                }
                 AnHienPhanDuoi();
             });
         }
@@ -207,6 +200,22 @@ function AddEventHanhKhach_Item() {
             AnHienPhanDuoi();
         });
     }
+}
+
+function CheckNgaySinh(index) {
+    var hople = false;
+    var nam = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam;
+    var thang = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thang;
+    var ngay = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay;
+    if (nam < 1 || thang < 1 || ngay < 1) {
+        hople = true;
+    } else if (CheckNgayThangNam(ngay, thang, nam) == 1) {
+        hople = true;
+    }
+    if (hople == false) {
+        showToast({ header: 'Ngày sinh', body: 'Không hợp lệ', duration: 5000, type: 'warning' });
+    }
+    return hople;
 }
 
 function NguoiLienHe_Input_Change() {
@@ -675,3 +684,32 @@ window.addEventListener('pageshow', function (event) {
         window.location.reload();
     }
 });
+
+if (GuiLaiMaXacNhan) {
+    GuiLaiMaXacNhan.addEventListener('click', (e) => {
+        document.getElementById('XacNhan').disabled = true;
+        axios({
+            method: 'post',
+            url: '/validatecode',
+            data: { Email: document.getElementById('XacNhan_Email').innerText.toString() },
+        }).then((res) => {
+            MaXacNhan = res.data.Code;
+            console.log(MaXacNhan);
+            document.getElementById('XacNhan').disabled = false;
+        });
+    });
+}
+
+function CheckNgayThangNam(Ngay, Thang, Nam) {
+    if (Thang == 4 || Thang == 6 || Thang == 9 || Thang == 11) {
+        if (Ngay == 31) return 0;
+    }
+    if (Thang == 2) {
+        if ((Nam % 4 == 0 && Nam % 100 != 0) || Nam % 400 == 0) {
+            if (Ngay > 28) return 0;
+        } else {
+            if (Ngay > 29) return 0;
+        }
+    }
+    return 1;
+}

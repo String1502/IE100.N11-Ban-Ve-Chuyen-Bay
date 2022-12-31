@@ -10,6 +10,13 @@
     }
 }
 
+// nav-item active
+.nav-item-active {
+    border-bottom: 2px solid $primary;
+    padding-bottom: 6px;
+    color: $primary !important;
+}
+
 @media (max-width: 991.98px) {
     .nav-item-hover:hover {
         border-right: 3px solid $primary;
@@ -42,6 +49,10 @@
 /* Active */
 .custom-active:active {
     background-color: $primary;
+}
+
+.custom-active-gray:active {
+    background-color: $tertiary-light;
 }
 
 /* ::after display none */

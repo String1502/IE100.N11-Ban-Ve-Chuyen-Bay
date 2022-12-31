@@ -5,11 +5,13 @@ const timeUpdate = 2000; //ms
 
 const date = new Date();
 const offset = date.getTimezoneOffset() / 60;
-const dateNow = new Date(Date.now());
+
+const cancelHoaDon = 15000;
 
 const updateData = setInterval(async function () {
     await updateChuyenBay();
     await DoanhThuNam();
+    await HuyHoaDon();
 }, timeUpdate);
 
 let updateChuyenBay = async () => {
@@ -19,9 +21,10 @@ let updateChuyenBay = async () => {
         },
         logging: false,
     });
-
+    let dateNow = new Date();
+    dateNow = new Date(dateNow.getTime() - offset * 60 * 60 * 1000);
     for (var i in ChuyenBays) {
-        if (ChuyenBays.NgayGio >= dateNow) {
+        if (ChuyenBays[i].NgayGio <= dateNow) {
             ChuyenBays[i].TrangThai = 'DaKhoiHanh';
             await ChuyenBays[i].save({ logging: false });
         }
@@ -114,7 +117,7 @@ let DoanhThuThang = async (Nam) => {
         }
 
         let ChuyenBayinThang = await db.sequelize.query(
-            'SELECT SUM(DoanhThu) as TongDoanhThu, COUNT(DoanhThu) as SoChuyenBay from chuyenbay WHERE YEAR(NgayGio) = :nam AND MONTH(NgayGio)= :thang',
+            `SELECT SUM(DoanhThu) as TongDoanhThu, COUNT(DoanhThu) as SoChuyenBay from chuyenbay WHERE YEAR(NgayGio) = :nam AND MONTH(NgayGio)= :thang AND TrangThai='DaKhoiHanh'`,
             {
                 replacements: {
                     nam: Nam,
@@ -129,6 +132,25 @@ let DoanhThuThang = async (Nam) => {
         DtThang.DoanhThu = ChuyenBayinThang[0].TongDoanhThu > 0 ? ChuyenBayinThang[0].TongDoanhThu : 0;
         DtThang.SoChuyenBay = ChuyenBayinThang[0].SoChuyenBay;
         DtThang.save({ logging: false });
+    }
+};
+
+let HuyHoaDon = async () => {
+    let dateNow = new Date();
+    dateNow = new Date(dateNow.getTime() - offset * 60 * 60 * 1000);
+    let HoaDons = await db.HoaDon.findAll({
+        where: {
+            TrangThai: 'ChuaThanhToan',
+        },
+        logging: false,
+    });
+
+    for (var i in HoaDons) {
+        var distance = dateNow.getTime() - HoaDons[i].NgayGioDat.getTime();
+        if (distance >= cancelHoaDon) {
+            HoaDons[i].TrangThai = 'DaHuy';
+            await HoaDons[i].save({ logging: false });
+        }
     }
 };
 

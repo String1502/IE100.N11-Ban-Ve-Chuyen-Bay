@@ -9,8 +9,10 @@ import {
     showToast,
     onlyNumber,
     validateEmail,
+    ActiveNavItem_Header,
 } from '../start.js';
 
+ActiveNavItem_Header('NhanLich');
 openLoader('Chờ chút');
 closeLoader();
 

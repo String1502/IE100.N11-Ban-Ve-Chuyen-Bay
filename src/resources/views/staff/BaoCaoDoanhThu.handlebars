@@ -8,11 +8,8 @@
                     {{! <span class='custom-font p16-R text-light'></span> }}
                 </div>
                 <div class='w-auto'>
-                    <a
-                        id='HuyChuyenBay'
-                        type='button'
-                        class='d-none btn btn-primary bg-secondary border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                    >
+                    <a id='HuyChuyenBay' type='button'
+                        class='d-none btn btn-primary bg-secondary border-0 px-4 text-light custom-font p16-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'>
                         Thoát
                     </a>
                 </div>
@@ -25,27 +22,19 @@
         <div class='row'>
 
             {{! Chọn năm }}
-            <div class='col-2'>
+            <div class='col-6 col-md-2 mb-3'>
                 <div class='bg-light shadow rounded-3'>
                     <div class='row px-3 py-3'>
                         <div class=''>
 
                             <label class='form-label custom-font p14-S'>Năm</label>
                             <div class='input-group dropdown'>
-                                <input
-                                    id='Nam'
-                                    style='height: 36px;'
-                                    type='text'
+                                <input id='Nam' style='height: 36px;' type='text'
                                     class='form-control dropdown-toggle custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary form-select'
-                                    data-bs-toggle='dropdown'
-                                    placeholder='Năm'
-                                    nam=''
-                                />
+                                    data-bs-toggle='dropdown' placeholder='Năm' nam='' />
                                 {{! Drop down }}
-                                <ul
-                                    id='Nam_Container'
-                                    class='h-auto list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
-                                >
+                                <ul id='Nam_Container'
+                                    class='h-auto list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'>
                                     <li class='Nam_Item dropdown-item custom-active py-2 d-none'>
                                         <div style='pointer-events:none;' class='custom-font p16-B' nam='0'>
                                             2022
@@ -54,15 +43,11 @@
                                     {{! Dropdown items }}
                                     {{#each years}}
 
-                                        <li class='Nam_Item dropdown-item custom-active py-2'>
-                                            <div
-                                                style='pointer-events:none;'
-                                                class='custom-font p16-B'
-                                                nam='{{this.nam}}'
-                                            >
-                                                {{this.nam}}
-                                            </div>
-                                        </li>
+                                    <li class='Nam_Item dropdown-item custom-active py-2' nam="{{this.nam}}">
+                                        <div style='pointer-events:none;' class='custom-font p16-B' nam='{{this.nam}}'>
+                                            {{this.nam}}
+                                        </div>
+                                    </li>
 
                                     {{/each}}
 
@@ -76,7 +61,7 @@
             </div>
 
             {{! Bảng bự doanh thu }}
-            <div class='col-10'>
+            <div class='col-12 col-md-10'>
                 <div class='bg-light shadow rounded-3'>
 
                     <div class='row'>
@@ -96,10 +81,8 @@
                                 </div>
 
                                 <div class=''>
-                                    <button
-                                        type='button'
-                                        class='btn btn-primary bg-primary border-0 px-3 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                    >
+                                    <button id="xuat_bao_cao_nam_button" type='button'
+                                        class='btn btn-primary bg-primary border-0 px-3 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
                                         Xuất báo cáo
                                     </button>
                                 </div>
@@ -114,26 +97,22 @@
                             <div class='accordion' id='accordion_Container'>
 
                                 {{! accordion_Item }}
+                                {{! Item below is a template for month accordion }}
                                 <div class='accordion-item rounded-0 d-none' thang='0'>
 
                                     <div class='accordion-header'>
-                                        <div
-                                            style='box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'
-                                            class='collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
-                                            type='button'
-                                            aria-expanded='false'
-                                            data-bs-toggle='collapse'
-                                        >
+                                        <div style='box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'
+                                            class='header collapsed accordion-button custom-boxshadow-focus-none bg-light d-flex flex-row justify-content-between py-2'
+                                            type='button' aria-expanded='false' data-bs-toggle='collapse'>
 
                                             <div
-                                                class='d-flex flex-row justify-content-between align-items-center flex-fill'
-                                            >
+                                                class='d-flex flex-row justify-content-between align-items-center flex-fill'>
 
                                                 {{! nội dung header }}
                                                 <div class='custom-font p14-B text-dark'>
 
                                                     <span class='item_header_thang me-3'>Tháng 1</span>
-                                                    <span>Số chuyến bay:</span>
+                                                    <span>Số chuyến đã bay:</span>
 
                                                     <span class='item_header_sochuyenbay text-tertiary me-3'>121</span>
 
@@ -146,15 +125,12 @@
                                                 </div>
 
                                                 {{! Nút xuất báo cáo }}
-                                                <div class=''>
-                                                    <button
-                                                        type='button'
-                                                        thang=''
-                                                        class='item_header_btn me-2 btn btn-primary bg-primary border-0 px-3 text-light custom-font p12-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                                    >
+                                                {{!-- <div class=''>
+                                                    <button type='button' thang=''
+                                                        class='item_header_btn me-2 btn btn-primary bg-primary border-0 px-3 text-light custom-font p12-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
                                                         Xuất báo cáo
                                                     </button>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                         </div>
@@ -163,13 +139,15 @@
                                     <div id='item_body_thang' class='accordion-collapse collapse'>
                                         <div class='accordion-body'>
 
-                                            <div class='table-responsive overflow-auto' style='height: 300px;'>
+                                            <div class='table_rapper table-responsive overflow-auto'
+                                                style='height: 300px;'>
 
                                                 <table class='table'>
                                                     <thead class='sticky-top bg-light shadow-sm'>
                                                         <tr class='custom-font p16-S text-center'>
                                                             <th style='width: 15%' scope='col'>Mã ch.bay</th>
                                                             <th style='width: 25%' scope='col'>Khởi hành</th>
+                                                            <th style='width: 15%' scope='col'>Tổng vé</th>
                                                             <th style='width: 15%' scope='col'>Vé đã bán</th>
                                                             <th style='width: 20%' scope='col'>Doanh thu</th>
                                                             <th style='width: 10%' scope='col'>Tỉ lệ</th>
@@ -178,26 +156,29 @@
                                                     </thead>
                                                     <tbody class='item_body_Container' thang='0'>
                                                         <tr
-                                                            class='item_body_Item custom-font p16-R align-middle text-center d-none'
-                                                        >
+                                                            class='item_body_Item custom-font p16-R align-middle text-center d-none'>
                                                             <th class='Item_MaChuyenBayHienThi'>SG-HA-1</th>
                                                             <td class='Item_KhoiHanh'>11:11 11/11/2022</td>
+                                                            <td class='Item_TongVe'>20</td>
                                                             <td class='Item_VeDaBan'>10</td>
                                                             <td class='Item_DoanhThu'>20.000.000 VND</td>
                                                             <td class='Item_TiLe'>20%</td>
                                                             <td style='width: 12.5%;'>
-                                                                <a
-                                                                    type='button'
-                                                                    MaChuyenBay=''
-                                                                    data-bs-toggle='modal'
-                                                                    data-bs-target='#Modal_ChiTietChuyenBay'
-                                                                    class='Item_ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'
-                                                                >Chi tiết</a>
+                                                                <a type='button' MaChuyenBay='' data-bs-toggle='modal'
+                                                                    data-bs-target='#ChiTietChuyenBay_Modal'
+                                                                    class='Item_ChiTiet btn btn-primary bg-primary border-primary text-light custom-boxshadow-focus-none custom-boxshadow-hover-primary p14-S shadow-sm'>Chi
+                                                                    tiết</a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
 
+                                                {{! No flight notice }}
+                                                <div class="no_flight_identifier d-flex justify-content-center d-none">
+                                                    <div class="custom-font p32-R col text-tertiary text-center">
+                                                        Không có chuyến bay nào
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -218,233 +199,267 @@
 
     </div>
 
-    {{! Modal Chi tiết }}
-    <div class='modal fade' id='Modal_ChiTietChuyenBay'>
-        <div class='modal-dialog modal-dialog-centered modal-xl'>
-            <div class='modal-content h-auto w-auto bg-tertiary-light rounded-0'>
+    {{! Modal }}
+    <div id='ChiTietChuyenBay_Modal' class='modal fade'>
+        <div class='modal-dialog modal-dialog-centered modal-fullscreen'>
+            <div class='modal-content h-auto'>
+                <div class='d-flex flex-column bg-tertiary-light h-auto'>
 
-                <div class='row m-0'>
+                    {{! Body }}
+                    <div class='row p-0 m-0'>
 
-                    {{! Thông tin chuyến bay }}
-                    <div class='col-4 ps-0 pe-3'>
-                        <div class='d-flex flex-column bg-light shadow h-100'>
+                        {{! Bên trái }}
+                        <div class='col-3 px-0 bg-light shadow'>
+                            {{! Header }}
+                            <div style='border-bottom: 1px solid gray ;'
+                                class='d-flex flex-row align-items-center justify-content-center  py-4'>
 
-                            {{! Tiêu đề }}
-                            <div class='p-3 mt-3 custom-font h24-B text-primary'>
-                                THÔNG TIN CHUYẾN BAY
-                            </div>
+                                <i style='width: 48px; height:48px; font-size:48px;'
+                                    class='fa-solid fa-plane text-primary me-2'></i>
 
-                            {{! Dòng 1 }}
-                            <div class='row px-3 justify-content-center'>
-
-                                {{! Sân bay đi }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='SanBayDi' class='form-label custom-font p14-S'>Sân bay đi</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='SanBayDi'
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
-
-                                {{! Sân bay đến }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='SanBayDen' class='form-label custom-font p14-S'>Sân bay đến</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='SanBayDen'
-                                            disabled
-                                        />
-                                    </div>
+                                <div class="d-flex flex-column align-items-start custom-font p16-R text-tertiary ms-3">
+                                    Chuyến bay
+                                    <span id="MaHienThi_Title_Modal" class='h48-B custom-font text-dark'>
+                                        MaHienThi
+                                    </span>
                                 </div>
 
                             </div>
-                            {{! Dòng 2 }}
-                            <div class='row px-3 justify-content-center'>
-                                {{! Khởi hành }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='KhoiHanh' class='form-label custom-font p14-S'>Khởi hành</label>
-                                        <input
-                                            style='height: 36px;'
-                                            type='text'
-                                            class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                            id='KhoiHanh'
-                                            disabled
-                                        />
+
+                            {{! ChuyenBay Container }}
+                            <div class='d-flex flex-column overflow-auto px-3'>
+
+                                <div class='d-flex flex-row justify-content-between align-items-center py-2'>
+                                    <div class='custom-font p16-S text-tertiary text-start'>
+                                        Sân bay đi
+                                    </div>
+                                    <div id="SanBayDi_FlightDetail_Modal" class='custom-font p20-B text-dark text-end'>
+                                        Nội Bài
                                     </div>
                                 </div>
 
-                                {{! Thời gian bay }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='ThoiGianBay' class='form-label custom-font p14-S'>Thời gian bay</label>
-                                        <div class='input-group'>
-                                            <input
-                                                style='height: 36px;'
-                                                type='text'
-                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                                id='ThoiGianBay'
-                                                disabled
-                                            />
-                                            <span
-                                                style='height: 36px; background-color:#e9ecef;'
-                                                class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
-                                            >phút</span>
-                                        </div>
-
+                                <div class='d-flex flex-row justify-content-between align-items-center py-2'>
+                                    <div class='custom-font p16-S text-tertiary me-1 text-start'>
+                                        Sân bay đến
+                                    </div>
+                                    <div id="SanBayDen_FlightDetail_Modal" class='custom-font p20-B text-dark text-end'>
+                                        Tân Sơn Nhất
                                     </div>
                                 </div>
 
-                                {{! Giá vé }}
-                                <div class='col-12'>
-                                    <div class='mb-3'>
-                                        <label for='GiaVeCoBan' class='form-label custom-font p14-S'>Giá vé cơ bản</label>
-                                        <div class='input-group mb-3'>
-                                            <input
-                                                style='height: 36px;'
-                                                type='text'
-                                                class='form-control custom-font p16-S border-tertiary py-1 custom-boxshadow-focus-primary'
-                                                id='GiaVeCoBan'
-                                                disabled
-                                            />
-                                            <span
-                                                style='height: 36px;  background-color:#e9ecef;'
-                                                class='border-tertiary input-group-text custom-font p16-S py-1 text-tertiary'
-                                            >VND</span>
-                                        </div>
+                                <div class='d-flex flex-row justify-content-between align-items-center py-2'>
+                                    <div class='custom-font p16-S text-tertiary me-1 text-start'>
+                                        Thời gian bay
+                                    </div>
+                                    <div class='custom-font p20-B text-dark text-end'>
+                                        <span id="ThoiGianBay_FlightDetail_Modal">180</span> phút
                                     </div>
                                 </div>
 
+                                <div class='d-flex flex-row justify-content-between align-items-center py-2'>
+                                    <div class='custom-font p16-S text-tertiary me-1 text-start'>
+                                        Khởi hành
+                                    </div>
+                                    <div class='custom-font p20-B text-dark text-end'>
+                                        <span id="KhoiHanh_FlightDetail_Modal">08:00 13-11-2022</span>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
-                    </div>
 
-                    {{! Bên phải }}
-                    <div class='col-8 px-0'>
+                        {{! Bên phải }}
+                        <div class='col-9 px-0 h-100'>
+                            <div class='d-flex flex-column h-100'>
+                                {{!--
+                                {{! Nút close }}
+                                <div class='mx-3 mt-3 d-flex flex-row justify-content-end float-right'>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal'
+                                        aria-label='Close'></button>
+                                </div> --}}
 
-                        <div class='row m-0 h-auto justify-content-center'>
+                                {{! Tabs }}
+                                <div class="tabs-x tab-bordered tabs-above tab-align-right col-9 h-100 w-100">
+                                    <ul id="myTab-kv-9" class="nav nav-tabs bg-light" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#home-kv-9" role="tab"
+                                                data-bs-toggle="tab">
+                                                <i class="fas fa-home"></i> Tổng quan
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#profile-kv-9" role="tab" data-bs-toggle="tab">
+                                                <i class="fa fa-receipt"></i> Hoá đơn
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div id="myTabContent-kv-9" class="tab-content">
+                                        <div class="tab-pane fade show active" id="home-kv-9" role="tabpanel"
+                                            aria-labelledby="home-tab">
 
-                            {{! nút tắt }}
-                            <div class='col-12 justify-self-end text-end'>
-                                <button
-                                    type='button'
-                                    class='btn-close py-3'
-                                    data-bs-dismiss='modal'
-                                    aria-label='Close'
-                                ></button>
-                            </div>
+                                            {{! Doanh thu Container }}
+                                            <div class=''>
+                                                {{! Nút close }}
+                                                <div class='row justify-content-end align-items-center my-2 '>
+                                                    <button type='button' class='btn-close' data-bs-dismiss='modal'
+                                                        aria-label='Close'></button>
+                                                </div>
 
-                            {{! Sân bay trung gian }}
-                            <div class='col-12 mb-3 ps-0'>
-                                <div class='d-flex flex-column bg-light shadow rounded-2 h-auto'>
+                                                <div class='bg-light rounded-2 shadow mb-3'>
 
-                                    {{! Tiêu đề }}
-                                    <div class='px-3 custom-font p20-B text-tertiary py-3'>
-                                        SÂN BAY TRUNG GIAN
-                                    </div>
+                                                    {{! Header }}
+                                                    <div class='row p-3 justify-content-evenly'>
 
-                                    {{! Table }}
-                                    <div class='px-3'>
-                                        <div style='height: 200px;' class='table-responsive overflow-auto'>
+                                                        <div class='col'>
+                                                            <div>
+                                                                <div title='indexKhach'
+                                                                    class=' mb-1 custom-font p20-B text-tertiary'>
+                                                                    Tổng vé</div>
 
-                                            <table class='table'>
-                                                <thead class='sticky-top bg-light shadow-sm'>
-                                                    <tr class='custom-font p16-S text-center'>
-                                                        <th scope='col'>Thứ tự</th>
-                                                        <th scope='col'>Tên sân bay</th>
-                                                        <th scope='col'>Thời gian đến</th>
-                                                        <th scope='col'>Thời gian dừng (Phút)</th>
-                                                        <th scope='col'>Ghi chú</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id='SanBayTrungGian_Container'>
-                                                    <tr
-                                                        class='d-none SanBayTrungGian_Item custom-font p16-R align-middle text-center'
-                                                    >
-                                                        <th class='ThuTu'>1</th>
-                                                        <td class='TenSanBay'>Tân Sơn Nhất</td>
-                                                        <td class='ThoiGianDen'>11:11 11/11/2022</td>
-                                                        <td class='ThoiGianDung'>180</td>
-                                                        <td class='GhiChu'></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                                <div id="TongVe_Right_Header_Title"
+                                                                    class=' custom-font p20-B text-dark'>
+                                                                    50
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
+                                                        <div class='col '>
+                                                            <div>
+                                                                <div title='indexKhach'
+                                                                    class=' mb-1 custom-font p20-B text-tertiary'>
+                                                                    Vé đã bán</div>
+
+                                                                <div id="VeDaBan_Right_Header_Title"
+                                                                    class=' custom-font p20-B text-dark'>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class='col'>
+                                                            <div>
+                                                                <div class='mb-1 custom-font p20-B text-tertiary'>Doanh
+                                                                    thu
+                                                                </div>
+
+                                                                <div id="DoanhThu_Right_Header_Title"
+                                                                    class=' custom-font p20-B text-dark'>
+                                                                    <span>120.000.000</span> VND
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    {{! Seprator line }}
+                                                    <div style='border-top: 1px solid black;'></div>
+
+                                                    {{!-- Biểu đồ --}}
+                                                    <div class='row p-3'>
+
+                                                        <div class="d-flex justify-content-around chart-container"
+                                                            style=" height:50vh; width:vw">
+                                                            <canvas class="custom-font p20-B text-dark"
+                                                                id="chart_1"></canvas>
+                                                            <canvas class="custom-font p20-B text-dark"
+                                                                id="chart_2"></canvas>
+                                                        </div>
+
+                                                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
                                         </div>
+                                        <div class="tab-pane fade" id="profile-kv-9" role="tabpanel"
+                                            aria-labelledby="profile-tab">
+                                            <div class='table_rapper table-responsive overflow-auto bg-light'
+                                                style='height: 300px;'>
 
+                                                <table id='hoa_don_table' class="px-2">
+                                                    <thead class='sticky-top bg-light shadow-sm'>
+                                                        <tr class='custom-font p16-S text-center'>
+                                                            <th style='width: 10%' scope='col'>Mã HĐ</th>
+                                                            <th style='width: 25%' scope='col'>Người thanh toán</th>
+                                                            <th style='width: 10%' scope='col'>Số vé</th>
+                                                            <th style='width: 15%' scope='col'>Thanh toán lúc</th>
+                                                            <th style='width: 20%' scope='col'>Hình thức</th>
+                                                            <th style='width: 20%' scope='col'>Tổng tiền</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id='hoa_don_table_body'>
+                                                        <tr
+                                                            class='hoa_don_table_item custom-font p16-R align-middle text-center d-none'>
+                                                            <th class='hoa_don_table_item_ma_hd'>HA-SG-1</th>
+                                                            <td class='hoa_don_table_item_nguoi_thanh_toan'>Nguyễn Văn
+                                                                Hên</td>
+                                                            <td class='hoa_don_table_item_so_ve'>3</td>
+                                                            <td class='hoa_don_table_item_dat_luc'>08:30 29/12/2022</td>
+                                                            <td class='hoa_don_table_item_hinh_thuc'>VNPAY</td>
+                                                            <td class='hoa_don_table_item_tong_tien'>5.250.000 VND</td>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                {{! No flight notice }}
+                                                <div class="no_flight_identifier d-flex justify-content-center d-none">
+                                                    <div class="custom-font p32-R col text-tertiary text-center">
+                                                        Không có chuyến bay nào
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
-                            </div>
 
-                            {{! Hạng vé }}
-                            <div class='col-12 mb-3 ps-0'>
-                                <div class='d-flex flex-column bg-light shadow rounded-2 h-auto'>
+                                {{! Footer }}
+                                <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;"
+                                    class='p-3 d-flex flex-row justify-content-between align-items-center bg-light '>
 
-                                    {{! Tiêu đề }}
-                                    <div class='px-3 custom-font p20-B text-tertiary py-3'>
-                                        HẠNG VÉ
-                                    </div>
+                                    {{!-- {{! Tổng phụ }}
+                                    <div class='d-flex flex-column'>
 
-                                    {{! Table }}
-                                    <div class='px-3'>
-                                        <div style='height: 200px;' class='table-responsive overflow-auto'>
-
-                                            <table class='table'>
-                                                <thead class='sticky-top bg-light shadow-sm'>
-                                                    <tr class='custom-font p16-S text-center'>
-                                                        <th scope='col'>Tên hạng vé</th>
-                                                        <th scope='col'>Giá tiền</th>
-                                                        <th scope='col'>Số ghế</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id='HangVe_Container'>
-                                                    <tr
-                                                        class='d-none HangVe_Item custom-font p16-R align-middle text-center'
-                                                    >
-                                                        <th class='TenHangVe'>Phổ thông</th>
-                                                        <td class='GiaTien'>500.000</td>
-                                                        <td class='SoGhe'>11</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
+                                        <div class='d-flex flex-row mb-1'>
+                                            <span class='custom-font p20-B text-dark me-5'>
+                                                Tổng doanh thu
+                                            </span>
+                                            <span id='TongDoanhThu_Modal'
+                                                class='ms-5 custom-font p20-B text-secondary me-1'>
+                                                2.565.000.000
+                                            </span>
+                                            <span class='custom-font p20-B text-secondary'>VND</span>
                                         </div>
+
+                                        <div>
+                                            <span class='custom-font p16-S text-tertiary'>
+                                                (Bao gồm tất cả các nguồn doanh thu)
+                                            </span>
+                                        </div>
+
+                                    </div> --}}
+
+                                    <div class=""></div>
+                                    {{! Nút Hoàn Tất }}
+                                    <div>
+                                        <button type='button' data-bs-dismiss='modal'
+                                            class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
+                                            href=''>
+                                            Đóng
+                                        </button>
                                     </div>
 
                                 </div>
+
                             </div>
                         </div>
-
-                    </div>
-
-                </div>
-
-                <div class='row m-0 justify-content-center bg-light'>
-                    <div class='col-12 text-end py-2' style='box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;'>
-                        <button
-                            type='button'
-                            class='px-5 btn btn-secondary custom-font p20-B text-light bg-secondary border-0 custom-boxshadow-hover-secondary custom-boxshadow-focus-none'
-                            data-bs-dismiss='modal'
-                        >Đóng</button>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </div>
 
-</div>
-
-{{! Our js }}
-<script type='module' src='/javascript/staff/BaoCaoDoanhThu.js'>
-</script>/script>
+            {{! Our js }}
+            <script type='module' src='/javascript/staff/BaoCaoDoanhThu.js'>
+            </script>

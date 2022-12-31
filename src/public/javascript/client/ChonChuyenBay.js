@@ -1,5 +1,10 @@
 import { numberWithDot, numberWithoutDot, numberSmallerTen, openLoader, closeLoader } from '../start.js';
 
+axios({
+    method: 'post',
+    url: '/hoadon/XoaCookieMaHangVe',
+}).then((res) => {});
+
 // #region Bộ lọc
 // Add event bộ lọc điểm dừng
 const BoLoc_DiemDung = document.getElementById('BoLoc_DiemDung');

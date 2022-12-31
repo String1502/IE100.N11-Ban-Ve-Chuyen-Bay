@@ -10,7 +10,10 @@ import {
     onlyNumber,
     validateEmail,
     formatVND,
+    ActiveNavItem_Header,
 } from '../start.js';
+
+ActiveNavItem_Header('TraCuu');
 
 window.onlyNumber = onlyNumber;
 
@@ -152,6 +155,15 @@ var data_send = {
 
 function GetFlight_Edit() {
     openLoader('Chờ chút');
+
+    if (staff_header) {
+        staff_header.parentElement.removeChild(staff_header);
+    }
+
+    if (footer_planet) {
+        footer_planet.parentElement.removeChild(footer_planet);
+    }
+
     Flight_Edit = JSON.parse(document.getElementById('Flight_EditJS').getAttribute('Flight_EditJS'));
 
     var SanBays = structuredClone(Flight_Edit.SanBays);
@@ -195,9 +207,6 @@ function GetFlight_Edit() {
             ).GiaTri;
 
             console.log(Flight_Edit);
-
-            // Bỏ header khi vào chỉnh sửa
-            staff_header.parentElement.removeChild(staff_header);
 
             if (Flight_Edit.TrangThai == 'ViPhamQuyDinh') {
                 closeLoader();

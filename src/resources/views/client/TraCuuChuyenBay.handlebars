@@ -6,14 +6,8 @@
 
                 {{! 3 cái ở dưới }}
                 <div class='carousel-indicators'>
-                    <button
-                        type='button'
-                        data-bs-target='#carousel'
-                        data-bs-slide-to='0'
-                        class='active'
-                        aria-current='true'
-                        aria-label='Slide 1'
-                    ></button>
+                    <button type='button' data-bs-target='#carousel' data-bs-slide-to='0' class='active'
+                        aria-current='true' aria-label='Slide 1'></button>
                     <button type='button' data-bs-target='#carousel' data-bs-slide-to='1' aria-label='Slide 2'></button>
                     <button type='button' data-bs-target='#carousel' data-bs-slide-to='2' aria-label='Slide 3'></button>
                 </div>
@@ -21,25 +15,16 @@
                 {{! Ảnh }}
                 <div class='carousel-inner'>
                     <div class='carousel-item active' data-bs-interval='3000'>
-                        <img
-                            src='https://baemin.vn/desktop/images/baedale-hurray-01@2x.png'
-                            class='d-block w-auto img-fluid h-100 m-auto'
-                            alt='...'
-                        />
+                        <img src='https://baemin.vn/desktop/images/baedale-hurray-01@2x.png'
+                            class='d-block w-auto img-fluid h-100 m-auto' alt='...' />
                     </div>
                     <div class='carousel-item' data-bs-interval='3000'>
-                        <img
-                            src='https://baemin.vn/desktop/images/baedale-cat-sherlock-01-pts@2x.png'
-                            class='d-block w-auto img-fluid h-100 m-auto'
-                            alt='...'
-                        />
+                        <img src='https://baemin.vn/desktop/images/baedale-cat-sherlock-01-pts@2x.png'
+                            class='d-block w-auto img-fluid h-100 m-auto' alt='...' />
                     </div>
                     <div class='carousel-item' data-bs-interval='3000'>
-                        <img
-                            src='https://baemin.vn/desktop/images/baedale-bike-03@2x.png'
-                            class='d-block w-auto img-fluid h-100 m-auto'
-                            alt='...'
-                        />
+                        <img src='https://baemin.vn/desktop/images/baedale-bike-03@2x.png'
+                            class='d-block w-auto img-fluid h-100 m-auto' alt='...' />
                     </div>
                 </div>
 
@@ -64,32 +49,22 @@
             <div class='col-12 col-lg-11 h-auto bg-white rounded-1 shadow my-3'>
 
                 <div class='px-5 py-3'>
-
                     {{! Hàng 1 }}
                     <div class='row h-auto mb-3 align-items-center'>
                         {{! Radio button: 1 chiều/ khứ hồi }}
                         <div class='form-check col-12 col-md-4 col-lg-3'>
-                            <input
-                                class='form-check-input custom-color-checked custom-boxshadow-focus-primary'
-                                type='radio'
-                                name='flexRadioDefault'
-                                id='MotChieu_KhuHoi'
-                                checked
-                            />
-                            <label class='form-check-label custom-font p12-S lh-lg' for='MotChieu_KhuHoi'>
+                            <input class='form-check-input custom-color-checked custom-boxshadow-focus-primary'
+                                type='radio' name='flexRadioDefault' id='MotChieu_KhuHoi' checked />
+                            <label class='form-check-label custom-font p14-S lh-lg' for='MotChieu_KhuHoi'>
                                 Một chiều/Khứ hồi
                             </label>
                         </div>
                         {{! Radio button: Nhiều thành phố }}
                         <div class='form-check col-12 col-md-4 col-lg-3'>
-                            <input
-                                class='form-check-input custom-color-checked custom-boxshadow-focus-primary'
-                                type='radio'
-                                name='flexRadioDefault'
-                                id='NhieuThanhPho'
-                            />
+                            <input class='form-check-input custom-color-checked custom-boxshadow-focus-primary'
+                                type='radio' name='flexRadioDefault' id='NhieuThanhPho' />
                             <div id='ChuyenBay_Max' class='d-none'>{{this.ChuyenBay_Max}}</div>
-                            <label class='form-check-label custom-font p12-S lh-lg' for='NhieuThanhPho'>
+                            <label class='form-check-label custom-font p14-S lh-lg' for='NhieuThanhPho'>
                                 Nhiều thành phố
                             </label>
                         </div>
@@ -102,243 +77,200 @@
                         </div>
                     </div>
 
-                    {{! Hàng 2 }}
-                    <div id='Hang2_div'>
-                        {{! ChuyenBay_Item }}
-                        <div class='row h-auto mb-3 h-auto ChuyenBay_Item'>
+                    {{! Một chiều và khứ hồi }}
+                    <div id='MotChieu_KhuHoi_div' class='row h-auto mb-3 align-items-center'>
 
-                            {{! Sân bay đi }}
-                            <div class='col-12 col-md-3 ps-0'>
-                                <label class='form-label custom-font mb-1 p16-B lh-lg'>Từ</label>
-                                <div class='input-group dropdown'>
-                                    <label class='input-group-text bg-primary border-primary py-2 p14-R'>
-                                        <i class='fa-sharp fa-solid fa-plane-departure text-light'></i>
-                                    </label>
+                        {{! Thông tin sân bay của chuyến bay }}
+                        <div class='col-12 col-md-7'>
+                            <div class='row ChuyenBay_Item'>
 
-                                    {{! Textbox }}
-                                    <input
-                                        type='text'
-                                        class='SanBayDi form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
-                                        data-bs-toggle='dropdown'
-                                        aria-expanded='false'
-                                        placeholder='Sân bay đi'
-                                        readonly
-                                    />
-                                    {{! Drop down }}
-                                    <ul
-                                        style='width: 590px; height: 500px;'
-                                        class='list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
-                                    >
-                                        {{! Dropdown header }}
-                                        <li
-                                            class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'
-                                        >
-                                            <div class='d-flex flex-column'>
-                                                <span
-                                                    class='custom-font p12-S text-dark border-tertiary border-tertiary'
-                                                >Thành phố hoặc sân bay phổ biến</span>
-                                            </div>
-                                        </li>
-                                        {{! Dropdown items }}
-                                        {{#each SanBays}}
+                                {{! Sân bay đi }}
+                                <div class='col-12 ps-0 col-md-5 mb-3'>
+                                    <label class='form-label custom-font mb-1 p16-B lh-lg'>Từ</label>
+                                    <div class='input-group dropdown'>
+                                        <label class='input-group-text bg-primary border-primary py-2 p14-R'>
+                                            <i class='fa-sharp fa-solid fa-plane-departure text-light'></i>
+                                        </label>
+
+                                        {{! Textbox }}
+                                        <input type='text'
+                                            class='ChuyenBay_Item_SanBayDi form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
+                                            data-bs-toggle='dropdown' aria-expanded='false' placeholder='Sân bay đi'
+                                            masanbay='' value='' readonly />
+                                        {{! Drop down }}
+                                        <ul style='width: 590px; height: 400px;'
+                                            class='ChuyenBay_Item_SanBayDi_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'>
+                                            {{! Dropdown header }}
                                             <li
-                                                class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
-                                            >
+                                                class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'>
+                                                <div class='d-flex flex-column'>
+                                                    <span class='custom-font p12-S text-dark'>Thành phố hoặc sân bay phổ
+                                                        biến</span>
+                                                </div>
+                                            </li>
+                                            {{! Dropdown items }}
+                                            {{#each Package.SanBays}}
+                                            <li style='cursor: pointer;'
+                                                class='SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'>
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
                                                     <span
-                                                        class='SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'
-                                                    >{{this.TinhThanh}}</span>
+                                                        class='SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'>{{this.TenTinhThanh}}</span>
                                                     <div class='d-flex flex-row'>
 
                                                         <span
-                                                            class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'
-                                                        >{{this.MaSanBay}}</span>
+                                                            class='SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'>{{this.MaSanBay}}</span>
                                                         <span class='custom-font p14-R text-tertiary me-1'>
                                                             - Sân bay
                                                         </span>
                                                         <span
-                                                            class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'
-                                                        >{{this.TenSanBay}}</span>
+                                                            class='SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'>{{this.TenSanBay}}</span>
                                                     </div>
                                                 </div>
                                             </li>
-                                        {{/each}}
-                                    </ul>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {{! Swap button }}
-                            <div class='d-none d-md-block col-md-1 ps-0 align-self-center'>
-                                <button
-                                    style='margin-top: 37px;'
-                                    type='button'
-                                    class='SwapSanBay btn bg-tertiary text-light mx-auto d-block w-100 p12-S px-0 custom-boxshadow-focus-none custom-boxshadow-hover-tertiary'
-                                >
-                                    <i class='fa-sharp fa-solid fa-right-left text-center'></i>
-                                </button>
-                            </div>
+                                {{! Swap button }}
+                                <div class='d-none d-md-block mb-3 col-md-2 align-self-center'>
+                                    <button style='margin-top: 37px;' type='button'
+                                        class='ChuyenBay_Item_SwapSanBay btn bg-tertiary text-light text-center w-100 p12-S px-0 custom-boxshadow-focus-none custom-boxshadow-hover-tertiary'>
+                                        <i style='pointer-events: none;'
+                                            class='fa-sharp fa-solid fa-right-left text-center'></i>
+                                    </button>
+                                </div>
 
-                            {{! Sân bay đến }}
-                            <div class='col-12 mt-3 mt-md-0 col-md-3 ps-0'>
-                                <label class='form-label custom-font mb-1 p16-B lh-lg'>Đến</label>
-                                <div class='input-group dropdown'>
-                                    <label class='input-group-text bg-primary border-primary py-2 p14-R'>
-                                        <i class='fa-sharp fa-solid fa-plane-arrival text-light'></i>
-                                    </label>
-                                    {{! Text box }}
-                                    <input
-                                        type='text'
-                                        class='SanBayDen form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
-                                        data-bs-toggle='dropdown'
-                                        aria-expanded='false'
-                                        placeholder='Sân bay đến'
-                                        readonly
-                                    />
-                                    {{! Drop down }}
-                                    <ul
-                                        style='width: 590px; height: 500px;'
-                                        class='list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
-                                        data-bs-spy='scroll'
-                                    >
-                                        {{! Dropdown header }}
-                                        <li
-                                            class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'
-                                        >
-                                            <div class='d-flex flex-column'>
-                                                <span
-                                                    class='custom-font p12-S text-dark border-tertiary border-tertiary'
-                                                >Thành phố hoặc sân bay phổ biến</span>
-                                            </div>
-                                        </li>
-                                        {{! Dropdown items }}
-                                        {{#each SanBays}}
+                                {{! Sân bay đến }}
+                                <div class='col-12 col-md-5 mb-3'>
+                                    <label class='form-label custom-font mb-1 p16-B lh-lg'>Đến</label>
+                                    <div class='input-group dropdown'>
+                                        <label class='input-group-text bg-primary border-primary py-2 p14-R'>
+                                            <i class='fa-sharp fa-solid fa-plane-arrival text-light'></i>
+                                        </label>
+                                        {{! Text box }}
+                                        <input type='text'
+                                            class='ChuyenBay_Item_SanBayDen form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
+                                            data-bs-toggle='dropdown' masanbay='' value='' placeholder='Sân bay đến'
+                                            readonly />
+                                        {{! Drop down }}
+                                        <ul style='width: 590px; height: 400px;'
+                                            class='ChuyenBay_Item_SanBayDen_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
+                                            data-bs-spy='scroll'>
+                                            {{! Dropdown header }}
                                             <li
-                                                class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'
-                                            >
+                                                class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'>
+                                                <div class='d-flex flex-column'>
+                                                    <span
+                                                        class='custom-font p12-S text-dark border-tertiary border-tertiary'>Thành
+                                                        phố hoặc sân bay phổ biến</span>
+                                                </div>
+                                            </li>
+                                            {{! Dropdown items }}
+                                            {{#each Package.SanBays}}
+                                            <li style='cursor: pointer;'
+                                                class='SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'>
                                                 <div style='pointer-events:none;' class='d-flex flex-column'>
                                                     <span
-                                                        class='SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'
-                                                    >{{this.TinhThanh}}</span>
+                                                        class='SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'>{{this.TenTinhThanh}}</span>
                                                     <div class='d-flex flex-row'>
                                                         <span
-                                                            class='SanBayDen_li_MaSanBay custom-font p14-R text-tertiary me-1'
-                                                        >{{this.MaSanBay}}</span>
+                                                            class='SanBayDen_li_MaSanBay custom-font p14-R text-tertiary me-1'>{{this.MaSanBay}}</span>
                                                         <span class='custom-font p14-R text-tertiary me-1'>
                                                             - Sân bay
                                                         </span>
                                                         <span
-                                                            class='SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'
-                                                        >{{this.TenSanBay}}</span>
+                                                            class='SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'>{{this.TenSanBay}}</span>
                                                     </div>
 
                                                 </div>
                                             </li>
-                                        {{/each}}
-                                    </ul>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {{! Hành khách }}
-                            <div class='col-12 mt-3 mt-md-0 col-md-5 ps-0' id='HanhKhach_div'>
-                                <label class='form-label custom-font mb-1 p16-B lh-lg' for='HanhKhach'>Hành khách</label>
+                            </div>
+                        </div>
+
+                        {{! Hành khách }}
+                        <div id='MotChieu_HanhKhach_div' class='col-12 col-md-5 mb-3'>
+
+                            <div id='HanhKhach_div'>
+                                <label class='form-label custom-font mb-1 p16-B lh-lg' for='HanhKhach'>Hành
+                                    khách</label>
                                 <div class='input-group dropdown'>
-                                    <label
-                                        class='input-group-text bg-primary border-primary py-2 p14-R'
-                                        for='HanhKhach'
-                                    >
+                                    <label class='input-group-text bg-primary border-primary py-2 p14-R'
+                                        for='HanhKhach'>
                                         <i class='fa-sharp fa-solid fa-person text-light'></i>
                                     </label>
-                                    <div
-                                        id='HanhKhach'
-                                        type='text'
+                                    <div type='text' id='HanhKhach'
                                         class='form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary d-none-after text-truncate'
-                                        data-bs-toggle='dropdown'
-                                        aria-expanded='false'
-                                    >
+                                        data-bs-toggle='dropdown' aria-expanded='false'>
                                     </div>
-                                    <div
-                                        style='width: 364px; height: 206px;'
+                                    <div style='width: 364px; height: 206px;'
                                         class='list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1'
-                                        aria-labelledby='HanhKhach'
-                                    >
-                                        <div id='HanhKhach_Max' class='d-none'>{{this.HanhKhach_Max}}</div>
+                                        aria-labelledby='HanhKhach'>
                                         <div class='container h-100 d-flex flex-column justify-content-evenly'>
                                             {{! Người lớn }}
                                             <div class='row align-items-center'>
                                                 <div class='col-6 d-flex flex-row'>
                                                     <div class='pe-3'>
-                                                        <i
-                                                            style='height: 26px; width:16.25px; font-size: 26px;'
-                                                            class='fa-sharp fa-solid fa-person'
-                                                        ></i>
+                                                        <i style='height: 26px; width:16.25px; font-size: 26px;'
+                                                            class='fa-sharp fa-solid fa-person'></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Người lớn</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(từ 12 tuổi)</span>
+                                                        <span
+                                                            class='Ten_NguoiLon custom-font p14-S text-dark pb-1'>Người
+                                                            lớn</span>
+                                                        <span class='Tuoi_NguoiLon custom-font p12-S text-tertiary'>(từ
+                                                            12 tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
-                                                    <input
-                                                        type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
-                                                        value='1'
-                                                        min='1'
-                                                        max='7'
-                                                        step='1'
-                                                        title='Người lớn'
-                                                    />
+                                                    <input type='number'
+                                                        class='Input_NguoiLon form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        value='1' min='1' step='1' title='Người lớn' />
                                                 </div>
                                             </div>
                                             {{! Trẻ em }}
                                             <div class='row align-items-center'>
                                                 <div class='col-6 d-flex flex-row'>
                                                     <div class='pe-3'>
-                                                        <i
-                                                            style='height: 26px; width:16.25px; font-size: 26px;'
-                                                            class='fa-sharp fa-solid fa-child'
-                                                        ></i>
+                                                        <i style='height: 26px; width:16.25px; font-size: 26px;'
+                                                            class='fa-sharp fa-solid fa-child'></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Trẻ em</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(từ 2 - 11 tuổi)</span>
+                                                        <span class='Ten_TreEm custom-font p14-S text-dark pb-1'>Trẻ
+                                                            em</span>
+                                                        <span class='Tuoi_TreEm custom-font p12-S text-tertiary'>(từ 2 -
+                                                            11 tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
-                                                    <input
-                                                        type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
-                                                        value='0'
-                                                        min='0'
-                                                        max='7'
-                                                        step='1'
-                                                        title='Trẻ em'
-                                                    />
+                                                    <input type='number'
+                                                        class='Input_TreEm form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        value='0' min='0' step='1' title='Trẻ em' />
                                                 </div>
                                             </div>
                                             {{! Em bé }}
                                             <div class='row align-items-center'>
                                                 <div class='col-6 d-flex flex-row'>
                                                     <div class='pe-3'>
-                                                        <i
-                                                            style='height: 26px; width:16.25px; font-size: 26px;'
-                                                            class='fa-sharp fa-solid fa-baby'
-                                                        ></i>
+                                                        <i style='height: 26px; width:16.25px; font-size: 26px;'
+                                                            class='fa-sharp fa-solid fa-baby'></i>
                                                     </div>
                                                     <div class='d-flex flex-column'>
-                                                        <span class='custom-font p14-S text-dark pb-1'>Em bé</span>
-                                                        <span class='custom-font p12-S text-tertiary'>(dưới 2 tuổi)</span>
+                                                        <span class='Ten_EmBe custom-font p14-S text-dark pb-1'>Em
+                                                            bé</span>
+                                                        <span class='Tuoi_EmBe custom-font p12-S text-tertiary'>(dưới 2
+                                                            tuổi)</span>
                                                     </div>
                                                 </div>
                                                 <div class='col-6'>
-                                                    <input
-                                                        type='number'
-                                                        class='form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
-                                                        value='0'
-                                                        min='0'
-                                                        max='7'
-                                                        step='1'
-                                                        title='Em bé'
-                                                    />
+                                                    <input type='number'
+                                                        class='Input_EmBe form-control custom-font p20-R custom-boxshadow-focus-primary text-center hanhkhach_inputnumber_item'
+                                                        value='0' min='0' step='1' title='Em bé' />
                                                 </div>
                                             </div>
                                         </div>
@@ -347,121 +279,258 @@
                             </div>
 
                         </div>
-                    </div>
 
-                    {{! Thêm chuyến bay }}
-                    <div
-                        class='row h-auto pt-3 mb-3 h-auto justify-content-center justify-content-md-start d-none'
-                        id='ThemChuyenBay_div'
-                    >
-                        <div class='w-auto ps-0'>
-                            <button
-                                type='button'
-                                id='ThemChuyenBay'
-                                class='btn btn-primary bg-primary border-primary px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                            >
-                                <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
-                                Thêm chuyến bay
-                            </button>
-                        </div>
-                    </div>
+                        {{! Thời gian đi đến của chuyến bay }}
+                        <div class='col-12 col-md-7'>
 
-                    {{! Hàng 3 }}
-                    <div class='row h-auto mb-3' id='Hang3_div'>
-                        {{! Ngày đi }}
-                        <div class='col-12 mt-3 mt-md-0 col-md-3 ps-0 NgayDi_div'>
-                            <div class='d-flex flex-row'>
-                                <div class='flex-fill'>
-                                    <label class='form-label custom-font mb-1 p16-B lh-lg'>Ngày đi</label>
+                            <div class='row'>
+                                {{! Ngày đi }}
+                                <div class='col-12 ps-0 col-md-5 mb-3'>
+                                    <label class='form-label custom-font mb-1 p16-B lh-lg mb-1'>Ngày đi</label>
                                     <input
-                                        class='NgayDi form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
-                                        type='date'
-                                    />
+                                        class='ChuyenBay_Item_NgayDi form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        type='date' />
                                 </div>
-                                <div class='align-self-end ms-3 d-none XoaChuyenBay_div' style=' margin-bottom: 3px;'>
-                                    <button
-                                        class='XoaChuyenBay btn p-0 m-0 custom-boxshadow-focus-none custom-boxshadow-hover-tertiary'
-                                        onclick='xoa(this)'
-                                    >
-                                        <i
-                                            style='height: 30px; width: 30px; font-size: 30px; '
-                                            class='fa-solid fa-square-xmark text-tertiary'
-                                        ></i>
-                                    </button>
+                                {{! Trống }}
+                                <div class='d-none d-md-block col-md-2'>
+                                </div>
+                                {{! Ngày về }}
+                                <div class='col-12 col-md-5 mb-3'>
+
+                                    <div class='form-check mb-0'>
+                                        <input id='KhuHoi' style='margin-top: 8px;'
+                                            class='form-check-input p16-S custom-color-checked custom-boxshadow-focus-none custom-boxshadow-hover-primary'
+                                            type='checkbox' />
+                                        <label class='form-check-label custom-font p16-B lh-lg mb-1' for='KhuHoi'>
+                                            Khứ hồi
+                                        </label>
+                                    </div>
+
+                                    <input
+                                        class='d-none ChuyenBay_Item_NgayVe form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
+                                        type='date' />
                                 </div>
                             </div>
+
                         </div>
-                        {{! Trống }}
-                        <div class='d-none d-md-block col-md-1 ps-0' id='Trong_div'>
-                        </div>
-                        {{! Ngày về }}
-                        <div class='col-12 mt-3 mt-md-0 col-md-3 ps-0' id='NgayVe_div'>
-                            <div class='form-check mb-1'>
-                                <input
-                                    id='KhuHoi'
-                                    style='margin-top: 8px;'
-                                    class='form-check-input p16-S custom-color-checked custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                                    type='checkbox'
-                                />
-                                <label class='form-check-label custom-font p16-B lh-lg' for='KhuHoi'>
-                                    Khứ hồi
-                                </label>
-                            </div>
-                            <input
-                                id='NgayVe'
-                                class='form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary d-none'
-                                type='date'
-                            />
-                        </div>
+
                         {{! Hạng ghế }}
-                        <div class='col-12 mt-3 mt-md-0 col-md-5 ps-0'>
-                            <label class='form-label custom-font p16-B mb-1 lh-lg' for='HangGhe'>Hạng ghế</label>
-                            <div class='input-group dropdown'>
-                                <label class='input-group-text bg-primary border-primary py-2 p14-R' for='HangGhe'>
-                                    <i class='fa-sharp fa-solid fa-chair text-light'></i>
-                                </label>
-                                <input
-                                    id='HangGhe'
-                                    type='text'
-                                    class='form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
-                                    data-bs-toggle='dropdown'
-                                    aria-expanded='false'
-                                    placeholder='Chọn hạng ghế'
-                                    readonly
-                                />
-                                <ul
-                                    style='width: 364px;'
-                                    class='h-auto list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                >
-                                    {{! Dropdown items }}
-                                    {{#each HangGhes}}
-                                        <li class='HangGhe_li dropdown-item custom-active'>
+                        <div id='MotChieu_HangGhe_div' class='col-12 col-md-5 mb-3'>
+
+                            <div id='HangGhe_div'>
+                                <label class='form-label custom-font p16-B lh-lg mb-1'>Hạng ghế</label>
+                                <div class='input-group dropdown'>
+                                    <label class='input-group-text bg-primary border-primary py-2 p14-R'>
+                                        <i class='fa-sharp fa-solid fa-chair text-light'></i>
+                                    </label>
+                                    <input id='HangGhe' type='text'
+                                        class='form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
+                                        data-bs-toggle='dropdown' placeholder='Chọn hạng ghế' mahangghe='' readonly />
+                                    <ul style='width: 364px;'
+                                        class='HangGhe_ul h-auto list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'>
+                                        {{! Dropdown items }}
+                                        {{#each Package.HangGhes}}
+                                        <li style='cursor: pointer;' class='HangGhe_li dropdown-item custom-active'>
                                             <div style='pointer-events:none;' class='d-flex flex-row py-2'>
                                                 <span
-                                                    class='HangGhe_li_MaHangGhe custom-font p14-R text-dark me-1'
-                                                >{{this.MaHangGhe}}</span>
+                                                    class='HangGhe_li_MaHangGhe custom-font p14-S text-dark me-1'>{{this.MaHangGhe}}</span>
                                                 <span class='custom-font p14-S text-dark me-1'> - </span>
                                                 <span
-                                                    class='HangGhe_li_TenHangGhe custom-font p14-R text-dark'
-                                                >{{this.TenHangGhe}}</span>
+                                                    class='HangGhe_li_TenHangGhe custom-font p14-S text-dark'>{{this.TenHangGhe}}</span>
                                             </div>
                                         </li>
-                                    {{/each}}
-                                </ul>
+                                        {{/each}}
+                                    </ul>
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
 
-                    {{! Hàng 4 }}
+                    {{! Nhiều thành phố }}
+                    <div id='NhieuThanhPho_div' class='row h-auto mb-3 align-items-center d-none'>
+
+                        {{! Các chuyến bay }}
+                        <div class='col-12' id='NhieuThanhPhoContainer'>
+
+                            <div class='row NhieuThanhPho_Item d-none' index='0'>
+                                {{! Thông tin sân bay thời gian đi của chuyến bay }}
+                                <div class='col-12 col-md-7'>
+                                    <div class='row'>
+
+                                        {{! Sân bay đi }}
+                                        <div class='col-12 ps-0 col-md-5 mb-3'>
+                                            <label class='form-label custom-font mb-1 p16-B lh-lg'>Từ</label>
+                                            <div class='input-group dropdown'>
+                                                <label class='input-group-text bg-primary border-primary py-2 p14-R'>
+                                                    <i class='fa-sharp fa-solid fa-plane-departure text-light'></i>
+                                                </label>
+
+                                                {{! Textbox }}
+                                                <input type='text'
+                                                    class='NhieuThanhPho_Item_SanBayDi form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
+                                                    data-bs-toggle='dropdown' aria-expanded='false'
+                                                    placeholder='Sân bay đi' masanbay='' readonly />
+                                                {{! Drop down }}
+                                                <ul style='width: 590px; height: 400px;'
+                                                    class='NhieuThanhPho_Item_SanBayDi_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'>
+                                                    {{! Dropdown header }}
+                                                    <li
+                                                        class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'>
+                                                        <div class='d-flex flex-column'>
+                                                            <span class='custom-font p12-S text-dark'>Thành phố hoặc sân
+                                                                bay phổ biến</span>
+                                                        </div>
+                                                    </li>
+                                                    {{! Dropdown items }}
+                                                    {{#each Package.SanBays}}
+                                                    <li style='cursor: pointer;'
+                                                        class='NhieuThanhPho_SanBayDi_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'>
+                                                        <div style='pointer-events:none;' class='d-flex flex-column'>
+                                                            <span
+                                                                class='NhieuThanhPho_SanBayDi_li_TenTinhThanh custom-font p14-S text-dark pb-1'>{{this.TenTinhThanh}}</span>
+                                                            <div class='d-flex flex-row'>
+
+                                                                <span
+                                                                    class='NhieuThanhPho_SanBayDi_li_MaSanBay custom-font p14-R text-tertiary me-1'>{{this.MaSanBay}}</span>
+                                                                <span class='custom-font p14-R text-tertiary me-1'>
+                                                                    - Sân bay
+                                                                </span>
+                                                                <span
+                                                                    class='NhieuThanhPho_SanBayDi_li_TenSanBay custom-font p14-R text-tertiary'>{{this.TenSanBay}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {{! Swap button }}
+                                        <div class='d-none d-md-block mb-3 col-md-2 align-self-center'>
+                                            <button style='margin-top: 37px;' type='button'
+                                                class='NhieuThanhPho_Item_SwapSanBay btn bg-tertiary text-light text-center w-100 p12-S px-0 custom-boxshadow-focus-none custom-boxshadow-hover-tertiary'>
+                                                <i class='fa-sharp fa-solid fa-right-left text-center'></i>
+                                            </button>
+                                        </div>
+
+                                        {{! Sân bay đến }}
+                                        <div class='col-12 col-md-5 mb-3'>
+                                            <label class='form-label custom-font mb-1 p16-B lh-lg'>Đến</label>
+                                            <div class='input-group dropdown'>
+                                                <label class='input-group-text bg-primary border-primary py-2 p14-R'>
+                                                    <i class='fa-sharp fa-solid fa-plane-arrival text-light'></i>
+                                                </label>
+                                                {{! Text box }}
+                                                <input type='text'
+                                                    class='NhieuThanhPho_Item_SanBayDen form-control dropdown-toggle border-start-0 custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary form-select'
+                                                    data-bs-toggle='dropdown' masanbay='' placeholder='Sân bay đến'
+                                                    readonly />
+                                                {{! Drop down }}
+                                                <ul style='width: 590px; height: 400px;'
+                                                    class='NhieuThanhPho_Item_SanBayDen_ul list-unstyled custom-font p14-S dropdown-menu custom-font p20-B shadow py-0 my-1 overflow-auto'
+                                                    data-bs-spy='scroll'>
+                                                    {{! Dropdown header }}
+                                                    <li
+                                                        class='dropdown-header border border-1 border-top-0 border-end-0 border-start-0'>
+                                                        <div class='d-flex flex-column'>
+                                                            <span
+                                                                class='custom-font p12-S text-dark border-tertiary border-tertiary'>Thành
+                                                                phố hoặc sân bay phổ biến</span>
+                                                        </div>
+                                                    </li>
+                                                    {{! Dropdown items }}
+                                                    {{#each Package.SanBays}}
+                                                    <li style='cursor: pointer;'
+                                                        class='NhieuThanhPho_SanBayDen_li dropdown-item border border-1 border-top-0 border-end-0 border-start-0 custom-active'>
+                                                        <div style='pointer-events:none;' class='d-flex flex-column'>
+                                                            <span
+                                                                class='NhieuThanhPho_SanBayDen_li_TenTinhThanh custom-font p14-S text-dark pb-1'>{{this.TenTinhThanh}}</span>
+                                                            <div class='d-flex flex-row'>
+                                                                <span
+                                                                    class='NhieuThanhPho_SanBayDen_li_MaSanBay custom-font p14-R text-tertiary me-1'>{{this.MaSanBay}}</span>
+                                                                <span class='custom-font p14-R text-tertiary me-1'>
+                                                                    - Sân bay
+                                                                </span>
+                                                                <span
+                                                                    class='NhieuThanhPho_SanBayDen_li_TenSanBay custom-font p14-R text-tertiary'>{{this.TenSanBay}}</span>
+                                                            </div>
+
+                                                        </div>
+                                                    </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                {{! Ngày đi }}
+                                <div class='col-12 col-md-5 mb-3'>
+                                    <div class='d-flex flex-row'>
+                                        <div class='flex-fill'>
+                                            <label class='form-label custom-font mb-1 p16-B lh-lg mb-1'>Ngày đi</label>
+                                            <input
+                                                class='NhieuThanhPho_Item_NgayDi form-control custom-font p16-S text-dark border-tertiary custom-boxshadow-focus-primary'
+                                                type='date' />
+                                        </div>
+                                        <div class='align-self-end ms-3 d-none' style=' margin-bottom: 3px;'>
+                                            <button
+                                                class='NhieuThanhPho_Item_XoaChuyenBay btn p-0 m-0 custom-boxshadow-focus-none custom-boxshadow-hover-tertiary'>
+                                                <i style='height: 30px; width: 30px; font-size: 30px; '
+                                                    class='fa-solid fa-square-xmark text-tertiary'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {{! Thêm chuyến bay }}
+                        <div class='col-12'>
+                            <div class='row justify-content-start'>
+                                <div class='col-4 ps-0 mb-3'>
+
+                                    <button type='button' id='ThemChuyenBay'
+                                        class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p14-S custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
+                                        <i class='fa-sharp fa-solid fa-circle-plus pe-2'></i>
+                                        Thêm chuyến bay
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {{! Hành khách + hạng ghế }}
+                        <div class='col-12'>
+
+                            <div class='row'>
+
+                                {{! Hành khách }}
+                                <div id='NhieuThanhPho_HanhKhach_div' class='col-12 ps-0 col-md-7 mb-3'>
+
+                                </div>
+                                {{! Hạng ghế }}
+                                <div id='NhieuThanhPho_HangGhe_div' class='col-12 col-md-5 mb-3'>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{! Tìm kiếm chuyến bay}}
                     <div class='row h-auto align-items-center justify-content-center justify-content-md-end'>
                         <div class='col-md-4 w-auto'>
-                            <a
-                                id='TimChuyenBay'
-                                type='button'
-                                onclick='searchFlightBtn_onclick()'
-                                class='btn btn-primary bg-secondary border-secondary px-4 text-light custom-font p20-S custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                            >
+                            <a id='TimChuyenBay' type='button'
+                                class='btn btn-primary bg-secondary border-secondary px-4 text-light custom-font p20-S custom-boxshadow-focus-none custom-boxshadow-hover-secondary'>
                                 <i class='fa-sharp fa-solid fa-magnifying-glass pe-2'></i>
                                 Tìm chuyến bay
                             </a>
@@ -473,299 +542,6 @@
             </div>
         </div>
     </div>
-
-    {{!-- <div class='container mt-4 pb-4 bg-light'>
-
-        {{! Hàng 1 }}
-        <div class='row align-items-center mb-3'>
-
-            <div class='col-2'>
-                <img
-                    src='https://img.freepik.com/premium-vector/air-plane-icon-illustration_138676-278.jpg?w=826'
-                    alt=''
-                    class='img-fluid'
-                />
-            </div>
-
-            <div class='col-10'>
-                <div class='d-flex flex-column'>
-
-                    <div class='mb-1'>
-                        <span class='text-primary custom-font h64-B'>Planet</span>
-                    </div>
-
-                    <div>
-                        <div class='custom-font p16-S text-dark mb-1'>
-                            Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam
-                        </div>
-                        <div class='custom-font p16-R text-dark'>
-                            http://127.0.0.1:8080/ | planet@gmail.com
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{! Hàng 2 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col-5'>
-                <div style='font-weight: 400px !important; font-size:48px;' class='custom-font text-dark'>
-                    E-ticket
-                    <span style='font-size:36px;' class='text-tertiary'> / Vé điện tử</span>
-                </div>
-            </div>
-        </div>
-
-        {{! Hàng 3 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col'>
-                <div style='border:3px dashed;' class='rounded border-primary'>
-
-                    <div class='row align-items-center justify-content-between m-0'>
-
-                        <div class='col-6 px-0 border-primary' style='border-right:3px dashed;'>
-
-                            <div class='d-flex flex-column mt-3'>
-
-                                <div class='custom-font h24-B text-primary text-center align-middle'><i
-                                        class='fa-solid fa-envelope h24-B me-2'
-                                    ></i>Người liên hệ</div>
-
-                                <div style='border-bottom:3px dashed;' class='my-3 border-primary'>
-                                </div>
-
-                                <div class='d-flex flex-column px-3'>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Họ tên:</div>
-                                        <div class='custom-font p20-S text-dark'>Phan Trường Huy</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Số điện thoại:</div>
-                                        <div class='custom-font p20-S text-dark'>0343214971</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-3'>
-                                        <div class='custom-font p20-R text-dark'>Email:</div>
-                                        <div class='custom-font p20-S text-dark'>phantruonghuy0701@gmail.com</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class='col-6 px-0'>
-
-                            <div class='d-flex flex-column mt-3'>
-
-                                <div class='custom-font h24-B text-primary text-center align-middle'><i
-                                        class='fa-solid fa-money-check-dollar h24-B me-2'
-                                    ></i>Thanh toán</div>
-
-                                <div style='border-bottom:3px dashed;' class='my-3 border-primary'>
-                                </div>
-
-                                <div class='d-flex flex-column px-3'>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Hạng vé:</div>
-                                        <div class='custom-font p20-S text-dark'>Eco - Phổ thông</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-2'>
-                                        <div class='custom-font p20-R text-dark'>Hình thức thanh toán:</div>
-                                        <div class='custom-font p20-S text-dark'>Momo</div>
-                                    </div>
-
-                                    <div class='d-flex flex-row justify-content-between mb-3'>
-                                        <div class='custom-font p20-R text-dark'>Số tiền thanh toán:</div>
-                                        <div class='custom-font p20-S text-dark'>500.000 VND</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        {{! Hàng 4 }}
-        <div class='row align-items-center mb-5'>
-            <div class='col'>
-
-                <div class='row mx-0 border-tertiary py-3' style='border-bottom:2px solid; border-top:2px solid;'>
-
-                    <div class='col-6'>
-
-                        <div style='margin-left: 64px; margin-right:32px;' class='d-flex flex-row align-items-center'>
-
-                            <div style='font-size: 54px;' class='text-tertiary'>
-                                <i class='fa-solid fa-address-book'></i>
-                            </div>
-
-                            <div class='custom-font p20-R text-tertiary text-wrap ms-3'>
-                                Trình CMND/ hộ chiếu và vé điện tử khi làm thủ tục bay ở quầy.
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class='col-6'>
-
-                        <div style='margin-left: 32px; margin-right:64px;' class='d-flex flex-row align-items-center'>
-
-                            <div style='font-size: 54px;' class='text-tertiary'>
-                                <i class='fa-solid fa-clock'></i>
-                            </div>
-
-                            <div class='custom-font p20-R text-tertiary text-wrap ms-3'>
-                                Làm thủ tục ít nhất 90 phút trước giờ khởi hành.
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{! Hàng 5 }}
-        <div class='d-flex flex-column mb-5'>
-
-            <div style='font-weight: 600px !important; font-size:28px;' class='custom-font text-dark'>
-                Passenger(s)
-                <span style='font-size:20px;' class='text-tertiary'> / Hành khách</span>
-            </div>
-
-            <div>
-                <table class='table mt-3'>
-                    <thead>
-                        <tr class='custom-font p20-R text-dark'>
-                            <th style='width: 10%;' scope='col' class='text-end'>Thứ tự</th>
-                            <th style='width: 5%;' scope='col'></th>
-                            <th style='width: 55%;' scope='col'>Tên hành khách</th>
-                            <th style='width: 30%;' scope='col'>Độ tuổi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>2</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>3</td>
-                            <td></td>
-                            <td>Ông Phan Trường Huy Huy Huy</td>
-                            <td>Người lớn</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        {{! Hàng 6 }}
-        <div class='d-flex flex-column mb-5'>
-
-            <div style='font-weight: 600px !important; font-size:28px;' class='custom-font text-dark'>
-                Flight(s)
-                <span style='font-size:20px;' class='text-tertiary'> / Chuyến bay</span>
-            </div>
-
-            <div>
-                <table class='table mt-3 align-middle'>
-                    <thead>
-                        <tr class='custom-font p20-R text-dark'>
-                            <th style='width: 5%;' scope='col' class='text-end'>TT</th>
-                            <th style='width: 15%;' scope='col'>Mã chuyến bay</th>
-                            <th style='width: 15%;' scope='col'>Sân bay đi</th>
-                            <th style='width: 15%;' scope='col'>Sân bay đến</th>
-                            <th style='width: 13%;' scope='col'>Khởi hành</th>
-                            <th style='width: 13%;' scope='col'>Đến</th>
-                            <th style='width: 10%;' scope='col'>Hành lý</th>
-                            <th style='width: 14%;' scope='col'>Booking ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class='custom-font p20-R text-dark'>
-                            <td class='text-end'>1</td>
-                            <td>TSN-HA-1</td>
-                            <td>Tân Sơn Nhất</td>
-                            <td>Nội Bài</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>11:11 <br /> 11-11-2022</td>
-                            <td>+ 30kg</td>
-                            <td>
-                                <div class='p-2 bg-primary text-center text-light p20-B rounded'>
-                                    2-TSN-HA-1
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div> --}}
-
 </div>
 
 <form name='search-flight-form' method='POST' style='display: none;'>
@@ -773,6 +549,8 @@
     <input id='hangghe_formid' name='HangGhe' />
     <input id='hanhkhach_formid' name='HanhKhach' />
 </form>
+
+<div class='d-none' id='PackageJS'>{{this.PackageJS}}</div>
 
 {{! Our JS }}
 

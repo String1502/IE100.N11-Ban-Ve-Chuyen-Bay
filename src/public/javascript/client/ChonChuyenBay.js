@@ -98,7 +98,7 @@ if (BoLoc_ThoiGianBay) {
     // thời gian bay range
     document.getElementById('BoLoc_ThoiGianBay_ThoiGianBay_Range').addEventListener('change', (e) => {
         document.getElementById('BoLoc_ThoiGianBay_ThoiGianBay').innerText = numberSmallerTen(e.target.value) + ' h';
-        XuLyCacBoLoc(), 2000;
+        XuLyCacBoLoc();
     });
 }
 
@@ -156,7 +156,7 @@ function XuLyCacBoLoc() {
     var data_send = {
         mahangghe: PackageBooking.HangGhe.MaHangGhe,
         hanhkhach: PackageBooking.HanhKhach,
-        ngaydi: NgayDi.Nam + '-' + NgayDi.Thang + '-' + NgayDi.Ngay,
+        ngaydi: NgayDi.Nam + '-' + numberSmallerTen(NgayDi.Thang) + '-' + numberSmallerTen(NgayDi.Ngay),
         masanbaydi: SanBayDi.MaSanBay.toString(),
         masanbayden: SanBayDen.MaSanBay.toString(),
     };
@@ -179,28 +179,48 @@ function XuLyCacBoLoc() {
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '00:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '06:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDi.GioDi.Gio}:${item.ThoiGianDi.GioDi.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDi.GioDi.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_CatCanh_Sang').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '06:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '12:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDi.GioDi.Gio}:${item.ThoiGianDi.GioDi.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDi.GioDi.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_CatCanh_Chieu').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '12:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '18:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDi.GioDi.Gio}:${item.ThoiGianDi.GioDi.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDi.GioDi.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_CatCanh_Toi').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '18:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '24:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDi.GioDi.Gio}:${item.ThoiGianDi.GioDi.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDi.GioDi.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
 
@@ -208,36 +228,57 @@ function XuLyCacBoLoc() {
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '00:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '06:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDen.GioDen.Gio}:${item.ThoiGianDen.GioDen.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_HaCanh_Sang').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '06:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '12:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDen.GioDen.Gio}:${item.ThoiGianDen.GioDen.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_HaCanh_Chieu').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '12:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '18:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDen.GioDen.Gio}:${item.ThoiGianDen.GioDen.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
         if (document.getElementById('BoLoc_ThoiGianBay_HaCanh_Toi').checked)
             ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter((item) => {
                 let ChanTren = new Date('1/1/1999 ' + '18:00:00');
                 let ChanDuoi = new Date('1/1/1999 ' + '24:00:00');
-                let value = new Date('1/1/1999 ' + `${item.ThoiGianDen.GioDen.Gio}:${item.ThoiGianDen.GioDen.Phut}:00`);
+                let value = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(item.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            item.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return value >= ChanTren && value <= ChanDuoi;
             });
 
         ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter(
-            (item) => item.ThoiGianBay.Gio <= document.getElementById('BoLoc_ThoiGianBay_ThoiGianBay_Range').value,
+            (item) =>
+                item.ThoiGianBay.Gio <= parseInt(document.getElementById('BoLoc_ThoiGianBay_ThoiGianBay_Range').value),
         );
         ChuyenBay_Items_fromDB = ChuyenBay_Items_fromDB.filter(
-            (item) => item.GiaVe <= document.getElementById('BoLoc_ThemBoLoc_GiaVe_Range').value,
+            (item) => item.GiaVe <= parseInt(document.getElementById('BoLoc_ThemBoLoc_GiaVe_Range').value),
         );
 
         if (document.getElementById('BoLoc_SapXep_GiaThapNhat').checked)
@@ -245,33 +286,75 @@ function XuLyCacBoLoc() {
 
         if (document.getElementById('BoLoc_SapXep_CatCanhSomNhat').checked)
             ChuyenBay_Items_fromDB.sort((a, b) => {
-                let temp = new Date('1/1/1999 ' + `${a.ThoiGianDi.GioDi.Gio}:${a.ThoiGianDi.GioDi.Phut}:00`);
-                let temp1 = new Date('1/1/1999 ' + `${b.ThoiGianDi.GioDi.Gio}:${b.ThoiGianDi.GioDi.Phut}:00`);
+                let temp = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(a.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(a.ThoiGianDi.GioDi.Phut)}:00`,
+                );
+                let temp1 = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(b.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(b.ThoiGianDi.GioDi.Phut)}:00`,
+                );
                 return temp > temp1 ? 1 : temp == temp1 ? 0 : -1;
             });
         if (document.getElementById('BoLoc_SapXep_CatCanhMuonNhat').checked)
             ChuyenBay_Items_fromDB.sort((a, b) => {
-                let temp = new Date('1/1/1999 ' + `${a.ThoiGianDi.GioDi.Gio}:${a.ThoiGianDi.GioDi.Phut}:00`);
-                let temp1 = new Date('1/1/1999 ' + `${b.ThoiGianDi.GioDi.Gio}:${b.ThoiGianDi.GioDi.Phut}:00`);
+                let temp = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(a.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(a.ThoiGianDi.GioDi.Phut)}:00`,
+                );
+                let temp1 = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(b.ThoiGianDi.GioDi.Gio)}:${numberSmallerTen(b.ThoiGianDi.GioDi.Phut)}:00`,
+                );
                 return temp > temp1 ? -1 : temp == temp1 ? 0 : 1;
             });
         if (document.getElementById('BoLoc_SapXep_HaCanhSomNhat').checked)
             ChuyenBay_Items_fromDB.sort((a, b) => {
-                let temp = new Date('1/1/1999 ' + `${a.ThoiGianDen.GioDen.Gio}:${a.ThoiGianDen.GioDen.Phut}:00`);
-                let temp1 = new Date('1/1/1999 ' + `${b.ThoiGianDen.GioDen.Gio}:${b.ThoiGianDen.GioDen.Phut}:00`);
+                let temp = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(a.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            a.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
+                let temp1 = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(b.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            b.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return temp > temp1 ? 1 : temp == temp1 ? 0 : -1;
             });
         if (document.getElementById('BoLoc_SapXep_HaCanhMuonNhat').checked)
             ChuyenBay_Items_fromDB.sort((a, b) => {
-                let temp = new Date('1/1/1999 ' + `${a.ThoiGianDen.GioDen.Gio}:${a.ThoiGianDen.GioDen.Phut}:00`);
-                let temp1 = new Date('1/1/1999 ' + `${b.ThoiGianDen.GioDen.Gio}:${b.ThoiGianDen.GioDen.Phut}:00`);
+                let temp = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(a.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            a.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
+                let temp1 = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(b.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            b.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return temp > temp1 ? -1 : temp == temp1 ? 0 : 1;
             });
 
         if (document.getElementById('BoLoc_SapXep_ThoiGianBayNganNhat').checked)
             ChuyenBay_Items_fromDB.sort((a, b) => {
-                let temp = new Date('1/1/1999 ' + `${a.ThoiGianBay.Gio}:${a.ThoiGianBay.Phut}:00`);
-                let temp1 = new Date('1/1/1999 ' + `${b.ThoiGianBay.Gio}:${b.ThoiGianBay.Phut}:00`);
+                let temp = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(a.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            a.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
+                let temp1 = new Date(
+                    '1/1/1999 ' +
+                        `${numberSmallerTen(b.ThoiGianDen.GioDen.Gio)}:${numberSmallerTen(
+                            b.ThoiGianDen.GioDen.Phut,
+                        )}:00`,
+                );
                 return temp > temp1 ? 1 : temp == temp1 ? 0 : -1;
             });
         HienThiChuyenBay_fromDB();
@@ -324,30 +407,8 @@ const ChuyenBay_Container = document.getElementById('ChuyenBay_Container');
 //Lấy các tiêu chuẩn tra cứu từ Tra cứu chuyến bay
 let PackageBooking;
 let ChuyenBayDangChon = 0;
+let ChuyenBay_Items_fromDB;
 function GetPackageBooing_fromSV() {
-    //#region Ngây thơ
-    // openLoader('Chờ chút');
-    // axios({
-    //     method: 'post',
-    //     url: '/choose_flight',
-    //     data: { GetPackageBooing_fromSV: true },
-    // }).then((res) => {
-    //     PackageBooking = res.data;
-    //     closeLoader();
-    //     TomTat_Item_Detail_ChiTiet_HienThi();
-    //     DoiMauChuyenBayDangChon();
-
-    //     console.log(PackageBooking);
-    //     // Chuyến bay số 1
-    //     if (PackageBooking.MangChuyenBayTimKiem.length > 0)
-    //         LayChuyenBay_fromDB(
-    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDi,
-    //             PackageBooking.MangChuyenBayTimKiem[0].SanBayDen,
-    //             PackageBooking.MangChuyenBayTimKiem[0].NgayDi,
-    //         );
-    // });
-    //#endregion
-
     openLoader('Chờ chút');
     PackageBooking = JSON.parse(document.getElementById('PackageBookingJS').getAttribute('PackageBookingJS'));
     closeLoader();
@@ -486,14 +547,14 @@ function XoaChuyenBay_Items() {
 function HienThiChuyenBay_fromDB() {
     openLoader('Tìm kiếm');
     const ChuyenBay_Items = document.querySelectorAll('.ChuyenBay_Item');
-    if (ChuyenBay_Items.length > 1) XoaChuyenBay_Items();
+    XoaChuyenBay_Items();
 
     if (ChuyenBay_Items_fromDB)
         if (ChuyenBay_Items_fromDB.length > 0) {
-            if (!document.getElementById('No_Flight').classList.contains('d-none'))
-                document.getElementById('No_Flight').classList.add('d-none');
+            document.getElementById('No_Flight').classList.add('d-none');
             // Copy node
             for (let i = 0; i < ChuyenBay_Items_fromDB.length; i++) {
+                console.log(ChuyenBay_Items_fromDB[i]);
                 const ChuyenBay_Item = ChuyenBay_Items[0].cloneNode(true);
                 ChuyenBay_Item.classList.remove('d-none');
 
@@ -632,12 +693,11 @@ function HienThiChuyenBay_fromDB() {
     else closeLoader();
 }
 // Lấy chuyến bay từ DB dựa vào 1 chuyến bay tra cứu
-let ChuyenBay_Items_fromDB;
 function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
     var data_send = {
         mahangghe: PackageBooking.HangGhe.MaHangGhe,
         hanhkhach: PackageBooking.HanhKhach,
-        ngaydi: NgayDi.Nam + '-' + NgayDi.Thang + '-' + NgayDi.Ngay,
+        ngaydi: NgayDi.Nam + '-' + numberSmallerTen(NgayDi.Thang) + '-' + numberSmallerTen(NgayDi.Ngay),
         masanbaydi: SanBayDi.MaSanBay.toString(),
         masanbayden: SanBayDen.MaSanBay.toString(),
     };
@@ -650,9 +710,12 @@ function LayChuyenBay_fromDB(SanBayDi, SanBayDen, NgayDi) {
     }).then((res) => {
         ChuyenBay_Items_fromDB = res.data;
         closeLoader();
-        console.log(ChuyenBay_Items_fromDB);
-        if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
-        HienThiChuyenBay_fromDB();
+        if (ChuyenBay_Items_fromDB) {
+            console.log(ChuyenBay_Items_fromDB);
+            if (ChuyenBay_Items_fromDB.length > 0) KhoiTaoCacRange_BoLoc();
+            console.log('he');
+            HienThiChuyenBay_fromDB();
+        }
     });
 }
 

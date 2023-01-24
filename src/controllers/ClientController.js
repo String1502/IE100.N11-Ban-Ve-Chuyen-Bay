@@ -404,6 +404,8 @@ class ClientController {
                         Ho: '',
                         Ten: '',
                         NgaySinh: { Ngay: 0, Thang: 0, Nam: 0 },
+                        SoTuoiToiDa: PackageBooking_.HanhKhach[j].SoTuoiToiDa,
+                        SoTuoiToiThieu: PackageBooking_.HanhKhach[j].SoTuoiToiThieu,
                     });
                     index++;
                 }
@@ -444,10 +446,9 @@ class ClientController {
     async payment(req, res) {
         try {
             let PackageBooking_ = JSON.parse(req.body.PackageBooking);
-            // let HoaDon = await HoaDonController.CreateHoaDon(PackageBooking_.HoaDon);
+
             return res.render('client/ThanhToan', {
                 layout: 'client.handlebars',
-                // HoaDon: JSON.stringify(HoaDon),
                 PackageBookingJS: JSON.stringify(PackageBooking_),
             });
         } catch (error) {

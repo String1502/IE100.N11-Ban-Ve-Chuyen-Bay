@@ -89,6 +89,7 @@ let search_flight = async (form_data) => {
 
     let thoigiandi_chuyenbay;
     let thoigianden_chuyenbay;
+    let flight_remove = [];
     //tim chuyen bay co ghe trong
     for (var i = 0; i < list_ChuyenBaySuit.length; i++) {
         let checkChuyenBay = await db.sequelize.query(
@@ -102,13 +103,13 @@ let search_flight = async (form_data) => {
                 raw: true,
             },
         );
-        if (checkChuyenBay.length === 0) {
-            list_ChuyenBaySuit.splice(i, 1);
+        if (checkChuyenBay.length == 0) {
+            flight_remove.push(list_ChuyenBaySuit[i].MaChuyenBay);
             continue;
         }
 
-        if (checkChuyenBay[0].TongVe - checkChuyenBay[0].VeDaBan < form_data.songuoi) {
-            list_ChuyenBaySuit.splice(i, 1);
+        if (checkChuyenBay[0].TongVe - checkChuyenBay[0].VeDaBan <= form_data.songuoi) {
+            flight_remove.push(list_ChuyenBaySuit[i].MaChuyenBay);
             continue;
         }
 
@@ -124,11 +125,11 @@ let search_flight = async (form_data) => {
         //thoigian di
         list_ChuyenBaySuit[i].ThoiGianDi = {
             GioDi: {
-                Gio: thoigiandi_chuyenbay.getUTCHours(),
+                Gio: thoigiandi_chuyenbay.getHours(),
                 Phut: thoigiandi_chuyenbay.getMinutes(),
             },
             NgayDi: {
-                Ngay: thoigiandi_chuyenbay.getUTCDate(),
+                Ngay: thoigiandi_chuyenbay.getDate(),
                 Thang: thoigiandi_chuyenbay.getMonth() + 1,
                 Nam: thoigiandi_chuyenbay.getFullYear(),
             },
@@ -137,15 +138,20 @@ let search_flight = async (form_data) => {
         //thoiganden
         list_ChuyenBaySuit[i].ThoiGianDen = {
             GioDen: {
-                Gio: thoigianden_chuyenbay.getUTCHours(),
+                Gio: thoigianden_chuyenbay.getHours(),
                 Phut: thoigianden_chuyenbay.getMinutes(),
             },
             NgayDen: {
-                Ngay: thoigianden_chuyenbay.getUTCDate(),
+                Ngay: thoigianden_chuyenbay.getDate(),
                 Thang: thoigianden_chuyenbay.getMonth() + 1,
                 Nam: thoigianden_chuyenbay.getFullYear(),
             },
         };
+    }
+
+    for (let i = 0; i < flight_remove.length; i++) {
+        var index = list_ChuyenBaySuit.findIndex((item) => item.MaChuyenBay == flight_remove[i]);
+        list_ChuyenBaySuit.splice(index, 1);
     }
 
     if (list_ChuyenBaySuit.length !== 0) {

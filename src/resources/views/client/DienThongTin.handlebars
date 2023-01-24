@@ -33,11 +33,9 @@
                         <div class='col-12 col-md-6 px-3'>
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Họ</label>
-                                <input
-                                    id='NguoiLienHe_Ho'
+                                <input id='NguoiLienHe_Ho'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='text'
-                                />
+                                    type='text' />
                                 <small class='mt-2 custom-font p12-R text-tertiary'>vd: Phan</small>
                             </div>
                         </div>
@@ -45,11 +43,9 @@
                         <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên</label>
-                                <input
-                                    id='NguoiLienHe_Ten'
+                                <input id='NguoiLienHe_Ten'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='text'
-                                />
+                                    type='text' />
                                 <small class='mt-2 custom-font p12-R text-tertiary'>vd: Trường Huy</small>
                             </div>
                         </div>
@@ -60,13 +56,9 @@
                         <div class='col-12 col-md-6 px-3'>
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Điện thoại di động</label>
-                                <input
-                                    id='NguoiLienHe_SDT'
+                                <input id='NguoiLienHe_SDT'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='tel'
-                                    autocomplete='tel'
-                                    onkeypress='onlyNumber(event)'
-                                />
+                                    type='tel' autocomplete='tel' onkeypress='onlyNumber(event)' />
                                 <small class='mt-2 custom-font p12-R text-tertiary'>vd: 0343214971</small>
                             </div>
                         </div>
@@ -74,12 +66,9 @@
                         <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
                             <div class='d-flex flex-column'>
                                 <label class='form-label custom-font p16-B lh-lg'>Email</label>
-                                <input
-                                    id='NguoiLienHe_Email'
+                                <input id='NguoiLienHe_Email'
                                     class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                    type='email'
-                                    autocomplete='email'
-                                />
+                                    type='email' autocomplete='email' />
                                 <small class='mt-2 custom-font p12-R text-tertiary'>vd: email@example.com</small>
                             </div>
                         </div>
@@ -97,191 +86,152 @@
             {{! Hành khách Container }}
             <div id='HanhKhach_Container'>
                 {{#each this.PackageBooking.HoaDon.HanhKhach}}
-                    {{! Hành khách Item }}
-                    <div title='{{this.index}}' class='HanhKhach_Item bg-light shadow rounded-1 h-auto mb-4'>
-                        <div class='py-2'>
-                            <span
-                                title='{{this.MaLoaiKhach}}'
-                                class='HanhKhach_Item_Header px-3 custom-font p20-B text-dark'
-                            >{{this.TenLoai}}
-                                <span> {{this.ThuTu}}</span>
-                            </span>
-                        </div>
+                {{! Hành khách Item }}
+                <div title='{{this.index}}' class='HanhKhach_Item bg-light shadow rounded-1 h-auto mb-4'>
+                    <div class='py-2'>
+                        <span title='{{this.MaLoaiKhach}}'
+                            class='HanhKhach_Item_Header px-3 custom-font p20-B text-dark'>{{this.TenLoai}}
+                            <span> {{this.ThuTu}}</span>
+                        </span>
+                    </div>
 
-                        <div style='border-top: 1px solid black;'></div>
+                    <div style='border-top: 1px solid black;'></div>
 
-                        <div class='row mx-0 px-0 py-3'>
-                            {{! Danh xưng }}
-                            <div class='HanhKhach_Item_DanhXung col-4 px-3'>
-                                <label class='form-label custom-font p16-B mb-1 lh-lg'>Danh xưng</label>
-                                <div class='input-group dropdown'>
-                                    <input
-                                        type='text'
-                                        class='HanhKhach_Item_GioiTinh form-control dropdown-toggle form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                        data-bs-toggle='dropdown'
-                                        aria-expanded='false'
-                                        readonly
-                                    />
-                                    <ul class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 h-auto'>
-                                        {{! Dropdown items }}
-                                        <li class='DanhXung_li dropdown-item custom-active'>
-                                            <div style='pointer-events:none;' class='d-flex flex-row py-2'>
-                                                <span class='DanhXung_li_Value custom-font p14-S text-dark'>Ông</span>
-                                            </div>
-                                        </li>
-                                        <li class='DanhXung_li dropdown-item custom-active'>
-                                            <div style='pointer-events:none;' class='d-flex flex-row py-2'>
-                                                <span class='DanhXung_li_Value custom-font p14-S text-dark'>Cô</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class='row mx-0 px-0 pb-4'>
-                            {{! Họ }}
-                            <div class='col-12 col-md-6 px-3'>
-                                <div class='d-flex flex-column'>
-                                    <label class='form-label custom-font p16-B lh-lg'>Họ</label>
-                                    <input
-                                        class='HanhKhach_Item_Ho form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                        type='text'
-                                    />
-                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: Phan</small>
-                                </div>
-                            </div>
-                            {{! Tên đệm và tên }}
-                            <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
-                                <div class='d-flex flex-column'>
-                                    <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên</label>
-                                    <input
-                                        class='HanhKhach_Item_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                        type='text'
-                                    />
-                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: Trường Huy</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class='row mx-0 px-0 pb-4'>
-                            {{! Ngày sinh }}
-                            <div class='col-12 col-md-6 px-3'>
-                                <div class='d-flex flex-column'>
-                                    <label class='form-label custom-font p16-B lh-lg'>Ngày sinh</label>
-                                    <div class='HanhKhach_Item_NgaySinh d-flex flex-row justify-content-between'>
-                                        {{! Ngày }}
-                                        <div class='input-group dropdown'>
-                                            <input
-                                                class='HanhKhach_Item_NgaySinh_Ngay dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                                type='text'
-                                                data-bs-toggle='dropdown'
-                                                aria-expanded='false'
-                                                placeholder='Ngày sinh'
-                                                readonly
-                                            />
-                                            <ul
-                                                style='height: 200px;'
-                                                class='HanhKhach_Item_NgaySinh_Ngay_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 overflow-auto'
-                                            >
-                                                {{! Dropdown items }}
-                                                <li
-                                                    class='HanhKhach_Item_NgaySinh_Ngay_li dropdown-item custom-active py-2'
-                                                >
-                                                    <span
-                                                        style='pointer-events:none;'
-                                                        class='HanhKhach_Item_NgaySinh_Ngay_li_value custom-font p14-S text-dark'
-                                                    >1</span>
-                                                </li>
-                                            </ul>
+                    <div class='row mx-0 px-0 py-3'>
+                        {{! Danh xưng }}
+                        <div class='HanhKhach_Item_DanhXung col-4 px-3'>
+                            <label class='form-label custom-font p16-B mb-1 lh-lg'>Danh xưng</label>
+                            <div class='input-group dropdown'>
+                                <input type='text'
+                                    class='HanhKhach_Item_GioiTinh form-control dropdown-toggle form-select custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    data-bs-toggle='dropdown' aria-expanded='false' readonly />
+                                <ul class='list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 h-auto'>
+                                    {{! Dropdown items }}
+                                    <li class='DanhXung_li dropdown-item custom-active'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span class='DanhXung_li_Value custom-font p14-S text-dark'>Ông</span>
                                         </div>
-                                        {{! Tháng }}
-                                        <div class='flex-fill mx-2 input-group dropdown'>
-                                            <input
-                                                class='HanhKhach_Item_NgaySinh_Thang dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                                type='text'
-                                                data-bs-toggle='dropdown'
-                                                aria-expanded='false'
-                                                placeholder='Tháng sinh'
-                                                readonly
-                                            />
-                                            <ul
-                                                style='height: 200px;'
-                                                class='overflow-auto HanhKhach_Item_NgaySinh_Thang_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                            >
-                                                {{! Dropdown items }}
-                                                <li
-                                                    class='HanhKhach_Item_NgaySinh_Thang_li dropdown-item custom-active py-2'
-                                                >
-                                                    <span
-                                                        style='pointer-events:none;'
-                                                        class='HanhKhach_Item_NgaySinh_Thang_li_value custom-font p14-S text-dark'
-                                                    >Tháng 1</span>
-                                                </li>
-                                            </ul>
+                                    </li>
+                                    <li class='DanhXung_li dropdown-item custom-active'>
+                                        <div style='pointer-events:none;' class='d-flex flex-row py-2'>
+                                            <span class='DanhXung_li_Value custom-font p14-S text-dark'>Cô</span>
                                         </div>
-                                        {{! Năm }}
-                                        <div class='input-group dropdown'>
-                                            <input
-                                                class='HanhKhach_Item_NgaySinh_Nam dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                                type='text'
-                                                data-bs-toggle='dropdown'
-                                                aria-expanded='false'
-                                                placeholder='Năm sinh'
-                                                readonly
-                                            />
-                                            <ul
-                                                style='height: 200px;'
-                                                class='overflow-auto HanhKhach_Item_NgaySinh_Nam_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'
-                                            >
-                                                {{! Dropdown items }}
-                                                <li
-                                                    class='HanhKhach_Item_NgaySinh_Nam_li dropdown-item custom-active py-2'
-                                                >
-                                                    <span
-                                                        style='pointer-events:none;'
-                                                        class='HanhKhach_Item_NgaySinh_Nam_li_value custom-font p14-S text-dark'
-                                                    >2022</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <small
-                                        class='HanhKhach_Item_Helper_NguoiLon mt-2 custom-font p12-R text-tertiary d-none'
-                                    >Hành khách người lớn (trên 12 tuổi)</small>
-                                    <small
-                                        class='HanhKhach_Item_Helper_TreEm mt-2 custom-font p12-R text-tertiary d-none'
-                                    >Hành khách trẻ em (từ 2 - 11 tuổi)</small>
-                                    <small
-                                        class='HanhKhach_Item_Helper_EmBe mt-2 custom-font p12-R text-tertiary d-none'
-                                    >Hành khách trẻ sơ sinh (dưới 2 tuổi)</small>
-                                </div>
-
-                            </div>
-                            {{! CMND/CCCD }}
-                            <div class='col-12 col-md-6 px-3 mt-3 mt-md-0 d-none'>
-                                <div class='d-flex flex-column'>
-                                    <label class='form-label custom-font p16-B lh-lg'>CMND/CCCD</label>
-                                    <input
-                                        class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
-                                        type='text'
-                                    />
-                                    <small class='mt-2 custom-font p12-R text-tertiary'>vd: 312470710</small>
-                                </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
+                    <div class='row mx-0 px-0 pb-4'>
+                        {{! Họ }}
+                        <div class='col-12 col-md-6 px-3'>
+                            <div class='d-flex flex-column'>
+                                <label class='form-label custom-font p16-B lh-lg'>Họ</label>
+                                <input
+                                    class='HanhKhach_Item_Ho form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    type='text' />
+                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: PHAN</small>
+                            </div>
+                        </div>
+                        {{! Tên đệm và tên }}
+                        <div class='col-12 col-md-6 px-3 mt-3 mt-md-0'>
+                            <div class='d-flex flex-column'>
+                                <label class='form-label custom-font p16-B lh-lg'>Tên đệm và tên</label>
+                                <input
+                                    class='HanhKhach_Item_Ten form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    type='text' />
+                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: TRUONG HUY</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='row mx-0 px-0 pb-4'>
+                        {{! Ngày sinh }}
+                        <div class='col-12 col-md-6 px-3'>
+                            <div class='d-flex flex-column'>
+                                <label class='form-label custom-font p16-B lh-lg'>Ngày sinh</label>
+                                <div class='HanhKhach_Item_NgaySinh d-flex flex-row justify-content-between'>
+                                    {{! Ngày }}
+                                    <div class='input-group dropdown'>
+                                        <input
+                                            class='HanhKhach_Item_NgaySinh_Ngay dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            type='text' data-bs-toggle='dropdown' aria-expanded='false'
+                                            placeholder='Ngày sinh' readonly />
+                                        <ul style='height: 200px;'
+                                            class='HanhKhach_Item_NgaySinh_Ngay_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1 overflow-auto'>
+                                            {{! Dropdown items }}
+                                            <li
+                                                class='HanhKhach_Item_NgaySinh_Ngay_li dropdown-item custom-active py-2'>
+                                                <span style='pointer-events:none;'
+                                                    class='HanhKhach_Item_NgaySinh_Ngay_li_value custom-font p14-S text-dark'>1</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {{! Tháng }}
+                                    <div class='flex-fill mx-2 input-group dropdown'>
+                                        <input
+                                            class='HanhKhach_Item_NgaySinh_Thang dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            type='text' data-bs-toggle='dropdown' aria-expanded='false'
+                                            placeholder='Tháng sinh' readonly />
+                                        <ul style='height: 200px;'
+                                            class='overflow-auto HanhKhach_Item_NgaySinh_Thang_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'>
+                                            {{! Dropdown items }}
+                                            <li
+                                                class='HanhKhach_Item_NgaySinh_Thang_li dropdown-item custom-active py-2'>
+                                                <span style='pointer-events:none;'
+                                                    class='HanhKhach_Item_NgaySinh_Thang_li_value custom-font p14-S text-dark'>Tháng
+                                                    1</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {{! Năm }}
+                                    <div class='input-group dropdown'>
+                                        <input
+                                            class='HanhKhach_Item_NgaySinh_Nam dropdown-toggle form-select form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                            type='text' data-bs-toggle='dropdown' aria-expanded='false'
+                                            placeholder='Năm sinh' readonly />
+                                        <ul style='height: 200px;'
+                                            class='overflow-auto HanhKhach_Item_NgaySinh_Nam_ul list-unstyled custom-font p14-S dropdown-menu shadow py-0 my-1'>
+                                            {{! Dropdown items }}
+                                            <li class='HanhKhach_Item_NgaySinh_Nam_li dropdown-item custom-active py-2'>
+                                                <span style='pointer-events:none;'
+                                                    class='HanhKhach_Item_NgaySinh_Nam_li_value custom-font p14-S text-dark'>2022</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <small
+                                    class='HanhKhach_Item_Helper_NguoiLon mt-2 custom-font p12-R text-tertiary d-none'>Hành
+                                    khách người lớn (trên 12 tuổi)</small>
+                                <small
+                                    class='HanhKhach_Item_Helper_TreEm mt-2 custom-font p12-R text-tertiary d-none'>Hành
+                                    khách trẻ em (từ 2 - 11 tuổi)</small>
+                                <small
+                                    class='HanhKhach_Item_Helper_EmBe mt-2 custom-font p12-R text-tertiary d-none'>Hành
+                                    khách trẻ sơ sinh (dưới 2 tuổi)</small>
+                            </div>
+
+                        </div>
+                        {{! CMND/CCCD }}
+                        <div class='col-12 col-md-6 px-3 mt-3 mt-md-0 d-none'>
+                            <div class='d-flex flex-column'>
+                                <label class='form-label custom-font p16-B lh-lg'>CMND/CCCD</label>
+                                <input
+                                    class='form-control custom-font p16-R text-dark border-tertiary custom-boxshadow-focus-primary'
+                                    type='text' />
+                                <small class='mt-2 custom-font p12-R text-tertiary'>vd: 312470710</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{/each}}
             </div>
         </div>
 
         {{! Tiếp tục }}
         <div class='mb-5 d-flex flex-row justify-content-end'>
-            <button
-                id='TiepTucTren'
-                type='button'
-                class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-            >
+            <button id='TiepTucTren' type='button'
+                class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'>
                 Tiếp tục
             </button>
         </div>
@@ -302,13 +252,8 @@
                             </span>
                         </div>
                         <div>
-                            <a
-                                id='Modal_click'
-                                type='button'
-                                data-bs-toggle='modal'
-                                data-bs-target='#DatHanhLy_Modal'
-                                class='btn btn-primary bg-light border-0 px-3 text-primary custom-font p20-B custom-boxshadow-focus-none'
-                            >
+                            <a id='Modal_click' type='button' data-bs-toggle='modal' data-bs-target='#DatHanhLy_Modal'
+                                class='btn btn-primary bg-light border-0 px-3 text-primary custom-font p20-B custom-boxshadow-focus-none'>
                                 Chọn hành lý
                             </a>
                         </div>
@@ -331,10 +276,8 @@
                                                 <div class='px-2 d-flex flex-column pt-3'>
 
                                                     <div class='d-flex flex-row align-items-center mb-3'>
-                                                        <i
-                                                            style='width: 48px; height:48px; font-size:48px;'
-                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                        ></i>
+                                                        <i style='width: 48px; height:48px; font-size:48px;'
+                                                            class='fa-solid fa-suitcase-rolling text-primary me-2'></i>
                                                         <span class='custom-font h48-B text-dark'>
                                                             Hành Lý
                                                         </span>
@@ -357,92 +300,76 @@
                                             </div>
 
                                             {{! ChuyenBay Container }}
-                                            <ul
-                                                id='ChuyenBay_ul'
-                                                class='d-flex flex-column list-unstyled overflow-auto'
-                                            >
+                                            <ul id='ChuyenBay_ul'
+                                                class='d-flex flex-column list-unstyled overflow-auto'>
 
                                                 {{#each this.PackageBooking.MangChuyenBayTimKiem}}
-                                                    {{! ChuyenBay Item }}
-                                                    <li
-                                                        title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
-                                                        class='ChuyenBay_li px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'
-                                                    >
+                                                {{! ChuyenBay Item }}
+                                                <li title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
+                                                    class='ChuyenBay_li px-2 d-flex flex-row align-items-start py-2 custom-bg-hover-primary'>
 
-                                                        <div style='pointer-events: none;' class='me-3'>
-                                                            <span
-                                                                class='ChuyenBay_li_ThuTu custom-font p20-B text-dark'
-                                                            >
-                                                                {{this.ThuTu}}.
-                                                            </span>
-                                                        </div>
+                                                    <div style='pointer-events: none;' class='me-3'>
+                                                        <span class='ChuyenBay_li_ThuTu custom-font p20-B text-dark'>
+                                                            {{this.ThuTu}}.
+                                                        </span>
+                                                    </div>
 
-                                                        <div
-                                                            style='pointer-events: none;'
-                                                            class='flex-fill d-flex flex-column'
-                                                        >
+                                                    <div style='pointer-events: none;'
+                                                        class='flex-fill d-flex flex-column'>
 
-                                                            <div class='d-flex flex-row justify-content-between mb-2'>
-                                                                <div class='d-flex flex-row'>
-                                                                    <span
-                                                                        class='ChuyenBay_li_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'
-                                                                    >
-                                                                        {{this.SanBayDi.TinhThanh}}
-                                                                    </span>
-                                                                    <span class='custom-font p20-B text-dark'>
-                                                                        (<span
-                                                                            class='ChuyenBay_li_SanBayDi_MaSanBay'
-                                                                        >{{this.SanBayDi.MaSanBay}}</span>)
-                                                                    </span>
-                                                                </div>
-
-                                                                <div class='mx-3'>
-                                                                    <i
-                                                                        style='width: 20px; height:20px;font-size:20px;'
-                                                                        class='fa-solid fa-arrow-right text-dark'
-                                                                    ></i>
-                                                                </div>
-
-                                                                <div class='d-flex flex-row'>
-                                                                    <span
-                                                                        class='ChuyenBay_li_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'
-                                                                    >
-                                                                        {{this.SanBayDen.TinhThanh}}
-                                                                    </span>
-                                                                    <span class='custom-font p20-B text-dark'>
-                                                                        (<span
-                                                                            class='ChuyenBay_li_SanBayDen_MaSanBay'
-                                                                        >{{this.SanBayDen.MaSanBay}}</span>)
-                                                                    </span>
-                                                                </div>
+                                                        <div class='d-flex flex-row justify-content-between mb-2'>
+                                                            <div class='d-flex flex-row'>
+                                                                <span
+                                                                    class='ChuyenBay_li_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'>
+                                                                    {{this.SanBayDi.TinhThanh}}
+                                                                </span>
+                                                                <span class='custom-font p20-B text-dark'>
+                                                                    (<span
+                                                                        class='ChuyenBay_li_SanBayDi_MaSanBay'>{{this.SanBayDi.MaSanBay}}</span>)
+                                                                </span>
                                                             </div>
 
-                                                            <div class='d-flex flex-row justify-content-between'>
+                                                            <div class='mx-3'>
+                                                                <i style='width: 20px; height:20px;font-size:20px;'
+                                                                    class='fa-solid fa-arrow-right text-dark'></i>
+                                                            </div>
 
-                                                                <div class='d-flex flex-row'>
-                                                                    <span
-                                                                        class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'
-                                                                    >
-                                                                        0 kg
-                                                                    </span>
-                                                                </div>
+                                                            <div class='d-flex flex-row'>
+                                                                <span
+                                                                    class='ChuyenBay_li_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'>
+                                                                    {{this.SanBayDen.TinhThanh}}
+                                                                </span>
+                                                                <span class='custom-font p20-B text-dark'>
+                                                                    (<span
+                                                                        class='ChuyenBay_li_SanBayDen_MaSanBay'>{{this.SanBayDen.MaSanBay}}</span>)
+                                                                </span>
+                                                            </div>
+                                                        </div>
 
-                                                                <div class='d-flex flex-row'>
-                                                                    <span
-                                                                        class='ChuyenBay_li_TienHanhLy custom-font p16-B text-tertiary me-1'
-                                                                    >
-                                                                        0
-                                                                    </span>
-                                                                    <span class='custom-font p16-B text-tertiary'>
-                                                                        VND
-                                                                    </span>
-                                                                </div>
+                                                        <div class='d-flex flex-row justify-content-between'>
 
+                                                            <div class='d-flex flex-row'>
+                                                                <span
+                                                                    class='ChuyenBay_li_MocHanhLy custom-font p16-B text-tertiary me-1'>
+                                                                    0 kg
+                                                                </span>
+                                                            </div>
+
+                                                            <div class='d-flex flex-row'>
+                                                                <span
+                                                                    class='ChuyenBay_li_TienHanhLy custom-font p16-B text-tertiary me-1'>
+                                                                    0
+                                                                </span>
+                                                                <span class='custom-font p16-B text-tertiary'>
+                                                                    VND
+                                                                </span>
                                                             </div>
 
                                                         </div>
 
-                                                    </li>
+                                                    </div>
+
+                                                </li>
                                                 {{/each}}
                                             </ul>
 
@@ -455,51 +382,38 @@
 
                                                 {{! Nút close }}
                                                 <div class='mx-3 d-flex flex-row justify-content-end'>
-                                                    <button
-                                                        type='button'
-                                                        class='btn-close'
-                                                        data-bs-dismiss='modal'
-                                                        aria-label='Close'
-                                                    ></button>
+                                                    <button type='button' class='btn-close' data-bs-dismiss='modal'
+                                                        aria-label='Close'></button>
                                                 </div>
 
                                                 {{! Sân bay }}
                                                 <div class='mx-3 d-flex flex-row justify-content-start mb-3'>
-                                                    <div
-                                                        id='ChuyenBay_ChonHanhLy'
-                                                        title='MaChuyenBay'
-                                                        class='d-flex flex-row justify-content-between d-none'
-                                                    >
+                                                    <div id='ChuyenBay_ChonHanhLy' title='MaChuyenBay'
+                                                        class='d-flex flex-row justify-content-between d-none'>
                                                         <div class='d-flex flex-row'>
                                                             <span
-                                                                class='ChuyenBay_ChonHanhLy_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'
-                                                            >
+                                                                class='ChuyenBay_ChonHanhLy_SanBayDi_TinhThanh custom-font p20-B text-dark me-1'>
                                                                 TP HCM
                                                             </span>
                                                             <span class='custom-font p20-B text-dark'>
                                                                 (<span
-                                                                    class='ChuyenBay_ChonHanhLy_SanBayDi_MaSanBay'
-                                                                >SGN</span>)
+                                                                    class='ChuyenBay_ChonHanhLy_SanBayDi_MaSanBay'>SGN</span>)
                                                             </span>
                                                         </div>
 
                                                         <div class='mx-3'>
-                                                            <i
-                                                                style='width: 20px; height:20px;font-size:20px;'
-                                                                class='fa-solid fa-arrow-right text-dark'
-                                                            ></i>
+                                                            <i style='width: 20px; height:20px;font-size:20px;'
+                                                                class='fa-solid fa-arrow-right text-dark'></i>
                                                         </div>
 
                                                         <div class='d-flex flex-row'>
                                                             <span
-                                                                class='ChuyenBay_ChonHanhLy_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'
-                                                            >
+                                                                class='ChuyenBay_ChonHanhLy_SanBayDen_TinhThanh custom-font p20-B text-dark me-1'>
                                                                 TOKYO
                                                             </span>
                                                             <span class='custom-font p20-B text-dark'>
                                                                 (<span
-                                                                    class='ChuyenBay_ChonHanhLy_SanBayDen_MaSanBay'
-                                                                >TKO</span>)
+                                                                    class='ChuyenBay_ChonHanhLy_SanBayDen_MaSanBay'>TKO</span>)
                                                             </span>
                                                         </div>
                                                     </div>
@@ -510,22 +424,20 @@
 
                                                     {{! Hành khách Item }}
                                                     <div
-                                                        class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2 d-none'
-                                                    >
+                                                        class='HanhLy_HanhKhach_Item mx-3 bg-light rounded-2 shadow h-auto my-2 d-none'>
 
                                                         {{! Header }}
                                                         <div class='px-3 py-3 d-flex flex-row justify-content-between'>
 
                                                             <div class='d-flex flex-column'>
 
-                                                                <div
-                                                                    title='indexKhach'
-                                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'
-                                                                >Hành khách 1/2</div>
+                                                                <div title='indexKhach'
+                                                                    class='HanhLy_HanhKhach_Item_ThuTu mb-1 custom-font p20-B text-tertiary'>
+                                                                    Hành khách 1/2</div>
 
                                                                 <div
-                                                                    class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'
-                                                                >Ông Phan Trường Huy</div>
+                                                                    class='HanhLy_HanhKhach_Item_HoTen custom-font p20-B text-dark'>
+                                                                    Ông Phan Trường Huy</div>
 
                                                             </div>
 
@@ -535,8 +447,8 @@
                                                                     số hành lý</div>
 
                                                                 <div
-                                                                    class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'
-                                                                >0 kg</div>
+                                                                    class='HanhLy_HanhKhach_Item_TongSoHanhLy custom-font p20-B text-dark'>
+                                                                    0 kg</div>
 
                                                             </div>
 
@@ -548,33 +460,24 @@
                                                         <ul class='HanhLy_HanhKhach_ul list-unstyled px-3 py-3'>
 
                                                             {{! Hành lý item xách tay}}
-                                                            <li
-                                                                style='pointer-events: none;'
-                                                                class='HanhLy_HanhKhach_li_xachtay mb-3'
-                                                            >
+                                                            <li style='pointer-events: none;'
+                                                                class='HanhLy_HanhKhach_li_xachtay mb-3'>
                                                                 <div class='input-group'>
                                                                     <div class='input-group-text bg-light'>
                                                                         <input
                                                                             style=' background-color: grey !important; border-color: grey !important;'
                                                                             class='HanhLy_HanhKhach_li_radio_xachtay form-check-input mt-0 custom-boxshadow-focus-primary'
-                                                                            type='radio'
-                                                                            value='1'
-                                                                            checked
-                                                                            disabled='true'
-                                                                        />
+                                                                            type='radio' value='1' checked
+                                                                            disabled='true' />
                                                                     </div>
                                                                     <div
-                                                                        class='d-flex flex-row form-control justify-content-between'
-                                                                    >
+                                                                        class='d-flex flex-row form-control justify-content-between'>
                                                                         {{! Số kg }}
                                                                         <div class='d-flex flex-row'>
-                                                                            <i
-                                                                                style='width: 16px; height: 16px; font-size: 16px;'
-                                                                                class='fa-solid fa-suitcase-rolling text-tertiary me-2'
-                                                                            ></i>
+                                                                            <i style='width: 16px; height: 16px; font-size: 16px;'
+                                                                                class='fa-solid fa-suitcase-rolling text-tertiary me-2'></i>
                                                                             <span
-                                                                                class='HanhLy_HanhKhach_li_SoKgToiDa_xachtay custom-font p16-S text-tertiary'
-                                                                            >
+                                                                                class='HanhLy_HanhKhach_li_SoKgToiDa_xachtay custom-font p16-S text-tertiary'>
                                                                                 +7 kg xách tay
                                                                             </span>
                                                                         </div>
@@ -582,13 +485,11 @@
                                                                         {{! Số tiền }}
                                                                         <div class='d-flex flex-row'>
                                                                             <span
-                                                                                class='HanhLy_HanhKhach_li_GiaTien_xachtay custom-font p16-S text-tertiary me-1'
-                                                                            >
+                                                                                class='HanhLy_HanhKhach_li_GiaTien_xachtay custom-font p16-S text-tertiary me-1'>
                                                                                 0
                                                                             </span>
                                                                             <span
-                                                                                class='custom-font p16-S text-tertiary'
-                                                                            >
+                                                                                class='custom-font p16-S text-tertiary'>
                                                                                 VND
                                                                             </span>
                                                                         </div>
@@ -598,51 +499,43 @@
                                                             </li>
 
                                                             {{#each this.PackageBooking.HanhLy}}
-                                                                {{! Hành lý item }}
-                                                                <li class='HanhLy_HanhKhach_li mb-3'>
-                                                                    <div class='input-group'>
-                                                                        <div class='input-group-text bg-light'>
-                                                                            <input
-                                                                                class='HanhLy_HanhKhach_li_radio form-check-input mt-0 custom-color-checked custom-boxshadow-focus-primary'
-                                                                                type='radio'
-                                                                                value='{{this.MaMocHanhLy}}'
-                                                                                name='HanhLy_HanhKhach_li_radio'
-                                                                            />
-                                                                        </div>
-                                                                        <div
-                                                                            class='d-flex flex-row form-control justify-content-between'
-                                                                        >
-                                                                            {{! Số kg }}
-                                                                            <div class='d-flex flex-row'>
-                                                                                <i
-                                                                                    style='width: 16px; height: 16px; font-size: 16px;'
-                                                                                    class='fa-solid fa-suitcase-rolling text-primary me-2'
-                                                                                ></i>
-                                                                                <span
-                                                                                    class='HanhLy_HanhKhach_li_SoKgToiDa custom-font p16-S text-dark'
-                                                                                >
-                                                                                    +{{this.SoKgToiDa}}
-                                                                                    kg
-                                                                                </span>
-                                                                            </div>
-
-                                                                            {{! Số tiền }}
-                                                                            <div class='d-flex flex-row'>
-                                                                                <span
-                                                                                    class='HanhLy_HanhKhach_li_GiaTien custom-font p16-S text-secondary me-1'
-                                                                                >
-                                                                                    {{this.GiaTien}}
-                                                                                </span>
-                                                                                <span
-                                                                                    class='custom-font p16-S text-secondary'
-                                                                                >
-                                                                                    VND
-                                                                                </span>
-                                                                            </div>
-
-                                                                        </div>
+                                                            {{! Hành lý item }}
+                                                            <li class='HanhLy_HanhKhach_li mb-3'>
+                                                                <div class='input-group'>
+                                                                    <div class='input-group-text bg-light'>
+                                                                        <input
+                                                                            class='HanhLy_HanhKhach_li_radio form-check-input mt-0 custom-color-checked custom-boxshadow-focus-primary'
+                                                                            type='radio' value='{{this.MaMocHanhLy}}'
+                                                                            name='HanhLy_HanhKhach_li_radio' />
                                                                     </div>
-                                                                </li>
+                                                                    <div
+                                                                        class='d-flex flex-row form-control justify-content-between'>
+                                                                        {{! Số kg }}
+                                                                        <div class='d-flex flex-row'>
+                                                                            <i style='width: 16px; height: 16px; font-size: 16px;'
+                                                                                class='fa-solid fa-suitcase-rolling text-primary me-2'></i>
+                                                                            <span
+                                                                                class='HanhLy_HanhKhach_li_SoKgToiDa custom-font p16-S text-dark'>
+                                                                                +{{this.SoKgToiDa}}
+                                                                                kg
+                                                                            </span>
+                                                                        </div>
+
+                                                                        {{! Số tiền }}
+                                                                        <div class='d-flex flex-row'>
+                                                                            <span
+                                                                                class='HanhLy_HanhKhach_li_GiaTien custom-font p16-S text-secondary me-1'>
+                                                                                {{this.GiaTien}}
+                                                                            </span>
+                                                                            <span
+                                                                                class='custom-font p16-S text-secondary'>
+                                                                                VND
+                                                                            </span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </li>
                                                             {{/each}}
 
                                                         </ul>
@@ -659,8 +552,7 @@
 
                                     {{! Footer }}
                                     <div
-                                        class='pt-3 px-3 d-flex flex-row justify-content-between align-items-center bg-light pb-3 shadow'
-                                    >
+                                        class='pt-3 px-3 d-flex flex-row justify-content-between align-items-center bg-light pb-3 shadow'>
 
                                         {{! Tổng phụ }}
                                         <div class='d-flex flex-column'>
@@ -669,10 +561,8 @@
                                                 <span class='custom-font p20-B text-dark me-5'>
                                                     Tổng phụ
                                                 </span>
-                                                <span
-                                                    id='Modal_TongPhu'
-                                                    class='ms-5 custom-font p20-B text-secondary me-1'
-                                                >
+                                                <span id='Modal_TongPhu'
+                                                    class='ms-5 custom-font p20-B text-secondary me-1'>
                                                     0
                                                 </span>
                                                 <span class='custom-font p20-B text-secondary'>VND</span>
@@ -688,12 +578,9 @@
 
                                         {{! Nút Hoàn Tất }}
                                         <div>
-                                            <button
-                                                type='button'
-                                                data-bs-dismiss='modal'
+                                            <button type='button' data-bs-dismiss='modal'
                                                 class='btn btn-primary bg-secondary border-secondary px-5 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                                                href=''
-                                            >
+                                                href=''>
                                                 Hoàn tất
                                             </button>
                                         </div>
@@ -707,7 +594,7 @@
 
                     <div style='border-top: 1px solid black;'></div>
 
-                    {{! Hành lý container  }}
+                    {{! Hành lý container }}
                     <div id='TienNghi_Container' class='d-flex flex-column'>
 
                         {{! Chưa chọn hành lý }}
@@ -734,51 +621,47 @@
 
                         {{! Hành lý item }}
                         {{#each this.PackageBooking.MangChuyenBayTimKiem}}
-                            <div
-                                style='border-bottom: 1px solid black;'
-                                class='TienNghi_Item d-flex flex-row mx-3 py-3 mb-3 d-none'
-                                title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
-                            >
-                                <div class='d-flex flex-column w-100'>
+                        <div style='border-bottom: 1px solid black;'
+                            class='TienNghi_Item d-flex flex-row mx-3 py-3 mb-3 d-none'
+                            title='{{this.ChuyenBayDaChon.MaChuyenBay}}'>
+                            <div class='d-flex flex-column w-100'>
 
-                                    {{! Điểm đến Điểm đi }}
-                                    <div class='d-flex flex-row align-items-center mb-3'>
-                                        <span class='custom-font p20-B text-dark'>
-                                            {{this.SanBayDi.TinhThanh}}
-                                            (<span>{{this.SanBayDi.MaSanBay}}</span>)
-                                        </span>
-                                        <i
-                                            style='width: 20px; height:20px; font-size:20px;'
-                                            class='fa-solid fa-arrow-right mx-3'
-                                        ></i>
-                                        <span class='custom-font p20-B text-dark'>
-                                            {{this.SanBayDen.TinhThanh}}
-                                            (<span>{{this.SanBayDen.MaSanBay}}</span>)
+                                {{! Điểm đến Điểm đi }}
+                                <div class='d-flex flex-row align-items-center mb-3'>
+                                    <span class='custom-font p20-B text-dark'>
+                                        {{this.SanBayDi.TinhThanh}}
+                                        (<span>{{this.SanBayDi.MaSanBay}}</span>)
+                                    </span>
+                                    <i style='width: 20px; height:20px; font-size:20px;'
+                                        class='fa-solid fa-arrow-right mx-3'></i>
+                                    <span class='custom-font p20-B text-dark'>
+                                        {{this.SanBayDen.TinhThanh}}
+                                        (<span>{{this.SanBayDen.MaSanBay}}</span>)
+                                    </span>
+                                </div>
+
+                                {{! Hành lý mua }}
+                                <div class='d-flex flex-row justify-content-between'>
+
+                                    <div class='d-flex flex-row'>
+                                        <span class='TienNghi_Item_MocHanhLy custom-font p20-B text-tertiary me-1'>
+                                            0 kg
                                         </span>
                                     </div>
 
-                                    {{! Hành lý mua }}
-                                    <div class='d-flex flex-row justify-content-between'>
-
-                                        <div class='d-flex flex-row'>
-                                            <span class='TienNghi_Item_MocHanhLy custom-font p20-B text-tertiary me-1'>
-                                                0 kg
-                                            </span>
-                                        </div>
-
-                                        <div class='d-flex flex-row'>
-                                            <span class='TienNghi_Item_TienHanhLy custom-font p20-B text-tertiary me-1'>
-                                                0
-                                            </span>
-                                            <span class='custom-font p20-B text-tertiary'>
-                                                VND
-                                            </span>
-                                        </div>
-
+                                    <div class='d-flex flex-row'>
+                                        <span class='TienNghi_Item_TienHanhLy custom-font p20-B text-tertiary me-1'>
+                                            0
+                                        </span>
+                                        <span class='custom-font p20-B text-tertiary'>
+                                            VND
+                                        </span>
                                     </div>
 
                                 </div>
+
                             </div>
+                        </div>
                         {{/each}}
                     </div>
                 </div>
@@ -813,27 +696,26 @@
                         <div id='TienVe_Container' class='d-flex flex-column pt-3'>
 
                             {{#each this.PackageBooking.HanhKhach}}
-                                {{! TienVe_Item }}
-                                <div class='TienVe_Item d-flex flex-row justify-content-between align-items-start mb-3'>
-                                    <div class='d-flex flex-row'>
-                                        <span class='px-3 custom-font p20-B text-dark'>
-                                            (<span>{{this.title}}</span>) x<span>{{this.value}}</span>
+                            {{! TienVe_Item }}
+                            <div class='TienVe_Item d-flex flex-row justify-content-between align-items-start mb-3'>
+                                <div class='d-flex flex-row'>
+                                    <span class='px-3 custom-font p20-B text-dark'>
+                                        (<span>{{this.title}}</span>) x<span>{{this.value}}</span>
+                                    </span>
+                                </div>
+
+                                <div class='d-flex flex-row align-items-start'>
+                                    <div class='me-1'>
+                                        <span
+                                            class='TomTat_HanhKhach_TienVe custom-font p20-B text-dark'>{{this.TongTienVe}}
                                         </span>
                                     </div>
-
-                                    <div class='d-flex flex-row align-items-start'>
-                                        <div class='me-1'>
-                                            <span
-                                                class='TomTat_HanhKhach_TienVe custom-font p20-B text-dark'
-                                            >{{this.TongTienVe}}
-                                            </span>
-                                        </div>
-                                        <div class='me-3'>
-                                            <span class='custom-font p20-B text-dark'>VND</span>
-                                        </div>
+                                    <div class='me-3'>
+                                        <span class='custom-font p20-B text-dark'>VND</span>
                                     </div>
-
                                 </div>
+
+                            </div>
                             {{/each}}
 
                         </div>
@@ -842,29 +724,27 @@
                         <div class='d-flex flex-column'>
 
                             {{#each PackageBooking.MangChuyenBayTimKiem}}
-                                {{! HanhLy_Item }}
-                                <div
-                                    title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
-                                    class='TomTat_HanhLy_Item d-flex flex-row justify-content-between align-items-center mb-3 d-none'
-                                >
-                                    <div class='d-flex flex-row'>
-                                        <span class='px-3 custom-font p20-B text-dark'>
-                                            Hành lý đến sân bay
-                                            <span>{{this.SanBayDen.TenSanBay}}</span>
+                            {{! HanhLy_Item }}
+                            <div title='{{this.ChuyenBayDaChon.MaChuyenBay}}'
+                                class='TomTat_HanhLy_Item d-flex flex-row justify-content-between align-items-center mb-3 d-none'>
+                                <div class='d-flex flex-row'>
+                                    <span class='px-3 custom-font p20-B text-dark'>
+                                        Hành lý đến sân bay
+                                        <span>{{this.SanBayDen.TenSanBay}}</span>
+                                    </span>
+                                </div>
+
+                                <div class='d-flex flex-row'>
+                                    <div class='me-1'>
+                                        <span class='TomTat_HanhLy_Item_GiaTien ps-3 custom-font p20-B text-dark'>
+                                            0
                                         </span>
                                     </div>
-
-                                    <div class='d-flex flex-row'>
-                                        <div class='me-1'>
-                                            <span class='TomTat_HanhLy_Item_GiaTien ps-3 custom-font p20-B text-dark'>
-                                                0
-                                            </span>
-                                        </div>
-                                        <div class='me-3'>
-                                            <span class='custom-font p20-B text-dark'>VND</span>
-                                        </div>
+                                    <div class='me-3'>
+                                        <span class='custom-font p20-B text-dark'>VND</span>
                                     </div>
                                 </div>
+                            </div>
                             {{/each}}
 
                         </div>
@@ -876,24 +756,15 @@
 
             {{! Tiếp tục }}
             <div class='mb-5 d-flex flex-row justify-content-end'>
-                <button
-                    id='TiepTucDuoi'
-                    type='button'
-                    class='btn btn-primary bg-primary border-primary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                >
+                <button id='TiepTucDuoi' type='button'
+                    class='btn btn-primary bg-primary border-primary px-5 text-light custom-font h32-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'>
                     Tiếp tục
                 </button>
             </div>
 
             {{! Modal: Xác nhận email }}
-            <div
-                class='modal fade'
-                id='staticBackdrop'
-                data-bs-backdrop='static'
-                data-bs-keyboard='false'
-                tabindex='-1'
-                aria-hidden='true'
-            >
+            <div class='modal fade' id='staticBackdrop' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1'
+                aria-hidden='true'>
                 <div class='modal-dialog modal-dialog-centered'>
                     <div class='modal-content'>
                         <div class='modal-header'>
@@ -904,11 +775,8 @@
                             <div class='d-flex flex-column'>
 
                                 <div class='mx-5 mb-3'>
-                                    <img
-                                        src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
-                                        alt=''
-                                        class='img-fluid'
-                                    />
+                                    <img src='https://img.freepik.com/free-vector/new-message-landing-page-concept_52683-27003.jpg?w=1380&t=st=1669103861~exp=1669104461~hmac=7f66576808c7fb8b0638ad7e24299c214b0dc3ed508010fbf905ea442ac39a53'
+                                        alt='' class='img-fluid' />
                                 </div>
 
                                 <div class='custom-font p20-S text-dark mb-3'>
@@ -920,44 +788,30 @@
                                 </div>
 
                                 <div class='mb-3'>
-                                    <input
-                                        type='text'
-                                        id='MaXacNhan_input'
-                                        style='border: 2px solid;'
-                                        class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center'
-                                    />
-                                    <div
-                                        id='NhacNhapCode'
-                                        class='custom-font p14-R text-danger d-none text-center mt-2'
-                                    >
+                                    <input type='text' id='MaXacNhan_input' style='border: 2px solid;'
+                                        class='form-control custom-font p20-S text-primary border-primary custom-boxshadow-focus-primary text-center' />
+                                    <div id='NhacNhapCode'
+                                        class='custom-font p14-R text-danger d-none text-center mt-2'>
                                         Bạn chưa nhập mã code!
                                     </div>
                                 </div>
 
                                 <div class='text-center'>
-                                    <a
-                                        type='button'
-                                        id='GuiLaiMaXacNhan'
-                                        class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'
-                                    >Gửi lại mã xác nhận</a>
+                                    <a type='button' id='GuiLaiMaXacNhan'
+                                        class='custom-font p16-R text-secondary custom-boxshadow-focus-primary text-center'>Gửi
+                                        lại mã xác nhận</a>
                                 </div>
 
                             </div>
 
                         </div>
                         <div class='modal-footer justify-content-center'>
-                            <button
-                                id='DoiEmail_XacNhan'
-                                style='margin-right: 48px;'
-                                type='button'
+                            <button id='DoiEmail_XacNhan' style='margin-right: 48px;' type='button'
                                 class='btn btn-primary bg-danger border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-secondary'
-                                data-bs-dismiss='modal'
-                            >Đổi Email</button>
-                            <button
-                                id='XacNhan'
-                                type='button'
-                                class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'
-                            >Xác nhận</button>
+                                data-bs-dismiss='modal'>Đổi Email</button>
+                            <button id='XacNhan' type='button'
+                                class='btn btn-primary bg-primary border-0 px-4 text-light custom-font p20-B custom-boxshadow-focus-none custom-boxshadow-hover-primary'>Xác
+                                nhận</button>
                         </div>
                     </div>
                 </div>

@@ -79,6 +79,8 @@ const offset = date.getTimezoneOffset() / 60;
 
 let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     let data = {
+        MaHoaDon: '',
+        ThoiGianThanhToan: '',
         NguoiLienHe: {
             HoTen: '',
             SDT: '',
@@ -93,6 +95,8 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
         TenHTTT: '',
     };
 
+    data.MaHoaDon = PackageBooking.HoaDon.MaHoaDon;
+    data.ThoiGianThanhToan = PackageBooking.HoaDon.ThoiGianThanhToan;
     let HTTT = await db.sequelize.query('SELECT * FROM htthanhtoan WHERE htthanhtoan.MaHTTT=:mahttt;', {
         replacements: {
             mahttt: MaHTTT,

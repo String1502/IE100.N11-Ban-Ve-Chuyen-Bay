@@ -566,7 +566,7 @@ let getFlight = async (req, res) => {
             HangVes[i].GiaTien = parseInt(Chuyenbay.GiaVeCoBan) * parseFloat(HangVes[i].HeSo);
 
             let vedadat = await db.sequelize.query(
-                '  SELECT MaVe, ve.MaHK, hanhkhach.HoTen, SoKgToiDa as MocHanhLy,GioiTinh ,`GiaVe`, NgaySinh, MaHoaDon, TenHangGhe as TenHangVe FROM `ve` , mochanhly , hanhkhach, chitiethangve, hangghe WHERE ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaHK = hanhkhach.MaHK AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaHangGhe = hangghe.MaHangGhe AND ve.MaCTVe = :mactve ',
+                '  SELECT MaVe, ve.MaHK, hanhkhach.HoTen, SoKgToiDa as MocHanhLy,MaLoaiKhach,GioiTinh ,`GiaVe`, NgaySinh, MaHoaDon, TenHangGhe as TenHangVe FROM `ve` , mochanhly , hanhkhach, chitiethangve, hangghe WHERE ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaHK = hanhkhach.MaHK AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaHangGhe = hangghe.MaHangGhe AND ve.MaCTVe = :mactve ',
                 {
                     replacements: {
                         mactve: HangVes[i].MaCTVe,
@@ -577,6 +577,11 @@ let getFlight = async (req, res) => {
             );
 
             for (var j in vedadat) {
+                let DoTuoi = await db.LoaiKhachHang.findOne({
+                    where: {
+                        MaLoaiKhach: vedadat[j].MaLoaiKhach,
+                    },
+                });
                 vedadat[j].HanhKhach = {};
                 let NgaySinh = formatDateTime(vedadat[j].NgaySinh);
                 vedadat[j].HanhKhach = {
@@ -588,6 +593,7 @@ let getFlight = async (req, res) => {
                         Thang: NgaySinh.Thang,
                         Nam: NgaySinh.Nam,
                     },
+                    DoTuoi: DoTuoi.TenLoai,
                 };
 
                 let NguoiLienHe = await db.HoaDon.findOne(

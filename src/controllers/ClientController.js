@@ -88,6 +88,17 @@ class ClientController {
             console.log(error);
         }
     }
+
+    // /tracuuhoadon
+    async tracuuhoadon(req, res) {
+        try {
+            return res.render('client/TraCuuHoaDon', {
+                layout: 'client.handlebars',
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
     //Đăng xuất
     async logout(req, res) {
         try {

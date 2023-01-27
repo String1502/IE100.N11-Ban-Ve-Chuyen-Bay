@@ -104,11 +104,13 @@ let search_flight = async (form_data) => {
         );
         if (checkChuyenBay.length === 0) {
             list_ChuyenBaySuit.splice(i, 1);
+            i--;
             continue;
         }
 
         if (checkChuyenBay[0].TongVe - checkChuyenBay[0].VeDaBan < form_data.songuoi) {
             list_ChuyenBaySuit.splice(i, 1);
+            i--;
             continue;
         }
 

@@ -321,8 +321,29 @@
                 <div class="row align-items-center mb-3">
                     <div class="col-12">
                         <div style="font-weight: 400px !important; font-size: 48px" class="custom-font text-dark">
-                            E-ticket
-                            <span style="font-size: 36px" class="text-tertiary"> / Vé điện tử</span>
+                            E-invoice
+                            <span style="font-size: 36px" class="text-tertiary"> / Hóa đơn điện tử</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row mb-2">
+                                <div class="custom-font p16-R text-dark">
+                                    - Mã hóa đơn:
+                                    <span class="custom-font p16-B text-dark">{{MaHoaDon}}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row mb-2">
+                                <div class="custom-font p16-R text-dark">
+                                    - Thời gian thanh toán:
+                                    <span class="custom-font p16-B text-dark">{{ThoiGianThanhToan}}</span>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="custom-font p12-R text-tertiary fst-italic">
+                                    *Mã hóa đơn: Tra cứu các thông tin các chuyến bay của bạn tại website của chúng tôi.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -409,7 +430,7 @@
                                     </div>
 
                                     <div class="custom-font p16-R text-tertiary text-wrap ms-3">
-                                        Trình CMND/ hộ chiếu và vé điện tử khi làm thủ tục bay ở quầy.
+                                        Trình CMND/ hộ chiếu và hóa đơn điện tử khi làm thủ tục bay ở quầy.
                                     </div>
                                 </div>
                             </div>
@@ -435,59 +456,27 @@
                 {{! Hàng 5 }}
                 <div class="d-flex flex-column mb-3">
                     <div style="font-weight: 600px !important; font-size: 28px" class="custom-font text-dark">
-                        Passenger(s)
-                        <span style="font-size: 20px" class="text-tertiary"> / Hành khách</span>
-                    </div>
-
-                    <div>
-                        <table class="table mt-2">
-                            <thead>
-                                <tr class="custom-font p16-R text-tertiary">
-                                    <th style="width: 10%" scope="col" class="text-end">Thứ tự</th>
-                                    <th style="width: 5%" scope="col"></th>
-                                    <th style="width: 55%" scope="col">Tên hành khách</th>
-                                    <th style="width: 30%" scope="col">Độ tuổi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each HanhKhach}}
-                                <tr class="custom-font p16-R text-dark">
-                                    <td class="text-end">1</td>
-                                    <td></td>
-                                    <td>{{this.HoTen}}</td>
-                                    <td>{{this.DoTuoi}}</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {{! Hàng 6 }}
-                <div class="d-flex flex-column mb-3">
-                    <div style="font-weight: 600px !important; font-size: 28px" class="custom-font text-dark">
                         Flight(s)
                         <span style="font-size: 20px" class="text-tertiary"> / Chuyến bay</span>
                     </div>
 
                     <div>
-                        <table class="table mt-2 align-middle">
+                        <table class="table table-bordered table-striped border-dark mt-2 align-middle">
                             <thead>
                                 <tr class="custom-font p16-R text-tertiary">
                                     <th style="width: 5%" scope="col" class="text-end">TT</th>
                                     <th style="width: 13%" scope="col">Mã chbay</th>
                                     <th style="width: 15%" scope="col">Sbay đi</th>
                                     <th style="width: 15%" scope="col">Sbay đến</th>
-                                    <th style="width: 14%" scope="col">Khởi hành</th>
-                                    <th style="width: 14%" scope="col">Đến</th>
-                                    <th style="width: 10%" scope="col">Hành lý</th>
+                                    <th style="width: 19%" scope="col">Khởi hành</th>
+                                    <th style="width: 19%" scope="col">Thgian đến</th>
                                     <th style="width: 14%" scope="col">Booking ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each ChuyenBay}}
                                 <tr class="custom-font p16-R text-dark">
-                                    <td class="text-end">1</td>
+                                    <td>{{this.ThuTu}}</td>
                                     <td>{{this.MaChuyenBay}}</td>
                                     <td>{{this.SanBayDi}}</td>
                                     <td>{{this.SanBayDen}}</td>
@@ -499,9 +488,36 @@
                                         {{this.Den.Gio}}:{{this.Den.Phut}} <br />
                                         {{this.Den.Ngay}}/{{this.Den.Thang}}/{{this.Den.Nam}}
                                     </td>
-                                    <td>+ {{this.HanhLy}}kg</td>
                                     <td>
                                         <div class="text-center text-dark p16-B">{{this.BookingID}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="6">
+                                        <table class="table table-sm table-borderless align-middle mb-0">
+                                            <caption class="fst-italic custom-font p12-R text-tertiary">
+                                                *Danh sách hành khách trên chuyến bay {{this.MaChuyenBay}}
+                                            </caption>
+                                            <thead>
+                                                <tr class="custom-font p14-R text-tertiary">
+                                                    <th scope="col">TT</th>
+                                                    <th scope="col">Tên hành khách</th>
+                                                    <th scope="col">Độ tuổi</th>
+                                                    <th scope="col">Hành lý ký gửi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each this.HanhKhach}}
+                                                <tr class="custom-font p14-R text-dark">
+                                                    <th scope="row">{{this.ThuTu}}</th>
+                                                    <td>{{this.HoTen}}</td>
+                                                    <td>{{this.TenLoai}}</td>
+                                                    <td>+{{this.SoKgToiDa}} kg</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                                 {{/each}}

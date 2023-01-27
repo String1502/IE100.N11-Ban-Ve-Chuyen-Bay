@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
             DK.classList.add('d-none');
             Ve.classList.remove('d-none');
             DN.classList.add('d-none');
-            GioiThieu.classList.add('d-none');
+            TraCuuHoaDon.classList.remove('d-none');
             TrangChu.classList.remove('d-none');
         } else {
             TTKH.classList.add('d-none');
             DK.classList.remove('d-none');
             Ve.classList.add('d-none');
             DN.classList.remove('d-none');
-            GioiThieu.classList.remove('d-none');
+            TraCuuHoaDon.classList.remove('d-none');
             TrangChu.classList.remove('d-none');
         }
     });

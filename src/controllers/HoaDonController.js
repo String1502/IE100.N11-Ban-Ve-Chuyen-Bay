@@ -57,6 +57,10 @@ let Create = async function (req, res) {
     }
 };
 
+var MaEmBe = 1;
+var MaTreEm = 2;
+var MaNguoiLon = 3;
+
 let CreateHoaDon = async (req, res) => {
     //create hanhkhach
     try {
@@ -186,7 +190,7 @@ let CreateHoaDon = async (req, res) => {
                     let ve;
                     // Mã 1: Em bé
                     //  Tạo vé cho khách hk phải em bé
-                    if (HanhKhachs[index].MaLoaiKhach !== 1) {
+                    if (HanhKhachs[index].MaLoaiKhach !== MaEmBe) {
                         ve = await db.Ve.create(
                             {
                                 MaMocHanhLy: mocHanhLy.MaMocHanhLy,
@@ -312,14 +316,26 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
         );
 
         for (var i in chuyenbays) {
-            console.log(chuyenbays);
             let chuyenbay = await db.ChuyenBay.findOne({
                 where: {
                     MaChuyenBay: chuyenbays[i].MaChuyenBay,
                 },
             });
+
+            let doanhthu = await db.sequelize.query(
+                'SELECT  SUM(ve.GiaVe) doanhthu FROM ve, hoadon, chitiethangve  WHERE ve.MaHoaDon = hoadon.MaHoaDon  AND ve.MaCTVe = chitiethangve.MaCTVe  AND hoadon.MaHoaDon = :mahoadon AND chitiethangve.MaChuyenBay = :machuyenbay GROUP BY ve.MaCTVe;',
+                {
+                    replacements: {
+                        mahoadon: MaHoaDon,
+                        machuyenbay: chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+
             chuyenbay.set({
-                DoanhThu: chuyenbay.DoanhThu + chuyenbays[i].DoanhThu,
+                DoanhThu: chuyenbay.DoanhThu + parseInt(doanhthu[0].doanhthu),
             });
             await chuyenbay.save();
         }
@@ -354,6 +370,23 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
         let PackageBooking = {};
 
         PackageBooking.HoaDon = {};
+        PackageBooking.HoaDon.MaHoaDon = hoadon.MaHoaDon + '-' + MaHangGhe[0].MaHangGhe;
+
+        const date = new Date();
+        const offset = date.getTimezoneOffset() / 60;
+        var thgianthanhtoan = new Date(hoadon.NgayGioThanhToan);
+        thgianthanhtoan = new Date(thgianthanhtoan.getTime() + offset * 60 * 60 * 1000);
+        PackageBooking.HoaDon.ThoiGianThanhToan =
+            numberSmallerTen(thgianthanhtoan.getHours()) +
+            ':' +
+            numberSmallerTen(thgianthanhtoan.getMinutes()) +
+            ' ' +
+            numberSmallerTen(thgianthanhtoan.getDate()) +
+            '/' +
+            numberSmallerTen(thgianthanhtoan.getMonth() + 1) +
+            '/' +
+            thgianthanhtoan.getFullYear();
+
         PackageBooking.HoaDon.NguoiLienHe = {};
 
         PackageBooking.HoaDon.NguoiLienHe.HoTen = hoadon.HoTen;
@@ -362,27 +395,10 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
 
         PackageBooking.HoaDon.MaHangGhe = MaHangGhe[0].MaHangGhe;
 
-        let HanhKhach = await db.sequelize.query(
-            'SELECT hanhkhach.HoTen, loaikhachhang.TenLoai FROM ve, hoadon, hanhkhach, loaikhachhang WHERE ve.MaHoaDon = hoadon.MaHoaDon AND ve.MaHK = hanhkhach.MaHK AND hanhkhach.MaLoaiKhach = loaikhachhang.MaLoaiKhach AND hoadon.MaHoaDon = :mahoadon;',
-            {
-                replacements: {
-                    mahoadon: hoadon.MaHoaDon,
-                },
-                type: QueryTypes.SELECT,
-                raw: true,
-            },
-        );
-
-        PackageBooking.HoaDon.HanhKhach = [];
-        for (let i = 0; i < HanhKhach.length; i++) {
-            PackageBooking.HoaDon.HanhKhach.push({
-                HoTen: HanhKhach[i].HoTen,
-                TenLoai: HanhKhach[i].TenLoai,
-            });
-        }
-
         PackageBooking.ChuyenBayDaChon = [];
+        var thutu = 0;
         for (var i in chuyenbays) {
+            thutu = thutu + 1;
             let chuyenbay = await db.ChuyenBay.findOne({
                 where: {
                     MaChuyenBay: chuyenbays[i].MaChuyenBay,
@@ -401,11 +417,35 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
                 },
             });
 
-            PackageBooking.ChuyenBayDaChon.push({
+            var chuyenbay_detail = {
+                ThuTu: numberSmallerTen(thutu),
                 ChuyenBay: chuyenbay,
                 SanBayDi: SanBayDi,
                 SanBayDen: SanBayDen,
-            });
+                HanhKhach: [],
+            };
+            let hanhkhach = await db.sequelize.query(
+                'SELECT hanhkhach.HoTen, loaikhachhang.TenLoai, mochanhly.SoKgToiDa FROM ve, hoadon, hanhkhach, loaikhachhang, mochanhly, chitiethangve WHERE ve.MaHoaDon = hoadon.MaHoaDon  AND ve.MaHK = hanhkhach.MaHK  AND hanhkhach.MaLoaiKhach = loaikhachhang.MaLoaiKhach  AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND hoadon.MaHoaDon = :mahoadon AND chitiethangve.MaChuyenBay=:machuyenbay;',
+                {
+                    replacements: {
+                        mahoadon: hoadon.MaHoaDon,
+                        machuyenbay: chuyenbays[i].MaChuyenBay,
+                    },
+                    type: QueryTypes.SELECT,
+                    raw: true,
+                },
+            );
+            for (let j = 0; j < hanhkhach.length; j++) {
+                var khach = {
+                    ThuTu: numberSmallerTen(j + 1),
+                    HoTen: hanhkhach[j].HoTen,
+                    TenLoai: hanhkhach[j].TenLoai,
+                    SoKgToiDa: hanhkhach[j].SoKgToiDa,
+                };
+                chuyenbay_detail.HanhKhach.push(khach);
+            }
+
+            PackageBooking.ChuyenBayDaChon.push(chuyenbay_detail);
         }
 
         let pdf = await pdfController.generatePdf(hoadon.MaHoaDon, PackageBooking, MaHTTT);
@@ -413,7 +453,7 @@ let ThanhToan = async (MaHoaDon, MaHTTT, NgayGioThanhToan, MaUser) => {
         if (pdf.status === 'ok') {
             await Mailer.sendMailWithAttach(
                 hoadon.Email,
-                `[Planet] Your E-ticket - Booking ID [${MaHangGhe[0].MaHangGhe}-${hoadon.MaHoaDon}]`,
+                `[Planet] Your E-invoice - Invoice ID [${hoadon.MaHoaDon}-${MaHangGhe[0].MaHangGhe}]`,
                 `<p>Cám ơn bạn đã lựa chọn Planet!</p>`,
                 pdf.filename,
             );
@@ -575,6 +615,104 @@ let XoaCookieMaHangVe = async (req, res) => {
     }
 };
 
+let TraCuuHoaDon = async (req, res) => {
+    let req_body = { ...req.body };
+    var mahoadon = req_body.MaHoaDon;
+
+    let hoadon = await db.HoaDon.findOne({
+        where: {
+            MaHoaDon: mahoadon,
+        },
+    });
+
+    if (!hoadon) {
+        return res.send(false);
+    }
+
+    var MaHangGhe = await db.sequelize.query(
+        'SELECT DISTINCT chitiethangve.MaHangGhe  from hoadon, ve, chitiethangve WHERE hoadon.MaHoaDon = :mahoadon AND hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe',
+        {
+            replacements: {
+                mahoadon: mahoadon,
+            },
+            type: QueryTypes.SELECT,
+            raw: true,
+        },
+    );
+    MaHangGhe = MaHangGhe[0].MaHangGhe;
+    var mahangghe = req_body.MaHangGhe;
+    if (MaHangGhe != mahangghe) {
+        return res.send(false);
+    }
+
+    let hangve = await db.HangGhe.findOne({
+        where: {
+            MaHangGhe: mahangghe,
+        },
+    });
+
+    let httt = await db.HtThanhToan.findOne({
+        where: {
+            MaHTTT: hoadon.MaHTTT,
+        },
+    });
+
+    const date = new Date();
+    const offset = date.getTimezoneOffset() / 60;
+    var ngaygiothanhtoan = new Date(hoadon.NgayGioThanhToan);
+    ngaygiothanhtoan = new Date(ngaygiothanhtoan.getTime() + offset * 60 * 60 * 1000);
+
+    var res_data = {
+        MaHoaDon: mahoadon,
+        MaHoaDonHienThi: mahoadon + '-' + mahangghe,
+        HangVe: {
+            MaHangVe: hangve.MaHangGhe,
+            TenHangVe: hangve.TenHangGhe,
+            HeSo: hangve.HeSo,
+        },
+        HTTT: {
+            MaHTTT: httt.MaHTTT,
+            Ten: httt.Ten,
+        },
+        TGTT: {
+            Gio: ngaygiothanhtoan.getHours(),
+            Phut: ngaygiothanhtoan.getMinutes(),
+            Ngay: ngaygiothanhtoan.getDate(),
+            Thang: ngaygiothanhtoan.getMonth() + 1,
+            Nam: ngaygiothanhtoan.getFullYear(),
+        },
+        SoTien: hoadon.TongTien,
+        LienHe: {
+            HoTen: hoadon.HoTen,
+            SDT: hoadon.SDT,
+            Email: hoadon.Email,
+        },
+        ChuyenBays: [],
+    };
+
+    let chuyenbays = await db.sequelize.query(
+        'SELECT DISTINCT chitiethangve.MaChuyenBay FROM ve, hoadon, chitiethangve WHERE ve.MaHoaDon = hoadon.MaHoaDon AND ve.MaCTVe = chitiethangve.MaCTVe AND hoadon.MaHoaDon = :mahoadon',
+        {
+            replacements: {
+                mahoadon: mahoadon,
+            },
+            type: QueryTypes.SELECT,
+            raw: true,
+        },
+    );
+
+    for (let i = 0; i < chuyenbays.length; i++) {
+        res_data.ChuyenBays.push({
+            MaChuyenBay: chuyenbays[i].MaChuyenBay,
+            MaChuyenBayHienThi:
+                chuyenbays[i].MaSanBayDi + '-' + chuyenbays[i].MaSanBayDen + '-' + chuyenbays[i].MaChuyenBay,
+        });
+    }
+
+    let hanhly = await db.MocHanhLy.findAll();
+    res_data.DSHanhLy = hanhly;
+    res.send(JSON.stringify(res_data));
+};
 // #endregion
 
 module.exports = {
@@ -584,4 +722,5 @@ module.exports = {
     HuyHoaDon: HuyHoaDon,
     updateHoaDon: updateHoaDon,
     XoaCookieMaHangVe: XoaCookieMaHangVe,
+    TraCuuHoaDon: TraCuuHoaDon,
 };

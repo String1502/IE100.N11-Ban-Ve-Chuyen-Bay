@@ -12,6 +12,7 @@ router.post('/ChooseHeader', clientController.ChooseHeader);
 router.post('/logout', clientController.logout);
 router.post('/vecuatoi', clientController.VeCuaToi);
 router.post('/chitietchuyenbay', clientController.ChiTietChuyenBay);
+router.get('/tracuuhoadon', clientController.tracuuhoadon);
 router.get('/', clientController.index);
 
 module.exports = router;

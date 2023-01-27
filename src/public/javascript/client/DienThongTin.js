@@ -10,11 +10,10 @@ import {
     dateIsValid,
     onlyNumber,
     validateEmail,
+    onlyEnglish,
 } from '../start.js';
 window.onlyNumber = onlyNumber;
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0');
-let yyyy = today.getFullYear();
+
 var MaNguoiLon = '3';
 var MaTreEm = '2';
 var MaEmBe = '1';
@@ -147,10 +146,11 @@ function AddEventHanhKhach_Item() {
 
         //Nam Sinh
         const HanhKhach_Item_NgaySinh_Nam_ul = HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam_ul');
+        var index = parseInt(HanhKhach_Items[i].title);
         let namBD = 0;
         let namKT = 0;
-        namBD = yyyy - PackageBooking.HanhKhach[i].SoTuoiToiDa;
-        namKT = yyyy - PackageBooking.HanhKhach[i].SoTuoiToiThieu;
+        namBD = new Date().getFullYear() - PackageBooking.HoaDon.HanhKhach[index].SoTuoiToiDa;
+        namKT = new Date().getFullYear() - PackageBooking.HoaDon.HanhKhach[index].SoTuoiToiThieu;
         for (let j = namBD; j < namKT + 1; j++) {
             if (j == namBD) {
                 HanhKhach_Item_NgaySinh_Nam_ul.querySelector('.HanhKhach_Item_NgaySinh_Nam_li').querySelector(
@@ -192,12 +192,22 @@ function AddEventHanhKhach_Item() {
             AnHienPhanDuoi();
         });
 
+        HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').addEventListener('keypress', (e) => onlyEnglish(e));
+        HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ho').addEventListener('keyup', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+
         // Tên
         HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').addEventListener('change', (e) => {
             const index = e.target.closest('.HanhKhach_Item').title;
             PackageBooking.HoaDon.HanhKhach[index].Ten = e.target.value;
 
             AnHienPhanDuoi();
+        });
+
+        HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').addEventListener('keypress', (e) => onlyEnglish(e));
+        HanhKhach_Items[i].querySelector('.HanhKhach_Item_Ten').addEventListener('keyup', (e) => {
+            e.target.value = e.target.value.toUpperCase();
         });
     }
 }
@@ -207,7 +217,7 @@ function CheckNgaySinh(index) {
     var nam = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Nam;
     var thang = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Thang;
     var ngay = PackageBooking.HoaDon.HanhKhach[index].NgaySinh.Ngay;
-    if (nam < 1 || thang < 1 || ngay < 1) {
+    if (thang < 1 || ngay < 1) {
         hople = true;
     } else if (CheckNgayThangNam(ngay, thang, nam) == 1) {
         hople = true;
@@ -218,6 +228,20 @@ function CheckNgaySinh(index) {
     return hople;
 }
 
+function CheckNgayThangNam(Ngay, Thang, Nam) {
+    if (Thang == 4 || Thang == 6 || Thang == 9 || Thang == 11) {
+        if (Ngay == 31) return 0;
+    }
+    if (Thang == 2) {
+        if ((Nam % 4 == 0 && Nam % 100 != 0) || Nam % 400 == 0) {
+            if (Ngay > 28) return 0;
+        } else {
+            if (Ngay > 29) return 0;
+        }
+    }
+    return 1;
+}
+
 function NguoiLienHe_Input_Change() {
     // Người liên hệ
     document.getElementById('NguoiLienHe_Ho').addEventListener('change', (e) => {
@@ -225,11 +249,13 @@ function NguoiLienHe_Input_Change() {
 
         AnHienPhanDuoi();
     });
+
     document.getElementById('NguoiLienHe_Ten').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.Ten = e.target.value;
 
         AnHienPhanDuoi();
     });
+
     document.getElementById('NguoiLienHe_SDT').addEventListener('change', (e) => {
         PackageBooking.HoaDon.NguoiLienHe.SDT = e.target.value;
 
@@ -478,20 +504,6 @@ function KiemTraNhapThongTin(isClick = false) {
             return { head: toast_header, body: toast_body, flag: false };
         }
 
-        let ngay = HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').value;
-        let thang = HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').value.split(' ')[1];
-        let nam = HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').value;
-
-        if (!dateIsValid(new Date(`${nam}-${thang}-${ngay}`))) {
-            console.log(nam + '-' + thang + '-' + ngay);
-            toast_body = 'Ngày sinh không hợp lệ!';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Ngay').value = '';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Thang').value = '';
-            HanhKhach_Items[i].querySelector('.HanhKhach_Item_NgaySinh_Nam').value = '';
-            //showToast({ header: toast_header, body: toast_body, duration: 5000, type: 'warning' });
-            return { head: toast_header, body: toast_body, flag: false };
-        }
-
         if (HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').value == '') {
             toast_body = 'Danh xưng còn trống';
             if (isClick == true) HanhKhach_Items[i].querySelector('.HanhKhach_Item_GioiTinh').focus();
@@ -526,6 +538,11 @@ function KiemTraNhapThongTin(isClick = false) {
     }
     if (document.getElementById('NguoiLienHe_SDT').value == '') {
         toast_body = 'SDT của người liên hệ còn trống';
+        if (isClick == true) document.getElementById('NguoiLienHe_SDT').focus();
+        return { head: toast_header, body: toast_body, flag: false };
+    }
+    if (document.getElementById('NguoiLienHe_SDT').value.length != 10) {
+        toast_body = 'SDT yêu cầu 10 kí tự';
         if (isClick == true) document.getElementById('NguoiLienHe_SDT').focus();
         return { head: toast_header, body: toast_body, flag: false };
     }
@@ -603,6 +620,7 @@ function AnHienPhanDuoi() {
 
 function SendForm(_PackageBooking) {
     document.getElementById('packagebooking').value = JSON.stringify(_PackageBooking);
+    console.log(_PackageBooking);
     var book_flight_form = document.forms['book-flight-form'];
     book_flight_form.action = '/payment';
     book_flight_form.submit();
@@ -698,18 +716,4 @@ if (GuiLaiMaXacNhan) {
             document.getElementById('XacNhan').disabled = false;
         });
     });
-}
-
-function CheckNgayThangNam(Ngay, Thang, Nam) {
-    if (Thang == 4 || Thang == 6 || Thang == 9 || Thang == 11) {
-        if (Ngay == 31) return 0;
-    }
-    if (Thang == 2) {
-        if ((Nam % 4 == 0 && Nam % 100 != 0) || Nam % 400 == 0) {
-            if (Ngay > 28) return 0;
-        } else {
-            if (Ngay > 29) return 0;
-        }
-    }
-    return 1;
 }

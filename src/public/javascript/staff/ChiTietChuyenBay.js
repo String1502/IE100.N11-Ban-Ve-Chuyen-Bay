@@ -37,7 +37,6 @@ function GetFlight_fromSV() {
         data: data,
     }).then((res) => {
         Flight_fromDB = res.data;
-
         if (footer_planet) {
             footer_planet.parentElement.removeChild(footer_planet);
         }

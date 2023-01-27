@@ -6,6 +6,17 @@ const hb = require('handlebars');
 const readFile = utils.promisify(fs.readFile);
 import db from '../models/index';
 const { QueryTypes } = require('sequelize');
+import {
+    numberWithDot,
+    numberWithoutDot,
+    numberSmallerTen,
+    openLoader,
+    closeLoader,
+    getThuTrongTuan,
+    today,
+    onlyNumber,
+    showToast,
+} from '../public/javascript/start.js';
 
 let getTemplateHtml = async () => {
     try {
@@ -24,6 +35,9 @@ let getReportTemplateHtml = async () => {
         return Promise.reject('Could not load html template');
     }
 };
+
+const date = new Date();
+const offset = date.getTimezoneOffset() / 60;
 
 // data_html = {
 //     NguoiLienHe: {
@@ -65,6 +79,8 @@ let getReportTemplateHtml = async () => {
 
 let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     let data = {
+        MaHoaDon: '',
+        ThoiGianThanhToan: '',
         NguoiLienHe: {
             HoTen: '',
             SDT: '',
@@ -75,11 +91,12 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
             TenHangGhe: '',
         },
         SoTien: '',
-        HanhKhach: [],
         ChuyenBay: [],
         TenHTTT: '',
     };
 
+    data.MaHoaDon = PackageBooking.HoaDon.MaHoaDon;
+    data.ThoiGianThanhToan = PackageBooking.HoaDon.ThoiGianThanhToan;
     let HTTT = await db.sequelize.query('SELECT * FROM htthanhtoan WHERE htthanhtoan.MaHTTT=:mahttt;', {
         replacements: {
             mahttt: MaHTTT,
@@ -111,50 +128,32 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     });
     data.SoTien = numberWithDot(TongTien.TongTien) + ' VND';
 
-    for (var i in PackageBooking.HoaDon.HanhKhach) {
-        let khach = {
-            HoTen: PackageBooking.HoaDon.HanhKhach[i].HoTen,
-            DoTuoi: PackageBooking.HoaDon.HanhKhach[i].TenLoai,
-        };
-        data.HanhKhach.push(khach);
-    }
-
     for (var i in PackageBooking.ChuyenBayDaChon) {
-        let HanhLy = await db.sequelize.query(
-            'SELECT SUM(mochanhly.SoKgToiDa) as TongKg FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = :machuyenbay AND hoadon.MaHoaDon = :mahoadon GROUP BY chitiethangve.MaChuyenBay',
-            {
-                replacements: {
-                    machuyenbay: PackageBooking.ChuyenBayDaChon[i].ChuyenBay.MaChuyenBay,
-                    mahoadon: MaHoaDon,
-                },
-                type: QueryTypes.SELECT,
-                raw: true,
-            },
-        );
-
         var KhoiHanh = new Date(PackageBooking.ChuyenBayDaChon[i].ChuyenBay.NgayGio);
+        KhoiHanh = new Date(KhoiHanh.getTime() + offset * 60 * 60 * 1000);
         var Den = new Date(KhoiHanh.getTime() + PackageBooking.ChuyenBayDaChon[i].ChuyenBay.ThoiGianBay * 60000);
 
         let chuyenbay = {
+            ThuTu: PackageBooking.ChuyenBayDaChon[i].ThuTu,
             MaChuyenBay: `${PackageBooking.ChuyenBayDaChon[i].SanBayDi.MaSanBay}-${PackageBooking.ChuyenBayDaChon[i].SanBayDen.MaSanBay}-${PackageBooking.ChuyenBayDaChon[i].ChuyenBay.MaChuyenBay}`,
             SanBayDi: PackageBooking.ChuyenBayDaChon[i].SanBayDi.TenSanBay,
             SanBayDen: PackageBooking.ChuyenBayDaChon[i].SanBayDen.TenSanBay,
             KhoiHanh: {
-                Gio: KhoiHanh.getHours(),
-                Phut: KhoiHanh.getMinutes(),
-                Ngay: KhoiHanh.getDate(),
-                Thang: KhoiHanh.getMonth() + 1,
+                Gio: numberSmallerTen(KhoiHanh.getHours()),
+                Phut: numberSmallerTen(KhoiHanh.getMinutes()),
+                Ngay: numberSmallerTen(KhoiHanh.getDate()),
+                Thang: numberSmallerTen(KhoiHanh.getMonth() + 1),
                 Nam: KhoiHanh.getFullYear(),
             },
             Den: {
-                Gio: Den.getHours(),
-                Phut: Den.getMinutes(),
-                Ngay: Den.getDate(),
-                Thang: Den.getMonth() + 1,
+                Gio: numberSmallerTen(Den.getHours()),
+                Phut: numberSmallerTen(Den.getMinutes()),
+                Ngay: numberSmallerTen(Den.getDate()),
+                Thang: numberSmallerTen(Den.getMonth() + 1),
                 Nam: Den.getFullYear(),
             },
-            HanhLy: HanhLy[0].TongKg,
             BookingID: '',
+            HanhKhach: structuredClone(PackageBooking.ChuyenBayDaChon[i].HanhKhach),
         };
         chuyenbay.BookingID = `${MaHoaDon}-${chuyenbay.MaChuyenBay}`;
         data.ChuyenBay.push(chuyenbay);
@@ -163,7 +162,7 @@ let generatePdf = async (MaHoaDon, PackageBooking, MaHTTT) => {
     // SELECT  chitiethangve.MaChuyenBay, mochanhly.SoKgToiDa FROM `hoadon`, ve, mochanhly , chitiethangve WHERE hoadon.MaHoaDon = ve.MaHoaDon AND ve.MaMocHanhLy = mochanhly.MaMocHanhLy AND ve.MaCTVe = chitiethangve.MaCTVe AND chitiethangve.MaChuyenBay = 1 AND hoadon.MaHoaDon = 46 GROUP BY chitiethangve.MaChuyenBay
 
     let date = new Date();
-    const filename = `[${date.toDateString()}].[Deluxe-${MaHoaDon}].pdf`;
+    const filename = `[${date.toDateString()}].[${MaHoaDon}-${data.HangGhe.MaHangGhe}].pdf`;
     await getTemplateHtml()
         .then(async (call) => {
             // Now we have the html code of our template in res object
@@ -231,10 +230,6 @@ let generateReportPdf = async (data) => {
         status: 'ok',
         filename: filename,
     };
-};
-
-let numberWithDot = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
 module.exports = {

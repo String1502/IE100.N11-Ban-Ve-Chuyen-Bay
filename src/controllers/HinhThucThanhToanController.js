@@ -41,7 +41,7 @@ class HinhThucThanhToanController {
                 numberSmallerTen(date.getHours()) +
                 numberSmallerTen(date.getMinutes()) +
                 numberSmallerTen(date.getSeconds());
-            var createDate = '' + yyyy + mm + dd + HHmmss;
+            var createDate = '' + yyyy + numberSmallerTen(mm) + numberSmallerTen(dd) + HHmmss;
 
             // -- Start: Điền dữ liệu của mình dô --
             var orderId = req.body.MaHoaDon; // mã hóa đơn không trùng ở DB [Mã hóa đơn của mình]
@@ -128,6 +128,7 @@ class HinhThucThanhToanController {
         if (secureHash === signed) {
             var rspCode = vnp_Params['vnp_ResponseCode'].toString();
             if (rspCode == '00') {
+                console.log('Thanh toan thanh cong');
                 // thanh toán thành công
                 var MaHTTT = 'vnpay'; // Coi DB
                 var NgayGioThanhToan = new Date();
